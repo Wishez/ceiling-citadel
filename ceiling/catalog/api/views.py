@@ -4,15 +4,15 @@ from rest_framework.generics import RetrieveUpdateDestroyAPIView, RetrieveAPIVie
 from .serializers import *
 # Create your views here.
 
-class PluginUserView(RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = PluginUserSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, )
-    lookup_field = 'uuid'
-
-class DocumentUserView(RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = DocumentUserDataSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, )
-    lookup_field = 'uuid'
-# Create your views here.
+# class PluginUserView(RetrieveUpdateDestroyAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = PluginUserSerializer
+#     permission_classes = (IsAuthenticatedOrReadOnly, )
+#     lookup_field = 'uuid'
+#
+# class DocumentUserView(RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = DocumentUserDataSerializer
+#     permission_classes = (IsAuthenticatedOrReadOnly, )
+#     lookup_field = 'uuid'
+# # Create your views here.

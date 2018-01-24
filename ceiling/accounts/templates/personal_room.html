@@ -1,0 +1,94 @@
+
+{% extends "base.html" %}
+{% load consultant_tags static %}
+{% block title %}
+<title>{{ user.first_name }} {{ user.last_name }}</title>{% endblock %}
+{% block content %}
+<section class="room">
+  <h1 class="mainTitle room__title">Добро пожаловать, {{ consultant.first_name }}!</h1>
+  <article class="roomReferralRefer">
+    <h2 class="roomReferralRefer__title">Реферальная ссылка</h2><span class="roomReferralRefer__notification visible-hidden" id="successCopied"> Вы успешно скопировали ссылку</span><a class="roomReferralRefer_refer" id="referralLink" title="Нажмите на ссылку, чтобы скопировать её" href="">Копировать сслыку<span class="visible-hidden" id="referralUrl">{{ consultant.refferal_url }}</span></a>
+  </article>
+  <!-- begin panel-->
+  <article class="referralsList">
+    <h2 class="referralsList__title">Ваши рефералы</h2>
+    <!-- begin table-->{% if consultant.user_lead|count or consultant.user_lead_1|count or consultant.user_lead_2|count %}
+    {{ consultant.user_lead|make_referrals_data|safe }}
+    {{ consultant.user_lead_1|make_referrals_data|safe }}
+    {{ consultant.user_lead_2|make_referrals_data|safe }}
+    {% else %}
+    <p>К сожалению, у вас пока что нет рефералов.<img class="sadImage img-responsive center-block" src="{% static '/cosmeticsyou/img/cat.jpg' %}" alt="Это очень печально."/></p>{% endif %}			
+  </article>
+  <!-- end panel-->
+</section>
+<script>
+  (function() {
+  
+  	
+  
+  
+      document.addEventListener('DOMContentLoaded', function() {
+  		var link = getEl('#referralLink');
+  
+  		link.addEventListener('touchstart', selectLink);
+  		link.addEventListener('click', selectLink);
+      });
+  
+  
+  
+  	function selectLink(e) {
+  		var copiedNotification = getEl('#successCopied');
+  		var refer = getEl('#referralUrl');
+  		
+  		e.preventDefault();
+  		SelectText(refer);
+          try {
+              var successful = document.execCommand('copy');
+              var msg = successful ? 'successful' : 'unsuccessful';
+  
+  			copiedNotification.classList.remove('visible-hidden');
+  			copiedNotification.classList.add('shown_element');
+  
+  			timeOut(1300, function() {
+  				copiedNotification.classList.remove('shown_element');
+  
+  				timeOut(300, function() {
+  					copiedNotification.classList.add('visible-hidden');
+  				});
+  			});
+  	    
+  	    } catch (err) {
+  	        console.log('Oops, unable to copy');
+          }
+  	}
+  
+  	 function SelectText(element) {
+          var doc = document
+              , text = element
+              , range, selection
+          ;
+  
+          if (doc.body.createTextRange) {
+              range = document.body.createTextRange();
+              range.moveToElementText(text);
+              range.select();
+          } else if (window.getSelection) {
+              selection = window.getSelection();
+              range = document.createRange();
+              range.selectNodeContents(text);
+              selection.removeAllRanges();
+              selection.addRange(range);
+          }
+      }
+  
+  	function getEl(selector) {
+  		return document.querySelector(selector);
+  	}
+  
+  	function timeOut(time, callback) {
+  		setTimeout(function() {
+  			callback();
+  		}, time)
+  	}
+  }());
+</script>{% endblock %}
