@@ -10,6 +10,16 @@ from django.dispatch import receiver
 
 class ConsumerManager(models.Manager):
     use_for_related_fields = True
+    def fill_name_by_fields_and_save(self, instance, full_name):
+        shared_name = full_name.split(' ')
+        if len(shared_name) < 2:
+            return False
+
+        setattr(instance, 'last_name', shared_name[0])
+        setattr(instance, 'first_name', shared_name[1])
+        setattr(instance, 'middle_name', shared_name[2] or "")
+
+        instance.save()
 
     def is_consumer(self, email, first_name, last_name, **kwargs):
         return self.filter(email=email, first_name=first_name, last_name=last_name, **kwargs)
@@ -22,15 +32,31 @@ class Consumer(TimeStampedModel):
     last_name = models.CharField(_('Фамилия'), max_length=36)
     first_name = models.CharField(_('Имя'), max_length=32)
     middle_name = models.CharField(_('Отчество'), max_length=32, blank=True, null=True)
-    phone_number = models.CharField(_('Номер телефона'), max_length=26)
-    email = models.EmailField(_('Email'), max_length=150)
-    requisites = models.CharField(_('Реквизиты'), max_length=100)
+    phone_number = models.CharField(
+        _('Номер телефона'),
+        max_length=26,
+        blank=True,
+        null=True
+    )
+    email = models.EmailField(
+        _('Email'),
+        max_length=150,
+        blank=True,
+        null=True
+    )
+    requisites = models.CharField(
+        _('Реквизиты'), max_length=100,
+        blank=True,
+        null=True
+    )
     uuid = models.UUIDField(
         _('Идентификатор'),
         db_index=True,
         default=uuid_lib.uuid4,
         editable=True
     )
+
+    objects = ConsumerManager()
 
     def __str__(self):
         return '%s %s' % (self.last_name, self.first_name)
