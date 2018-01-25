@@ -12,8 +12,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from personal_data.models import Consumer
 from home.help_parts import variables_text_2, variables_text_1
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
+from django.utils import timezone
 
 class Callback(TimeStampedModel):
     consumer = models.ForeignKey(
@@ -35,7 +36,7 @@ class Callback(TimeStampedModel):
 
 
     def __str__(self):
-        return self.callback_name
+        return '%s | %s' % (Consumer.objects.get_full_name(self.consumer), self.status)
 
     class Meta:
         db_table = "user_callbacks"
@@ -163,13 +164,22 @@ class Order(TimeStampedModel):
     )
 
     status = models.CharField(
-        _('Статус вопроса'),
+        _('Статус заказа'),
         choices=choices,
         max_length=20,
         default=_('Новый'),
         help_text=_('При смене статуса на "В процессе" или на "Успешно завершён" '
                     'заказчику отправляется сообщение указанное в "Настройках".')
     )
+    order_id = models.CharField(
+        _('Номер заказа'),
+        default=uuid_lib.uuid4,
+        max_length=90,
+        blank=True,
+        null=True,
+        unique=True
+    )
+
     uuid = models.UUIDField(
         _('Идентификатор'),
         db_index=True,
@@ -177,9 +187,57 @@ class Order(TimeStampedModel):
         editable=True
     )
 
-    def __str__(self):
-        return Consumer.objects.get_full_name(self.consumer)
+    # Notifications
+    after_success_closing_order_subject = models.CharField(
+        _('Тема сообщения после смена статуса заказа на «Успешно Завершён»'),
+        help_text=_(
+            'Если вы не определите тему сообщения, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
+            variables_text_2
+        ),
+        max_length=200,
+        default='',
+        blank=True,
+        null=True
+    )
 
+    after_success_closing_order_message = models.TextField(
+        _('Сообщение после смена статуса заказа на «Успешно Завершён»'),
+        max_length=3200,
+        help_text=_(
+            'Если вы оставите сообщение пустым, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
+            variables_text_2
+        ),
+        default='',
+        blank=True,
+        null=True
+    )
+
+    change_status_order_in_process_subject = models.CharField(
+        _('Тема сообщения, после смена статуса заказа на «В процессе»'),
+        help_text=_(
+            'Если вы не определите тему сообщения, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
+            variables_text_2
+        ),
+        max_length=200,
+        default='',
+        blank=True,
+        null=True
+    )
+    change_status_order_in_process_message = models.TextField(
+        _('Сообщение, после смена статуса заказа на «В процессе»'),
+        # Сообщение для консультанта при смене номера консультаната
+        max_length=3200,
+        help_text=_(
+            'Если вы оставите сообщение пустым, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
+            variables_text_2
+        ),
+        default='',
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return '%s | %s' % (Consumer.objects.get_full_name(self.consumer), self.status)
     class Meta:
         db_table = "user_orders"
         verbose_name = _('Заказ')
@@ -187,15 +245,21 @@ class Order(TimeStampedModel):
 
 @receiver(pre_save, sender=Order)
 def count_whole_price_of_ordered_product(sender, instance, **kwargs):
+
+
+    if instance.pk is None:
+        instance.save()
+        return True
     if instance.price_will_be_counted:
         order_price = 0
 
-        for product in instance.products_of_order.all():
-          order_price += product.full_price
-
+        for product in instance.ordered_products.all():
+            order_price += product.full_price or 0
+            
         # Count order_price with discount.
         discount = instance.discount
         if discount:
             order_price = order_price - (order_price / 100 * discount)
 
         instance.order_price = order_price
+

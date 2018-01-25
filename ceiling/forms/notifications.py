@@ -11,18 +11,35 @@ from model_utils import FieldTracker
 
 
 @receiver(pre_save, sender=Order)
-def send_notification_about_changed_status_of_order_to_consumer(instance):
+def send_notification_about_changed_status_of_order_to_consumer(sender, instance):
     messages = Settings.objects.get()
     isChanged = False
     message, subject = '', ''
 
     if instance.status == _('В процессе'):
-        message = messages.change_status_order_in_process_message
-        subject = messages.change_status_order_in_process_subject
+
+        message = getattr(
+            instance,
+            'change_status_order_in_process_message',
+            messages.change_status_order_in_process_message
+        )
+        subject = getattr(
+            instance,
+            'change_status_order_in_process_subject',
+            messages.change_status_order_in_process_subject
+        )
         isChanged = True
     elif instance.status == _('Успешно завершён'):
-        message = messages.after_success_closing_order_message
-        subject = messages.after_success_closing_order_subject
+        message = getattr(
+            instance,
+            'after_success_closing_order_message',
+            messages.after_success_closing_order_message
+        )
+        subject = getattr(
+            instance,
+            'after_success_closing_order_subject',
+            messages.after_success_closing_order_subject
+        )
         isChanged = True
 
     if isChanged:
