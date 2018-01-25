@@ -5,13 +5,14 @@ import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from home.models import Combustibility, Color, Material, Acoustics, Lightning, Edge
+from pages.validators import validate_slug_field
 
 class BaseDescriptionModel(TimeStampedModel):
 
     name = models.CharField(_('Наименование'), max_length=100)
-    description = models.CharField(
+    description = models.TextField(
         _('Описание'),
-        max_length=250,
+        max_length=650,
         null=True,
         blank=True
     )
@@ -33,6 +34,15 @@ class BaseDescriptionModel(TimeStampedModel):
         db_index=True,
         default=uuid_lib.uuid4,
         editable=True
+    )
+
+    slug = models.SlugField(
+        _('Ссылка'),
+        help_text=_('К примеру, "new-awesome_collection-2018"'),
+        max_length=150,
+        validators=[validate_slug_field],
+        unique=True,
+        default=""
     )
 
     def __str__(self):
@@ -109,69 +119,14 @@ class Collection(BaseDescriptionModel):
 
     class Meta:
         db_table = 'collections_of_brand'
-        verbose_name = _('Категория')
-        verbose_name_plural = _('Категории')
+        verbose_name = _('Коллекция')
+        verbose_name_plural = _('Коллекции')
 
 
 class BaseProductModel(TimeStampedModel):
-    price = models.DecimalField(
-        _('Цена за штуку'),
-        max_digits=8,
-        decimal_places=2,
-        null=True,
-        blank=True,
-    )
-    choices = (
-        ('₽', '₽'),
-        ('€', '€'),
-        ('$', '$'),
-    )
-    currency = models.CharField(
-        _('Валюта'),
-        max_length=20,
-        choices=choices,
-        null=True,
-        blank=True,
-        default="₽"
-    )
 
-    uuid = models.UUIDField(
-        _('Идентификатор'),
-        db_index=True,
-        default=uuid_lib.uuid4,
-        editable=True
-    )
     # Dropdown Lists
-    combustibility = models.ManyToManyField(
-        Combustibility,
-        verbose_name=_("Горючесть"),
-        blank=True
-    )
-    acoustics = models.ManyToManyField(
-        Acoustics,
-        verbose_name=_("Акустика"),
-        blank=True
-    )
-    lightning = models.ManyToManyField(
-        Lightning,
-        verbose_name=_("Освящение"),
-        blank=True
-    )
-    edges = models.ManyToManyField(
-        Edge,
-        verbose_name=_("Кромки"),
-        blank=True
-    )
-    material = models.ManyToManyField(
-        Material,
-        verbose_name=_("Материал"),
-        blank=True
-    )
-    colors = models.ManyToManyField(
-        Color,
-        verbose_name=_("Цвета"),
-        blank=True
-    )
+
     width = models.CharField(
         _('Ширина'),
         max_length=100,
@@ -210,9 +165,9 @@ class BaseProductModel(TimeStampedModel):
 
 class Product(BaseProductModel):
     name = models.CharField(_('Наименование'), max_length=100)
-    description = models.CharField(
+    description = models.TextField(
         _('Описание'),
-        max_length=250,
+        max_length=650,
         null=True,
         blank=True
     )
@@ -224,25 +179,97 @@ class Product(BaseProductModel):
         help_text=_("Краткое описание особенностей. "
                     "К примеру, Наименование: 'Алюминий', Слоган: '13-й элемент таблицы менделеева'")
     )
+    price = models.DecimalField(
+        _('Цена за штуку'),
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+    choices = (
+        ('₽', '₽'),
+        ('€', '€'),
+        ('$', '$'),
+    )
+    currency = models.CharField(
+        _('Валюта'),
+        max_length=20,
+        choices=choices,
+        null=True,
+        blank=True,
+        default="₽"
+    )
 
+    uuid = models.UUIDField(
+        _('Идентификатор'),
+        db_index=True,
+        default=uuid_lib.uuid4,
+        editable=True
+    )
+
+    slug = models.SlugField(
+        _('Ссылка'),
+        help_text=_('К примеру, "new-awesome_collection-2018"'),
+        max_length=150,
+        validators=[validate_slug_field],
+        unique=True,
+        default=""
+    )
+    combustibility = models.ManyToManyField(
+        Combustibility,
+        verbose_name=_("Горючесть"),
+        blank=True
+    )
+    acoustics = models.ManyToManyField(
+        Acoustics,
+        verbose_name=_("Акустика"),
+        blank=True
+    )
+    lightning = models.ManyToManyField(
+        Lightning,
+        verbose_name=_("Освящение"),
+        blank=True
+    )
+    edges = models.ManyToManyField(
+        Edge,
+        verbose_name=_("Кромки"),
+        blank=True
+    )
+    material = models.ManyToManyField(
+        Material,
+        verbose_name=_("Материал"),
+        blank=True
+    )
+    colors = models.ManyToManyField(
+        Color,
+        verbose_name=_("Цвет"),
+        blank=True
+    )
     preview = models.ForeignKey(
         "album.albumimage",
         verbose_name=_('Обложка/Превью')
     )
+
     visualisation = models.ForeignKey(
         "album.albumimage",
         verbose_name=_('Изображение визуализирующая продукт'),
-        related_name='product_visualisation'
+        related_name='product_visualisation',
+        blank=True,
+        null=True
     )
     album = models.ForeignKey(
         "album.album",
         verbose_name=_('Изображения визуализирующая продукт'),
-        help_text=_("Альбом для слайдов.")
+        help_text=_("Альбом для слайдов."),
+        blank=True,
+        null=True
     )
 
     content = models.TextField(
         _('Дополнительный контент'),
-        max_length=8164
+        max_length=8164,
+        blank=True,
+        null=True
     )
 
     class Meta:
