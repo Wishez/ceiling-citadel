@@ -18,8 +18,12 @@ from album.forms import AlbumForm
 class AlbumModelAdmin(admin.ModelAdmin):
     form = AlbumForm
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ('title', )
-    list_filter = ('created',)
+    list_display = ('title', 'created', 'modified',)
+    list_filter = ('created', 'modified', 'title',)
+    list_per_page = 7
+    search_fields = ('title', 'created', 'modified',)
+    ordering = ('-created',)
+    date_hierarchy = 'created'
 
     def save_model(self, request, obj, form, change):
         if form.is_valid():
@@ -52,4 +56,9 @@ class AlbumModelAdmin(admin.ModelAdmin):
 @admin.register(AlbumImage, site=admin_site)
 class AlbumImageModelAdmin(admin.ModelAdmin):
     list_display = ('alt', 'album')
-    list_filter = ('album', 'created')
+    list_filter = ('album', 'alt', 'created', 'modified',)
+    list_per_page = 7
+    search_fields = ('album', 'alt', 'created', 'modified',)
+    ordering = ('-created',)
+    date_hierarchy = 'created'
+
