@@ -36,11 +36,41 @@ class Consumer(TimeStampedModel):
         return '%s %s' % (self.last_name, self.first_name)
     class Meta:
         db_table = 'site_consumers'
-        verbose_name = _('Консультант')
-        verbose_name_plural = _('Консультанты')
+        verbose_name = _('Заказчик')
+        verbose_name_plural = _('Заказчики')
 
 
 class OrderedProduct(BaseProductModel):
+    combustibility = models.ForeignKey(
+        "home.combustibility",
+        verbose_name=_("Горючесть"),
+        default=None
+    )
+    acoustics = models.ForeignKey(
+        "home.acoustics",
+        verbose_name=_("Акустика"),
+        default=None
+    )
+    lightning = models.ForeignKey(
+        "home.lightning",
+        verbose_name=_("Освящение"),
+        default=None
+    )
+    edges = models.ForeignKey(
+        "home.edge",
+        verbose_name=_("Кромки"),
+        default=None
+    )
+    material = models.ForeignKey(
+        "home.material",
+        verbose_name=_("Материал"),
+        default = None
+    )
+    colors = models.ForeignKey(
+        "home.color",
+        verbose_name=_("Цвет"),
+        default=None
+    )
     product = models.ForeignKey(
         Product,
         related_name="ordered_product",
@@ -48,26 +78,29 @@ class OrderedProduct(BaseProductModel):
     )
 
     quantity = models.IntegerField(
-        _('Количество продукта'),
+        _('Количество'),
         default=1
     )
 
     full_price = models.DecimalField(
         _('Общая цена'),
-        editable=False,
+        editable=True,
         null=True,
         blank=True,
-        max_digits=12,
-        decimal_places=2
+        max_digits=18,
+        decimal_places=2,
+        help_text=_('Расчитывается автоматически. Зависит от установленной цены продукта и оформленного количества.')
     )
 
+    def __str__(self):
+        return self.product.__str__()
     class Meta:
         db_table = 'consumers_ordered_products'
-        verbose_name = _('Консультант')
-        verbose_name_plural = _('Консультанты')
+        verbose_name = _('Оформленный продукт')
+        verbose_name_plural = _('Оформленные продукты')
 
 @receiver(pre_save, sender=OrderedProduct)
 def count_whole_price_of_ordered_product(sender, instance, **kwargs):
     price = instance.product.price
     if price:
-        instance.full_price = price * instance.quntity
+        instance.full_price = price * instance.quantity
