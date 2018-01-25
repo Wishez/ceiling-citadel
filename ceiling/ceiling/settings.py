@@ -45,13 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     # 'raven.contrib.django.raven_compat',
     'colorfield',
-    'pages',
-    'home',
-    'catalog',
+    'pages.apps.PagesConfig',
+    'home.apps.HomeConfig',
+    'catalog.apps.CatalogConfig',
     'myadmin',
-    'forms',
-    'album',
-    'personal_data',
+    'forms.apps.FormsConfig',
+    'album.apps.AlbumConfig',
+    'personal_data.apps.PersonalDataConfig',
     'imagekit',
     'model_utils',
 ]
@@ -72,7 +72,10 @@ ROOT_URLCONF = 'ceiling.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'pages', 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'pages', 'templates'),
+            os.path.join(BASE_DIR, 'theme', 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
