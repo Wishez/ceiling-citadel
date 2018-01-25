@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'personal_data.apps.PersonalDataConfig',
     'imagekit',
     'model_utils',
+    'rest_framework',
 ]
 BOOTSTRAP_ADMIN_SIDEBAR_MENU = False
 
