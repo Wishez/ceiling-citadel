@@ -10,7 +10,6 @@ class SettingsAdmin(SingleModelAdmin):
         ('Настройка информации сайта', {
             'fields': (
                 ('widgets',),
-                ('meta',)
             ),
         },),
         ('Настройка контактной информации', {
@@ -20,52 +19,57 @@ class SettingsAdmin(SingleModelAdmin):
                 ('addressHref',),
             ),
         },),
+        ('Настройка отправки сообщений', {
+            'fields': (
+                ('account_sid',),
+                ('auth_token',),
+                ('phone_from',),
+                ('phones_to',),
+            ),
+        },),
+        ('Сообщения на телефон', {
+            'fields': (
+                ('question_asked_message',),
+                ('callback_called_message',),
+                ('order_ordered_message',),
+            )
+        }),
+        ('Сообщения на email', {
+            'fields': (
+                ('after_success_closing_order_subject',),
+                ('after_success_closing_order_message',),
+                ('after_ordering_order_subject',),
+                ('after_ordering_order_message',),
+                ('change_status_order_in_process_subject',),
+                ('change_status_order_in_process_message',),
+            ),
+        }),
     )
 @admin.register(Color, site=admin_site)
 class ColorAdminModel(admin.ModelAdmin):
-    per_page = 10
+    list_per_page = 10
+    search_fields = ('name',)
 @admin.register(Material, site=admin_site)
 class MaterialAdminModel(admin.ModelAdmin):
-    per_page = 10
+    list_per_page = 10
+    search_fields = ('name',)
 @admin.register(Combustibility, site=admin_site)
 class CombustibilityAdminModel(admin.ModelAdmin):
-    per_page = 10
+    list_per_page = 10
+    search_fields = ('name',)
 @admin.register(Lightning, site=admin_site)
 class LightningAdminModel(admin.ModelAdmin):
-    per_page = 10
+    list_per_page = 10
+    search_fields = ('name',)
 @admin.register(Edge, site=admin_site)
 class EdgeAdminModel(admin.ModelAdmin):
-    per_page = 10
+    list_per_page = 10
+    search_fields = ('name',)
 @admin.register(Acoustics, site=admin_site)
 class AcousticsAdminModel(admin.ModelAdmin):
-    per_page = 10
+    list_per_page = 10
+    search_fields = ('name',)
 
 
-# class EmailAdmin(admin.ModelAdmin):
-#     list_per_page = 10
-#     list_display = ('is_active',)
-#     fieldsets = (
-#         ('Статус регисрации консультанта', {
-#             'fields': (
-#                 ('change_registration_status_subject'),
-#                 ('registered_a'),
-#                 ('registered_b'),
-#             ),
-#         }),
-#         ('Номер консультанта', {
-#             'fields': (
-#                 ('set_number_consultant_subject'),
-#                 ('set_number_consultant_message'),
-#                 ('change_number_consultant_subject'),
-#                 ('change_number_consultant_message'),
-#             ),
-#         }),
-#         ('Регистрации консультанта', {
-#             'fields': (
-#                 ('after_register_subject'),
-#                 ('after_register_message'),
-#             ),
-#         }),
-#     )
 
 

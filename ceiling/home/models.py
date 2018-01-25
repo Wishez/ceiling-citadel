@@ -116,7 +116,7 @@ class Settings(TimeStampedModel):
             variables_text_2
         ),
         max_length=200,
-        default='Изменили статус регистрации'
+        default='Успешно Завершён'
     )
 
     after_success_closing_order_message = models.TextField(
@@ -125,9 +125,9 @@ class Settings(TimeStampedModel):
         help_text=_(
             variables_text_2
         ),
-        default=_('Джон Галт, нам было приятно с вами сотрудничать' 
+        default=_('{{first_name}} {{last_name}}, нам было приятно с вами сотрудничать' 
                   'и мы хотим дать вам крепкое рукопожатие, выcказав'
-                  'им наилучшие пожелания!'
+                  'им наилучшие пожелания! '
                   ''
                   'Мы надеемся на скорую встречу с вами в будущем;).'
         )
@@ -139,20 +139,20 @@ class Settings(TimeStampedModel):
             variables_text_2
         ),
         max_length=200,
-        default='Изменили статус регистрации'
+        default='{{first_name}}, заказ оформлен!'
     )
     after_ordering_order_message = models.TextField(
         _('Сообщение для человека оформившего заказ'),
         max_length=3200,
         help_text=_(
-            variables_text_1
+            variables_text_2
         ),
-        default=_('Здравствуйте, Джон Галт!'
-                'Мы получили ваш заказ и задокументировали его.'
+        default=_('Здравствуйте, {{first_name}} {{last_name}}!'
+                'Мы получили ваш заказ и задокументировали его. '
                 ''
-                'Вы заказали:'
+                'Вы заказали: '
                 '{{items}}'
-                ''
+                ' '
                 'В любом случае, мы свяжемся с вами, чтобы подтвердить задокументированное;).'
                 'С уважением, Наша-великолепная-команда-обработки-заказов.')
 
@@ -164,13 +164,13 @@ class Settings(TimeStampedModel):
             variables_text_2
         ),
         max_length=200,
-        default='Изменили статус регистрации'
+        default='Перехватили ваш заказ, {{first_name}}!'
     )
     change_status_order_in_process_message = models.TextField(
         _('Сообщение, после смена статуса заказа на «В процессе»'),  # Сообщение для консультанта при смене номера консультаната
         max_length=3200,
         help_text=_(
-            variables_text_1
+            variables_text_2
         ),
         default=_('Здравствуйте, {{first_name}} {{last_name}}!' 
                 ''
@@ -182,7 +182,7 @@ class Settings(TimeStampedModel):
 
 
     def __str__(self):
-        return _('Глобальная настройка')
+        return 'Глобальная настройка'
     class Meta:
         db_table='site_settings'
         verbose_name = _('Глобальные Настройки')
