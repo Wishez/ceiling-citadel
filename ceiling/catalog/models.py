@@ -55,13 +55,15 @@ class Brand(BaseDescriptionModel):
         "catalog.category",
         verbose_name=_("Категории бренда"),
         related_name="categories_of_brand",
-        help_text=_("Выбирете категории, которые будут отображаться в выбранном пользователем бренде.")
+        help_text=_("Выбирете категории, которые будут отображаться на странице выбранного пользователем бренда."),
+        blank=True
     )
     collections = models.ManyToManyField(
         "catalog.collection",
-        verbose_name=_("Категории бренда"),
-        related_name="categories_of_brand",
-        help_text=_("Выбирете категории, которые будут отображаться в выбранном пользователем бренде.")
+        verbose_name=_("Коллекции бренда"),
+        related_name="collections_of_brand",
+        help_text=_("Выбирете колекции, которые будут отображаться на странице выбранного пользователем бренда."),
+        blank = True
     )
 
     class Meta:
@@ -72,6 +74,7 @@ class Brand(BaseDescriptionModel):
 
 class CategorySection(TimeStampedModel):
     section_name = models.CharField(_('Наименование'), max_length=150)
+
 
     def __str__(self):
         return self.section_name
@@ -85,16 +88,32 @@ class Category(BaseDescriptionModel):
         CategorySection,
         verbose_name=_('Секция'),
         related_name="group_of_category",
-        help_text=_('Принадлежность категории к одной из секций "Форма", "Системы", "Освящение" и т.п.')
+        help_text=_('Принадлежность категории к одной из секций "Форма", "Системы", "Освящение" и т.п. <br/>Для страницы каталога.')
     )
 
     brands = models.ManyToManyField(
         "catalog.brand",
         verbose_name=_("Категории бренда"),
         related_name="categories_of_brand",
-        help_text=_("Выбирете бренды, которые будут отображаться в выбранной пользователем категории.")
+        help_text=_("Выбирете бренды, которые будут отображаться на странице выбранной пользователем категории."),
+        blank=True
     )
 
+    collections = models.ManyToManyField(
+        "catalog.collection",
+        verbose_name=_("Коллекции категорий"),
+        related_name="collections_of_category",
+        help_text=_("Выбирете колекции, которые будут отображаться на странице выбранной пользователем категории."),
+        blank=True
+    )
+
+    products = models.ManyToManyField(
+        "catalog.product",
+        verbose_name=_("Отдельные предметы"),
+        related_name="products_of_category",
+        help_text=_("Выбирете отдельные предметы относящиеся к этой категории, которые будут отображаться на странице выбранной пользователем категории в разделе 'Отдельные предметы'."),
+        blank=True
+    )
 
     class Meta:
         db_table = 'categories_of_catalog'

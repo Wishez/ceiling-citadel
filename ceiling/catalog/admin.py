@@ -76,6 +76,8 @@ class CategoryAdmin(CategoryBaseAdminModel):
              'fields': (
                  ('section',),
                  ('brands',),
+                 ('collections',),
+                 ('products',),
              ),
          })
     ]
