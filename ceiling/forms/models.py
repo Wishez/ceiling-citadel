@@ -255,7 +255,7 @@ def count_whole_price_of_ordered_product(sender, instance, **kwargs):
 
         for product in instance.ordered_products.all():
             order_price += product.full_price or 0
-            
+
         # Count order_price with discount.
         discount = instance.discount
         if discount:
