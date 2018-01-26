@@ -10,11 +10,12 @@ from model_utils.models import TimeStampedModel
 import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from personal_data.models import Consumer
+from personal_data.models import Consumer, OrderedProduct
 from home.help_parts import variables_text_2, variables_text_1
 from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
+
 
 class Callback(TimeStampedModel):
     consumer = models.ForeignKey(
@@ -97,22 +98,29 @@ class Question(TimeStampedModel):
 class OrderManager(models.Manager):
     use_for_related_fields = True
 
-    def remove_ordered_item(self, instance, item):
+    def remove_ordered_product_from_order(self, instance, uuid):
 
-        item = instance.ordered_items.filter(id=item.id)
+        item = instance.ordered_items.filter(uuid=uuid)
 
         if item.exists():
             instance.ordered_items.remove(item[0])
+        else:
+            return False
 
-    # Write when the OrderedItem model will be created
 
-    # def add_ordered_item(self, instance, word):
-    #     # w, is_created = Word.objects.get_or_create(id=word)
-    #     if not is_created:
-    #         w.save()
-    #     instance.words.add(w)
+    def add_quantity_to_ordered_product_and_put_it_to_order(self, instance, uuid, quantity):
+        ordered_product = OrderedProduct.objects.filter(uuid=uuid)
 
-    def get_words(self, instance):
+        if ordered_product.exists():
+            ordered_product = ordered_product[0]
+            ordered_product.quantity = quantity
+            ordered_product.save()
+
+            instance.words.add(ordered_product)
+        else:
+            return False
+
+    def get_ordered_products(self, instance):
         ordered_items = []
 
         for word in instance.ordered_items.all():
@@ -245,8 +253,6 @@ class Order(TimeStampedModel):
 
 @receiver(pre_save, sender=Order)
 def count_whole_price_of_ordered_product(sender, instance, **kwargs):
-
-
     if instance.pk is None:
         instance.save()
         return True
