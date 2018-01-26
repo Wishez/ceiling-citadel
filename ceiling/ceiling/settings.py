@@ -55,9 +55,10 @@ INSTALLED_APPS = [
     'imagekit',
     'model_utils',
     'rest_framework',
+    'django_nose',
 ]
-BOOTSTRAP_ADMIN_SIDEBAR_MENU = False
 
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -162,7 +163,11 @@ LOGGING = {
     },
 }
 
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser',
+    ),
+}
 # CACHES = {
 #     'default': {
 #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
