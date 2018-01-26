@@ -13,14 +13,19 @@ class ConsumerManager(models.Manager):
 
     def fill_name_by_fields_and_save(self, instance, full_name):
         shared_name = full_name.split(' ')
-        if len(shared_name) < 2:
+        length = len(shared_name)
+        if length  < 2:
             return False
 
         setattr(instance, 'last_name', shared_name[0])
         setattr(instance, 'first_name', shared_name[1])
-        setattr(instance, 'middle_name', shared_name[2] or "")
+
+        if length == 3:
+            setattr(instance, 'middle_name', shared_name[2] or "")
 
         instance.save()
+
+        return instance
 
     def is_consumer(self, first_name, last_name, **kwargs):
         return self.filter(first_name=first_name, last_name=last_name, **kwargs)
