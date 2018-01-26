@@ -100,6 +100,12 @@ class ProductAdmin(CategoryBaseAdminModel):
     list_filter = ('name', 'created', 'modified',) + base_product_characteristics_fields
     search_fields = ('name', 'created', 'modified',) + base_product_characteristics_fields
     fieldsets = [
+        ('Страница продукта', {
+            'fields': (
+                ('page_title',),
+                ('meta',)
+            ),
+        }),
         base_description,
         base_product_characteristics,
         ('Стоимость продукта', {
