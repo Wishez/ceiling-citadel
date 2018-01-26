@@ -45,21 +45,21 @@ class HomePage(BasePage):
 
 
 class CatalogPage(BasePage):
-    # brands = models.ManyToManyField(
-    #     "catalog.brand",
-    #     verbose_name=_('Бренды каталога'),
-    #     related_name='brands_of_catalog',
-    #     help_text=_('Акции, которые будут отображаться на странице "Акции".'),
-    #     blank=True
-    # )
+    brands = models.ManyToManyField(
+        "catalog.brand",
+        verbose_name=_('Бренды каталога'),
+        related_name='brands_of_catalog',
+        help_text=_('Акции, которые будут отображаться на странице "Акции".'),
+        blank=True
+    )
     #
-    # categories = models.ManyToManyField(
-    #     "catalog.category",
-    #     verbose_name=_('Категории каталога'),
-    #     related_name='categories_of_catalog_page',
-    #     help_text=_('Акции, которые будут отображаться на странице "Акции".'),
-    #     blank=True
-    # )
+    categories = models.ManyToManyField(
+        "catalog.category",
+        verbose_name=_('Категории каталога'),
+        related_name='categories_of_catalog_page',
+        help_text=_('Акции, которые будут отображаться на странице "Акции".'),
+        blank=True
+    )
 
     class Meta:
         db_table = 'data_catalog_page'
