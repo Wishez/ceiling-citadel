@@ -52,7 +52,6 @@ class ProductsListSerializer(serializers.ModelSerializer):
         read_only=True,
     )
     preview = ImageSerializer(
-        many=False,
         read_only=True
     )
 
@@ -88,7 +87,6 @@ class ProductSerializer(serializers.ModelSerializer):
         slug_field='name'
     )
     visualisation = ImageSerializer(
-        many=False,
         read_only=True
     )
     material = serializers.SlugRelatedField(
@@ -102,7 +100,6 @@ class ProductSerializer(serializers.ModelSerializer):
     )
 
     album = AlbumSerializer(
-        many=True,
         read_only=True
     )
 
@@ -127,11 +124,9 @@ class ProductSerializer(serializers.ModelSerializer):
 # Category
 class CategoryListSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
-        many=False,
         read_only=True
     )
     section = serializers.SlugRelatedField(
-        many=False,
         read_only=True,
         slug_field='section_name'
     )
@@ -143,7 +138,6 @@ class CategoryListSerializer(serializers.ModelSerializer):
 # !Brand
 class BrandListSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
-        many=False,
         read_only=True
     )
     class Meta:
@@ -154,7 +148,6 @@ class BrandListSerializer(serializers.ModelSerializer):
 # !Collection
 class CollectionListSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
-        many=False,
         read_only=True
     )
     class Meta:
@@ -164,7 +157,6 @@ class CollectionListSerializer(serializers.ModelSerializer):
 # !Category
 class CategorySerializer(serializers.ModelSerializer):
     section = serializers.SlugRelatedField(
-        many=False,
         read_only=True,
         slug_field='section_name'
     )
@@ -182,7 +174,7 @@ class CategorySerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Category
-        fields = base_fields + ['section', 'brands']
+        fields = base_fields + ['section', 'brands', 'collections', 'products']
 # !Brand
 class BrandSerializer(serializers.ModelSerializer):
     categories = CategoryListSerializer(
@@ -205,7 +197,6 @@ class CollectionSerializer(serializers.ModelSerializer):
         read_only=True
     )
     brand = BrandListSerializer(
-        many=True,
         read_only=True
     )
     class Meta:

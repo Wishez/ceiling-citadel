@@ -7,10 +7,8 @@ from .api.viewsets import *
 urlpatterns = [
     url(
         r'^api/current/categories/$',
-        CategoriesView.as_view({
-            "get": "list"
-        }),
-        name='category_list'
+        CategoriesView.as_view(),
+        name='categories_list'
     ),
     url(
         r'^api/current/category/(?P<uuid>[-\w]+)/$',
@@ -19,10 +17,8 @@ urlpatterns = [
     ),
     url(
         r'^api/current/brands/$',
-        BrandsView.as_view({
-            "get": "list"
-        }),
-        name='brand_list'
+        BrandsView.as_view(),
+        name='brands_list'
     ),
     url(
         r'^api/current/brand/(?P<uuid>[-\w]+)/$',
@@ -31,10 +27,8 @@ urlpatterns = [
     ),
     url(
         r'^api/current/collections/$',
-        CollectionsView.as_view({
-            "get": "list"
-        }),
-        name='collection_list'
+        CollectionsView.as_view(),
+        name='collections_list'
     ),
     url(
         r'^api/current/collection/(?P<uuid>[-\w]+)/$',
