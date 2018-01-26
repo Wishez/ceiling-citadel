@@ -93,8 +93,8 @@ class Category(BaseDescriptionModel):
 
     brands = models.ManyToManyField(
         "catalog.brand",
-        verbose_name=_("Категории бренда"),
-        related_name="categories_of_brand",
+        verbose_name=_("Бренды категории"),
+        related_name="brands_of_category",
         help_text=_("Выбирете бренды, которые будут отображаться на странице выбранной пользователем категории."),
         blank=True
     )
@@ -133,7 +133,8 @@ class Collection(BaseDescriptionModel):
         verbose_name=_("Бренд коллекции"),
         related_name="brand_of_collection",
         help_text=_("Выбирете бренд, который относится к этой коллекции. Она может быть независимой."),
-        blank=True
+        blank=True,
+        null=True
     )
 
     class Meta:
@@ -183,6 +184,19 @@ class BaseProductModel(TimeStampedModel):
 
 
 class Product(BaseProductModel):
+    page_title = models.CharField(
+        _('Заголовок'),
+        help_text=_('Название страницы во вкладке'),
+        max_length=100,
+        blank=True,
+        null=True
+    )
+    meta = models.TextField(
+        _('META-описание страницы'),
+        max_length=350,
+        blank=True,
+        null=True
+    )
     name = models.CharField(_('Наименование'), max_length=100)
     description = models.TextField(
         _('Описание'),
