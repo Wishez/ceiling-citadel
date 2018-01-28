@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     url(r'^admin/', admin_site.urls),
     url(r'^catalog/', include('catalog.urls')),
-    url(r'^ordered_product/', include('personal_data.urls')),
+    url(r'^make_form/', include('forms.urls')),
     url(r'', include('pages.urls')),
 ]
 
