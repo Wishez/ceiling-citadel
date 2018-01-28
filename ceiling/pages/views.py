@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from .models import *
 from django.contrib.sites.models import Site
 from home.models import *
+from home.models import Settings
 
 def get_single_model(Model):
     return Model.objects.get()
