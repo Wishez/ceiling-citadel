@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 from django.core.mail import EmailMessage
-from home.settings import Settings
+from home.models import Settings
 from django.conf import settings
 from django.contrib.sites.models import Site
 import os, time
