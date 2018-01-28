@@ -1,48 +1,30 @@
 # -*- encoding: utf-8 -*-
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 from django.http import HttpResponse
-from personal_data.models import Consumer, OrderedProduct
+from .help_functions import get_or_create_consumer
+from .notifications import \
+    save_order_and_notify_about, \
+    save_callback_and_notify_about, \
+    save_question_and_notify_about
 
-# Create your views here.
-
-def get_or_create_consumer(data):
-    full_name = data['full_name']
-    shared_name = full_name.split(' ')
-    # Return query set with filtered consultants.
-    consumer = Consumer.objects.is_consumer(
-        shared_name[1],
-        shared_name[0]
-    )
-    if not consumer.exist():
-        consumer = Consumer()
-
-        if 'phone' in data:
-            consumer.phone_number = data['phone']
-        if 'email' in data:
-            consumer.email = data['email']
-
-        Consumer.objects.fill_name_by_fields_and_save(
-            consumer,
-            full_name
-        )
-    else:
-        consumer = consumer[0]
-    return consumer
+from threading import Thread
 @csrf_exempt
 def order_callback(request):
     if request.method == 'POST':
         data = request.POST
-
+        isTest = False
         consumer = get_or_create_consumer(data)
 
         callback = Callback.objects.create(
             consumer=consumer
         )
-
-        callback.save()
+        if not 'isTest' in data:
+            Thread(
+                target=save_callback_and_notify_about,
+                args=(callback,)
+            ).start()
 
         return HttpResponse('В скором времени, мы сяжемся с вами!')
     return HttpResponse('Внутренняя ошибка сервера')
@@ -51,24 +33,30 @@ def order_callback(request):
 def make_order(request):
     if request.method == 'POST':
         data = request.POST
-
+        isNotTest = not 'isTest' in data
         consumer = get_or_create_consumer(data)
 
         order = Order.objects.create(
             consumer=consumer
         )
+        # List of ordered products.
+        products = data.get('products')
 
-        products = data['products']
         for product in products:
-            uuid = product['uuid']
-            quantity = product['quantity']
-            Order.objects.add_quantity_to_ordered_product_and_put_it_to_order(
+            uuid = product.get('uuid')
+
+            del product['uuid']
+
+            Order.objects.create_and_put_ordered_product_to_order(
                 order,
                 uuid,
-                quantity
+                product
             )
-
-        order.save()
+        if isNotTest:
+            Thread(
+                target=save_order_and_notify_about,
+                args=(order,)
+            ).start()
 
         return HttpResponse('Мы выслали на почту задокументированную версию заказа. В скором времени, мы сяжемся с вами!')
     return HttpResponse('Внутренняя ошибка сервера')
@@ -86,7 +74,13 @@ def ask_question(request):
             question=question
         )
 
-        question.save()
+        if not 'isTest' in data:
+            # save_question_and_notify_about(question)
+            # else:
+            Thread(
+                target=save_question_and_notify_about,
+                args=(question,)
+            ).start()
 
         return HttpResponse('Маша в процессе обработки вашего вопроса. Мы сообщим вам ответ, когда она его успешно сгенирирует!')
     return HttpResponse('Внутренняя ошибка сервера')
