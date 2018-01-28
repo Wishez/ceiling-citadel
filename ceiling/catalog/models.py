@@ -176,8 +176,6 @@ class BaseProductModel(TimeStampedModel):
         null=True
     )
 
-    def __str__(self):
-        return self.name
 
     class Meta:
         abstract = True
@@ -305,6 +303,8 @@ class Product(BaseProductModel):
         null=True
     )
 
+    def __str__(self):
+        return self.name
     class Meta:
             db_table = 'collection_products'
             verbose_name = _('Продукт')
