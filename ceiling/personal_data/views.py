@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 
 from django.http import HttpResponse
-from .models import Consumer, OrderedProduct
+from .models import OrderedProduct
 from catalog.models import Product
 # Create your views here.
 
