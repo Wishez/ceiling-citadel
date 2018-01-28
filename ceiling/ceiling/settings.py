@@ -175,11 +175,13 @@ REST_FRAMEWORK = {
 #     }
 # }
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
+EMAIL_HOST_USER = 'shiningtests@gmail.com'
+EMAIL_HOST_PASSWORD = 'demonstration'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'shiningtests@gmail.com'
 
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
