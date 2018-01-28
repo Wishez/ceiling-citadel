@@ -131,7 +131,7 @@ class OrderedProduct(BaseProductModel):
     )
 
     def __str__(self):
-        return self.product.__str__()
+        return self.product.name
     class Meta:
         db_table = 'consumers_ordered_products'
         verbose_name = _('Оформленный продукт')
