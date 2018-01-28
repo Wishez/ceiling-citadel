@@ -1,20 +1,23 @@
 # -*- encoding: utf-8 -*-
 
 from forms.parsers import MessageParser
-from pages.models import Settings
+from home.models import Settings
 from .models import *
 from django.utils.translation import gettext_lazy as _
 from twilio.rest import Client
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
-from model_utils import FieldTracker
+
 
 
 @receiver(pre_save, sender=Order)
-def send_notification_about_changed_status_of_order_to_consumer(sender, instance):
-    messages = Settings.objects.get()
+def send_notification_about_changed_status_of_order_to_consumer(sender, instance, **kwargs):
     isChanged = False
     message, subject = '', ''
+    messages, created = Settings.objects.get_or_create()
+
+    if created:
+        messages.save()
 
     if instance.status == _('В процессе'):
 
@@ -50,24 +53,50 @@ def send_notification_about_changed_status_of_order_to_consumer(sender, instance
             False
         )()
 
+    return isChanged
 
-def create_order_and_notify_about(order, page):
-    order.save()
-    consumer = order.consumer
-    MessageParser(
-        consumer,
-        'after_ordering_order_message',
-        'after_register_subject',
-        isMessageKey=True
-    )
+def save_instance_and_notify_about(
+        instance,
+        phone_message,
+        callback=None
+):
+    instance.save()
 
+    consumer = instance.consumer
+
+    if callback is not None:
+        callback()
     # From Settings get info about sender, receivers,
     # service data, and the message.
     send_sms_notification(
         Settings.objects.get(),
         consumer,
-        'order_ordered_message'
+        phone_message
     )
+def save_question_and_notify_about(question):
+    save_instance_and_notify_about(
+        question,
+        'question_asked_message'
+    )
+
+def save_callback_and_notify_about(callback):
+    save_instance_and_notify_about(
+        callback,
+        'callback_called_message'
+    )
+
+def save_order_and_notify_about(order):
+    save_instance_and_notify_about(
+        order,
+        'order_ordered_message',
+        lambda:
+            MessageParser(
+                order.consumer,
+                'after_ordering_order_message',
+                'after_register_subject'
+            )
+    )
+
 
 def send_sms_notification(settings, consumer, message_type):
 
