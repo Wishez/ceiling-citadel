@@ -15,6 +15,7 @@ from home.help_parts import variables_text_2, variables_text_1
 from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
+from catalog.models import Product
 
 
 class Callback(TimeStampedModel):
@@ -43,6 +44,7 @@ class Callback(TimeStampedModel):
         db_table = "user_callbacks"
         verbose_name = _('Обратный вызов')
         verbose_name_plural = _('Обратные вызовы')
+
 
 class Question(TimeStampedModel):
     consumer = models.ForeignKey(
@@ -100,33 +102,31 @@ class OrderManager(models.Manager):
 
     def remove_ordered_product_from_order(self, instance, uuid):
 
-        item = instance.ordered_items.filter(uuid=uuid)
+        item = instance.ordered_products.filter(uuid=uuid)
 
         if item.exists():
-            instance.ordered_items.remove(item[0])
+            instance.ordered_products.remove(item[0])
         else:
             return False
 
 
-    def add_quantity_to_ordered_product_and_put_it_to_order(self, instance, uuid, quantity):
-        ordered_product = OrderedProduct.objects.filter(uuid=uuid)
+    def create_and_put_ordered_product_to_order(self, instance, uuid, data):
+        ordered_product = OrderedProduct.objects.create(
+            product=Product.objects.get(uuid=uuid),
+            **data
+        )
+        ordered_product.save()
 
-        if ordered_product.exists():
-            ordered_product = ordered_product[0]
-            ordered_product.quantity = quantity
-            ordered_product.save()
+        instance.ordered_products.add(ordered_product)
 
-            instance.words.add(ordered_product)
-        else:
-            return False
 
     def get_ordered_products(self, instance):
-        ordered_items = []
+        ordered_products = []
 
-        for word in instance.ordered_items.all():
-            ordered_items.append(word.name)
+        for ordered_product in instance.ordered_products.all():
+            ordered_products.append(ordered_product)
 
-        return ordered_items
+        return ordered_products
 
 class Order(TimeStampedModel):
     consumer = models.ForeignKey(
@@ -244,6 +244,8 @@ class Order(TimeStampedModel):
         null=True
     )
 
+    objects = OrderManager()
+
     def __str__(self):
         return '%s | %s' % (Consumer.objects.get_full_name(self.consumer), self.status)
     class Meta:
@@ -254,8 +256,8 @@ class Order(TimeStampedModel):
 @receiver(pre_save, sender=Order)
 def count_whole_price_of_ordered_product(sender, instance, **kwargs):
     if instance.pk is None:
-        instance.save()
-        return True
+        instance.pk = sender.objects.all().count() + 1
+
     if instance.price_will_be_counted:
         order_price = 0
 
@@ -264,8 +266,9 @@ def count_whole_price_of_ordered_product(sender, instance, **kwargs):
 
         # Count order_price with discount.
         discount = instance.discount
-        if discount:
-            order_price = order_price - (order_price / 100 * discount)
+        # if discount:
+        #     order_price = order_price - (order_price / 100 * discount)
 
         instance.order_price = order_price
+        return True
 
