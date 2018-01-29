@@ -4,52 +4,56 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Navigation from './../components/Navigation';
-import { selectNavigationItem } from './../actions/navigationActions.js';
+import MenuButton from './../components/MenuButton';
+import { selectNavigationItem, openMenu as open, closeMenu as close } from './../actions/navigationActions.js';
+
 
 class NavContainer extends Component {
-  static PropTypes = { 
+  static propTypes = { 
       navigationItems: PropTypes.array.isRequired,
-      dispatch: PropTypes.func.isRequired
+      dispatch: PropTypes.func.isRequired,
+      isOpened: PropTypes.bool.isRequired
   }
 
   state = {
-      isOpen: false,
       navStyles: {
       }
   };
 
   openMenu = () => {
-    const isMobile = window.innerWidth <= 800;
-    console.log(isMobile)
-    if (isMobile) {
+    const { dispatch } = this.props;
+    dispatch(open());
+    // const isMobile = window.innerWidth <= 800;
 
-      if (!this.state.isOpen) {
-        this.setState({
-          isOpen: true,
-          navStyles: {
-            'width': '100%',
-            'opacity': '1'
-          }
-        });
+    // if (isMobile) {
+
+    //   if (!this.state.isOpen) {
+    //     this.setState({
+    //       isOpen: true,
+    //       navStyles: {
+    //         'width': '100%',
+    //         'opacity': '1'
+    //       }
+    //     });
         
-      } else {
-          this.closeMenu();
-      }
-    }
+    //   } else {
+    //       this.closeMenu();
+    //   }
+    // }
   };
 
-  smoothRise = e => {
-    let element = $(e.target).attr('href');
-    if (!element)
-      element = $(e.target).parent().attr('href');
-    const pathTo = $(element).offset().top;
+  // smoothRise = e => {
+  //   let element = $(e.target).attr('href');
+  //   if (!element)
+  //     element = $(e.target).parent().attr('href');
+  //   const pathTo = $(element).offset().top;
     
-    $('body, html')
-      .stop()
-      .animate({
-        scrollTop: pathTo
-      }, 800);
-  }
+  //   $('body, html')
+  //     .stop()
+  //     .animate({
+  //       scrollTop: pathTo
+  //     }, 800);
+  // }
 
   changeActiveNavigationItem = navigationItem => () => {
         this.props.dispatch(selectNavigationItem(navigationItem));
@@ -65,30 +69,26 @@ class NavContainer extends Component {
   )
    
   closeMenu = () => {
-    const isMobile = window.innerWidth <= 800;
-    if (isMobile) {
-      this.setState({
-          isOpen: false,
-          navStyles: {
-            'width': '0',
-            'opacity': '0'
-          }
-        });
-    }
+    const { dispatch } = this.props;
+    dispatch(close());
   }
 
 
   render() {
 
     return (
+      <div>
+        <MenuButton 
+            {...this.props} 
+            openMenu={this.openMenu}
+            closeMenu={this.closeMenu} />
         <Navigation {...this.props}
             navStyles={this.state.navStyles}
             getActiveClasses={this.getActiveClasses}
-            openMenu={this.openMenu}
-            closeMenu={this.closeMenu}
             changeActiveNavigationItem={this.changeActiveNavigationItem}
             smoothRise={this.smoothRise}
         />
+      </div>
     );
   }
 }
@@ -96,6 +96,10 @@ class NavContainer extends Component {
 
 const mapStateToProps = state => {
   const { navigation } = state;
+  const {
+    isMenuOpened
+  } = navigation;
+
   let navigationItems = [];
 
   for (const prop in navigation) {
@@ -103,7 +107,8 @@ const mapStateToProps = state => {
   }
   
   return {
-    navigationItems
+    navigationItems,
+    isOpened: isMenuOpened
   }
 }
 

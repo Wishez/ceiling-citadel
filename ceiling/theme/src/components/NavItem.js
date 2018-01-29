@@ -1,17 +1,15 @@
 import React from 'react';
-import { Icon, Image } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import classNames from 'classnames'
-	    
+import getClass from './../constants/classes';
+
 const NavItem = ({
 	block, 
 	href,
 	name
 }) => (  
-  <Link to={href}
-    className={`${block}__refer`}>
+  <a href={href}
+    className={getClass({b: block, el: "refer"})}>
     {name}
-  </Link>
+  </a>
 );
 
 export default NavItem;

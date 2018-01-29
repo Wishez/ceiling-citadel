@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import Logo from './Logo';
 import NavContainer from './../containers/NavContainer.js'; 
-// import { Container } from 'semantic-ui-react';
+import getClass from './../constants/classes';
+import Contacts from './Contacts';
   
-const Header = ({}) => (
-  <header className='header'>
-      <div className="container">
-		<Logo />
-      </div>
-  </header>
+const Header = ({
+	phone,
+	email
+}) => (
+  	<header className={getClass({b: 'header'})}>
+      	<div className={getClass({b: 'container',  add: "parent row"})}>
+      		<NavContainer />
+      		<Contacts 
+      			phone={`+7 (985) 905-12-51`}
+      			email={`shiningfinger@list.ru`}/>
+			<Logo />
+  		</div>
+  	</header>
 );
-        // <NavContainer />
         // <Contacts />
 
 export default Header;

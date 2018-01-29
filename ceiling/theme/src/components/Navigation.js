@@ -1,34 +1,27 @@
 import React from 'react';
-import { Icon,  Button, Container } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
 import NavItem from './NavItem';
-
+import getClass from './../constants/classes';
 
 const Navigation = ({
     navigationItems,
-    openMenu,
-    changeActiveNavigationItem,
     closeMenu,
+    changeActiveNavigationItem,
     smoothRise,
     getActiveClasses,
     navStyles,
     ...rest
 }) => (
-   <nav className={`navigation`}>
-    <Container>
-      <Button id='openMenuButton'
-        className='navigation__openMenuButton'
-        size='big'
-        icon='bars'
-        onClick={openMenu} />
-      <ul className='navList'
+   <nav className={getClass({
+        b: "navigation",
+        add: "parent centered column"
+    })}
+   >
+      
+      <ul className={getClass({
+          b: 'navList'
+        })}
           id='navList'
           style={navStyles}>
-          <Icon id='closeMenuButton'
-            className='navigation__closeMenuButton'
-            name='close'
-            size='big'
-            onClick={closeMenu} />
           { navigationItems.map((item, index) => (
               <li className={getActiveClasses(item.active)} 
                 key={index}
@@ -43,14 +36,7 @@ const Navigation = ({
                 />
               </li>
             ))}
-            <li className='navItem'>  
-                <a href='http://beautystore.oriflame.ru/105263' 
-                  className='not-follow navItem__refer'>
-                  Интернет магазин
-                </a>
-            </li>
         </ul>
-      </Container>
     </nav>
   );
   

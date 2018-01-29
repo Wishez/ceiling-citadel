@@ -1,6 +1,8 @@
 import { 
 	SELECT_NAVIGATION_ITEM,
- 	CLEAN_ACTIVE_STATE 
+ 	CLEAN_ACTIVE_STATE,
+ 	OPEN_MENU,
+ 	CLOSE_MENU
  } from './../constants/navigationTypes.js';
 
 
@@ -11,6 +13,13 @@ export const selectNavigationItem = navigationItem => ({
 
 export const cleanActiveState = () => ({
 	type: CLEAN_ACTIVE_STATE
+});
+
+export const openMenu = () => ({
+	type: OPEN_MENU
+});
+export const closeMenu = () => ({
+	type: CLOSE_MENU
 });
 
 

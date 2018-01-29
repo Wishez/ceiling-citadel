@@ -1,4 +1,9 @@
-import { SELECT_NAVIGATION_ITEM, navigationItems } from './../constants/navigationTypes.js';
+import { 
+	SELECT_NAVIGATION_ITEM, 
+	navigationItems,
+	CLOSE_MENU,
+	OPEN_MENU
+} from './../constants/navigationTypes.js';
 
 
 // Объект описывающий состояние навигации.
@@ -13,39 +18,26 @@ export const initNavigationState = {
 	},
 	secondNavItem: {
 		active: false,
-		name: navigationItems.shares,
+		name: navigationItems.catalog,
 		index: 'secondNavItem',
 		icon: '',
-		pathTo: '/shares'
+		pathTo: '/catalog/'
 	},
 	thirdNavItem: {
 		active: false,
-		name: navigationItems.possibilities,
+		name: navigationItems.service,
 		index: 'thirdNavItem',
 		icon: '',
-		pathTo: '/possibilities'
+		pathTo: '/service/'
 	},
 	fourthNavItem: {
 		active: false,
-		name: navigationItems.registration,
+		name: navigationItems.contacts,
 		index: 'fourthNavItem',
 		icon: '',
-		pathTo: '/registration'
+		pathTo: '/contacts/'
 	},
-	fifthNavItem: {
-		active: false,
-		name: navigationItems.media,
-		index: 'fifthNavItem',
-		icon: '',
-		pathTo: '/media'
-	},
-	sixthNavItem: {
-		active: false,
-		name: navigationItems.contacts,
-		index: 'sixthNavItem',
-		icon: '',
-		pathTo: '/contacts'
-	}
+	isMenuOpened: false
 };
 
 const navigation = (
@@ -60,6 +52,16 @@ const navigation = (
 					...state[action.navigationItem],
 					active: true
 				}
+			};
+		case OPEN_MENU:
+			return  {
+				...state,
+				isMenuOpened: true
+			};
+		case CLOSE_MENU:
+			return  {
+				...state,
+				isMenuOpened: false
 			};
 		default:
 			return state;
