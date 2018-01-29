@@ -9,48 +9,63 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 
+def get_text_from_locale_or_settings(text_variable, instance, settings):
+    text = getattr(
+        instance,
+        text_variable,
+        ''
+    )
+    if not text:
+        text = getattr(
+            settings,
+            text_variable,
+            ''
+        )
 
+    return text
 @receiver(pre_save, sender=Order)
 def send_notification_about_changed_status_of_order_to_consumer(sender, instance, **kwargs):
     isChanged = False
     message, subject = '', ''
-    messages, created = Settings.objects.get_or_create()
+    settings, created = Settings.objects.get_or_create()
 
     if created:
-        messages.save()
+        settings.save()
 
     if instance.status == _('В процессе'):
-
-        message = getattr(
-            instance,
+        message = get_text_from_locale_or_settings(
             'change_status_order_in_process_message',
-            messages.change_status_order_in_process_message
-        )
-        subject = getattr(
             instance,
-            'change_status_order_in_process_subject',
-            messages.change_status_order_in_process_subject
+            settings
         )
+        subject = get_text_from_locale_or_settings(
+            'change_status_order_in_process_subject',
+            instance,
+            settings
+        )
+
         isChanged = True
     elif instance.status == _('Успешно завершён'):
-        message = getattr(
-            instance,
+        message = get_text_from_locale_or_settings(
             'after_success_closing_order_message',
-            messages.after_success_closing_order_message
-        )
-        subject = getattr(
             instance,
-            'after_success_closing_order_subject',
-            messages.after_success_closing_order_subject
+            settings
         )
+        subject = get_text_from_locale_or_settings(
+            'after_success_closing_order_subject',
+            instance,
+            settings
+        )
+
         isChanged = True
 
     if isChanged:
         MessageParser(
-            instance,
+            [instance],
             message,
             subject,
-            False
+            isMessageKey=False,
+            receiver=instance.consumer
         )()
 
     return isChanged
@@ -58,25 +73,28 @@ def send_notification_about_changed_status_of_order_to_consumer(sender, instance
 def save_instance_and_notify_about(
         instance,
         phone_message,
-        callback=None
+        callback=None,
+        additional_vocabulary=[]
 ):
     instance.save()
-
     consumer = instance.consumer
-
     if callback is not None:
         callback()
     # From Settings get info about sender, receivers,
     # service data, and the message.
     send_sms_notification(
         Settings.objects.get(),
-        consumer,
-        phone_message
+        [consumer, instance],
+        phone_message,
+        additional_vocabulary,
+        receiver=consumer
     )
+
 def save_question_and_notify_about(question):
     save_instance_and_notify_about(
         question,
-        'question_asked_message'
+        'question_asked_message',
+        additional_vocabulary=['question']
     )
 
 def save_callback_and_notify_about(callback):
@@ -86,19 +104,28 @@ def save_callback_and_notify_about(callback):
     )
 
 def save_order_and_notify_about(order):
+    consumer = order.consumer
+
     save_instance_and_notify_about(
         order,
         'order_ordered_message',
-        lambda:
-            MessageParser(
-                order.consumer,
+        lambda: MessageParser(
+                [consumer, order],
                 'after_ordering_order_message',
-                'after_register_subject'
-            )
+                'after_ordering_order_subject',
+                receiver=consumer,
+                order=order
+        )()
     )
 
 
-def send_sms_notification(settings, consumer, message_type):
+def send_sms_notification(
+        settings,
+        instances,
+        message_type,
+        additional_vocabulary,
+        receiver
+):
 
     phone_from = settings.phone_from
     phones_to = settings.phones_to.replace(' ', '').split(',')
@@ -106,8 +133,10 @@ def send_sms_notification(settings, consumer, message_type):
     auth_token = settings.auth_token
 
     parser = MessageParser(
-        consumer,
-        message=message_type
+        instances,
+        message=message_type,
+        additional_vocabulary=additional_vocabulary,
+        receiver=receiver
     )
 
     parser.parse_text()
@@ -132,8 +161,10 @@ def change_question_status(sender, instance, **kwargs):
         subject = instance.answer_subject
 
         MessageParser(
-            consumer,
+            [consumer, instance],
             answer,
             subject,
-            False
+            receiver=consumer,
+            isMessageKey=False,
+            additional_vocabulary=['answer', 'question']
         )()

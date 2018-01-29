@@ -23,7 +23,7 @@ def order_callback(request):
         if not 'isTest' in data:
             Thread(
                 target=save_callback_and_notify_about,
-                args=(callback,)
+                args=(callback, "callback_called_message",)
             ).start()
 
         return HttpResponse('В скором времени, мы сяжемся с вами!')
@@ -55,7 +55,7 @@ def make_order(request):
         if isNotTest:
             Thread(
                 target=save_order_and_notify_about,
-                args=(order,)
+                args=(order, "order_ordered_message",)
             ).start()
 
         return HttpResponse('Мы выслали на почту задокументированную версию заказа. В скором времени, мы сяжемся с вами!')
@@ -79,7 +79,7 @@ def ask_question(request):
             # else:
             Thread(
                 target=save_question_and_notify_about,
-                args=(question,)
+                args=(question, "question_asked_message",)
             ).start()
 
         return HttpResponse('Маша в процессе обработки вашего вопроса. Мы сообщим вам ответ, когда она его успешно сгенирирует!')
