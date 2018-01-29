@@ -11,7 +11,7 @@ import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from personal_data.models import Consumer, OrderedProduct
-from home.help_parts import variables_text_2, variables_text_1
+from home.help_parts import simple_hint, question_hint
 from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
@@ -57,12 +57,12 @@ class Question(TimeStampedModel):
         max_length=1024
     )
 
-    answer_subject = models.TextField(
+    answer_subject = models.CharField(
         _('Тема email сообщения'),
         max_length=150,
         blank=True,
         null=True,
-        help_text=variables_text_1
+        help_text=simple_hint
     )
 
     answer = models.TextField(
@@ -70,7 +70,7 @@ class Question(TimeStampedModel):
         max_length=1000,
         blank=True,
         null=True,
-        help_text=variables_text_2
+        help_text=question_hint
     )
     # При изменение на статус "Сгенерирован",
     # ответ отправляется на почту спросившего
@@ -200,7 +200,7 @@ class Order(TimeStampedModel):
         _('Тема сообщения после смена статуса заказа на «Успешно Завершён»'),
         help_text=_(
             'Если вы не определите тему сообщения, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
-            variables_text_2
+            simple_hint
         ),
         max_length=200,
         default='',
@@ -213,7 +213,7 @@ class Order(TimeStampedModel):
         max_length=3200,
         help_text=_(
             'Если вы оставите сообщение пустым, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
-            variables_text_2
+            simple_hint
         ),
         default='',
         blank=True,
@@ -224,7 +224,7 @@ class Order(TimeStampedModel):
         _('Тема сообщения, после смена статуса заказа на «В процессе»'),
         help_text=_(
             'Если вы не определите тему сообщения, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
-            variables_text_2
+            simple_hint
         ),
         max_length=200,
         default='',
@@ -237,7 +237,7 @@ class Order(TimeStampedModel):
         max_length=3200,
         help_text=_(
             'Если вы оставите сообщение пустым, то будет использоваться глобальный шаблон из глобальных настроек.<br/>' +
-            variables_text_2
+            simple_hint
         ),
         default='',
         blank=True,

@@ -14,13 +14,21 @@ help_parts = {
                       '%(variable)s{{last_name}}%(close)s %(dash)s %(help)sИванович%(close)s%(br)s'
                       '%(variable)s{{middle_name}}%(close)s %(dash)s %(help)sИванов%(close)s%(br)s'
                       '%(variable)s{{full_name}}%(close)s %(dash)s %(help)sИван Иванович%(close)s%(br)s'
-                      '%(variable)s{{site}}%(close)s %(dash)s %(help)s%(site)s.%(close)s%(br)s' % node_parts,
-    "additional_variables": '%(variable)s{{consultant_num}}%(close)s %(dash)s %(help)s123456789%(close)s%(br)s'
-                            '%(variable)s{{refferal_ur}}%(close)s %(dash)s %(help)scosmeticsyou.ru/registration/123456789%(close)s%(br)s'
-                            '%(variable)s{{url_to_personal_room}}%(close)s %(dash)s %(help)spcosmeticsyou.ru/personal_room/123456789%(close)s%(br)s' % node_parts
+                      '%(variable)s{{site}}%(close)s %(dash)s %(help)s%(site)s.%(close)s%(br)s'
+                      '%(variable)s{{phone_number}}%(close)s %(dash)s %(help)sТелефон заказчика(Может отсутствовать)%(close)s%(br)s'
+                      '%(variable)s{{email}}%(close)s %(dash)s %(help)sEmail заказчика(Может отсутствовать)%(close)s%(br)s'% node_parts,
+    "question": '%(variable)s{{question}}%(close)s %(dash)s %(help)sВопрос заказчика%(close)s%(br)s' % node_parts,
+    "answer": '%(variable)s{{question}}%(close)s %(dash)s %(help)sВопрос заказчика%(close)s%(br)s' 
+                '%(variable)s{{answer}}%(close)s %(dash)s %(help)sВаш ответ.%(close)s%(br)s' % node_parts,
+    "ordered_products": '%(variable)s{{ordered_products}}%(close)s %(dash)s %(help)sЗаказанные прдеметы%(close)s%(br)s' % node_parts,
 }
-variables_text_1 = '<div class="variablesHint">Доступные переменные:<br/><br/>' \
-                   '%(main_variables)s %(additional_variables)s</div>' % help_parts
 
-variables_text_2 = '<div class="variablesHint">Доступные переменные:<br/><br/>' \
+
+simple_hint = '<div class="variablesHint">Доступные переменные:<br/><br/>' \
                    '%(main_variables)s<div>' % help_parts
+question_hint = '<div class="variablesHint">Доступные переменные:<br/><br/>' \
+                   '%(main_variables)s%(question)s<div>' % help_parts
+answer_hint = '<div class="variablesHint">Доступные переменные:<br/><br/>' \
+                   '%(main_variables)s%(answer)s<div>' % help_parts
+ordered_products_hint = '<div class="variablesHint">Доступные переменные:<br/><br/>' \
+                   '%(main_variables)s%(ordered_products)s<div>' % help_parts

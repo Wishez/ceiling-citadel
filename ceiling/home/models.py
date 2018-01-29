@@ -2,7 +2,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
-from home.help_parts import variables_text_2, variables_text_1
+from home.help_parts import simple_hint, answer_hint, ordered_products_hint
 from colorfield.fields import ColorField
 
 class Settings(TimeStampedModel):
@@ -88,7 +88,7 @@ class Settings(TimeStampedModel):
         blank=True,
         null=True,
         default="Панель администрирования пополнилась новым консультаном!",
-        help_text=variables_text_2
+        help_text=answer_hint
     )
     callback_called_message = models.TextField(
         _('Оповещение на телфон с обратным вызовом'),
@@ -97,7 +97,7 @@ class Settings(TimeStampedModel):
         null=True,
         default="{{last_name}} {{first_name}} {{middle_name}} хочет связаться с вами!"
                 'Его контактный телефон {{phone}}.',
-        help_text=variables_text_2
+        help_text=simple_hint
     )
     order_ordered_message = models.TextField(
         _('Оповещение на телфон о новом заказе'),
@@ -106,14 +106,14 @@ class Settings(TimeStampedModel):
         null=True,
         default="{{last_name}} {{first_name}} {{middle_name}} сделал заказ!"
                 'Его можно обработать по этой ссылке {{site}}/ссылка-до-заказа.',
-        help_text=variables_text_2
+        help_text=ordered_products_hint
     )
 
     # Notifications
     after_success_closing_order_subject = models.CharField(
         _('Тема сообщения после смена статуса заказа на «Успешно Завершён»'),
         help_text=_(
-            variables_text_2
+            simple_hint
         ),
         max_length=200,
         default='Успешно Завершён'
@@ -123,7 +123,7 @@ class Settings(TimeStampedModel):
         _('Сообщение после смена статуса заказа на «Успешно Завершён»'),
         max_length=3200,
         help_text=_(
-            variables_text_2
+            simple_hint
         ),
         default=_('{{first_name}} {{last_name}}, нам было приятно с вами сотрудничать' 
                   'и мы хотим дать вам крепкое рукопожатие, выcказав'
@@ -136,7 +136,7 @@ class Settings(TimeStampedModel):
     after_ordering_order_subject = models.CharField(
         _('Тема сообщения человека оформившего заказ'),
         help_text=_(
-            variables_text_2
+            simple_hint
         ),
         max_length=200,
         default='{{first_name}}, заказ оформлен!'
@@ -145,13 +145,13 @@ class Settings(TimeStampedModel):
         _('Сообщение для человека оформившего заказ'),
         max_length=3200,
         help_text=_(
-            variables_text_2
+            ordered_products_hint
         ),
         default=_('Здравствуйте, {{first_name}} {{last_name}}!'
                 'Мы получили ваш заказ и задокументировали его. '
                 ''
                 'Вы заказали: '
-                '{{items}}'
+                '{{ordered_products}}'
                 ' '
                 'В любом случае, мы свяжемся с вами, чтобы подтвердить задокументированное;).'
                 'С уважением, Наша-великолепная-команда-обработки-заказов.')
@@ -161,7 +161,7 @@ class Settings(TimeStampedModel):
     change_status_order_in_process_subject = models.CharField(
         _('Тема сообщения, после смена статуса заказа на «В процессе»'),
         help_text=_(
-            variables_text_2
+            simple_hint
         ),
         max_length=200,
         default='Перехватили ваш заказ, {{first_name}}!'
@@ -170,7 +170,7 @@ class Settings(TimeStampedModel):
         _('Сообщение, после смена статуса заказа на «В процессе»'),  # Сообщение для консультанта при смене номера консультаната
         max_length=3200,
         help_text=_(
-            variables_text_2
+            simple_hint
         ),
         default=_('Здравствуйте, {{first_name}} {{last_name}}!' 
                 ''
