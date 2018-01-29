@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import raven
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,6 +35,7 @@ SITE_ID=1
 # Application definition
 
 INSTALLED_APPS = [
+    'raven.contrib.django.raven_compat',
     'jet.dashboard',
     'jet',
     'django.contrib.admin',
@@ -43,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    # 'raven.contrib.django.raven_compat',
     'colorfield',
     'pages.apps.PagesConfig',
     'home.apps.HomeConfig',
@@ -55,10 +56,19 @@ INSTALLED_APPS = [
     'imagekit',
     'model_utils',
     'rest_framework',
-    'django_nose',
+    'django_nose'
 ]
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+
+RAVEN_CONFIG = {
+    'dsn': 'https://379b1f39be60411e9692eb4140e47c45:2980f17592ab4899a4db996cfeaffa9d@sentry.io/279105',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -191,6 +201,8 @@ LOCALE_PATHS = (
 JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(BASE_DIR, 'client_secrets.json')
 JET_DEFAULT_THEME = 'default'
 JET_SIDE_MENU_COMPACT = True
+JET_INDEX_DASHBOARD = 'pages.dashboard.CustomIndexDashboard'
+JET_APP_INDEX_DASHBOARD = 'dashboard.CustomAppIndexDashboard'
 JET_THEMES = [
     {
         'theme': 'default', # theme folder name
