@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import Logo from './Logo';
 import NavContainer from './../containers/NavContainer.js'; 
-import { Container } from 'semantic-ui-react';
+// import { Container } from 'semantic-ui-react';
   
 const Header = ({}) => (
   <header className='header'>
-      <Container>
-        <Logo />
-        <NavContainer />
-      </Container>
+      <div className="container">
+		<Logo />
+      </div>
   </header>
 );
+        // <NavContainer />
+        // <Contacts />
 
 export default Header;

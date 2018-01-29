@@ -46,28 +46,27 @@ p:not(:first-child)
 
 a 
   transition: .2s ease
+  color: $darkGray
   &, &:hover 
     text-decoration: none
-    background-image: linear-gradient(to right, $white  0%, $white 100%)
+    background-image: linear-gradient(to right, $darkGray  0%, $darkGray 100%)
     background-repeat: repeat-x
     background-position: bottom
     background-size: 0.05em 0.05em
   
-  color: $white
 
-  &:hover, &:focus 
+  &:hover, &:focus, &:active 
     // text-decoration: none  
-    $darkenWhite: darken($white, 25%)
-    color: $darkenWhite
-    background-image: linear-gradient(to right, $darkenWhite 0%, $darkenWhite 100%)
-    // color: $red
-    // background-image: linear-gradient(to right, $red 0%, $red 100%)
-  
-  &:active 
-    color: $red
-    // text-decoration: none  
-  
-  &:focus 
-    // text-decoration: none  
-  
+    // $$darkGray: darken($darkGray, 25%)
+    color: $darkBlue
+    background-image: linear-gradient(to right, $darkBlue 0%, $darkBlue 100%)
 
+
+.orange
+  color: $orange
+.cian
+  color: $cian
+.darkBlue
+  color: $darkBlue
+.brand__name
+  transform: 100%
