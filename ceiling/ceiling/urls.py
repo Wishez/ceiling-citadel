@@ -1,11 +1,8 @@
 from django.conf.urls import url, include
-from django.contrib import admin
-
 from django.conf.urls.static import static
 from django.conf import settings
 from myadmin.admin import admin_site
-
-# from django.contrib.static
+from jet.dashboard.dashboard_modules import google_analytics_views
 
 urlpatterns = [
     url(r'^jet/', include('jet.urls', 'jet')),
