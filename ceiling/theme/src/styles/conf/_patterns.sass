@@ -293,7 +293,29 @@
 	
 
 
-.image 
-	width: 100%
+.image, .container 
+  	width: span(12)
 
-	
+.container 
+	padding-right: em(15)
+	padding-left: em(15)
+	margin-right: auto
+	margin-left: auto
+
+
+@media (min-width: em(576)) 
+	.container 
+		max-width: 540px
+  
+
+
+@media (min-width: em(778)) 
+	.container 
+   		max-width: em(720)
+  
+
+
+@media (min-width: em(992)) 
+  	.container 
+    	max-width: em(960)
+  
