@@ -1,3 +1,6 @@
+// import lozad from 'lozad';
+
+
 export const cookiesHandler = {
 	setUsernameAndPasswordToCookies: ({
 		site,
@@ -27,4 +30,18 @@ export const convertDate = date => {
 		second: 'numeric'
 	});	
 };
+
+export const slideTo = () => {
+	$('html, body').animate({
+      scrollTop: $($(this).attr('href')).offset().top
+    }, 600, Linear.ease);
+}
+
+export const notFollow = event => {
+	const url = event.target.href;
+	  
+  	window.open(url);
+	  
+	e.preventDefault();
+}
 
