@@ -1,0 +1,302 @@
+.visible-hidden 
+	white-space: nowrap
+	overflow: hidden
+	clip: rect(1px, 1px, 1px, 1px)
+	width: 1px
+	height: 1px
+	position: absolute
+
+.visible-hidden-smLess 
+	@include breakpoint($sm-less) 
+		white-space: nowrap
+		overflow: hidden
+		clip: rect(1px, 1px, 1px, 1px)
+		width: 1px
+		height: 1px
+		position: absolute
+	  
+
+.visible-hidden-xs 
+	@include breakpoint($xs) 
+		white-space: nowrap
+		overflow: hidden
+		clip: rect(1px, 1px, 1px, 1px)
+		width: 1px
+		height: 1px
+		position: absolute
+	  
+
+
+.registrationButton 
+	&_red 
+		background-color: $red
+	
+	&_purple 
+		background-color: $purple
+	
+	&:disabled 
+		background-color: $gray
+		&__refer 
+			&:hover 
+				color: $darkGray $i
+			
+		
+		&:hover 
+			color: $darkGray $i
+			box-shadow: none
+		
+	
+	text-align: center
+	min-width: em(235, 21)
+	max-width: em(235, 21)
+	font-size: em(21)
+	display: inline-block
+	position: relative
+	@include round(em(2, 21))
+	&_centered 
+		margin: auto
+		display: block
+	
+	// @include flyShadow()
+	&_active 
+		background-color: $purple
+	
+	&__refer 
+		color: $white $i
+		padding: 1em 0
+		display: block
+		background-image: none $i
+		&:hover 
+			color: $white $i
+			background-image: none $i 
+		
+	
+	@extend %all-transition-3
+	&:hover, &:focus, &:active 
+		@extend %flyShadow
+		z-index: 3
+	
+
+
+.imageContainer 
+	display: inline-block
+	&, &__image 
+		transition: .3s ease-in-out
+		width: span(12)
+	
+	&__image 
+		background: center no-repeat
+		background-size: cover
+	
+
+
+.closeButton 
+	background-color: transparent
+	border: 0
+	color: $white
+	cursor: pointer
+	max-width: 15%
+	position: absolute
+	right: 1em
+	top: 1em
+
+
+.description 
+	position: absolute
+	box-shadow: 0 10px 35px -1px $shadow
+	font: 
+		size: 18px $i
+		family: $mainFont
+	
+	text-align: left
+	text-transform: initial
+	&_purple 
+		background-color: $purple
+	
+	&_black 
+		background-color: $darkGray	
+	
+	opacity: 0
+	z-index: -1
+	@include round(em(2, 21))
+	font-size: em(24)
+	min-width: em(350, 21)
+	color: $white
+	padding:  em(21, 21) em(21, 21) em(32, 21)
+	// line-height: 2
+	transition: opacity .3s ease
+	&__title 
+		border-bottom: 1px solid #adadad
+		font-size: em(24)
+		padding-right: 1em
+		padding-bottom: .3em
+		justify-content: space-between
+		@include breakpoint($xxs)  
+			font-size: em(21)
+		
+		& .closeButton 
+			text-align: right
+			
+		
+	
+	&_inline 
+		top: 0 $i
+		bottom: auto $i
+	
+	&_beneath 
+		top: 100% $i
+		bottom: auto $i
+		// top: calc(100% + 1em)
+	
+	&_right 
+		right: 0 $i
+		left: auto $i
+		// right: calc(0 - 1em)
+
+	
+	&_left 
+		left: 0 $i
+		right: auto $i
+		// left: calc(0 - 1em)
+	
+	&_upstair 
+		bottom: 100% $i
+		top: auto $i
+		// bottom: calc(100% - 1em)
+	
+	@include breakpoint($xxs) 
+		min-width: 100vw$i
+		left: 0 $i
+		position: fixed
+	
+
+.descriptionContent 
+	margin-top: 1em
+	& a 
+		color: $white $i
+		background-image: linear-gradient(to right, $white 0%, $white 100%) $i
+	
+
+.shown_element 
+	opacity: 1 $i
+	z-index: 2 $i
+
+.showPopup 
+	position: relative
+
+.controller 
+	flex-basis: span(12)
+	&:not(:first-child) 
+		margin-top: 1em
+	
+
+	&_required 
+		color: $red
+	
+	&__icon 
+		margin-bottom: .15em
+	
+	&__input 
+		min-width: span(12)
+		max-width: span(12)
+		font-size: em(18, 21)
+		padding: em(16) em(12.5)
+		@include round(em(2, 21))
+		background-color: $gray
+		border-width: 2px 
+		border-style: solid
+		&_purple 
+			border-color: $purple
+			&:focus 
+				&:invalid 
+					border-color: $red//#5C1D31	
+				
+				&:valid 
+					border-color: #437A67	
+				
+			
+		
+		&_red 
+			border-color:  $red
+			&:focus 
+				&:invalid 
+					border-color: $purple//#5C1D31	
+				
+				&:valid 
+					border-color: #437A67	
+				
+			
+		
+		&_select 
+			padding: .5em
+			margin-top: .5em
+			max-height: em(200)
+		
+
+	
+
+	
+	&__label 
+		align-self: flex-end
+	
+	&__checkbox 
+		-webkit-appearance: none
+		align-self: center
+		cursor: pointer
+		// padding: em(9)
+		height: em(26)
+		width: em(26)
+		border: 2px solid $purple
+		background-color: $gray
+		max-width: span(1)
+		margin-right: span(1) / 2
+		display: inline-block
+		position: relative
+		@include round(em(2))
+		&:checked:active 
+
+		
+		&:checked:after 
+			content: '\2714'
+			// font-size: em(15)
+			position: absolute
+			top: em(1)
+			left: em(3)
+			color: $darkGray
+		
+	
+	&__checkboxLabel 
+		color: $white
+		padding: .5em 0 .8em 1em 
+		max-width: span(10)
+		background-color: $red
+		@include round(em(2))
+	
+
+
+.restrictBlock 
+	margin: auto
+	max-width: em(1350)
+
+
+.button 
+	border: 0
+	width: 100%
+	max-width: em(125)
+	color: $white
+	@include round(em(2))
+	&_purple 
+		background-color: $purple
+	
+	&_red 
+		background-color: $red
+	
+
+
+.image 
+	width: 100%
+
+// .centered 
+// 	margin-left: auto
+// 	margin-right: auto
+// 

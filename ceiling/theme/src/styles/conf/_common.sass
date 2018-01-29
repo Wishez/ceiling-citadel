@@ -1,0 +1,73 @@
+html, body 
+  min-height: 100%
+  overflow-x: hidden
+  -webkit-overflow-scrolling: touch
+
+body 
+  & * 
+    margin: 0
+    padding: 0
+    border: 0
+    text-decoration: none
+  
+  position: relative
+  font: 
+    family: $mainFont
+    size: 18px
+  
+  line-height: 1.4
+  word-break: break-word
+  hyphens: auto
+  -webkit-hyphenate-before: 2
+  -webkit-hyphenate-after: 3
+  hyphenate-lines: 3
+  background-color: $white
+  color: $darkGray
+
+h1 
+  font-size: em(28)
+
+h2 
+  font-size: em(24) 
+
+h1, h2, h3, h4, h5, h6  
+  font-family: $decorativeFont
+  line-height: 1.5
+  letter-spacing: .12em
+
+button 
+  cursor: pointer
+
+p, li 
+  max-width: 60rem
+
+p:not(:first-child) 
+  margin-top: 1em
+
+a 
+  transition: .2s ease
+  &, &:hover 
+    text-decoration: none
+    background-image: linear-gradient(to right, $white  0%, $white 100%)
+    background-repeat: repeat-x
+    background-position: bottom
+    background-size: 0.05em 0.05em
+  
+  color: $white
+
+  &:hover, &:focus 
+    // text-decoration: none  
+    $darkenWhite: darken($white, 25%)
+    color: $darkenWhite
+    background-image: linear-gradient(to right, $darkenWhite 0%, $darkenWhite 100%)
+    // color: $red
+    // background-image: linear-gradient(to right, $red 0%, $red 100%)
+  
+  &:active 
+    color: $red
+    // text-decoration: none  
+  
+  &:focus 
+    // text-decoration: none  
+  
+

@@ -1,0 +1,35 @@
+$susy: (use-custom: (em: true), columns: 12, gutters: 0, gutter-position: split, global-box-sizing: border-box)
+
+@include border-box-sizing
+$border-box-sizing : true
+$gutters: 0
+
+.parent 
+	display: flex
+.row
+	flex-flow: row wrap
+.column
+	flex-flow: column wrap
+
+.baseChild 
+	flex: 1 0 20%
+.h-around
+	justify-content: space-around
+.h-between
+	justify-content: space-between
+.h-start
+	justify-content: flex-start
+.h-end
+	justify-content: flex-end
+.h-centered
+	justify-content: center
+
+.v-centered
+	align-items: center
+.v-start
+	align-items: flex-start
+.v-end
+	align-items: flex-end
+.centered 
+	justify-content: center
+	align-items: center
