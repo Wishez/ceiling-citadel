@@ -5,12 +5,14 @@ const Button = ({
 	block, 
 	element='',
 	modifier='',
-	href,
 	content,
-	children
+	children,
+	className,
+	...rest
 }) => (
-	<button href={href}
-		className={getClass(composeClasses(block, element, modifier))}>
+	<button {...rest}
+		aria-pressed={false}
+		className={`${getClass(composeClasses(block, element, modifier, `button`))} ${className}`}>
 		{content}
 		{children}
 	</button>
