@@ -75,18 +75,17 @@ class NavContainer extends Component {
 
 
   render() {
-
+    const { isOpened } = this.props;
     return (
       <div>
         <MenuButton 
-            {...this.props} 
+            isOpened={isOpened}
             openMenu={this.openMenu}
             closeMenu={this.closeMenu} />
         <Navigation {...this.props}
             navStyles={this.state.navStyles}
             getActiveClasses={this.getActiveClasses}
             changeActiveNavigationItem={this.changeActiveNavigationItem}
-            smoothRise={this.smoothRise}
         />
       </div>
     );

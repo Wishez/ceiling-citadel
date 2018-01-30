@@ -181,11 +181,12 @@
 	opacity: 1 $i
 	z-index: 2 $i
 
-.showPopup 
-	position: relative
+	
 
 .controller 
+	
 	flex-basis: span(12)
+
 	&:not(:first-child) 
 		margin-top: 1em
 	
@@ -195,7 +196,6 @@
 	
 	&__icon 
 		margin-bottom: .15em
-	
 	&__input 
 		min-width: span(12)
 		max-width: span(12)
@@ -280,10 +280,14 @@
 
 
 .button 
-	border: 0
 	width: 100%
 	max-width: em(125)
-	color: $white
+	color: $darkGray
+	border: 2px solid
+	border-radius: em(2)
+	padding: 1em .5em
+	background-color: transparent
+	min-width: em(95, 10)
 	@include round(em(2))
 	&_purple 
 		background-color: $purple

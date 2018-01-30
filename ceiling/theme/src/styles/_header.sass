@@ -1,0 +1,79 @@
+
+%relative
+	position: relative
+%absolute
+	position: absolute
+.searchButton, .menuButton
+	border: 0
+	padding: 0
+	height: auto
+.searchButton
+	min-width: auto
+.menuButton
+	width: span(1)
+.upper
+	text-transform: uppercase
+	letter-spacing: .12
+.menuButton
+	&__text
+		width: span(12)
+		margin-top: em(3)
+
+	&__bar
+		width: em(55)
+		margin: em(2.99) 0
+		height: em(7)
+		&_darkBlue
+			max-width: span(8)
+			background-color: $darkBlue
+		&_cian
+			max-width: span(10)
+			background-color: $cian
+		&_orange
+			max-width: span(12)
+			background-color: $orange
+	&_open
+	&_close
+
+.header
+	@extend %relative
+.navigation
+	@extend %absolute
+	min-width: span(12)
+	font-size: em(24)
+	left: 0
+	top: 100%
+	padding: em(45) 0
+	color: $gray
+	&, & *
+		transition: .4s ease-in-out
+		will-change: opacity, max-height
+		opacity: 0
+		max-height: 0
+	&_opened
+		&, & *
+			max-height: none
+			opacity: 1
+
+
+
+.brand
+	text-align: center
+	&__name
+		font-size: em(28)
+	&__slogan
+		font-size: em(7)
+
+.navItem
+	text-align: center
+	background-image: none
+	font-size: em(21)
+	&:not(:first-of-type)
+		margin-top: em(14, 21)
+	&_active
+		& .navItem__refer_darkBlue
+			color: $darkBlue
+		& .navItem__refer_cian
+			color: $cian
+		& .navItem__refer_orange
+			color: $orange

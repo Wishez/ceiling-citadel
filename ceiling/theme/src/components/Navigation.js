@@ -1,39 +1,39 @@
 import React from 'react';
 import NavItem from './NavItem';
-import getClass from './../constants/classes';
+import getClass, { composeClasses } from './../constants/classes';
 
 const Navigation = ({
     navigationItems,
     closeMenu,
     changeActiveNavigationItem,
-    smoothRise,
+    isOpened,
     getActiveClasses,
     navStyles,
     ...rest
 }) => (
-   <nav className={getClass({
-        b: "navigation",
-        add: "parent centered column"
-    })}
+   <nav className={getClass(composeClasses("navigation", "", isOpened ? "opened" : "closed", "baseChild"))}
    >
-      
       <ul className={getClass({
-          b: 'navList'
+          b: 'navList',
+          add: "parent centered column baseChild"
         })}
           id='navList'
           style={navStyles}>
           { navigationItems.map((item, index) => (
-              <li className={getActiveClasses(item.active)} 
+              <li className={getClass(
+                composeClasses("navItem", "", item.active ? "active" : "", "")
+              )} 
                 key={index}
                 onClick={changeActiveNavigationItem(item.index)} 
               >  
                 <NavItem
                   block='navItem'
                   href={item.pathTo}
-                  name={item.name}
                   isActive={item.active}
                   {...rest}
-                />
+                >
+                  {item.name}
+                </NavItem>
               </li>
             ))}
         </ul>

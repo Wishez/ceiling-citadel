@@ -4,38 +4,53 @@ import Button from './Button';
 
 const MenuButton = ({
 	openMenu,
-    isOpened,
-    closeMenu,
-    ...rest
+  isOpened,
+  closeMenu,
+  className,
+  modifier,
+  ...rest
 }) => (
-	<Button id='menuButton'
-      className={getClass({
-        b: "navigation",
-        el: isOpened ? "closeMenuButton" : "openMenuButton"
-      })}
-      size='big'
-      icon='bars'
-      onClick={isOpened ? closeMenu : openMenu} 
-    >
-     
-
+	<Button
+      id='menuButton'
+      className={getClass(
+        composeClasses(
+          "menuButton", 
+          '', 
+          modifier, 
+          `parent column centered ${className} ${isOpened ? "menuButton_open" : "menuButton_close"}`
+        )
+      )}
+      onClick={isOpened ? closeMenu : openMenu}
+   >
       <span className={getClass({
-        b: "bar",
-        m: "orange"
+        b: "menuButton",
+        el: "bar",
+        m: "orange",
+        add: "baseChild"
       })}></span>
       <span className={getClass({
-        b: "bar",
-        m: "cian"
+        b: "menuButton",
+        el: "bar",
+        m: "cian",
+        add: "baseChild"
       })}></span>
-      <span className={`visible-hidden ${getClass({
-        b: "bar",
-        m: "cian"
-      })}`}></span>
       <span className={getClass({
-        b: "bar",
-        m: "darkBlue"
+        b: "menuButton",
+        el: "bar",
+        m: "cian",
+        add: "visible-hidden"
       })}></span>
-
+      <span className={getClass({
+        b: "menuButton",
+        el: "bar",
+        m: "darkBlue",
+        add: "baseChild"
+      })}></span>
+      <span className={getClass({
+        b: "menuButton",
+        el: "text",
+        add: "baseChild upper"
+      })}>Меню</span>
     </Button>
 );
 
