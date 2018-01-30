@@ -1,24 +1,35 @@
 import React from 'React';
+import getClass from './../constants/classes';
 
 const Figure = ({
 	block,
 	url,
-	width,
-	height,
-	maxWidth
+	name,
+	maxWidth,
+	sources,
+	className
 }) => (
-	<div className={`imageContainer ${block}ImageContainer`}
+	<picture className={getClass({
+			b: block,
+			add: `imageContainer imageContainer_${name} ${className}` 
+		})}
 		style={{
-			maxWidth: `${maxWidth}px`
+			maxWidth: maxWidth
 		}}
 	>
-		<figure
-			className={`imageContainer__image ${block}ImageContainer__image`}
-			style={{
-				backgroundImage: `url(${url})`,
-				paddingBottom: `${height / width * 100}%`
-			}} />
-	</div>
+		{sources ? 
+			sources.map(source =>
+				<source srcSet={source.url} media={source.media}/>		
+			) : 
+			<source srcSet={url} media="screen" />
+		}
+		<img src={url} 
+			className={getClass({
+				b: block,
+				el: "image",
+				add: `imageContainer__image imageContainer__image_${name}` 
+		})} />
+	</picture>
 );
 
 export default Figure;
