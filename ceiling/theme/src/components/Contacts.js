@@ -11,7 +11,7 @@ const Contacts = ({
 	address,
 	addressHref
 }) => (  
-  <ul className={getClass(composeClasses('contacts', '', modifier))}>
+  <ul className={getClass(composeClasses('contacts', '', modifier, 'baseChild'))}>
     <li className={getClass({b:"contactsItem"})}
     	itemScope 
     	itemType="https://schema.org/ContactPoint"
