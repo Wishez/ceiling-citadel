@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input } from 'semantic-ui-react';
-
+import getClass, { composeClasses } from './../constants/classes';
+import Figure from './Figure';
+import _styles  from './../index.sass';
 
 const RenderController = ({
 	input,
@@ -9,23 +10,49 @@ const RenderController = ({
 		error,
 		warning
 	},
-	block,
+	block="controller",
 	label,
-	modifier,
+	modifier="",
 	style,
+	iconOptions,
 	...rest
 }) => (
 	<div style={style ? style : {}} 
-		className={`${block} ${modifier ? [block, modifier].join('_') : ''}`}>
-		<label className={`${block}__label`}>{label}</label>
-		<Input {...input}
-			{...rest}
-			className={`${block}__input`} /> 
+		className={getClass({
+			b: block,
+			m: modifier
+		})}>
+			{label ? 
+				<label className={getClass({
+					b: block,
+					el: "label"
+				})}>
+					{label}
+				</label> : ''}
+			{iconOptions ? 
+				<Figure 
+					block="controllerIcon" 
+					{...iconOptions} 
+				/> : ''
+			}
+			<input {...input}
+				{...rest}
+				className={getClass({
+					b: block,
+					el: "input"
+				})} 
+			/> 
 			
 		 {touched && 
 		 	((error && 
-		 		<span className={`${block}__error formError`}>{error}</span>) || 
-		 		(warning && <span className={`${block}__error`}>{warning}</span>))}
+		 		<span className={getClass({
+					b: block,
+					el: "error"
+				})}>{error}</span>) || 
+		 		(warning && <span className={getClass({
+					b: block,
+					el: "error"
+				})}>{warning}</span>))}
 
 	</div>
 );
