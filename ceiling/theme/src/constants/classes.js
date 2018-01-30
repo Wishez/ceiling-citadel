@@ -1,16 +1,26 @@
 import _styles from '../index.sass'
 
-export const composeClasses = (block, element, modifier) => {
+export const composeClasses = (block, element, modifier, additionalClasses) => {
 	let composedClasses = {};
 
 	composedClasses.b = block;
-	if  (element)
+
+	if  (element) {
 		composedClasses.el = element;
-	if (modifier)
+	}
+
+	if (modifier) {
 		composedClasses.m = modifier;
+	}
+
+	if (additionalClasses) {
+		composedClasses.add = additionalClasses;
+	}
 
 	return composedClasses;		
 };
+
+const toCapitalize = str =>  str.charAt(0).toUpperCase() + str.slice(1);
 
 function getClass({
 	b='', 
@@ -19,23 +29,33 @@ function getClass({
 	add='',
 	styles=_styles
 }) {
-	let additionalClasses = add
-		.split(' ')
-		.map(additionalClass => styles[additionalClass])
-		.join(' ');
+	const elementClass =  `${b}__${el}`;
+	const blockClass = b;
+
+	if (add.indexOf(' ') !== -1) {
+		add = add
+			.split(' ')
+			.map(additionalClass => additionalClass in styles ? styles[additionalClass] : '')
+			.join(' ');
+	} else {
+		add = add in styles ? styles[add] : '';
+	}
+	b = blockClass in styles ? styles[blockClass] : '';
+	el = elementClass in styles  ? styles[elementClass] : '';
 	
-	b = b ? styles[b] : '';
-	el = el ? styles[`${b}__${el}`] : '';
 	
-	if (el) 
+	if (el)  {
 		b = '';
+	}
 
 	if (el && m) {
-		m =  m ? styles[`${b}__${el}_${m}`] : '';
+		m =  m ? styles[`${elementClass}_${m}`] : '';
 	} else if (b && m) {
-		m =  m ? styles[`${b}_${m}`] : '';
+		m =  m ? styles[`${blockClass}_${m}`] : '';
 	}
-	return `${b} ${el} ${m} ${additionalClasses}`;
+	return [b, el, m, add]
+		.filter(filteredClass => filteredClass)
+		.join(" ");
 }
 
 export default getClass;
