@@ -2,21 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import Header from './../components/Header';
+import HeaderContainer from './HeaderContainer';
 // import Footer from './../components/Footer';
 // import Main from './../components/Main';
-
+import './../tests/cart';
 
 class App extends Component {
-	componentDidMount() {
-		
-	}
+  componentDidMount() {
+    
+  }
 
   render() {
     return (
-    	<div>
-      	<Header />
-        
+      <div>
+        <HeaderContainer />    
       </div>
     );
   }
@@ -24,6 +23,10 @@ class App extends Component {
 
       	// <Main />	
       	// <Footer />
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+  console.log(state);
+  
+  return {}
+};
 
 export default withRouter(connect(mapStateToProps)(App));

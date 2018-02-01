@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import Navigation from './../components/Navigation';
 import MenuButton from './../components/MenuButton';
 import { selectNavigationItem, openMenu as open, closeMenu as close } from './../actions/navigationActions.js';
-
+import getClass from './../constants/classes';
 
 class NavContainer extends Component {
   static propTypes = { 
@@ -23,37 +23,7 @@ class NavContainer extends Component {
   openMenu = () => {
     const { dispatch } = this.props;
     dispatch(open());
-    // const isMobile = window.innerWidth <= 800;
-
-    // if (isMobile) {
-
-    //   if (!this.state.isOpen) {
-    //     this.setState({
-    //       isOpen: true,
-    //       navStyles: {
-    //         'width': '100%',
-    //         'opacity': '1'
-    //       }
-    //     });
-        
-    //   } else {
-    //       this.closeMenu();
-    //   }
-    // }
-  };
-
-  // smoothRise = e => {
-  //   let element = $(e.target).attr('href');
-  //   if (!element)
-  //     element = $(e.target).parent().attr('href');
-  //   const pathTo = $(element).offset().top;
-    
-  //   $('body, html')
-  //     .stop()
-  //     .animate({
-  //       scrollTop: pathTo
-  //     }, 800);
-  // }
+  }
 
   changeActiveNavigationItem = navigationItem => () => {
         this.props.dispatch(selectNavigationItem(navigationItem));
@@ -77,13 +47,14 @@ class NavContainer extends Component {
   render() {
     const { isOpened } = this.props;
     return (
-      <div>
+      <div className={getClass({
+        b: "navigationContainer"
+      })}>
         <MenuButton 
             isOpened={isOpened}
             openMenu={this.openMenu}
             closeMenu={this.closeMenu} />
         <Navigation {...this.props}
-            navStyles={this.state.navStyles}
             getActiveClasses={this.getActiveClasses}
             changeActiveNavigationItem={this.changeActiveNavigationItem}
         />
