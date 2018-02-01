@@ -18,8 +18,7 @@ const Search = ({
 }) => (
 	<form className={getClass({
 			b: "searchForm",
-			add: "baseChild parent row h-between"
-
+			add: "baseChild parent row h-between v-centered"
 		})}
 		onSubmit={handleSubmit(submitSearch.bind(this))}
 	>
@@ -28,6 +27,8 @@ const Search = ({
 			max-lenght="150"
 			placeholder="Поиск"
 			component={RenderController}
+			className="baseChild"
+			modifier="search"
 		/>
 		<Button 
 			block="searchButton"

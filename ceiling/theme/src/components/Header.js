@@ -14,7 +14,7 @@ const Header = ({
   quantityOrderedProducts
 }) => (
   	<header className={getClass({b: 'header'})}>
-  	  <div className={getClass({b: 'container',  add: "parent row v-center"})}>
+  	  <div className={getClass({b: 'container',  add: "parent row v-centered h-around"})}>
       		<NavContainer />
       		<Contacts 
       			phone={` +7 (985) 905-12-51`}
@@ -29,6 +29,6 @@ const Header = ({
       </div>
   	</header>
 );
-        // <Contacts />
+      
 
 export default Header;
