@@ -1,1 +1,1 @@
-export const REQUEST_VIDEOS = 'REQUEST_VIDEOS';
+export const SET_USER_DATA = 'SET_USER_DATA';
