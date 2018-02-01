@@ -17,32 +17,92 @@ export const initState = {
 	products: [{
      	name: "Редкий предмет",
       	uuid: "",
-      	quantity: 1
+      	quantity: 1,
+      	combustibility: "",
+        acoustics: "",
+        lightning: "",
+        edges: "",
+        material: "",
+        colors: "",
+        width: "",
+        height: "",
+        length: "",
+        thickness: "",
     },
     {
       	name: "Великолепный предмет",
       	uuid: "",
-      	quantity: 1
+      	quantity: 1,
+      	combustibility: "",
+        acoustics: "",
+        lightning: "",
+        edges: "",
+        material: "",
+        colors: "",
+        width: "",
+        height: "",
+        length: "",
+        thickness: "",
     },
     {
      	name: "Редкий предмет",
       	uuid: "",
-      	quantity: 1
+      	quantity: 1,
+      	combustibility: "",
+        acoustics: "",
+        lightning: "",
+        edges: "",
+        material: "",
+        colors: "",
+        width: "",
+        height: "",
+        length: "",
+        thickness: "",
     },
     {
       	name: "Великолепный предмет",
       	uuid: "",
-      	quantity: 1
+      	quantity: 1,
+      	combustibility: "",
+        acoustics: "",
+        lightning: "",
+        edges: "",
+        material: "",
+        colors: "",
+        width: "",
+        height: "",
+        length: "",
+        thickness: "",
     },
     {
      	name: "Редкий предмет",
       	uuid: "",
-      	quantity: 1
+      	quantity: 1,
+      	combustibility: "",
+        acoustics: "",
+        lightning: "",
+        edges: "",
+        material: "",
+        colors: "",
+        width: "",
+        height: "",
+        length: "",
+        thickness: "",
     },
     {
       	name: "Великолепный предмет",
       	uuid: "",
-      	quantity: 1
+      	quantity: 1,
+      	combustibility: "",
+        acoustics: "",
+        lightning: "",
+        edges: "",
+        material: "",
+        colors: "",
+        width: "",
+        height: "",
+        length: "",
+        thickness: ""
     }
     ],
 	quantityOrderedProducts: 0,
@@ -75,7 +135,7 @@ const cart = (
 					...state.products,
 					action.product
 				],
-				quantityOrderedProducts: state.products.length + 1
+				quantityOrderedProducts: state.quantityOrderedProducts + 1
 			};
 		case DELETE_PRODUCT:
 			index = action.id;
@@ -87,7 +147,7 @@ const cart = (
 					...products.slice(0, index),
 					...products.slice(index + 1)
 				],
-				quantityOrderedProducts: state.products.length - 1
+				quantityOrderedProducts: state.quantityOrderedProducts - 1
 			};
 		case CHANGE_PRODUCT_QUANTITY:
 			products = state.products;

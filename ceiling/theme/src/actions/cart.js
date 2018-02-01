@@ -14,17 +14,18 @@ export const putProduct = product => ({
 	product
 });
 
-const deleteProduct = id => ({
+export const deleteProduct = id => ({
 	type: DELETE_PRODUCT,
 	id
 });
 
 
-const showHelpText = helpText => ({
+
+export const showHelpText = helpText => ({
 	type: SHOW_HELP_TEXT,
 	helpText
 });
-const hideHelpText = () => ({
+export  const hideHelpText = () => ({
 	type: HIDE_HELP_TEXT
 });
 
