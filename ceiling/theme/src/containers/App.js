@@ -6,6 +6,11 @@ import HeaderContainer from './HeaderContainer';
 // import Footer from './../components/Footer';
 // import Main from './../components/Main';
 import './../tests/cart';
+import './../tests/app';
+import './../tests/callback';
+import './../tests/catalog';
+import './../tests/search';
+import './../tests/order';
 
 class App extends Component {
   componentDidMount() {
