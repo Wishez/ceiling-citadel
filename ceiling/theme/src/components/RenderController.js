@@ -15,17 +15,20 @@ const RenderController = ({
 	modifier="",
 	style,
 	iconOptions,
+	className,
 	...rest
 }) => (
 	<div style={style ? style : {}} 
 		className={getClass({
 			b: block,
-			m: modifier
+			m: modifier,
+			add: className
 		})}>
 			{label ? 
 				<label className={getClass({
 					b: block,
-					el: "label"
+					el: "label",
+					m: modifier
 				})}>
 					{label}
 				</label> : ''}
@@ -39,7 +42,8 @@ const RenderController = ({
 				{...rest}
 				className={getClass({
 					b: block,
-					el: "input"
+					el: "input",
+					m: modifier
 				})} 
 			/> 
 			
