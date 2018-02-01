@@ -1,20 +1,20 @@
 
-%relative
-	position: relative
-%absolute
-	position: absolute
 .searchButton, .menuButton
 	border: 0
 	padding: 0
 	height: auto
 .searchButton
 	min-width: auto
-.menuButton
-	width: span(1)
+	padding-top: .5em
+
+
+	
 .upper
 	text-transform: uppercase
 	letter-spacing: .12
 .menuButton
+	min-width: auto
+
 	&__text
 		width: span(12)
 		margin-top: em(3)
@@ -23,6 +23,7 @@
 		width: em(55)
 		margin: em(2.99) 0
 		height: em(7)
+		transition: .2s ease
 		&_darkBlue
 			max-width: span(8)
 			background-color: $darkBlue
@@ -32,11 +33,33 @@
 		&_orange
 			max-width: span(12)
 			background-color: $orange
-	&_open
-	&_close
+		&_cross
+			&_right, &_left
+				border-radius: 2px
+				max-width: span(10)
+				margin: .5em 0
+			&_right
+				transform: rotate(-45deg) translate(-.5em, .5em)
+			&_left
+				transform: rotate(45deg) translate(-.5em, -.5em)
 
+		&_floor
+			max-width: span(12)
+	&_open
+
+	&_close
+.searchForm
+	
+	max-width: span(2.75)
+.contacts
+	font-size: em(18)
+	max-width: span(2.25)
+.contactsItem
+	&__label
+		color: $gray
 .header
 	@extend %relative
+	padding-bottom: 1em
 .navigation
 	@extend %absolute
 	min-width: span(12)
@@ -45,35 +68,77 @@
 	top: 100%
 	padding: em(45) 0
 	color: $gray
+	background-color: #F2F2F2
+	border-top: 1px solid $darkGray
 	&, & *
-		transition: .4s ease-in-out
+		transition: opacity .2s, max-height .3s, font-size .2s linear, color .1s 
+		font-size: 0
 		will-change: opacity, max-height
 		opacity: 0
 		max-height: 0
 	&_opened
 		&, & *
 			max-height: none
+			font-size: em(18)
 			opacity: 1
+.navigationContainer
+	max-width: span(2)
 
-
-
+.brand
+	max-width: span(2)
+.buttonsGroup
+	max-width: span(2.15)
 .brand
 	text-align: center
 	&__name
 		font-size: em(28)
 	&__slogan
 		font-size: em(7)
+.controller_search
+	min-width: auto
+	max-width: span(10)
+.navList
+	flex-wrap: nowrap
 
 .navItem
 	text-align: center
-	background-image: none
 	font-size: em(21)
+	font-weight: 800
+	min-height: em(27, 21)
+	transition: font-size .1s
+	&__refer
+		transition: .2s ease
+		&, &:hover
+			background-image: none
+
 	&:not(:first-of-type)
 		margin-top: em(14, 21)
-	&_active
+	&_active, &:hover
 		& .navItem__refer_darkBlue
 			color: $darkBlue
 		& .navItem__refer_cian
 			color: $cian
 		& .navItem__refer_orange
 			color: $orange
+
+
+.orderButtons, .callbackButtons
+	margin-top: em(11)
+	&__button
+.callbackFigureButton, .quantityOrderedProductsButton
+	background: transparent
+	will-change: transform
+	transition: transform .3s ease-in-out
+.callbackFigureButton
+	&:hover
+		transform: rotate(-360deg) scale(1.02)
+.quantityOrderedProductsButton
+	&:hover
+		transform: scale(1.02)
+
+
+
+
+
+
+

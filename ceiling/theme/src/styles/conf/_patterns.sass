@@ -89,16 +89,50 @@
 		background-size: cover
 	
 
-
 .closeButton 
-	background-color: transparent
-	border: 0
-	color: $white
-	cursor: pointer
-	max-width: 15%
-	position: absolute
-	right: 1em
-	top: 1em
+	background-color: $darkGray
+	&, &::after 
+		@extend %round
+	@extend %absolute
+	border: 0 
+	z-index: 1
+	width: em(18)
+	height: em(18)
+	right: em(-8)
+	top: em(-9)
+	font-size: em(28)
+	box-shadow: -2px 2px 2px $shadow
+	will-change: transform
+	transition: transform .2s ease-in-out, box-shadow .3s ease
+	&:hover
+		transform: rotate(25deg)
+		box-shadow: 0 0 2px $shadow
+	&__bar
+		@extend %absolute
+		width: em(7)
+		height: em(1.1)
+		border-radius: 2px
+		background-color: $white
+		z-index: 3
+		left: em(9.7, 28)
+		top: em(15, 28)
+		&_right
+			transform: rotate(-45deg)
+		&_left
+			transform: rotate(45deg)
+
+	&::after 
+		content: ""
+		@extend %absolute
+		z-index: 2
+		width: em(11)
+		height: em(11)
+		top: em(6.3, 28)
+		left: em(6.2, 28)
+		@extend %shadow
+		background-color: $orange
+	
+	
 
 
 .description 
@@ -123,7 +157,6 @@
 	min-width: em(350, 21)
 	color: $white
 	padding:  em(21, 21) em(21, 21) em(32, 21)
-	// line-height: 2
 	transition: opacity .3s ease
 	&__title 
 		border-bottom: 1px solid #adadad
@@ -184,8 +217,6 @@
 	
 
 .controller 
-	
-	flex-basis: span(12)
 
 	&:not(:first-child) 
 		margin-top: 1em
@@ -202,7 +233,7 @@
 		font-size: em(18, 21)
 		padding: em(16) em(12.5)
 		@include round(em(2, 21))
-		background-color: $gray
+		background-color: #C4C4C4
 		border-width: 2px 
 		border-style: solid
 		&_purple 
@@ -283,19 +314,132 @@
 	width: 100%
 	max-width: em(125)
 	color: $darkGray
-	border: 2px solid
+	border: 2px solid $darkGray
 	border-radius: em(2)
-	padding: 1em .5em
+	padding: .75em .5em
 	background-color: transparent
 	min-width: em(95, 10)
 	@include round(em(2))
-	&_purple 
-		background-color: $purple
+	&_cian 
+		background-color: $cian
 	
-	&_red 
-		background-color: $red
+	&_black
+		background-color: $darkGray
+	&_black, &_darkBlue, &_cian 
+		color: $white
+	&_darkBlue
+		background-color: $darkBlue
+	&_orange
+		background-color: $orange
+	@include flyShadow
 	
+.orderButtons
+	@extend %relative
+.shown_element
+	opacity: 1
+.hidden_element
+	opacity: 0
 
+.cart
+	font-size: em(24)
+	width: em(300)
+	margin-top: em(1, 24)
+	transition: opacity .2s
+	@extend %relative
+	&_hover
+		@extend %absolute
+		top: 100%
+		transform: translateY(1em)
+		right: 0
+
+		@extend %flyShadow
+	&__hint
+		@extend %absolute
+		left: 0
+		left: calc(0% + 3px)
+		top: 0
+		top: calc(0% + 3px)
+		border: 2px solid $darkBlue
+		border-top: 0
+		border-left: 0
+		color: $white
+		font-size: em(16, 24)
+		padding: .5em
+		text-align: center
+		width: span(5)
+		margin: 0 $i
+		background-color: $orange
+		z-index: -1
+		opacity: 0
+		will-change: opacity
+		transition: opacity .2s ease
+		&_shown
+			z-index: 4
+		&_empty,  &_shown
+			opacity: 1
+		&_empty
+			z-index: 1
+
+
+
+.cartProducts
+
+.orderedProducts
+	background-repeat: no-repeat
+	background-size: cover
+	background-position: center
+	&::-webkit-scrollbar-track
+		-webkit-box-shadow: inset 0 0 6px $shadow
+		background-color: $darkGray
+
+	&::-webkit-scrollbar
+		background-color: $darkGray
+		width: 16px
+	&::-webkit-scrollbar-thumb
+		width: 12px
+		background-color: $orange
+
+	overflow-y: auto
+	border-radius: 3px
+	border: 3px solid $darkBlue
+	height: em(165)
+	overflow-y: auto
+	&__product
+		flex-grow: 0
+		margin: 1em auto
+.deleteProductButton	
+	font-size: em(18)
+.cartProduct
+	background: #f7f7f7 
+	@extend %relative
+	border-radius: 2px
+	@extend %shadow
+	width: em(105)
+	height: em(105)
+	&__name
+		max-width: span(7)
+		-webkit-box: block
+		-webkit-box-orient: vertical 
+		-webkit-line-clamp: 2
+		overflow: hidden
+		text-overflow: ellipsis
+		display: -webkit-box
+		left: 0
+
+.productController, .cartProduct__name
+	color: $white
+	padding: .5em
+	
+	font-size: em(14, 24)
+	height: em((24 * 1.5) * 2 + (16 / 2 * 2), 24) 
+
+	background-color: $orange
+	@extend %absolute
+	bottom: 0
+.productController
+	right: 0
+	text-indent: 0.1em
+	max-width: span(4)
 
 .image, .container 
   	width: span(12)
@@ -309,7 +453,7 @@
 
 @media (min-width: em(576)) 
 	.container 
-		max-width: 540px
+		max-width: em(540)
   
 
 
@@ -321,5 +465,27 @@
 
 @media (min-width: em(992)) 
   	.container 
-    	max-width: em(960)
+    	max-width: em(1260)
   
+input[type=number]::-webkit-inner-spin-button 
+	-webkit-appearance: none
+	display:block
+	color: $darkGray
+	text-align:center
+	position:relative
+	background: transparent url('./dist/arrows.png') no-repeat 50% 50%  
+	width: em(14)
+	height: em(14)
+	padding: em(4)
+	position: relative
+	right: 0px
+	visibility: visible
+	opacity: .7
+	transition: opacity .3s ease
+	will-change: opacity
+	cursor:pointer
+	z-index: 2
+
+input[type=number]:hover::-webkit-inner-spin-button 
+	opacity: 1
+	cursor:pointer
