@@ -12,7 +12,7 @@ const Button = ({
 }) => (
 	<button {...rest}
 		aria-pressed={false}
-		className={`${getClass(composeClasses(block, element, modifier, `button`))} ${className}`}>
+		className={`${getClass(composeClasses(block, element, modifier, `button ${className}`))} ${className}`}>
 		{content}
 		{children}
 	</button>
