@@ -6,33 +6,37 @@ import Figure from './Figure';
 import callbackIcon from './../images/icons/callback.png';
 
 const CallbackButton = ({
-	openCallBackForm,
+	openCallbackForm,
   ...rest
 }) => (
   <div className={getClass({
     b: "callbackButtons",
-    add: "parent row h-between v-center"
+    add: "parent row h-between v-centered"
   })}>
   	<Button
       id='menuButton'
-      className={`${getClass({
-        b: "callbackButtons",
-        el: "button",
-      })} ${getClass({
-        b: "button",
-        m: "cian",
-        add: "baseChild"
-      })}`}
-      onClick={openCallBackForm}
+      className={getClass({
+        b: "callbackButton",
+        add: "button_cian baseChild"
+      })}
+      onClick={openCallbackForm}
       content="Обратный вызов" 
     />
-    <Figure name="callback"
-      maxWidth={`${45 / 16}em`}
-      width={100}
-      height={100}
-      url={callbackIcon}
-      className="baseChild"
+    <button aria-pressed={false}
+      className={getClass({
+        b: "callbackFigureButton",
+        add: "parent row h-between v-centered"
+      })}
+      onClick={openCallbackForm} 
+      title="Открывает форму для заказа консультации">
+      <Figure name="callback"
+        maxWidth={`${45 / 16}em`}
+        width={100}
+        height={100}
+        url={callbackIcon}
+        className="baseChild"
       />
+    </button>
   </div>
     
 );
