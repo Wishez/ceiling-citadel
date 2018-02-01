@@ -26,25 +26,25 @@ const MenuButton = ({
         b: "menuButton",
         el: "bar",
         m: "orange",
-        add: "baseChild"
+        add: `baseChild ${isOpened ? "menuButton__bar_ceil" : ''}`
       })}></span>
       <span className={getClass({
         b: "menuButton",
         el: "bar",
         m: "cian",
-        add: "baseChild"
+        add: `baseChild ${isOpened ? 'menuButton__bar_cross_right' : ''}`
       })}></span>
       <span className={getClass({
         b: "menuButton",
         el: "bar",
         m: "cian",
-        add: "visible-hidden"
+        add: `${isOpened ? 'menuButton__bar_cross_left' : "visible-hidden"}`
       })}></span>
       <span className={getClass({
         b: "menuButton",
         el: "bar",
         m: "darkBlue",
-        add: "baseChild"
+        add: `baseChild ${isOpened ? 'menuButton__bar_floor' : ''}`
       })}></span>
       <span className={getClass({
         b: "menuButton",
