@@ -28,24 +28,38 @@ const RenderController = ({
 				<label className={getClass({
 					b: block,
 					el: "label",
-					m: modifier
+					m: modifier,
+					add: "baseChild"
 				})}>
 					{label}
 				</label> : ''}
 			{iconOptions ? 
 				<Figure 
 					block="controllerIcon" 
+					className="baseChild"
 					{...iconOptions} 
 				/> : ''
 			}
-			<input {...input}
-				{...rest}
-				className={getClass({
-					b: block,
-					el: "input",
-					m: modifier
-				})} 
-			/> 
+			{rest.type !== "textarea" ?
+				<input {...input}
+					{...rest}
+					className={getClass({
+						b: block,
+						el: "input",
+						m: modifier,
+						add: "baseChild"
+					})} 
+				/> :
+				<textarea {...input}
+					{...rest}
+					className={getClass({
+						b: block,
+						el: "input",
+						m: modifier,
+						add: "baseChild"
+					})} 
+				/>
+			}
 			
 		 {touched && 
 		 	((error && 

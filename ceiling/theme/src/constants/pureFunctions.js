@@ -1,6 +1,15 @@
 // import lozad from 'lozad';
 
+export const getDeleteProductArguments = (index, name, quantityOrderedProducts) => {
+	const lastProudctRemovedMessage = `Вы удалили  из корзины последний продукт "${name}" ಥ⌣ಥ.`;
+    const removedProductMessage = `Вы удалили из корзины "${name}" ಠ_ಠ!`
 
+    return [
+    	index, 
+        quantityOrderedProducts - 1 === 0 ? lastProudctRemovedMessage : removedProductMessage,
+        quantityOrderedProducts - 1
+    ];
+};
 export const cookiesHandler = {
 	setUsernameAndPasswordToCookies: ({
 		site,
@@ -22,6 +31,23 @@ export const cookiesHandler = {
 	}
 
 };
+
+export const localData = {
+	get: (key, isJSON=true) => {
+		const value = localStorage.getItem(key);
+
+		if (isJSON)
+			return JSON.parse(value);
+
+		return value;
+	},
+	set: (key, value) => {
+		localStorage.setItem(key, JSON.stringify(value));
+	},
+	delete: (key) => {
+		localStorage.removeItem(key);	
+	}
+}
 
 export const convertDate = date => {
 	return new Date(date).toLocaleDateString('ru-RU', {

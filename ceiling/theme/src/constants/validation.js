@@ -14,6 +14,9 @@ export const birthday = value => value && /^([0-2][0-9]|3[0-1])\/(0[0-9]|1[0-2])
 
 export const phone = value => value && /^\+?[0-9\s\-)(]*$/i.test(value) ? undefined :
 	'Используйте цифры от 0 до 9. Допустимо помещать их в скобки (), использовать пробелы, или ставить между цифрами тире "-".';
+export const full_name = value => value && /^\+?([A-Za-zА-Я-а-яёЁ\-]*\s)([ёЁA-Za-zА-Я-а-я\-]*)(\s[A-Za-zА-Я-а-я\-]*)?$/i.test(value) ? undefined :
+	'Вы можете использовать кириллические и латинские буквы от a-z, от а-я, как в верхнем, так и в нижнем регистре и знак тире "-".';
+
 
 
 
@@ -32,6 +35,8 @@ export const regionLength = value => value && !(value.length < 5) ? undefined :
 export const streetLength = value => value && !(value.length < 3) ? undefined :
 	createMessage('улицы', 3, 50);
 
+export const fullNameLength = value => value && value.length < 150 && value.length > 5 ? undefined :
+	createLengthMessage('полного имени', 5, 150);
 export const nameLength = value => value && !(value.length < 2) ? undefined :
 	createLengthMessage('имени', 2, 24);
 export const lastNameLength = value => value && value.length >= 2 ? undefined :
