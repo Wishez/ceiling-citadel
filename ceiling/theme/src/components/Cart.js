@@ -3,6 +3,7 @@ import getClass, { composeClasses } from './../constants/classes';
 import CloseButton from './CloseButton';
 import CartProduct from './CartProduct';
 import mesh from './../images/cart/mesh.png';
+import Draggable from 'react-draggable';
 
 const Cart = ({
 	modifier='',
@@ -18,6 +19,7 @@ const Cart = ({
 	quantityOrderedProducts,
 	...rest
 }) => (
+	<Draggable>
 	<section className={getClass(composeClasses("cart", '', modifier, className))}
 	>	
 		{closeButton ? 
@@ -39,6 +41,7 @@ const Cart = ({
 		}
 		</ul>
 	</section>
+	</Draggable>
 );
 
 

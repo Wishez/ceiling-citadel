@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -11,6 +12,7 @@ import SearchContainer from './SearchContainer';
 import OrderButton from './../components/OrderButton';
 import CallbackButton from './../components/CallbackButton';
 import ButtonsGroup from './../components/ButtonsGroup';
+import QuestionFormContainer from './../containers/QuestionFormContainer';
 
 import { 
   openCart, 
@@ -74,29 +76,34 @@ class  HeaderContainer extends Component {
 
   render() {
     return (
-        <header className={getClass({b: 'header'})}>
+        <footer className={getClass({b: 'header'})}>
+          <QuestionFormContainer />
           <div className={getClass({b: 'container',  add: "parent row v-centered h-around"})}>
-              <NavContainer isFooter={false} />
-              <Contacts 
-                {...this.props}
-              />
-             <Logo />
-             <SearchContainer />
-             <ButtonsGroup className="baseChild">
-               <CallbackButton {...this.props}
-                  closeCallback={this.closeCallbackForm}
-                  openCallback={this.openCallbackForm} />
-               <OrderButton {...this.props} 
-                 openCart={this.showCart} 
-                 closeCart={this.hideCart}
-                 openOrder={this.openOrderForm}
-                 onSubmitQuantityProduct={this.onSubmitQuantityProduct}
-                 deleteProduct={this.deleteProduct}
-                />
-             </ButtonsGroup>
+			<div className={getClass({b: 'firstFooterBlock',  add: "parent column v-centered h-around baseChild"})}>
+				 <SearchContainer />
+				 <ButtonsGroup className="baseChild">
+				   <CallbackButton {...this.props}
+				      closeCallback={this.closeCallbackForm}
+				      openCallback={this.openCallbackForm} />
+				   <OrderButton {...this.props} 
+				     openCart={this.showCart} 
+				     closeCart={this.hideCart}
+				     openOrder={this.openOrderForm}
+				     onSubmitQuantityProduct={this.onSubmitQuantityProduct}
+				     deleteProduct={this.deleteProduct}
+				    />
+				 </ButtonsGroup>
+			</div>
 
+             <NavContainer isFooter={true} modifier="footer" className="baseChild" />
+             <div className={getClass({b: 'thirdFooterBlock',  add: "parent column v-centered h-around baseChild"})}>
+		        <Logo />
+		        <Contacts 
+		            {...this.props}
+		        />
+			 </div>
           </div>
-        </header>
+        </footer>
     );
   }
 }
@@ -104,7 +111,7 @@ class  HeaderContainer extends Component {
 
 
 const mapStateToProps = state => {
-  const { cart, callback } = state;
+  const {  cart, callback } = state;
 
   const { 
     quantityOrderedProducts,

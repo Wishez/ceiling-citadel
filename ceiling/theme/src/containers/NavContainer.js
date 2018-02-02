@@ -12,7 +12,8 @@ class NavContainer extends Component {
   static propTypes = { 
       navigationItems: PropTypes.array.isRequired,
       dispatch: PropTypes.func.isRequired,
-      isOpened: PropTypes.bool.isRequired
+      isOpened: PropTypes.bool.isRequired,
+      isFooter: PropTypes.bool.isRequired
   }
 
   state = {
@@ -45,19 +46,22 @@ class NavContainer extends Component {
 
 
   render() {
-    const { isOpened } = this.props;
+    const { isOpened, isFooter } = this.props;
     return (
       <div className={getClass({
-        b: "navigationContainer"
+        b: isFooter ? "navigationContainer" : "footerNavigationContainer" 
       })}>
-        <MenuButton 
-            isOpened={isOpened}
-            openMenu={this.openMenu}
-            closeMenu={this.closeMenu} />
-        <Navigation {...this.props}
+          {!isFooter ? 
+            <MenuButton 
+                isOpened={isOpened}
+                openMenu={this.openMenu}
+                closeMenu={this.closeMenu} />
+            : ''}
+          <Navigation {...this.props}
             getActiveClasses={this.getActiveClasses}
             changeActiveNavigationItem={this.changeActiveNavigationItem}
-        />
+          />
+        
       </div>
     );
   }

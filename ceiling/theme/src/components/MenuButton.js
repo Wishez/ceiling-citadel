@@ -10,8 +10,8 @@ const MenuButton = ({
   modifier,
   ...rest
 }) => (
-	<Button
-      id='menuButton'
+	<button
+      aria-pressed={false}
       className={getClass(
         composeClasses(
           "menuButton", 
@@ -51,7 +51,7 @@ const MenuButton = ({
         el: "text",
         add: "baseChild upper"
       })}>Меню</span>
-    </Button>
+    </button>
 );
 
 

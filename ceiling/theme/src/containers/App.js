@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import HeaderContainer from './HeaderContainer';
-// import Footer from './../components/Footer';
-// import Main from './../components/Main';
+import CallbackFormContainer from './CallbackFormContainer';
+import OrderFormContainer from './OrderFormContainer';
+import FooterContainer from './FooterContainer';
+
 import './../tests/cart';
 import './../tests/app';
 import './../tests/callback';
@@ -13,25 +15,48 @@ import './../tests/search';
 import './../tests/order';
 
 class App extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    isCallbackOpened: PropTypes.bool.isRequired,
+  }
   componentDidMount() {
     
   }
 
   render() {
+    const { 
+        isCallbackOpened, 
+        isOrderOpened,
+        phone, email } = this.props;
+
     return (
       <div>
-        <HeaderContainer />    
+        <HeaderContainer phone={phone} email={email} />
+        {isCallbackOpened ? 
+            <CallbackFormContainer /> : ''
+        }
+        {isOrderOpened ? 
+            <OrderFormContainer /> : ''
+        }
+        <FooterContainer phone={phone} email={email} />
       </div>
     );
   }
 }
 
-      	// <Main />	
-      	// <Footer />
 const mapStateToProps = state => {
-  console.log(state);
+  const { callback, order, app } = state;
+
+  const { isCallbackOpened } = callback;
+  const { isOrderOpened } = order;
+
   
-  return {}
+  const { phone, email } = app;
+  return {
+    isCallbackOpened,
+    isOrderOpened,
+    phone, email
+  };
 };
 
-export default withRouter(connect(mapStateToProps)(App));
+export default connect(mapStateToProps)(App);

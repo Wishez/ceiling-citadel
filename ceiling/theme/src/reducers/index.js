@@ -4,13 +4,15 @@ import navigation from './navigation';
 import app from './app';
 import cart from './cart';
 import callback from './callback';
+import order from './order';
 
 const rootReducer = combineReducers({
 	form: formReducer,
 	navigation,
 	app,
 	cart,
-	callback
+	callback,
+	order
 });
 
 

@@ -9,6 +9,7 @@ const CloseButton = ({
 	...rest
 }) => (
 	<button {...rest}
+		type="button"
 		aria-pressed={false}
 		className={getClass(composeClasses(block, element, modifier, `closeButton ${className}`))}>
 		<span className={getClass({b: "closeButton", el: "bar", m: "right"})}></span>
