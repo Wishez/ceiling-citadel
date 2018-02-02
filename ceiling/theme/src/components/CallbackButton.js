@@ -6,7 +6,9 @@ import Figure from './Figure';
 import callbackIcon from './../images/icons/callback.png';
 
 const CallbackButton = ({
-	openCallbackForm,
+	openCallback,
+  isCallbackOpened,
+  closeCallback,
   ...rest
 }) => (
   <div className={getClass({
@@ -19,7 +21,7 @@ const CallbackButton = ({
         b: "callbackButton",
         add: "button_cian baseChild"
       })}
-      onClick={openCallbackForm}
+      onClick={isCallbackOpened ? closeCallback :openCallback}
       content="Обратный вызов" 
     />
     <button aria-pressed={false}
@@ -27,7 +29,7 @@ const CallbackButton = ({
         b: "callbackFigureButton",
         add: "parent row h-between v-centered"
       })}
-      onClick={openCallbackForm} 
+      onClick={isCallbackOpened ? closeCallback : openCallback} 
       title="Открывает форму для заказа консультации">
       <Figure name="callback"
         maxWidth={`${45 / 16}em`}

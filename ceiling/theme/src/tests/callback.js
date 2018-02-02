@@ -46,7 +46,7 @@ const testSuccessOrderedCallback = () => {
 	const callbackAfter = {
 		...callbackBefore,
 		isRequesting: false,
-		isOrderedCalback: true,
+		isOrderedCallback: true,
 		helpText
 	};
 
