@@ -219,7 +219,7 @@
 .controller 
 
 	&:not(:first-child) 
-		margin-top: 1em
+		margin-top: em(12.35)
 	
 
 	&_required 
@@ -249,12 +249,12 @@
 		
 		&_red 
 			border-color:  $red
-			&:focus 
-				&:invalid 
-					border-color: $purple//#5C1D31	
-				
-				&:valid 
-					border-color: #437A67	
+		&:focus 
+			&:invalid 
+				border-color: #5C1D31	
+			
+			&:valid 
+				border-color: #437A67	
 				
 			
 		
@@ -265,10 +265,16 @@
 		
 
 	
-
-	
+	&Icon 
+		margin-bottom: em(2.3)
+	&__error
+		color: $red
+		margin-top: em(6, 16)
+		font-size: em(16, 18)
+		text-align: left
 	&__label 
 		align-self: flex-end
+		font-size: em(18)
 	
 	&__checkbox 
 		-webkit-appearance: none
@@ -345,12 +351,20 @@
 	width: em(300)
 	margin-top: em(1, 24)
 	transition: opacity .2s
+	box-shadow: inner 0 0 14;
 	@extend %relative
+	&_order
+		width: 	span(12)
+		margin-top: em(21, 24)
+		& .cart__hint
+			width: 98%;
+			border-right: 0;
 	&_hover
 		@extend %absolute
-		top: 100%
-		transform: translateY(1em)
+		will-change: transform
+		top: 105%
 		right: 0
+		cursor: move
 
 		@extend %flyShadow
 	&__hint
@@ -384,20 +398,38 @@
 
 .cartProducts
 
+::-webkit-scrollbar-track
+	// -webkit-box-shadow: inset 0 0 6px $shadow
+	// background-color: $darkGray
+	// padding: 0 1px
+
+::-webkit-scrollbar
+	opacity: .1
+	width: 14px
+	background-color: $darkGray
+	height: 75px
+::-webkit-scrollbar-thumb
+	// background-clip: padding-box
+	border: 5px solid rgba(0, 0, 0, 0);
+	// width: 5px
+	height: 75px
+	
+	margin: 0 auto
+	// border-radius: 10px
+
+	background-color: $orange
+::-webkit-scrollbar-button 
+    width: 0;
+    height: 0;
+    display: none;
+
+::-webkit-scrollbar-corner 
+    background-color: transparent;
+
 .orderedProducts
 	background-repeat: no-repeat
 	background-size: cover
 	background-position: center
-	&::-webkit-scrollbar-track
-		-webkit-box-shadow: inset 0 0 6px $shadow
-		background-color: $darkGray
-
-	&::-webkit-scrollbar
-		background-color: $darkGray
-		width: 16px
-	&::-webkit-scrollbar-thumb
-		width: 12px
-		background-color: $orange
 
 	overflow-y: auto
 	border-radius: 3px
@@ -489,3 +521,57 @@ input[type=number]::-webkit-inner-spin-button
 input[type=number]:hover::-webkit-inner-spin-button 
 	opacity: 1
 	cursor:pointer
+.popupBackground
+	@extend %absolute
+	min-height: em(980)
+	overflow-y: auto
+	&:after, &
+		top: 0;
+		height: 100%
+		width: 100%
+		left: 0
+		z-index: 4
+		// -webkit-filter: blur(3px);
+  		// mask: url('#mask-linear');
+  		// filter: url('#filtre2');
+		// background: url('./../dist/background-black.png')
+	&:after
+		opacity: .4
+		content: ""
+		@extend %absolute
+		background: rgba(51, 51, 51, 0.5);
+		backdrop-filter: blur(4px);
+
+
+.popupFormContainer
+	font-size: em(18)
+	width: em(320, 18)
+	border-radius: 0 0 3px 3px
+	@extend %flyShadow
+	z-index: 5
+	@extend %relative
+	padding: em(40, 18) em(25, 18) em(45, 18)
+	&, &__title
+		background: $white
+	&__title
+		padding: em(7, 24) em(10, 24)
+		border-radius: 3px 3px 0 0
+		@extend %absolute
+		bottom: 100%
+		left: 0
+		min-width: span(12)
+		text-align: center
+	&__button
+		margin-top: 1em
+
+
+.formButton
+	background-color: $darkBlue
+	color: $white
+	margin-top: em(35)
+.serverError
+	color: $red
+.serverError, .successfull
+	font-weight: bold
+.successfull
+	color: $darkBlue
