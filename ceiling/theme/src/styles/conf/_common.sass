@@ -62,7 +62,13 @@ a
     // $$darkGray: darken($darkGray, 25%)
     color: $darkBlue
     background-image: linear-gradient(to right, $darkBlue 0%, $darkBlue 100%)
-
+  &.reverse
+    $darkenWhite: draken($white, 15%)
+    color: $white
+    background-image: linear-gradient(to right, $white  0%, $white 100%)
+    &:hover
+        color: $darkenWhite
+        background-image: linear-gradient(to right, $darkenWhite  0%, $darkenWhite 100%)
 
 .orange
   color: $orange

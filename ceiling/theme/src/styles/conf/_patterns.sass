@@ -220,14 +220,13 @@
 
 	&:not(:first-child) 
 		margin-top: em(12.35)
-	
-
+	min-width: 	span(12)
 	&_required 
 		color: $red
-	
 	&__icon 
 		margin-bottom: .15em
 	&__input 
+		border-radius: 3px
 		min-width: span(12)
 		max-width: span(12)
 		font-size: em(18, 21)
@@ -236,17 +235,11 @@
 		background-color: #C4C4C4
 		border-width: 2px 
 		border-style: solid
-		&_purple 
-			border-color: $purple
-			&:focus 
-				&:invalid 
-					border-color: $red//#5C1D31	
-				
-				&:valid 
-					border-color: #437A67	
-				
-			
-		
+		&_whiteBg, &_textarea
+			background-color: $white
+		&_textarea
+			min-height: em(100)
+
 		&_red 
 			border-color:  $red
 		&:focus 
@@ -360,13 +353,19 @@
 			width: 98%;
 			border-right: 0;
 	&_hover
-		@extend %absolute
-		will-change: transform
-		top: 105%
-		right: 0
-		cursor: move
+		&_up, &_bottom
+			@extend %absolute
+			will-change: transform
+			@extend %flyShadow
+			cursor: move
+			z-index: 100
+		&_bottom
+			top: 105%
+			right: 0
+		&_up
+			bottom: 110%
+			left: 0
 
-		@extend %flyShadow
 	&__hint
 		@extend %absolute
 		left: 0
@@ -388,7 +387,7 @@
 		will-change: opacity
 		transition: opacity .2s ease
 		&_shown
-			z-index: 4
+			z-index: 105
 		&_empty,  &_shown
 			opacity: 1
 		&_empty
@@ -425,7 +424,8 @@
 
 ::-webkit-scrollbar-corner 
     background-color: transparent;
-
+.centeredText
+	text-align: center	
 .orderedProducts
 	background-repeat: no-repeat
 	background-size: cover
@@ -438,6 +438,8 @@
 	overflow-y: auto
 	&__product
 		flex-grow: 0
+		z-index: 101
+		@extend %relative
 		margin: 1em auto
 .deleteProductButton	
 	font-size: em(18)
@@ -491,7 +493,7 @@
 
 @media (min-width: em(778)) 
 	.container 
-   		max-width: em(720)
+   		max-width: em(750)
   
 
 
@@ -559,7 +561,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 		@extend %absolute
 		bottom: 100%
 		left: 0
-		min-width: span(12)
+		min-width: span(6)
 		text-align: center
 	&__button
 		margin-top: 1em

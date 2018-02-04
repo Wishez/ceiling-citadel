@@ -4,6 +4,7 @@
 	padding: 0
 	height: auto
 .searchButton
+	max-width: em(85)
 	min-width: auto
 	padding-top: .5em
 
@@ -14,7 +15,11 @@
 	letter-spacing: .12
 .menuButton
 	min-width: auto
-
+	position: relative	
+	z-index: 5
+	transition: transform .4s
+	will-change: transform
+	
 	&__text
 		width: span(12)
 		margin-top: em(3)
@@ -45,55 +50,145 @@
 
 		&_floor
 			max-width: span(12)
-	&_open
-
+	@include breakpoint($xs)
+		transform: translate(300%, -100%)
+	@include breakpoint($xxs)
+		transform: translateY(0)
 	&_close
+		position: fixed
+		@include breakpoint($sm)
+			transform: translateX(50%)
+		@include breakpoint($xs)
+			top: 10%
+			transform: translate(0%, -25%)
+			right: 10%
 .searchForm
-	
-	max-width: span(2.75)
+	width: 	em(313)
+	@include breakpoint($md-less)
+
+		margin-top: em(16)
+
+.infoHeaderBlock
+	min-width: span(2.75)
+	@include breakpoint($md-less)
+		order: 3
+		min-width: span(3.5)
+	@include breakpoint($xs)
+		min-width: span(5)
+		// margin-top: em(32)
 .contacts
-	font-size: em(18)
-	max-width: span(2.25)
+	font-size: em(21)
+	max-width: em(250, 18)
+	@include breakpoint($md-less)
+		max-width: span(12)
+
 .contactsItem
 	&__label
 		color: $gray
 .header
 	@extend %relative
-	padding-bottom: 1em
+	padding: em(8) 0
+	@include breakpoint($md-less)
+		padding: em(16) 0
+	& > .container
+		@include breakpoint($sm-less)
+			margin: 0
+			padding: 0	
+			max-width: none
+		@include breakpoint($xs)
+			flex-direction: column
+
+
 .navigation
-	@extend %absolute
+	position: fixed	
+	transition: transform .7s ease-in-out
+	padding-bottom: 1em
+	padding-top: 2em
+	top: 0
+	left: 0
+	height: 100%
+	width: 	100%
+	transform: translateY(-100%)
+	z-index: 3
 	min-width: span(12)
 	font-size: em(24)
-	left: 0
-	top: 100%
-	padding: em(45) 0
+
 	color: $gray
 	background-color: #F2F2F2
 	border-top: 1px solid $darkGray
-	&, & *
-		transition: opacity .2s, max-height .3s, font-size .2s linear, color .1s 
-		font-size: 0
-		will-change: opacity, max-height
-		opacity: 0
-		max-height: 0
 	&_opened
-		&, & *
-			max-height: none
-			font-size: em(18)
-			opacity: 1
+		transform: translateY(0)
 .navigationContainer
 	max-width: span(2)
+	@include breakpoint($xs)
+		order: 2
+		align-self: flex-end
+		margin: 0 auto
+	@include breakpoint($xxs)
+		order: 1
+		margin: 0 auto
 
-.brand
-	max-width: span(2)
+
 .buttonsGroup
-	max-width: span(2.15)
+	max-width: em(218)
+	
+	&_header
+		@include breakpoint($md)
+			margin-left: auto
+			margin-right: auto
+		@include breakpoint($md-less)
+			order: 2
+	@include breakpoint($xs)
+		display: flex
+		flex-flow: row nowrap
+		align-items: center
+		justify-content: center
+		min-width: span(12)
+		max-height: em(77)
+		flex-direction: row
+		order: 4
+		border: 1px solid $gray
+		border-left: 0
+		border-right: 0
+		padding: .5em 0
+		box-sizing: content-box
+		height: auto
+	@include breakpoint($xxs)
+		min-height: none
+		flex-direction: column
+		max-height: none
+
+			
+.infoHeaderBlock
+	@include breakpoint($xs)
+		transform: translateY(-25%)
+	@include breakpoint($xxs)
+		transform: translateY(0)
+		margin: 1em auto 1.5em
 .brand
-	text-align: center
+	&_header
+		max-width: em(250)
+		@include breakpoint($md-less)
+			max-width: em(265)
+			order: 4
+			// min-width: span(3)
+		@include breakpoint($xs)
+			order: 1
+			transform: translateX(-25%)
+			max-width: em(300)
+			align-self: flex-start
+			margin: 0 auto
+			max-height: em(70)
+	@include breakpoint($xxs)
+		transform: translateX(0)
+		
 	&__name
 		font-size: em(28)
+		@include breakpoint($md-less)
+			font-size: 	em(36)
 	&__slogan
 		font-size: em(7)
+		font-size: 	em(9)
 .controller_search
 	min-width: auto
 	max-width: span(10)
@@ -105,9 +200,7 @@
 	font-size: em(21)
 	font-weight: 800
 	min-height: em(27, 21)
-	transition: font-size .1s
 	&__refer
-		transition: .2s ease
 		&, &:hover
 			background-image: none
 
@@ -124,7 +217,17 @@
 
 .orderButtons, .callbackButtons
 	margin-top: em(11)
+	@include breakpoint($xs)
+		margin-top: 0
+		width: em(250)
+		padding: em(15)
 	&__button
+		margin-right: em(15)
+.callbackButtons
+	@include breakpoint($xs)
+		border-right: 1px solid $gray
+	@include breakpoint($xxs)
+		border-right: 0
 .callbackFigureButton, .quantityOrderedProductsButton
 	background: transparent
 	will-change: transform

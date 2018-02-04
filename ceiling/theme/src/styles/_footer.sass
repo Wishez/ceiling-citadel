@@ -1,0 +1,118 @@
+
+
+.questionFormSection
+	background-color: #C4C4C4
+	&__title
+		background-color: $orange
+		height: 75px
+	border-bottom: 75px solid $cian;
+
+.questionFormContainer
+
+	padding: em(29) 0 0
+
+.questionForm
+	max-width: em(342)
+	margin-left: span(1)
+	margin-bottom: em(39)
+	@include breakpoint($xs) 
+		margin-left: 0
+		transform: translateY(-2.5em)
+.container_footer
+	min-height: em(255)
+.footerNavigationContainer
+	border: 1px solid $darkGray
+	border-top: 0
+	border-bottom: 0
+	height: em(330) 
+	@include breakpoint($xs)
+		height: em(300) 
+.buttonsGroup, .searchForm, .brand, .contacts, .navigation
+	&_footer,
+		max-width: 	span(12)
+		flex: 1 0 15%
+.navigation_footer
+	height: em(330, 24) 
+	position: static
+	border: 0
+	padding-bottom: 0
+	@include breakpoint($xs)
+		font-size: em(21)
+		// height: em(275, 21) 
+.searchForm_footer
+	min-width: span(8)
+	@include breakpoint($xs)
+		min-width: span(6)
+		margin: 1em auto
+
+.thirdFooterBlock, .footerNavigationContainer
+	@include breakpoint($sm-less)
+		min-width: span(6)
+.firstFooterBlock, .thirdFooterBlock, .footerNavigationContainer
+	min-width: span(4)
+	@include breakpoint($xs)
+		min-width: span(12)
+
+.firstFooterBlock
+	align-items: flex-start
+	@include breakpoint($md)
+		padding-left: 2em
+	@include breakpoint($sm-less)
+		display: none
+	@include breakpoint($xs)
+		order: 2
+		display: block
+
+.buttonsGroup_footer
+	min-width: span(6.5)
+	margin-top: em(26)
+	& .callbackButtons, & .orderButtons
+		padding-top: .5em
+		padding-bottom: .5em
+.footerNavigationContainer
+	@include breakpoint($sm-less)
+		order: 2
+		border-right: 0
+	@include breakpoint($xs)
+		border-left: 0
+
+
+.thirdFooterBlock
+    height: span(3)
+    justify-content: space-between
+    @include breakpoint($sm-less)
+    	order: 1
+    @include breakpoint($xs)
+    	flex-direction: column
+    	// min-width: 	span(12)
+    	min-height: em(180)
+    	padding: 1em 0
+
+
+		
+.brand, .contacts
+	&_footer
+		flex-grow: 0
+		
+
+
+
+
+.copyright
+	background: $darkBlue
+	color: $white
+	padding: em(12) 0 em(20)
+	&__paragraph
+		font-size: 	em(16)
+		&_refer
+			// color: $white
+			
+				// color: $white
+				// background-image: linear-gradient(to right,  0%, #403866 100%)
+.contacts_footer
+	margin-top: em(23)
+.brand__name_footer
+	font-size: 	em(36)
+.brand__slogan_footer
+	font-size: 	em(9)
+.brand_footer
