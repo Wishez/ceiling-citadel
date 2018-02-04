@@ -49,7 +49,7 @@ class CatalogPage(BasePage):
         "catalog.brand",
         verbose_name=_('Бренды каталога'),
         related_name='brands_of_catalog',
-        help_text=_('Акции, которые будут отображаться на странице "Акции".'),
+        help_text=_('Бренды, которые будут отображаться на странице "Акции".'),
         blank=True
     )
     #
@@ -57,14 +57,14 @@ class CatalogPage(BasePage):
         "catalog.category",
         verbose_name=_('Категории каталога'),
         related_name='categories_of_catalog_page',
-        help_text=_('Акции, которые будут отображаться на странице "Акции".'),
+        help_text=_('Категории, которые будут отображаться на странице "Акции".'),
         blank=True
     )
 
     class Meta:
         db_table = 'data_catalog_page'
-        verbose_name = _('Страница "Акции"')
-        verbose_name_plural = _('Страница "Акции"')
+        verbose_name = _('Страница "Каталог"')
+        verbose_name_plural = _('Страница "Каталог"')
 
 
 class ContactsPage(BasePage):

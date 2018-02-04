@@ -4,6 +4,7 @@ from django.contrib import admin
 from singlemodeladmin import SingleModelAdmin
 from .models import *
 
+
 # Register your models here.
 
 base_settings_page = ('Базовая настройка страницы', {
@@ -19,7 +20,7 @@ class HomePageAdmin(SingleModelAdmin):
         base_settings_page,
         ('Контент страницы', {
             'fields': (
-                # ('brands',),
+                ('brands',),
                 ('content',),
             ),
         },),
@@ -58,26 +59,9 @@ class CatalogPageAdmin(SingleModelAdmin):
 class ServicePageAdmin(SingleModelAdmin):
     fieldsets = (
         base_settings_page,
+        ('Контент страницы', {
+            'fields': (
+                ('content',),
+            ),
+        },),
     )
-
-# @admin.register(SharePage)
-# class SaunaPageAdmin(admin.ModelAdmin):
-#     list_per_page = 10
-#     list_display = ('name', 'gallery',)
-#     filter_fields = ('name', 'gallery', )
-#     search_fields = ('name', 'gallery',)
-#     prepopulated_fields = {'slug': ('title',)}
-#     # filter_horizontal = ('schedule', 'services',)
-#     fieldsets = (
-#         base_settings_page,
-#         ('Контент страницы', {
-#             'fields': (
-#                 ('name', 'slug',),
-#                 ('services'),
-#                 ('schedule'),
-#                 ('gallery',),
-#                 ('content',),
-#             ),
-#         },),
-#     )
-
