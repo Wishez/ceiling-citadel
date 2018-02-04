@@ -16,8 +16,9 @@ import {
   openCart, 
   closeCart, 
   changeProductQuantity, 
-  deleteProductAndNotifyAbout 
+  deleteProductAndNotifyAbout
 } from './../actions/cart';
+import {cartPositions} from './../constants/cart';
 
 import {openCallback} from './../actions/callback';
 import {openOrder} from './../actions/order';
@@ -29,7 +30,7 @@ class  HeaderContainer extends Component {
     quantityOrderedProducts: PropTypes.number.isRequired,
     phone: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    isCartOpened: PropTypes.bool.isRequired,
+    isCartOpened: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isCallbackOpened: PropTypes.bool.isRequired,
     products: PropTypes.array.isRequired,
     isShownHelpText: PropTypes.bool.isRequired,
@@ -55,7 +56,8 @@ class  HeaderContainer extends Component {
 
   showCart = () => {
     const { dispatch } = this.props;
-    dispatch(openCart());
+    console.log(cartPositions.header);
+    dispatch(openCart(cartPositions.header));
   }
 
   hideCart = () => {
@@ -73,21 +75,33 @@ class  HeaderContainer extends Component {
   }
 
   render() {
+    const {
+      isCartOpened
+    } = this.props;
+    const currentWidth = window.innerWidth;
+    const isBigScreen = currentWidth > 1199;
+  
     return (
         <header className={getClass({b: 'header'})}>
           <div className={getClass({b: 'container',  add: "parent row v-centered h-around"})}>
               <NavContainer isFooter={false} />
-              <Contacts 
-                {...this.props}
-              />
-             <Logo />
-             <SearchContainer />
-             <ButtonsGroup className="baseChild">
+  
+             <Logo maxWidth={isBigScreen ? 50 : 65} modifier="header"/>
+             <div className={getClass({b: 'infoHeaderBlock'})}>  
+                
+                <Contacts 
+                  {...this.props}
+                />
+                <SearchContainer modifier="header" />
+             </div>
+             <ButtonsGroup className="baseChild" modifier="header">
                <CallbackButton {...this.props}
                   closeCallback={this.closeCallbackForm}
                   openCallback={this.openCallbackForm} />
                <OrderButton {...this.props} 
+                 isCartOpened={isCartOpened === cartPositions.header}
                  openCart={this.showCart} 
+                 cartModifier="hover_bottom"
                  closeCart={this.hideCart}
                  openOrder={this.openOrderForm}
                  onSubmitQuantityProduct={this.onSubmitQuantityProduct}
