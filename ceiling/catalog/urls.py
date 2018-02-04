@@ -2,13 +2,18 @@
 from django.conf.urls import url
 from .api.views import *
 from .api.viewsets import *
-
+from .views import retrieve_catalog
 
 urlpatterns = [
     url(
         r'^api/current/categories/$',
         CategoriesView.as_view(),
         name='categories_list'
+    ),
+    url(
+        r'^api/current/catalog/$',
+        retrieve_catalog,
+        name="catalog_entities"
     ),
     url(
         r'^api/current/category/(?P<uuid>[-\w]+)/$',

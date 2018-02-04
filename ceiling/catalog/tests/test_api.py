@@ -7,7 +7,6 @@ from django.utils.timezone import now
 from django.test import TestCase
 from django.contrib.auth.models import User
 
-
 class CatalogAPITest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(
