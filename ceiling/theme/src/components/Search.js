@@ -6,7 +6,6 @@ import RenderController from './RenderController';
 import colors from './../constants/colors';
 
 const Search = ({
-	block, 
 	element='',
 	modifier='',
 	href,
@@ -16,10 +15,7 @@ const Search = ({
 	submitSearch,
 	...rest
 }) => (
-	<form className={getClass({
-			b: "searchForm",
-			add: "baseChild parent row h-between v-centered"
-		})}
+	<form className={getClass(composeClasses("searchForm", "", modifier,"baseChild parent row h-between v-centered"))}
 		onSubmit={handleSubmit(submitSearch.bind(this))}
 	>
 		<Field name="headerSearch"
@@ -32,7 +28,7 @@ const Search = ({
 		/>
 		<Button 
 			block="searchButton"
-			className="baseChild"
+			className="baseChild parent row centered"
 			type="submit">
 			<svg id="search" width="45" height="45" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"> 
 				<circle cx="75" cy="75" r="75" fill={colors.darkGray}></circle>

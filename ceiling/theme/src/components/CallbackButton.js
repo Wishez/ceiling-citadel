@@ -18,7 +18,8 @@ const CallbackButton = ({
   	<Button
       id='menuButton'
       className={getClass({
-        b: "callbackButton",
+        b: "callbackButtons",
+        el: 'button',
         add: "button_cian baseChild"
       })}
       onClick={isCallbackOpened ? closeCallback :openCallback}

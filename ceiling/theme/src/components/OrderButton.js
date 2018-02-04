@@ -11,6 +11,7 @@ const OrderButton = ({
   quantityOrderedProducts,
   products,
   isCartOpened,
+  cartModifier,
   ...rest
 }) => (
   <div className={getClass({
@@ -20,7 +21,7 @@ const OrderButton = ({
   	<Button
       id='menuButton'
       className={getClass({
-        b: "orderButton",
+        b: "orderButtons",
         el: "button",
         add: "button_darkBlue"
       })}
@@ -46,7 +47,7 @@ const OrderButton = ({
             block: "closeCart",
             onClick: closeCart
           }} 
-          modifier="hover" 
+          modifier={cartModifier} 
           cartProducts={products} /> : ''}
   </div>
     

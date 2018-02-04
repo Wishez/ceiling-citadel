@@ -17,7 +17,7 @@ const MenuButton = ({
           "menuButton", 
           '', 
           modifier, 
-          `parent column centered ${className} ${isOpened ? "menuButton_open" : "menuButton_close"}`
+          `parent column centered ${className}${!isOpened ? " menuButton_open" : " menuButton_close"}`
         )
       )}
       onClick={isOpened ? closeMenu : openMenu}

@@ -26,6 +26,7 @@ const OrderForm = ({
 		{
 			maxLength: 150,
 			minLenght: 10,
+			autoFocus: true,
 			name: "full_name",
 			type: "text",
 			validate: [required, fullNameLength, full_name],

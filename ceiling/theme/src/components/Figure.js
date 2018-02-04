@@ -7,7 +7,8 @@ const Figure = ({
 	name,
 	maxWidth,
 	sources,
-	className
+	className,
+	modifier
 }) => (
 	<picture className={getClass({
 			b: block,

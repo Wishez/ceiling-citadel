@@ -9,9 +9,11 @@ const Navigation = ({
     isOpened,
     getActiveClasses,
     navStyles,
+    isFooter,
+    modifier,
     ...rest
 }) => (
-   <nav className={getClass(composeClasses("navigation", "", isOpened ? "opened" : "closed", "baseChild"))}
+   <nav className={getClass(composeClasses("navigation", "", isFooter || isOpened ? "opened" : "closed", `parent centered column baseChild${isFooter ? ' navigation_footer' : ''}`))}
    >
       <ul className={getClass({
           b: 'navList',
