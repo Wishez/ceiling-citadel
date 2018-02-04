@@ -26,6 +26,7 @@ const QuestionForm = ({
 			validate: [required, fullNameLength, full_name],
 			placeholder: "Иванова Мария Ивановна",
 			label: "ФИО",
+			modifier: "whiteBg",
 			iconOptions: {
 				url: user,
 				maxWidth: 35
@@ -40,6 +41,7 @@ const QuestionForm = ({
 			validate: [required, email],
 			placeholder: "ask_maria@yandex.ru",
 			label: "Email",
+			modifier: "whiteBg",
 			iconOptions: {
 				url: envelope,
 				maxWidth: 35

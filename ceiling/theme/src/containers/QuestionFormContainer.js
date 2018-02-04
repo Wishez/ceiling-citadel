@@ -30,23 +30,23 @@ class QuestionFormContainer extends Component {
     const { helpText, isAskedQuestion, isRequesting } = this.props;
 
     return (
-      <div className={getClass({b: 'questionFormContainer'})}>
+      <section className={getClass({b: 'questionFormSection'})}>
 
-        <h2 className={getClass({b: 'questionFormContainer', el: "title"})}>задайте вопрос маше</h2>
-        <div className={getClass({b: 'container',  add: "parent row v-centered h-around"})}>
-          <Figure url={maria} maxWidth={210} />
+        <h2 className={getClass({b: 'questionFormSection', el: "title", add: "upper parent row centered"})}>задайте вопрос маше</h2>
+        <div className={getClass({b: 'questionFormContainer',  add: "container parent row centered"})}>
+          <Figure url={maria} maxWidth={280} name="maria" />
           {!isAskedQuestion ? 
             <QuestionForm buttonOptions={{ 
                 content: !isRequesting ? "Спросить" : <Loader />,
               }}
               onSubmit={this.submitQuestion} 
               helpText={helpText.toString()}
-              block="askQuestion"
+              block="questionForm"
             /> :
             <p className={getClass({b: "successfull"})}>{ReactHtmlParser(helpText)}</p>
           }
         </div>
-      </div>
+      </section>
     );
   }
 }
