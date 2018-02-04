@@ -19,7 +19,7 @@ const Cart = ({
 	quantityOrderedProducts,
 	...rest
 }) => (
-	<Draggable>
+	<Draggable disabled={!closeButton}>
 	<section className={getClass(composeClasses("cart", '', modifier, className))}
 	>	
 		{closeButton ? 

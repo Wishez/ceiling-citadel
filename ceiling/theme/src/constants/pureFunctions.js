@@ -64,10 +64,11 @@ export const slideTo = () => {
 }
 
 export const notFollow = event => {
+	event.preventDefault();
+	
 	const url = event.target.href;
 	  
   	window.open(url);
 	  
-	e.preventDefault();
 }
 

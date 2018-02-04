@@ -13,15 +13,16 @@ import cart, {initState} from './../reducers/cart';
 
 const testOpenCart = () => {
 	const cartBefore = initState;
+	const name = 'header';
 	const cartAfter = {
 		...cartBefore,
-		isCartOpened: true
+		isCartOpened: name
 	};
 
 	deepFreeze(cartBefore);
 
 	expect(
-		cart(cartBefore, openCart())
+		cart(cartBefore, openCart(name))
 	).toEqual(cartAfter);
 };
 

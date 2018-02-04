@@ -118,10 +118,11 @@ const cart = (
 	let products, index;
 	
 	switch (action.type) {
-		case OPEN_CART:
+    case OPEN_CART:
+      console.log(`set position ${action.id}`)
 			return {
 				...state,
-				isCartOpened: true
+				isCartOpened: action.id
 			};
 		case CLOSE_CART:
 			return {

@@ -51,8 +51,9 @@ export const closeCart = () => ({
 	type: CLOSE_CART
 });
 
-export const openCart = () => ({
-	type: OPEN_CART
+export const openCart = id => ({
+	type: OPEN_CART,
+	id
 });
 
 export const changeProductQuantity = (id, quantity) => ({
