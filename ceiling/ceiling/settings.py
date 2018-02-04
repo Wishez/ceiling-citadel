@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'imagekit',
     'model_utils',
     'rest_framework',
-    'django_nose'
+    'django_nose',
+    'corsheaders',
 ]
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
@@ -68,8 +69,20 @@ RAVEN_CONFIG = {
     # release based on the git info.
     'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
 }
+CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    'localhost:1234',
+    'localhost:8080'
+)
+
+CORS_ORIGIN_REGEX_WHITELIST = (
+    r'^(https?://)?(\w+\.)?google\.com$',
+    r'^(https?://)?localhost:[0-9]{2, 4}$'
+)
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -201,7 +214,7 @@ LOCALE_PATHS = (
 JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(BASE_DIR, 'client_secrets.json')
 JET_DEFAULT_THEME = 'default'
 JET_SIDE_MENU_COMPACT = True
-JET_INDEX_DASHBOARD = 'pages.dashboard.CustomIndexDashboard'
+# JET_INDEX_DASHBOARD = 'pages.dashboard.CustomIndexDashboard'
 JET_APP_INDEX_DASHBOARD = 'dashboard.CustomAppIndexDashboard'
 JET_THEMES = [
     {
