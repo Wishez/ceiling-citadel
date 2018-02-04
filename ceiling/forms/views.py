@@ -8,14 +8,14 @@ from .notifications import \
     save_order_and_notify_about, \
     save_callback_and_notify_about, \
     save_question_and_notify_about
-
+import json
 from threading import Thread
 @csrf_exempt
 def order_callback(request):
     if request.method == 'POST':
-        data = request.POST
-        isTest = False
+        data = json.loads(request._body)
         consumer = get_or_create_consumer(data)
+        print('go to next')
 
         callback = Callback.objects.create(
             consumer=consumer
@@ -23,16 +23,18 @@ def order_callback(request):
         if not 'isTest' in data:
             Thread(
                 target=save_callback_and_notify_about,
-                args=(callback, "callback_called_message",)
+                args=(callback,)
             ).start()
 
-        return HttpResponse('В скором времени, мы сяжемся с вами!')
+        return HttpResponse('Наша команда-по-обработки-запросов-консультации получила запрос на консультацию! В скором времени, она свяжется с вами <pre>ʕ •́؈•̀ ₎.</pre>')
     return HttpResponse('Внутренняя ошибка сервера')
 
 @csrf_exempt
 def make_order(request):
+    print(request)
     if request.method == 'POST':
-        data = request.POST
+
+        data = json.loads(request._body)
         isNotTest = not 'isTest' in data
         consumer = get_or_create_consumer(data)
 
@@ -55,7 +57,7 @@ def make_order(request):
         if isNotTest:
             Thread(
                 target=save_order_and_notify_about,
-                args=(order, "order_ordered_message",)
+                args=(order,)
             ).start()
 
         return HttpResponse('Мы выслали на почту задокументированную версию заказа. В скором времени, мы сяжемся с вами!')
@@ -64,7 +66,7 @@ def make_order(request):
 @csrf_exempt
 def ask_question(request):
     if request.method == 'POST':
-        data = request.POST
+        data = json.loads(request._body)
 
         consumer = get_or_create_consumer(data)
         question = data['question']
@@ -79,7 +81,7 @@ def ask_question(request):
             # else:
             Thread(
                 target=save_question_and_notify_about,
-                args=(question, "question_asked_message",)
+                args=(question,)
             ).start()
 
         return HttpResponse('Маша в процессе обработки вашего вопроса. Мы сообщим вам ответ, когда она его успешно сгенирирует!')
