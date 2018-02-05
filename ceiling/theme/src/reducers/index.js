@@ -5,6 +5,7 @@ import app from './app';
 import cart from './cart';
 import callback from './callback';
 import order from './order';
+import catalog from './catalog';
 
 const rootReducer = combineReducers({
 	form: formReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
 	app,
 	cart,
 	callback,
-	order
+	order,
+	catalog
 });
 
 

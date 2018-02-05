@@ -5,6 +5,7 @@ import {
 	RETRIEVE_SINGLE_PRODUCT,
 	RETRIEVE_COLLECTION,
 	RETRIEVE_BRAND,
+	RETRIEVE_CATALOG,
 	BRAND,
 	COLLECTION,
 	CATEGORY,
@@ -17,17 +18,21 @@ import {
 	categoryUrl, 
 	productUrl, 
 	collectionUrl, 
-	brandUrl
+	brandUrl,
+	catalogUrl
 } from './../constants/conf';
 import { localData } from './../constants/pureFunctions';
 
-export retrieveEntity = (type , id) => ({
+export const retrieveEntity = (type , id) => ({
 	type: type,
 	id
-})
+});
+export const retriveCatalog = () => ({
+	type: RETRIEVE_CATALOG
+});
+
 export const retrieveCategory = id => ({
-	type: RETRIEVE_CATEGORY,
-	id
+	type: RETRIEVE_CATEGORY
 });
 
 export const retrieveProduct = id => ({
@@ -43,12 +48,11 @@ export const retrieveBrand = id => ({
 	id
 });
 export const requestCatalog = () => ({
-	type: REQUEST_CATALOG,
-	id
+	type: REQUEST_CATALOG
 });
 
 export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
-	let url, type = '', '';
+	let url = '', type = '';
 	name = name.toUpperCase();
 	
 	dispatch(requestCatalog());
@@ -71,15 +75,12 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
 			type = RETRIEVE_PRODUCT;
 			break;
 		default:
-			url = catalogUrl;
-			name = CATALOG;
-			type = RETRIEVE_CATALOG;
-			break;
+			return false;
 	} 
 
 
 	return customAjaxRequest({
-		url,
+		url: `${url}${id}/`,
 		data: {
 			"uuid": id
 		},
@@ -95,6 +96,24 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
 	});
 };
 
+export const tryFetchCatalog = () => dispatch => {
+
+	dispatch(requestCatalog());
+
+	return customAjaxRequest({
+		data: {},
+        cache: true,
+        url: catalogUrl,
+        success: response => {
+        	console.log(response);
+			localData.set(CATALOG, response.body)
+			dispatch(retriveCatalog());
+	    },
+        failure: error => {
+			throw new Error(`Somethin going wrong ${error.message}`);
+        }
+	});
+};
 
 export const fetchCatalogEntityOrGetLocale = (name, id) => 
 	(dispatch, getStore) =>  {
