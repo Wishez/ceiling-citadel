@@ -21,7 +21,6 @@ class HomePageAdmin(SingleModelAdmin):
         ('Контент страницы', {
             'fields': (
                 ('brands',),
-                ('content',),
             ),
         },),
     )
@@ -34,7 +33,6 @@ class ContactsPageAdmin(SingleModelAdmin):
         ('Контент страницы', {
             'fields': (
                 ('map',),
-                ('content',),
             ),
         },),
     )
@@ -47,7 +45,6 @@ class CatalogPageAdmin(SingleModelAdmin):
             'fields': (
                 ('brands',),
                 ('categories',),
-                ('content',),
             ),
         },),
     )
@@ -61,7 +58,6 @@ class ServicePageAdmin(SingleModelAdmin):
         base_settings_page,
         ('Контент страницы', {
             'fields': (
-                ('content',),
             ),
         },),
     )
