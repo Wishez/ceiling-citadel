@@ -11,7 +11,7 @@ const Description = ({
 	content,
 	...rest
 }) => (
-	<p className={`${getClass({b: "description", m: modifier, add: className })} ${getClass({b: block, el: elemnt, m: elementModifier})}`}>
+	<p className={`${getClass({b: "catalogDescription", m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row centered'})}`}>
 		{content}
 	 	{children}
 	</p>

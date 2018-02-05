@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import CatalogSection from './../components/CatalogSection';
 import CatalogItem from './../components/CatalogItem';
 import Loader from './../components/Loader';
-
+import AboutSection from './../components/AboutSection';
 import getClass from './../constants/classes';
 import {localData} from './../constants/pureFunctions';
 import { initNavigationState } from './../reducers/navigation';
@@ -14,6 +14,8 @@ import { selectNavigationItem } from './../actions/navigationActions';
 import { tryFetchCatalog } from './../actions/catalog';
 import { catalogBrandsCombiner } from './../constants/filter';
 import { CATALOG } from './../constants/catalog';
+
+import sharp from './../images/about/sharp_first.png';
 
 class MainPageContainer extends Component {
 	static PropTypes = {
@@ -25,7 +27,7 @@ class MainPageContainer extends Component {
 
 	componentDidMount() {
 		const { dispatch } = this.props;
-		console.log('will fetch')
+		
 		dispatch(tryFetchCatalog());
 		dispatch(selectNavigationItem(initNavigationState.firstNavItem.index));
 
@@ -34,19 +36,23 @@ class MainPageContainer extends Component {
 	render() {
 		const { isRequesting } = this.props;
 		const catalog = localData.get(CATALOG);
-		console.log(catalog);
 
 		return (
-			<main id="main" className='main'>
-				<div className={getClass({b: 'container', m: "main", add: "parent column h-centered v-around"})}>
+			<main id="main" className={getClass({b: 'main'})}>
+				<div className={getClass({b: 'container', m: "main", add: "parent column centered"})}>
 					<CatalogSection name="Основные бренды" titleShown={false}>
 						{!isRequesting && 
 						catalog !== null && 
 						"brands" in catalog && 
 						catalog.brands.length ?
-							catalogBrandsCombiner(brands) : <Loader />
+							catalogBrandsCombiner(catalog.brands) : <Loader />
 						}
 					</CatalogSection>
+					<AboutSection text="Мы поставщики большого объёма дизайнерских потолков, под кодовым именем ArtCeil."
+						title="приятно познакомиться"
+						image={sharp} 
+						sources={[{url: sharp, media: `max-width: ${992 / 16}em`}]} />
+
 				</div>
 			</main>
 		);

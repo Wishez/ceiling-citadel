@@ -16,11 +16,16 @@ const CatalogItem = ({
 	description,
 	style,
 	slug,
+	url,
 	...rest
 }) => (
-	<article style={{backgroundImage:`url("/media/${image}")`}} 
-		className={getClass({b: "catalogItem", m: modifier, add: `${className}${style ? ` catalogItem_${style}`: ''}` })}>
-		<Table slug={slug} content={name} modifier={tablePosition} />
+	<article style={{backgroundImage:`url("${image}")`}} 
+		className={getClass({b: "catalogItem", m: modifier, add: `${className}${style ? ` catalogItem_${style}`: ''} parent row h-start v-end` })}>
+		<Table  url={url} 
+			slug={slug} 
+			content={name} 
+			modifier={tablePosition} 
+		/>
 		<Description content={description} />
 	</article>
 	

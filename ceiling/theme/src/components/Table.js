@@ -13,7 +13,7 @@ const Table = ({
 	slug,
 	...rest
 }) => (
-	<h3 className={`${getClass({b: block, el: element, m: elementModifier})} ${getClass({b: "table", m: modifier, add: className })}`}>
+	<h3 className={`${getClass({b: block, el: element, m: elementModifier, add: "upper centeredText"})} ${getClass({b: "table", m: modifier, add: className })}`}>
 		<Link className={getClass({b: "table", el: "refer", m: modifier})} 
 			to={`${url}${slug}/`}>
 			{content}

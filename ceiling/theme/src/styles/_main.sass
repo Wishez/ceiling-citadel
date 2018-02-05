@@ -1,3 +1,57 @@
+.main
+	padding: 2em 0
 .catalogItem
+	height: em(302)
 	flex: 1 0 span(6)
 	min-width: span(6)
+	background: $gray no-repeat center
+	background-size: cover
+	overflow: hidden
+	@extend %relative
+	cursor: pointer
+
+	&:hover 
+		& .table
+			transform: translateY(-298%);
+		& .catalogDescription
+			transform: translateY(0)
+.catalogDescription, .table
+	will-change: transform
+.catalogDescription
+	transition: transform .5s ease
+	@extend %absolute
+	padding: 0 1.5em 	
+	width: span(12)
+	min-height: span(9)
+	bottom: 0
+	transform: translateY(100%)
+	background-color: $white
+.catalogSection
+	max-width: em(960)
+	min-width: em(960)
+.table
+	min-height: span(3)
+	padding: 1em 0 
+	font-size: em(21)
+	transition: transform .5s ease, box-shadow .3s ease, color .4s linear
+	background-color: darken($white, 5%)
+	&:hover, &:focus
+		@extend %flyShadow
+	&__refer
+		display: block
+		&, &:hover, &:focus
+			background-image: none
+		
+	&_stretch, &__refer
+		min-width: span(12)
+	max-width: span(6)
+	&_left
+		justify-self: flex-start
+		border-top-right-radius: 2px
+	&_right
+		justify-self: flex-end
+		border-top-left-radius: 2px
+	&_center
+		border-radius: 2px 2px 0 0 
+		justify-self: center
+	

@@ -1,30 +1,24 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import classNames from 'classnames';
+import getClass from './../constants/classes';
 
 const Paragraph = ({ 
 	text,
 	block,
 	children,
 	modifier,
+	className,
 	...rest 
-}) => {
-	const getClasses = (block, modifier) => (
-		classNames({
-			'paragraph': true,
-			[`${block}__paragraph`]: true,
-			[`${block}__paragraph--${modifier}`]: modifier ? true : false
-		})
-	);
-	
-	return (	
-		<p className={getClasses(block, modifier)}
-			{...rest}>
-			{ ReactHtmlParser(text) }
-			{children}
-		</p>
-	);
-	
-}
+}) => (	
+	<p className={getClass({
+		b: block, 
+		el: "paragraph", 
+		m: modifier, 
+		add: `${className} parent row centered`
+	})}>
+		{ ReactHtmlParser(text) }
+		{children}
+	</p>
+);
 
 export default Paragraph;
