@@ -67,7 +67,7 @@ def make_order(request):
 def ask_question(request):
     if request.method == 'POST':
         data = json.loads(request._body)
-
+        print(data)
         consumer = get_or_create_consumer(data)
         question = data['question']
 
