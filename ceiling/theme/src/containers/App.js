@@ -6,6 +6,7 @@ import HeaderContainer from './HeaderContainer';
 import CallbackFormContainer from './CallbackFormContainer';
 import OrderFormContainer from './OrderFormContainer';
 import FooterContainer from './FooterContainer';
+import MainPageContainer from './MainPageContainer';
 
 import './../tests/cart';
 import './../tests/app';
@@ -32,13 +33,14 @@ class App extends Component {
     return (
       <div>
         <HeaderContainer phone={phone} email={email} />
+        <MainPageContainer />
+        <FooterContainer phone={phone} email={email} />
         {isCallbackOpened ? 
             <CallbackFormContainer /> : ''
         }
         {isOrderOpened ? 
             <OrderFormContainer /> : ''
         }
-        <FooterContainer phone={phone} email={email} />
       </div>
     );
   }
@@ -49,9 +51,8 @@ const mapStateToProps = state => {
 
   const { isCallbackOpened } = callback;
   const { isOrderOpened } = order;
-
-  
   const { phone, email } = app;
+  console.log(state);
   return {
     isCallbackOpened,
     isOrderOpened,

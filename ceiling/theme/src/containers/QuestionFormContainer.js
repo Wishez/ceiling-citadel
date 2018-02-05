@@ -16,7 +16,7 @@ class QuestionFormContainer extends Component {
   static propTypes = { 
       dispatch: PropTypes.func.isRequired,
       helpText: PropTypes.string.isRequired,
-      isOrderedCallback: PropTypes.bool.isRequired,
+      isAskedQuestion: PropTypes.bool.isRequired,
       isRequesting: PropTypes.bool.isRequired
   }
 
@@ -43,7 +43,7 @@ class QuestionFormContainer extends Component {
               helpText={helpText.toString()}
               block="questionForm"
             /> :
-            <p className={getClass({b: "successfull"})}>{ReactHtmlParser(helpText)}</p>
+            <p className={getClass({b: "askedSuccessfull", add: "parent row centered"})}>{ReactHtmlParser(helpText)}</p>
           }
         </div>
       </section>

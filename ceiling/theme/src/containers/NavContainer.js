@@ -52,7 +52,7 @@ class NavContainer extends Component {
       isFooter, 
       modifier 
     } = this.props;
-    console.log(isOpened);
+    
     return (
       <div className={getClass({
         b: isFooter ? "footerNavigationContainer" : "navigationContainer",

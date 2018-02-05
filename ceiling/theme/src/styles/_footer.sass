@@ -8,11 +8,12 @@
 	border-bottom: 75px solid $cian;
 
 .questionFormContainer
-
 	padding: em(29) 0 0
+	@include breakpoint($xs) 
+		flex-direction: column
 
 .questionForm
-	max-width: em(342)
+	width: em(300)
 	margin-left: span(1)
 	margin-bottom: em(39)
 	@include breakpoint($xs) 
@@ -31,6 +32,7 @@
 	&_footer,
 		max-width: 	span(12)
 		flex: 1 0 15%
+
 .navigation_footer
 	height: em(330, 24) 
 	position: static
@@ -65,16 +67,25 @@
 
 .buttonsGroup_footer
 	min-width: span(6.5)
-	margin-top: em(26)
+	@include breakpoint($xs)
+		height: em(85)
+	@include breakpoint($xxs)
+		height: auto
 	& .callbackButtons, & .orderButtons
 		padding-top: .5em
 		padding-bottom: .5em
+		@include breakpoint($xs)
+			height: span(12)
+		@include breakpoint($xxs)
+			height: auto
 .footerNavigationContainer
 	@include breakpoint($sm-less)
 		order: 2
 		border-right: 0
+		min-width: span(6)
 	@include breakpoint($xs)
 		border-left: 0
+		min-width: span(12)
 
 
 .thirdFooterBlock
@@ -115,4 +126,13 @@
 	font-size: 	em(36)
 .brand__slogan_footer
 	font-size: 	em(9)
-.brand_footer
+
+.askedSuccessfull
+	max-width: em(345)
+	padding: 0 em(18)
+	min-height: em(135)
+	@extend %flyShadow
+	background-color: $white
+	border-radius: 3px
+
+

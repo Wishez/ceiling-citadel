@@ -25,7 +25,7 @@ export const orderCallback = (isOrderedCallback, helpText) => ({
 });
 export const askQuestion = (isAskedQuestion, helpText) => ({
 	type: ASK_QUESTION,
-	isOrderedCallback,
+	isAskedQuestion,
 	helpText
 });
 
@@ -35,6 +35,7 @@ export const requestCallback = () => ({
 
 export const tryAskQuestion = userData => dispatch => {
 	dispatch(requestCallback());
+
 
 	return customAjaxRequest({
 		type: 'POST',

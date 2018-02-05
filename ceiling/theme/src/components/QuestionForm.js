@@ -52,7 +52,7 @@ const QuestionForm = ({
 			type: "textarea",
 			maxLength: 650,
 			minLength: 30,
-			name: "message",
+			name: "question",
 			validate: [required],
 			placeholder: "Насколько долго длиться жизненный цикл кашелота появившегося в небе?",
 			label: "Вопрос",
