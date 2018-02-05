@@ -15,3 +15,53 @@ export const catalogUrl = `${siteApi}${catalogApi}/catalog/`
 
 
 export const catalogBrandUrl = `/catalog/brand/`;
+
+import OrderButton from './../components/OrderButton';
+import nice_to_meet_you from './../images/about/sharp_first.png';
+import products from './../images/about/sharp.png';
+import design from './../images/about/square.png';
+import exhebition from './../images/about/exhebition.png';
+import boxes from './../images/about/boxes.png';
+
+export const aboutSections = [{
+	title: "приятно познакомиться",
+	text: "Мы поставщики большого объёма дизайнерских потолков, под кодовым именем ArtCeil.",
+	image: nice_to_meet_you,
+	maxWidth: 187,
+	modifier: "niceToMeetYou",
+	sources: [{url: nice_to_meet_you, media: `max-width: ${992 / 16}em`}],
+	children: ""
+},
+{
+	title: "Продукция",
+	text: "Мы предлагаем бренды с обширным выбором разнообразных дизайнерских качественных потолочных покрытий.",
+	image: products,
+	maxWidth: 206,
+	modifier: "products",
+	sources: [],
+	children: ""
+},
+{
+	title: "дизайн",
+	text: "Все они имеют нестандартную форму и сотканы из различных материалов. Эти потолки заставят расцвести ваше помещение и привлекут внимание со стороны, что хорошо для нас и для вас!",
+	image: design,
+	sources: [{url: nice_to_meet_you, media: `max-width: ${992 / 16}em`}],
+	children: "",
+	maxWidth: 190,
+	modifier: "design",
+},
+{
+	title: "Локальный Эрмитаж",
+	text: `Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас: <a href="/catalog#brands">зал с брэндами</a> и  <a href="/catalog#categories">зал с разнообразым типами потолков</a>.`,
+	image: "",
+	sources: [],
+	children: ""
+},
+{
+	title: "просторная сумка",
+	text: `Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ. `,
+	image: "",
+	sources: [],
+	children: ""
+}
+]
