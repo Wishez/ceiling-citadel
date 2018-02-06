@@ -10,12 +10,12 @@ const CatalogSection = ({
 	className,
 	...rest
 }) => (
-	<article className={getClass({b: "catalogSection", m: modifier, add: `${className} parent row centered` })}>
+	<section className={getClass({b: "catalogSection", m: modifier, add: `${className} parent row centered` })}>
 		<h2 className={getClass({b: "catalogSection", el: 'title', m: modifier, add: titleShown ? "" : "visible-hidden" })}>
 			{name}
 		</h2>
 	 	{children}
-	</article>
+	</section>
 );
 
 export default CatalogSection;
