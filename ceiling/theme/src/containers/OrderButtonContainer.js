@@ -1,91 +1,95 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ReactHtmlPareser from 'react-html-parser';
-import { Card } from 'semantic-ui-react'
+
 
 import { 
-	map,
-	address,
-	phone,
-	email,
-	addressHref
- } from './../constants/conf.js';
-import { selectNavigationItem } from './../actions/navigationActions.js'; 
-import { initNavigationState } from './../reducers/navigation.js';
+  openCart, 
+  closeCart, 
+  changeProductQuantity, 
+  deleteProductAndNotifyAbout
+} from './../actions/cart';
+import OrderButton from './../components/OrderButton';
+import {openOrder} from './../actions/order';
+import { getDeleteProductArguments } from './../constants/pureFunctions';
 
-import Section from './../components/Section';
-import Title from './../components/Title';
-
-class ContactsContainer extends Component {
-	static PropTypes = {
-		dispatch: PropTypes.func.isRequired
-	}
+class OrderButtonContainer extends Component {
+	static propTypes = {
+	    dispatch: PropTypes.func.isRequired,
+	    quantityOrderedProducts: PropTypes.number.isRequired,
+	    isCartOpened: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+	    products: PropTypes.array.isRequired,
+	    isShownHelpText: PropTypes.bool.isRequired,
+	    helpText: PropTypes.string.isRequired,
+	    cartPosition: PropTypes.string.isRequired,
+	    cartModifier: PropTypes.string.isRequired,
+  	}
 	
-	componentDidMount() {
+	onSubmitQuantityProduct = index => e => {
+      	const { dispatch } = this.props;
+      	dispatch(changeProductQuantity(index, e.target.value));
+  	}
+
+	showCart = () => {
+		const { dispatch, cartPosition } = this.props;
+
+		dispatch(openCart(cartPosition));
+	}
+
+	hideCart = () => {
 		const { dispatch } = this.props;
-		dispatch(selectNavigationItem(initNavigationState.sixthNavItem.index));
+
+		dispatch(closeCart());
+	}
+	openOrderForm = () => { 
+		const { dispatch } = this.props;
+		dispatch(openOrder());
+	}
+	deleteProduct = (index, name, quantityOrderedProducts) => () => {
+		const { dispatch } = this.props;
+
+
+		dispatch(
+			deleteProductAndNotifyAbout(
+		    	...getDeleteProductArguments(index, name, quantityOrderedProducts)
+		  	)
+		);
 	}
 
 	render() {
-		const curEmail = !window.email ? email : window.email,
-			curPhone = !window.phone ? phone : window.phone,
-			curAddress = !window.address ? address : window.address,
-			curAddressHref = !window.addressHref ? addressHref : window.addressHref;
+		const { cartPosition, isCartOpened } = this.props;
+
 		return (
-			<main className='main'>
-				<Section block='contacts'>
-					<div className='mapContainer'>
-						{ReactHtmlPareser(map)}
-					</div>
-					<Title block='contacts' 
-						text='Контакты' />
-					<Card.Group className='contactsList'>
-						<Card className='contactsListItem'>
-							<Card.Content>
-								<Card.Header> 
-									Адрес
-								</Card.Header> 
-								<Card.Description> 
-									<a className="contactsListItem__ref not-follow" 
-										href={curAddressHref} >
-										{curAddress}
-									</a>
-								</Card.Description> 
-							</Card.Content>
-						</Card>
-						<Card className='contactsListItem'>
-							<Card.Content>
-								<Card.Header> 
-									Телефон
-								</Card.Header> 
-								<Card.Description> 
-									<a class="contactsListItem__ref" href={`tel:${curPhone}`}>
-										{curPhone}
-									</a>
-								</Card.Description>
-							</Card.Content>
-						</Card>
-						<Card className='contactsListItem'>
-							<Card.Content>
-								<Card.Header> 
-									E-mail
-								</Card.Header> 
-								<Card.Description> 
-									<a class="contactsListItem__ref" href={`mailto:${curEmail}`}>
-										{curEmail}
-									</a>
-								</Card.Description> 
-							</Card.Content>
-						</Card>
-					</Card.Group>
-				</Section>
-			</main>
+			<OrderButton {...this.props} 
+                 isCartOpened={isCartOpened === cartPosition}
+                 openCart={this.showCart} 
+                 closeCart={this.hideCart}
+                 openOrder={this.openOrderForm}
+                 onSubmitQuantityProduct={this.onSubmitQuantityProduct}
+                 deleteProduct={this.deleteProduct}
+            />			
 		);
 	}
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+	const { cart } = state;
 
-export default withRouter(connect(mapStateToProps)(ContactsContainer));
+	const { 
+	    quantityOrderedProducts,
+	    isCartOpened,
+	    products,
+	    isShownHelpText,
+	    helpText
+	} = cart;
+
+	return {
+		quantityOrderedProducts,
+		isCartOpened,
+		products,
+		isShownHelpText,
+		helpText
+	};
+};
+
+export default connect(mapStateToProps)(OrderButtonContainer);
