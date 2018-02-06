@@ -16,5 +16,5 @@ export const navigationItems = {
 	home: combineItem('Глав', 'ная'),
 	catalog: combineItem('Ката', 'лог'),
 	contacts: combineItem('Кон', 'так', 'ты'),
-	service: combineItem('Воз', 'можно', 'сти')
+	service: combineItem('Сер', 'вис')
 };

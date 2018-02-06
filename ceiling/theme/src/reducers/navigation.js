@@ -10,7 +10,7 @@ import {
 // Его можно настраивать.
 export const initNavigationState = {
 	firstNavItem: {
-		active: true,
+		active: false,
 		name: navigationItems.home,
 		index: 'firstNavItem',
 		icon: '',
