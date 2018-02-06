@@ -14,7 +14,7 @@ const Paragraph = ({
 		b: block, 
 		el: "paragraph", 
 		m: modifier, 
-		add: `${className} parent row centered`
+		add: `${className}`
 	})}>
 		{ ReactHtmlParser(text) }
 		{children}

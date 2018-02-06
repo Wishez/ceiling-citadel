@@ -1,4 +1,5 @@
 // import lozad from 'lozad';
+import {Linear} from 'gsap';
 
 export const getDeleteProductArguments = (index, name, quantityOrderedProducts) => {
 	const lastProudctRemovedMessage = `Вы удалили  из корзины последний продукт "${name}" ಥ⌣ಥ.`;

@@ -20,16 +20,16 @@ import OrderButton from './../components/OrderButton';
 import nice_to_meet_you from './../images/about/sharp_first.png';
 import products from './../images/about/sharp.png';
 import design from './../images/about/square.png';
-import exhebition from './../images/about/exhebition.png';
+import exhebition from './../images/about/exhebition1.png';
 import boxes from './../images/about/boxes.png';
 
 export const aboutSections = [{
 	title: "приятно познакомиться",
 	text: "Мы поставщики большого объёма дизайнерских потолков, под кодовым именем ArtCeil.",
-	image: nice_to_meet_you,
+	image: "",
 	maxWidth: 187,
 	modifier: "niceToMeetYou",
-	sources: [{url: nice_to_meet_you, media: `max-width: ${992 / 16}em`}],
+	sources: [{url: nice_to_meet_you, media: `(max-width: ${992 / 16}em)`}],
 	children: ""
 },
 {
@@ -44,24 +44,28 @@ export const aboutSections = [{
 {
 	title: "дизайн",
 	text: "Все они имеют нестандартную форму и сотканы из различных материалов. Эти потолки заставят расцвести ваше помещение и привлекут внимание со стороны, что хорошо для нас и для вас!",
-	image: design,
-	sources: [{url: nice_to_meet_you, media: `max-width: ${992 / 16}em`}],
+	image: "",
+	sources: [{url: design, media: `(max-width: ${992 / 16}em)`}],
 	children: "",
 	maxWidth: 190,
 	modifier: "design",
 },
 {
 	title: "Локальный Эрмитаж",
-	text: `Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас: <a href="/catalog#brands">зал с брэндами</a> и  <a href="/catalog#categories">зал с разнообразым типами потолков</a>.`,
-	image: "",
+	text: `Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас:&nbsp;<a href="/catalog#brands">зал с брэндами</a>&thinsp;и&thinsp;<a href="/catalog#categories">зал с разнообразым типами потолков</a>.`,
+	image: exhebition,
 	sources: [],
-	children: ""
+	children: "",
+	maxWidth: 215,
+	modifier: "exhebition",
 },
-{
-	title: "просторная сумка",
-	text: `Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ. `,
-	image: "",
-	sources: [],
-	children: ""
-}
-]
+// {
+// 	title: "просторная сумка",
+// 	text: `Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ. `,
+// 	image: boxes,
+// 	sources: [],
+// 	children: "",
+// 	maxWidth: 190,
+// 	modifier: "design",
+// }
+];

@@ -19,8 +19,8 @@ const Figure = ({
 		}}
 	>
 		{sources ? 
-			sources.map(source =>
-				<source srcSet={source.url} media={source.media}/>		
+			sources.map((source, index) =>
+				<source key={index} srcSet={source.url} media={source.media}/>		
 			) : 
 			<source srcSet={url} media="screen" />
 		}

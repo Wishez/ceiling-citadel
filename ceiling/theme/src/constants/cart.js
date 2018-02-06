@@ -8,5 +8,6 @@ export const SHOW_HELP_TEXT = 'SHOW_HELP_TEXT';
 
 export const cartPositions = {
 	footer: 'footer',
-	header: 'header'
+	header: 'header',
+	bag: 'bag'
 };
