@@ -3,89 +3,73 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ReactHtmlPareser from 'react-html-parser';
-import { Card } from 'semantic-ui-react'
 
-import { 
-	map,
-	address,
-	phone,
-	email,
-	addressHref
- } from './../constants/conf.js';
+import Figure from './../components/Figure';
+import Contacts from './../components/Contacts';
+
+import getClass from './../constants/classes';
+import yoda from './../images/icons/contacts.png';
+
 import { selectNavigationItem } from './../actions/navigationActions.js'; 
+
 import { initNavigationState } from './../reducers/navigation.js';
 
-import Section from './../components/Section';
-import Title from './../components/Title';
+import CallbackButtonContainer from './CallbackButtonContainer';
+
+
 
 class ContactsContainer extends Component {
-	static PropTypes = {
-		dispatch: PropTypes.func.isRequired
+	static propTypes = {
+		dispatch: PropTypes.func.isRequired,
+		email: PropTypes.string.isRequired,
+		phone: PropTypes.string.isRequired,
+		address: PropTypes.string.isRequired,
+		addressHref: PropTypes.string.isRequired,
+		map: PropTypes.string.isRequired
 	}
 	
 	componentDidMount() {
 		const { dispatch } = this.props;
-		dispatch(selectNavigationItem(initNavigationState.sixthNavItem.index));
+		dispatch(selectNavigationItem(initNavigationState.fourthNavItem.index));
+		document.title = 'Контакты | ArtCeil';
 	}
 
 	render() {
-		const curEmail = !window.email ? email : window.email,
-			curPhone = !window.phone ? phone : window.phone,
-			curAddress = !window.address ? address : window.address,
-			curAddressHref = !window.addressHref ? addressHref : window.addressHref;
+		const {map} = this.props;
 		return (
-			<main className='main'>
-				<Section block='contacts'>
-					<div className='mapContainer'>
-						{ReactHtmlPareser(map)}
-					</div>
-					<Title block='contacts' 
-						text='Контакты' />
-					<Card.Group className='contactsList'>
-						<Card className='contactsListItem'>
-							<Card.Content>
-								<Card.Header> 
-									Адрес
-								</Card.Header> 
-								<Card.Description> 
-									<a className="contactsListItem__ref not-follow" 
-										href={curAddressHref} >
-										{curAddress}
-									</a>
-								</Card.Description> 
-							</Card.Content>
-						</Card>
-						<Card className='contactsListItem'>
-							<Card.Content>
-								<Card.Header> 
-									Телефон
-								</Card.Header> 
-								<Card.Description> 
-									<a class="contactsListItem__ref" href={`tel:${curPhone}`}>
-										{curPhone}
-									</a>
-								</Card.Description>
-							</Card.Content>
-						</Card>
-						<Card className='contactsListItem'>
-							<Card.Content>
-								<Card.Header> 
-									E-mail
-								</Card.Header> 
-								<Card.Description> 
-									<a class="contactsListItem__ref" href={`mailto:${curEmail}`}>
-										{curEmail}
-									</a>
-								</Card.Description> 
-							</Card.Content>
-						</Card>
-					</Card.Group>
-				</Section>
-			</main>
+			<section className={getClass({b: 'container', m: "main", add: "parent column centered contactsSection"})}>
+				<h1 className={getClass({b: 'contactsSection', el: "title", add: "parent row centered"})}>
+					Всегда на связи мы
+					<Figure name="contacts" url={yoda} maxWidth={74} />
+				</h1>
+				<Contacts {...this.props} modifier="topMaring"/>
+				<CallbackButtonContainer modifier="stretched" />
+				<article className={getClass({b: 'map'})}>
+					<h2 className={getClass({b: 'map', el: "title"})}>Карта проезда</h2>
+					{ReactHtmlPareser(map)}
+				</article>
+			</section>
 		);
 	}
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => {
+	const {app} = state;
+	const {
+		email,
+		phone,
+		address,
+		addressHref,
+		map
+	} = app;
+
+	return {
+		email,
+		phone,
+		address,
+		addressHref,
+		map
+	};
+};
 
 export default withRouter(connect(mapStateToProps)(ContactsContainer));

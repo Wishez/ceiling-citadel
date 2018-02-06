@@ -9,7 +9,8 @@ const Contacts = ({
 	email,
 	phone,
 	address,
-	addressHref
+	addressHref,
+	children
 }) => (  
   <ul className={getClass(composeClasses('contacts', '', modifier, 'baseChild'))}>
     <li className={getClass({b:"contactsItem"})}
@@ -45,7 +46,6 @@ const Contacts = ({
 	         	{address}
 	          </a>	
 	    </li> : ''}
-
   </ul>
 );
 
