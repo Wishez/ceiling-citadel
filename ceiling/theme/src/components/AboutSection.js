@@ -18,7 +18,7 @@ const AboutSection = ({
 	<article className={getClass({
 		b: "aboutSection", 
 		m: modifier, 
-		add: `${className} parent row centered` 
+		add: `${className} parent column centered` 
 	})}>
 		<h2 className={getClass({
 			b: "aboutSection", 
@@ -28,11 +28,15 @@ const AboutSection = ({
 		</h2>
 		<Figure name={modifier}
 			maxWidth={maxWidth}
-			url={image} sources={sources}/>
-		<Paragraph text={text} 
-			block="aboutSection" 
-			modifier={modifier}
+			url={image} 
+			sources={sources}
+			block="aboutSectionImage"
 		/>
+		{text ? 
+			<Paragraph text={text} 
+				block="aboutSection" 
+				modifier={modifier}
+			/> : ''}
 	 	{children}
 	</article>
 );

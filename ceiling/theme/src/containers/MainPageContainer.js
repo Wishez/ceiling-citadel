@@ -3,22 +3,32 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+import OrderButtonContainer from './OrderButtonContainer';
+
 import CatalogSection from './../components/CatalogSection';
 import CatalogItem from './../components/CatalogItem';
 import Loader from './../components/Loader';
 import AboutSection from './../components/AboutSection';
+import Paragraph from './../components/Paragraph';
+import Fading from './../components/Animation/Fading';
+
 import getClass from './../constants/classes';
+
 import {localData} from './../constants/pureFunctions';
-import { initNavigationState } from './../reducers/navigation';
-import { selectNavigationItem } from './../actions/navigationActions';
-import { tryFetchCatalog } from './../actions/catalog';
 import { catalogBrandsCombiner } from './../constants/filter';
+import { aboutSections } from './../constants/conf';
 import { CATALOG } from './../constants/catalog';
 
-import sharp from './../images/about/sharp_first.png';
+import { initNavigationState } from './../reducers/navigation';
+
+import { selectNavigationItem } from './../actions/navigationActions';
+import { tryFetchCatalog, fetchCatalogEntityOrGetLocale } from './../actions/catalog';
+
+import boxes from './../images/about/boxes.png';
+import {cartPositions} from './../constants/cart';
 
 class MainPageContainer extends Component {
-	static PropTypes = {
+	static propTypes = {
 		dispatch: PropTypes.func.isRequired,
 		match: PropTypes.object,
 		location: PropTypes.object,
@@ -30,31 +40,51 @@ class MainPageContainer extends Component {
 		
 		dispatch(tryFetchCatalog());
 		dispatch(selectNavigationItem(initNavigationState.firstNavItem.index));
-
+		document.title = 'Главная | ArtCeil';
     }
 
 	render() {
 		const { isRequesting } = this.props;
 		const catalog = localData.get(CATALOG);
-
+		let brands = [];
+		
+		function getArray(object) {
+			let newArray = [];
+			for (const prop in object) {
+				newArray.push(object[prop]);
+			}
+			return newArray;
+		}
+		if (catalog !== null && "brands" in catalog)
+			brands = getArray(catalog.brands);
+		
 		return (
-			<main id="main" className={getClass({b: 'main'})}>
-				<div className={getClass({b: 'container', m: "main", add: "parent column centered"})}>
-					<CatalogSection name="Основные бренды" titleShown={false}>
-						{!isRequesting && 
-						catalog !== null && 
-						"brands" in catalog && 
-						catalog.brands.length ?
-							catalogBrandsCombiner(catalog.brands) : <Loader />
-						}
-					</CatalogSection>
-					<AboutSection text="Мы поставщики большого объёма дизайнерских потолков, под кодовым именем ArtCeil."
-						title="приятно познакомиться"
-						image={sharp} 
-						sources={[{url: sharp, media: `max-width: ${992 / 16}em`}]} />
-
-				</div>
-			</main>
+			<div className={getClass({b: 'container', m: "main", add: "parent column centered"})}>
+				<CatalogSection name="Основные бренды" titleShown={false}>
+					{!isRequesting && 
+					brands.length ?
+						catalogBrandsCombiner(brands) : <Loader />
+					}
+				</CatalogSection>
+				{aboutSections.map((section, index) => (
+					<AboutSection key={index} {...section} />
+				))}
+				<AboutSection text={false}
+					title="просторная сумка"
+					image={boxes} 
+					sources={[]} 
+					modifier="bag"
+					maxWidth={404}
+				>
+					<Paragraph text="Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ." 
+						block="aboutSection" />
+					<OrderButtonContainer 
+						cartPosition={cartPositions.bag}
+              			cartModifier="hover_up"/>
+					<Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!" 
+						block="aboutSection" />
+				</AboutSection>
+			</div>
 		);
 	}
 }
