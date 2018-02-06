@@ -6,7 +6,11 @@ import HeaderContainer from './HeaderContainer';
 import CallbackFormContainer from './CallbackFormContainer';
 import OrderFormContainer from './OrderFormContainer';
 import FooterContainer from './FooterContainer';
-import MainPageContainer from './MainPageContainer';
+import MainRoutes from './MainRoutes';
+
+// import Fading from './../components/Animation/Fading';
+import getClass from './../constants/classes';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import './../tests/cart';
 import './../tests/app';
@@ -14,6 +18,26 @@ import './../tests/callback';
 import './../tests/catalog';
 import './../tests/search';
 import './../tests/order';
+
+
+// const Fade = ({ children, ...props }) => (
+//   <CSSTransition
+//     {...props}
+//     timeout={{
+//       enter: 500,
+//       exit: 300
+//     }}  
+//     component="div"
+//     classNames={{
+//       enter: getClass({b: 'fading', m: "enter"}),
+//       enterActive: getClass({b: 'fading', m: "enterActive"}),
+//       leave: getClass({b: 'fading', m: "leave"}),
+//       leaveActive: getClass({b: 'fading', m: "leaveActive"})
+//     }}
+//   >
+//     {children}
+//   </CSSTransition>
+// );
 
 class App extends Component {
   static propTypes = {
@@ -28,19 +52,25 @@ class App extends Component {
     const { 
         isCallbackOpened, 
         isOrderOpened,
-        phone, email } = this.props;
+        phone, email,
+        address, addressHref } = this.props;
 
     return (
       <div>
         <HeaderContainer phone={phone} email={email} />
-        <MainPageContainer />
-        <FooterContainer phone={phone} email={email} />
+        <MainRoutes />
+        <FooterContainer address={address} addressHref={addressHref}
+          phone={phone} email={email} />
         {isCallbackOpened ? 
             <CallbackFormContainer /> : ''
-        }
+         }
+          
         {isOrderOpened ? 
-            <OrderFormContainer /> : ''
+          <OrderFormContainer /> : 
+          ''
         }
+            
+        
       </div>
     );
   }
@@ -51,12 +81,14 @@ const mapStateToProps = state => {
 
   const { isCallbackOpened } = callback;
   const { isOrderOpened } = order;
-  const { phone, email } = app;
+  const { phone, email, address, addressHref } = app;
   console.log(state);
+  
   return {
     isCallbackOpened,
     isOrderOpened,
-    phone, email
+    phone, email,
+    address, addressHref
   };
 };
 
