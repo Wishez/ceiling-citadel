@@ -10,7 +10,8 @@ import {
 	COLLECTION,
 	CATEGORY,
 	PRODUCT,
-	CATALOG
+	CATALOG,
+	CHANGE_STEPS
 } from './../constants/catalog';
 
 import customAjaxRequest from './../constants/ajax';
@@ -29,6 +30,15 @@ export const retrieveEntity = (type , id) => ({
 });
 export const retriveCatalog = () => ({
 	type: RETRIEVE_CATALOG
+});
+
+export const changeSteps = (name, id, url) => ({
+	type: CHANGE_STEPS,
+	step: {
+		name,
+		id,
+		url
+	}
 });
 
 export const retrieveCategory = id => ({
@@ -54,7 +64,6 @@ export const requestCatalog = () => ({
 export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
 	let url = '', type = '';
 	name = name.toUpperCase();
-	
 	dispatch(requestCatalog());
 
 	switch (name) {
@@ -89,12 +98,31 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
         	console.log(response)
 			localData.set(name, response.body)
 			dispatch(retrieveEntity(type, id));
+
+			
 	    },
         failure: error => {
 			throw new Error(`Somethin going wrong ${error.message}`);
         }
 	});
 };
+function extractData(data) {
+	const newData = {}
+	console.log(data);
+	for (const prop in data) {
+		const section = data[prop];
+		
+		const newSection = {};
+
+		section.forEach(item => {
+			newSection[item.slug] = item;
+		});
+
+		newData[prop] = newSection;
+	}
+
+	return newData;
+}
 
 export const tryFetchCatalog = () => dispatch => {
 
@@ -105,9 +133,15 @@ export const tryFetchCatalog = () => dispatch => {
         cache: true,
         url: catalogUrl,
         success: response => {
-        	console.log(response);
-			localData.set(CATALOG, response.body)
+        	// console.log(response);
+        	const newData = extractData(response.body);
+
+        
+        	// console.log(newData, 'new');
+
+			localData.set(CATALOG, newData)
 			dispatch(retriveCatalog());
+
 	    },
         failure: error => {
 			throw new Error(`Somethin going wrong ${error.message}`);
@@ -120,7 +154,7 @@ export const fetchCatalogEntityOrGetLocale = (name, id) =>
 	const catalog = getStore().catalog;
 	
 	if (catalog[name] !== id || catalog.isRefetching) {
-		dispatch(tryRetrieveCatalogEntity(name, id, callback));
+		dispatch(tryRetrieveCatalogEntity(name, id));
 		return false;
 	} 
 

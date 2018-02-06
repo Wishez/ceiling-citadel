@@ -7,6 +7,7 @@ import {
 	RETRIEVE_BRAND,
 	REFETCH_DATA,
 	RETRIEVE_CATALOG,
+	CHANGE_STEPS,
 	BRAND,
 	COLLECTION,
 	CATEGORY,
@@ -33,6 +34,11 @@ export const initState = {
 	PRODUCT: false,
 	CATALOG: false,
 	shown: CATALOG,
+	steps: [{
+		name: CATALOG,
+		id: false,
+		url: '/catalog'
+	}],
 	...fetchState
 };
 
@@ -42,6 +48,27 @@ const catalog = (
 ) => {
 	
 	switch (action.type) {
+		case CHANGE_STEPS:
+			const stepName = action.step.name;
+			let index = state.steps.length;
+			let i = 0;
+
+			for (const step of state.steps) {
+				if (step.name === stepName) {
+					index = i;
+					break;
+				}
+
+				i += 1;
+			}
+
+			return {
+				...state,
+				steps: [
+					state.steps.slice(0, index + 1),
+					step.step
+				]
+			};
 		case REQUEST_CATALOG:
 			return {
 				...state,

@@ -5,6 +5,9 @@ export const RETRIEVE_SINGLE_PRODUCT = 'RETRIEVE_SINGLE_PRODUCT';
 export const RETRIEVE_COLLECTION = 'RETRIEVE_COLLECTION';
 export const RETRIEVE_BRAND = 'RETRIEVE_BRAND';
 export const REFETCH_DATA = 'REFETCH_DATA';
+export const REMOVE_STEPS = 'REMOVE_STEPS';
+export const CHANGE_STEPS = 'CHANGE_STEPS';
+export const ADD_STEP = 'ADD_STEP';
 
 export const CATEGORY = 'CATEGORY';
 export const PRODUCT = 'PRODUCT';
