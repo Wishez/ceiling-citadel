@@ -90,6 +90,7 @@
 	@include breakpoint($md-less)
 		padding: em(16) 0
 	& > .container
+		max-width: em(1050)
 		@include breakpoint($sm-less)
 			margin: 0
 			padding: 0	
@@ -171,7 +172,6 @@
 		@include breakpoint($md-less)
 			max-width: em(265)
 			order: 4
-			// min-width: span(3)
 		@include breakpoint($xs)
 			order: 1
 			transform: translateX(-25%)
@@ -189,6 +189,9 @@
 	&__slogan
 		font-size: em(7)
 		font-size: 	em(9)
+	&__name, &__slogan
+		font-weight: bold
+		text-transform: none
 .controller_search
 	min-width: auto
 	max-width: span(10)

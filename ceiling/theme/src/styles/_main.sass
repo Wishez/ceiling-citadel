@@ -1,5 +1,5 @@
 .main
-	padding: 2em 0
+	padding: 2em 0 em(90)
 .catalogItem
 	height: em(302)
 	flex: 1 0 span(6)
@@ -9,8 +9,12 @@
 	overflow: hidden
 	@extend %relative
 	cursor: pointer
-
+	transition: box-shadow .3s ease
+	@include breakpoint($xxs) 
+		min-width: span(12)
 	&:hover 
+		// @extend %flyShadow
+		z-index: 2
 		& .table
 			transform: translateY(-298%);
 		& .catalogDescription
@@ -28,7 +32,7 @@
 	background-color: $white
 .catalogSection
 	max-width: em(960)
-	min-width: em(960)
+	width: span(12)
 .table
 	min-height: span(3)
 	padding: 1em 0 
@@ -54,4 +58,64 @@
 	&_center
 		border-radius: 2px 2px 0 0 
 		justify-self: center
+
+.main a:not(.table__refer)
+	color: $cian
+	background-image: linear-gradient(to right, $cian  0%, $cian 100%)
 	
+.aboutSection
+	max-width: em(404)
+	margin-top: em(41)
+	&__title
+		align-self: flex-start
+	@extend %relative
+	&_niceToMeetYou
+		align-self: flex-start
+	&_products
+		align-self: center
+		@include breakpoint($sm-less)
+			align-self: flex-end
+	&_design
+		align-self: flex-end
+		@include breakpoint($sm-less)
+			align-self: flex-start
+		
+	&_exhebition
+		align-self: center
+		@include breakpoint($sm-less)
+			align-self: flex-end
+		
+	&_bag
+		align-self: flex-start
+.main p
+	font-size: em(18)
+	max-width: 	em(525)
+		
+.aboutSectionImage
+	
+.contactsSection
+	& > *
+		flex: 1 0 3em
+	&__title
+		@include breakpoint($xxs)
+			font-size: 	5vw
+			flex-basis: 6em
+.callbackButtons_stretched
+	flex-basis: 15%
+	@include breakpoint($xs)
+		border: 0
+.deploy
+	@include breakpoint($xs)
+		margin-top: em(12)
+.map
+
+	margin-top: em(10)
+	&__title
+		margin-bottom: em(10)
+	&, & > iframe
+		width: span(12)
+	& > iframe
+		box-shadow: 0 10px 15px $shadow
+		border-radius: 2px
+		max-height: em(350)
+		height: span(12)

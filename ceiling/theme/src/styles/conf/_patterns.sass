@@ -346,6 +346,8 @@
 	transition: opacity .2s
 	box-shadow: inner 0 0 14;
 	@extend %relative
+	@include breakpoint($xxs)
+		width: 75vw
 	&_order
 		width: 	span(12)
 		margin-top: em(21, 24)
@@ -487,19 +489,19 @@
 
 @media (min-width: em(576)) 
 	.container 
-		max-width: em(540)
+		max-width: em(650)
   
 
 
 @media (min-width: em(778)) 
 	.container 
-   		max-width: em(750)
+   		max-width: em(778)
   
 
 
 @media (min-width: em(992)) 
   	.container 
-    	max-width: em(1260)
+    	max-width: em(950)
   
 input[type=number]::-webkit-inner-spin-button 
 	-webkit-appearance: none
@@ -577,3 +579,25 @@ input[type=number]:hover::-webkit-inner-spin-button
 	font-weight: bold
 .successfull
 	color: $darkBlue
+
+
+.fading
+	&_enter
+		opacity: 0.1
+		will-change: opacity
+		&Active
+			transition: opacity .5s ease-in
+			opacity: 1
+	&_leave
+		opacity: 1
+		will-change: opacity
+		&Active
+			transition: opacity .3s ease-in
+			opacity: 0.1
+.translate
+	&_appear
+		transform: translateX(-100%)
+		will-change: transform
+		&Active
+			transition: transform .5s ease-in
+			transform: translateX(0);

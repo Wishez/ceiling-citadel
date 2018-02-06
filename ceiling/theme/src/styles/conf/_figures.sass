@@ -15,3 +15,56 @@
 			margin-right: 0
 	&_brand
 		margin-right: em(18)
+	&_niceToMeetYou, &_design, &_products, &_exhebition, &_bag
+		// height: span(12)
+		@extend %absolute
+		@include breakpoint($xs)
+			order: -1
+			position: static
+	&_niceToMeetYou, &_design
+		@include breakpoint($md-up)
+			opacity: 0
+	&_niceToMeetYou
+		@include breakpoint($sm-less)
+			left: 110%
+			top: 20%
+			transform: rotate(25deg)
+		@include breakpoint($xs)
+			align-self: flex-end
+			transform: transitionY(50%)
+	&_products
+
+		@include breakpoint($md-up)
+			left: 80%
+			bottom: 50%
+			max-width: em(327.49) $i
+			transform: rotate(25deg)
+		@include breakpoint($sm-less)
+			right: 110%
+			transform: rotateY(180deg) rotate(25deg)
+			top: 10%
+	&_design
+		left: 110%
+		top: 5%
+	&_exhebition
+		@include breakpoint($md-up)
+			max-width: em(315) $i
+		@include breakpoint($sm-less)
+			max-width: em(222)
+		right: 110%
+		top: 0
+
+	&_bag
+		@include breakpoint($md-up)
+			transform: translateX(15%)
+			left: 100%
+		@include breakpoint($sm-less)
+			left: 80%
+			max-width: em(372)
+		top: -20%
+	&_contacts, &_service
+		order: -1
+		margin-right: em(16, 28)
+.imageContainer__image_exhebition
+	@include breakpoint($md-up)
+		transform: translate(40%, -105%)
