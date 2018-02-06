@@ -9,10 +9,12 @@ const CallbackButton = ({
 	openCallback,
   isCallbackOpened,
   closeCallback,
+  modifier,
   ...rest
 }) => (
   <div className={getClass({
     b: "callbackButtons",
+    m: modifier,
     add: "parent row h-between v-centered"
   })}>
   	<Button
@@ -20,6 +22,7 @@ const CallbackButton = ({
       className={getClass({
         b: "callbackButtons",
         el: 'button',
+        m: modifier,
         add: "button_cian baseChild"
       })}
       onClick={isCallbackOpened ? closeCallback :openCallback}
@@ -28,6 +31,7 @@ const CallbackButton = ({
     <button aria-pressed={false}
       className={getClass({
         b: "callbackFigureButton",
+        m: modifier,
         add: "parent row h-between v-centered"
       })}
       onClick={isCallbackOpened ? closeCallback : openCallback} 

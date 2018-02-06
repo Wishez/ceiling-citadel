@@ -1,80 +1,35 @@
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Logo from './../components/Logo';
-import NavContainer from './NavContainer.js'; 
-import getClass from './../constants/classes';
 import Contacts from './../components/Contacts';
-import SearchContainer from './SearchContainer';
-import OrderButton from './../components/OrderButton';
-import CallbackButton from './../components/CallbackButton';
 import ButtonsGroup from './../components/ButtonsGroup';
-import QuestionFormContainer from './../containers/QuestionFormContainer';
 
 
-import { 
-  openCart, 
-  closeCart, 
-  changeProductQuantity, 
-  deleteProductAndNotifyAbout 
-} from './../actions/cart';
+import NavContainer from './NavContainer.js'; 
+import QuestionFormContainer from './QuestionFormContainer';
+import SearchContainer from './SearchContainer';
+import CallbackButtonContainer from './CallbackButtonContainer';
+import OrderButtonContainer from './OrderButtonContainer';
+
+import getClass from './../constants/classes';
 import {cartPositions} from './../constants/cart';
+import { getDeleteProductArguments, notFollow } from './../constants/pureFunctions';
 
 import {openCallback} from './../actions/callback';
 import {openOrder} from './../actions/order';
-import { getDeleteProductArguments, notFollow } from './../constants/pureFunctions';
 
-class  HeaderContainer extends Component {
+class  FooterContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    quantityOrderedProducts: PropTypes.number.isRequired,
     phone: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    isCartOpened: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    isCallbackOpened: PropTypes.bool.isRequired,
-    products: PropTypes.array.isRequired,
-    isShownHelpText: PropTypes.bool.isRequired,
-    helpText: PropTypes.string.isRequired
+    address: PropTypes.string.isRequired,
+    addressHref: PropTypes.string.isRequired
   }
 
- 
-  deleteProduct = (index, name, quantityOrderedProducts) => () => {
-    const { dispatch } = this.props;
-    
-
-    dispatch(
-      deleteProductAndNotifyAbout(
-        ...getDeleteProductArguments(index, name, quantityOrderedProducts)
-      )
-    );
-
-  }
-  onSubmitQuantityProduct = index => e => {
-      const { dispatch } = this.props;
-      dispatch(changeProductQuantity(index, e.target.value));
-  }
-
-  showCart = () => {
-    const { dispatch } = this.props;
-    dispatch(openCart(cartPositions.footer));
-  }
-
-  hideCart = () => {
-    const { dispatch } = this.props;
-
-    dispatch(closeCart());
-  }
-  openOrderForm = () => { 
-    const { dispatch } = this.props;
-    dispatch(openOrder(cartPositions.footer));
-  }
-  openCallbackForm = () => { 
-    const { dispatch } = this.props;
-    dispatch(openCallback());
-  }
 
   render() {
     const {
@@ -88,17 +43,10 @@ class  HeaderContainer extends Component {
       			<div className={getClass({b: 'firstFooterBlock',  add: "parent column h-around baseChild"})}>
       				 <SearchContainer modifier="footer" />
       				 <ButtonsGroup className="baseChild" modifier="footer">
-      				   <CallbackButton {...this.props}
-      				      closeCallback={this.closeCallbackForm}
-      				      openCallback={this.openCallbackForm} />
-      				   <OrderButton {...this.props} 
-      				     openCart={this.showCart} 
-                   isCartOpened={isCartOpened === cartPositions.footer}
-      				     closeCart={this.hideCart}
+      				   <CallbackButtonContainer  />
+      				   <OrderButtonContainer 
+                   cartPosition={cartPositions.footer}
                    cartModifier="hover_up"
-      				     openOrder={this.openOrderForm}
-      				     onSubmitQuantityProduct={this.onSubmitQuantityProduct}
-      				     deleteProduct={this.deleteProduct}
       				    />
       				 </ButtonsGroup>
       			</div>
@@ -127,27 +75,8 @@ class  HeaderContainer extends Component {
 
 
 const mapStateToProps = state => {
-  const {  cart, callback } = state;
-
-  const { 
-    quantityOrderedProducts,
-    isCartOpened,
-    products,
-    isShownHelpText,
-    helpText
-  } = cart;
-
-  const { isCallbackOpened } = callback;
-
-  return {
-    quantityOrderedProducts,
-    isCartOpened,
-    products,
-    isShownHelpText,
-    helpText,
-    isCallbackOpened
-  };
+  return {};
 }
       
 
-export default connect(mapStateToProps)(HeaderContainer);
+export default connect(mapStateToProps)(FooterContainer);
