@@ -16,7 +16,8 @@ base_fields = [
     'uuid',
     'name',
     'description',
-    'slug'
+    'slug',
+    'slogan',
 ]
 # Base
 class ImageSerializer(serializers.ModelSerializer):
@@ -164,11 +165,11 @@ class CategorySerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
-    collections = CategoryListSerializer(
+    collections = CollectionListSerializer(
         many=True,
         read_only=True
     )
-    products = CategoryListSerializer(
+    products = ProductsListSerializer(
         many=True,
         read_only=True
     )
