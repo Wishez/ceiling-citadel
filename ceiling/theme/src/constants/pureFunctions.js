@@ -1,6 +1,9 @@
 // import lozad from 'lozad';
 import {Linear} from 'gsap';
 
+export function trasformName(name) {
+	return `${name.charAt(0).toUpperCase()}${name.slice(1)}`
+}
 export const getDeleteProductArguments = (index, name, quantityOrderedProducts) => {
 	const lastProudctRemovedMessage = `Вы удалили  из корзины последний продукт "${name}" ಥ⌣ಥ.`;
     const removedProductMessage = `Вы удалили из корзины "${name}" ಠ_ಠ!`
@@ -73,3 +76,10 @@ export const notFollow = event => {
 	  
 }
 
+export function getArray(object) {
+	let newArray = [];
+	for (const prop in object) {
+		newArray.push(object[prop]);
+	}
+	return newArray;
+}

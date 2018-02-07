@@ -13,14 +13,15 @@ export const categoryUrl = `${siteApi}${catalogApi}/category/`;
 export const brandUrl = `${siteApi}${catalogApi}/brand/`;
 export const catalogUrl = `${siteApi}${catalogApi}/catalog/`
 
-
+export const catalogCollectionUrl = `/catalog/collection/`;
 export const catalogBrandUrl = `/catalog/brand/`;
+export const catalogCategoryUrl = `/catalog/category/`;
 
 import OrderButton from './../components/OrderButton';
 import nice_to_meet_you from './../images/about/sharp_first.png';
 import products from './../images/about/sharp.png';
 import design from './../images/about/square.png';
-import exhebition from './../images/about/exhebition1.png';
+import exhibition from './../images/about/exhebition1.png';
 import boxes from './../images/about/boxes.png';
 
 export const aboutSections = [{
@@ -53,11 +54,11 @@ export const aboutSections = [{
 {
 	title: "Локальный Эрмитаж",
 	text: `Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас:&nbsp;<a href="/catalog#brands">зал с брэндами</a>&thinsp;и&thinsp;<a href="/catalog#categories">зал с разнообразым типами потолков</a>.`,
-	image: exhebition,
+	image: exhibition,
 	sources: [],
 	children: "",
 	maxWidth: 215,
-	modifier: "exhebition",
+	modifier: "exhibition",
 },
 // {
 // 	title: "просторная сумка",

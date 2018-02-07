@@ -8,68 +8,88 @@ import {CATALOG} from './../../constants/catalog';
 import getClass from './../../constants/classes';
 import picture from './../../images/icons/picture.png';
 // import { slideTo } from './../../constants/pureFunctions';
-import {localData} from './../../constants/pureFunctions.js';
+import {localData, getArray} from './../../constants/pureFunctions.js';
 import CatalogSection from './../../components/CatalogSection';
 import Figure from './../../components/Figure';
+import Loader from './../../components/Loader';
+import {catalogItemsCombiner, catalogCategoriesCombiner} from './../../constants/filter'
+import {catalogBrandUrl, catalogCategoryUrl} from './../../constants/conf';
 
 class CatalogPageContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    isRequesting: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
 
   }
+
   
 
   render() {  
-    const catalog = localData.get(CATALOG); 
+    const { isRequesting } = this.props;
+    
 
+    const catalog = localData.get(CATALOG); 
+    let brands = [];
+    let categories = [];
+
+    // console.log(catalog)
+    
+    if (catalog !== null) {
+      brands = getArray(catalog.brands);
+      categories = getArray(catalog.categories);
+    }
 
     return (
       <div className={getClass({b: 'container', m: "main", add: "parent column centered catalogSection"})}>
-         <div className={getClass({b: 'catalogHeader', add: "parent row centered"})}> 
-            <h1 className={getClass({b: 'catalogSection', el: "title", add: "parent row centered baseChild"})}>
+         <div className={getClass({b: 'catalogHeader',m: "catalog", add: "parent row v-start h-centered"})}> 
+            <h1 className={getClass({b: 'catalogHeader', el: "title", m: "catalog", add: "parent row centered baseChild"})}>
               Выставочный зал
               <Figure name="picture" url={picture} maxWidth={68} />
             </h1>
             <ul className={getClass({b: 'catalogRefersList', add: "parent row h-start baseChild"})}>
-                <li classNames={getClass({b: 'catalogRefer'})}>
+                <li className={getClass({b: 'catalogRefer'})}>
                   <a href="#brands" 
                     
-                    className={getClass({b: "catalogRefer", el: "refer"})}>Бренды</a>,
+                    className={getClass({b: "catalogRefer", el: "refer"})}>Бренды</a>,&nbsp;
                 </li>
-                <li classNames={getClass({b: 'catalogRefer'})}>
-                  <a href="#categiries" 
+                <li className={getClass({b: 'catalogRefer'})}>
+                  <a href="#categories" 
                     
-                    className={getClass({b: "catalogRefer", el: "refer"})}>Категория</a>,
+                    className={getClass({b: "catalogRefer", el: "refer"})}>Категория</a>
                 </li>
 
             </ul>
-            <p className={getClass({b: 'catalogSection', el: "slogan", add: "parent row h-end baseChild"})}>
+            <p className={getClass({b: 'catalogHeader', el: "slogan", add: "parent row h-end baseChild"})}>
                 Цитадель потолочных покрытий
             </p>
         </div>
 
-        {/*<CatalogSection name="Основные бренды" titleShown={false}>
+        <CatalogSection name="Бренды" headerId="brands">
           {!isRequesting && 
-          catalog !== null && 
-          "brands" in catalog && 
-          catalog.brands.length ?
-            catalogBrandsCombiner([...catalog.brands]) : <Loader />
+          brands.length ?
+            catalogItemsCombiner(brands, catalogBrandUrl) : <Loader />
           }
-        </CatalogSection>*/}
+        </CatalogSection>
+        <CatalogSection name="Категории" headerId="categories">
+            {!isRequesting && 
+            categories.length ?
+                catalogCategoriesCombiner(categories, catalogCategoryUrl) : <Loader />
+            }
+        </CatalogSection>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  // const { catalog } = state;
+  const { catalog } = state;
 
   return {
-    // ...catalog
+    ...catalog
   };
 };
 

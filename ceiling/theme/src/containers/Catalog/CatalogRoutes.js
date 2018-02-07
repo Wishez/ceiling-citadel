@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
-import {Route} from 'react-router-dom'; 
+import {Route, Switch} from 'react-router-dom'; 
 
 // import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 // import { TransitionGroup } from 'react-transition-group'
@@ -12,11 +12,18 @@ import BrandContainer from './BrandContainer';
 import CategoryContainer from './CategoryContainer';
 import BrandCategoryContainer from './BrandCategoryContainer';
 import ProductContainer from './ProductContainer';
-import { tryFetchCatalog, fetchCatalogEntityOrGetLocale } from './../../actions/catalog';
-
+import BrandCollectionContainer from './BrandCollectionContainer'
+import CategoryCollectionContainer from './CategoryCollectionContainer'
+import { 
+  tryFetchCatalog, 
+  fetchCatalogEntityOrGetLocale
+} from './../../actions/catalog';
+import MyRoute from './../../components/MyRoute'
 
 import { selectNavigationItem } from './../../actions/navigationActions.js'; 
 import { initNavigationState } from './../../reducers/navigation.js';
+
+import {localData} from './../../constants/pureFunctions';
 
 class CatalogRoutes extends Component {
   static propTypes = {
@@ -27,39 +34,29 @@ class CatalogRoutes extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    // Перенести в отдельный компонент каталога.
-    // const { pathname } = this.props.location;
-    // dispatch(changeSteps(id, name, pathname));
     
+    dispatch(tryFetchCatalog());
     dispatch(selectNavigationItem(initNavigationState.secondNavItem.index));
+
     document.title = 'Каталог | ArtCeil'
   }
 
-  receiveData = (name, id) => {
-    const {dispatch} = this.props;
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   // const { match } = this.props;
-  //   // const currentUrl = match.url;
-  //   // const nextUrl = nextProps.match.url;
-  
-
-  // }
 
   render() {
     const { 
         match 
     } = this.props;
     const url = match.url;
-    
+
     return (
       <section className={getClass({b: 'catalog'})}>
-            <Route path={`${url}`} component={CatalogPageContainer} />
-            <Route path={`${url}/brand/:brandSlug`} component={BrandContainer} />
-            {/*<Route path={`${url}/brand-category/:categorySlug`} component={BrandCategoryContainer} />*/}
-            <Route path={`${url}/category/:categorySlug`} component={CategoryContainer} />
-            <Route path={`${url}/product/:productSlug`} component={ProductContainer} />
+            <Switch >
+              <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
+              <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
+              <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
+              <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
+              <MyRoute path={`${url}`} component={CatalogPageContainer} />
+            </Switch>
       </section>
     );
   }

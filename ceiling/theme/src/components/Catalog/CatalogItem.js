@@ -1,7 +1,7 @@
 import React  from 'react';
-import getClass from './../constants/classes';
+import getClass from './../../constants/classes';
 import Table from './Table';
-import Figure from './Figure';
+import Figure from './../Figure';
 import Description from './Description';
 
 const CatalogItem = ({ 
@@ -17,6 +17,7 @@ const CatalogItem = ({
 	style,
 	slug,
 	url,
+	takeStep,
 	...rest
 }) => (
 	<article style={{backgroundImage:`url("${image}")`}} 
@@ -25,6 +26,7 @@ const CatalogItem = ({
 			slug={slug} 
 			content={name} 
 			modifier={tablePosition} 
+			onClick={takeStep}
 		/>
 		<Description content={description} />
 	</article>

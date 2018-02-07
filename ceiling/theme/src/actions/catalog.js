@@ -10,8 +10,7 @@ import {
 	COLLECTION,
 	CATEGORY,
 	PRODUCT,
-	CATALOG,
-	CHANGE_STEPS
+	CATALOG
 } from './../constants/catalog';
 
 import customAjaxRequest from './../constants/ajax';
@@ -32,31 +31,7 @@ export const retriveCatalog = () => ({
 	type: RETRIEVE_CATALOG
 });
 
-export const changeSteps = (name, id, url) => ({
-	type: CHANGE_STEPS,
-	step: {
-		name,
-		id,
-		url
-	}
-});
 
-export const retrieveCategory = id => ({
-	type: RETRIEVE_CATEGORY
-});
-
-export const retrieveProduct = id => ({
-	type: RETRIEVE_PRODUCT,
-	id
-});
-export const retrieveCollection = id => ({
-	type: RETRIEVE_COLLECTION,
-	id
-});
-export const retrieveBrand = id => ({
-	type: RETRIEVE_BRAND,
-	id
-});
 export const requestCatalog = () => ({
 	type: REQUEST_CATALOG
 });
@@ -94,9 +69,11 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
 			"uuid": id
 		},
         cache: true,
+        isSettingAccept: false,
         success: response => {
-        	console.log(response)
+        	
 			localData.set(name, response.body)
+			console.log(type, id, 'type and id');
 			dispatch(retrieveEntity(type, id));
 
 			
@@ -107,11 +84,11 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
 	});
 };
 function extractData(data) {
-	const newData = {}
-	console.log(data);
+	const newData = {};
+
 	for (const prop in data) {
 		const section = data[prop];
-		
+
 		const newSection = {};
 
 		section.forEach(item => {
@@ -133,11 +110,7 @@ export const tryFetchCatalog = () => dispatch => {
         cache: true,
         url: catalogUrl,
         success: response => {
-        	// console.log(response);
         	const newData = extractData(response.body);
-
-        
-        	// console.log(newData, 'new');
 
 			localData.set(CATALOG, newData)
 			dispatch(retriveCatalog());

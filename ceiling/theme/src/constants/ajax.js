@@ -11,6 +11,7 @@ const customAjaxRequest = ({
 	headers,
 	success,
 	failure,
+	isSettingAccept=true,
 	...rest
 }) => {
 	let newRequest;
@@ -28,8 +29,10 @@ const customAjaxRequest = ({
 	}
 
 	newRequest
-	  .send(data) // sends a JSON post body
-	  .set('accept', 'json');
+	  .send(data); // sends a JSON post body
+	  
+	if (isSettingAccept)
+		newRequest.set('accept', 'json');
 
 	const csrftoken = Cookies.get('csrftoken');
 	const csrfSafeMethod = (method) => (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

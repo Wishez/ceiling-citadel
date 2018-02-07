@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 import OrderButtonContainer from './OrderButtonContainer';
 
-import CatalogSection from './../components/CatalogSection';
-import CatalogItem from './../components/CatalogItem';
+import CatalogSection from './../components/Catalog/CatalogSection';
+import CatalogItem from './../components/Catalog/CatalogItem';
 import Loader from './../components/Loader';
 import AboutSection from './../components/AboutSection';
 import Paragraph from './../components/Paragraph';
@@ -14,8 +14,9 @@ import Fading from './../components/Animation/Fading';
 
 import getClass from './../constants/classes';
 
-import {localData} from './../constants/pureFunctions';
-import { catalogBrandsCombiner } from './../constants/filter';
+import {localData, getArray} from './../constants/pureFunctions';
+import { catalogItemsCombiner } from './../constants/filter';
+import {catalogBrandUrl} from './../constants/conf';
 import { aboutSections } from './../constants/conf';
 import { CATALOG } from './../constants/catalog';
 
@@ -48,13 +49,7 @@ class MainPageContainer extends Component {
 		const catalog = localData.get(CATALOG);
 		let brands = [];
 		
-		function getArray(object) {
-			let newArray = [];
-			for (const prop in object) {
-				newArray.push(object[prop]);
-			}
-			return newArray;
-		}
+		
 		if (catalog !== null && "brands" in catalog)
 			brands = getArray(catalog.brands);
 		
@@ -63,7 +58,7 @@ class MainPageContainer extends Component {
 				<CatalogSection name="Основные бренды" titleShown={false}>
 					{!isRequesting && 
 					brands.length ?
-						catalogBrandsCombiner(brands) : <Loader />
+						catalogItemsCombiner(brands, catalogBrandUrl) : <Loader />
 					}
 				</CatalogSection>
 				{aboutSections.map((section, index) => (
@@ -80,7 +75,9 @@ class MainPageContainer extends Component {
 						block="aboutSection" />
 					<OrderButtonContainer 
 						cartPosition={cartPositions.bag}
-              			cartModifier="hover_up"/>
+              			cartModifier="hover_up"
+              			modifier="stretch"
+              		/>
 					<Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!" 
 						block="aboutSection" />
 				</AboutSection>
