@@ -3,10 +3,11 @@ import {Route} from 'react-router-dom';
 
 const MyRoute = ({ 
     component: Component, 
-    ...rest 
+    componentProps,
+    ...rest
 }) => (
    <Route {...rest} render={props => (
-	  	<Component {...props}/>
+	  	<Component {...props} {...componentProps}/>
   	)}/>
 )
 export default MyRoute;

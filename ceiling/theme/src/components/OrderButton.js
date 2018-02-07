@@ -12,10 +12,12 @@ const OrderButton = ({
   products,
   isCartOpened,
   cartModifier,
+  modifier,
   ...rest
 }) => (
   <div className={getClass({
     b: "orderButtons",
+    m: modifier,
     add: "parent row h-between v-centered"
   })}>
   	<Button
@@ -23,6 +25,7 @@ const OrderButton = ({
       className={getClass({
         b: "orderButtons",
         el: "button",
+        m: modifier,
         add: "button_darkBlue"
       })}
       onClick={openOrder}

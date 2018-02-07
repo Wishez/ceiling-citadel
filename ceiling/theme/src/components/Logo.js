@@ -15,7 +15,7 @@ const Logo = ({
   			className="baseChild"
   			modifier={modifier}
   		/>
-  		<hgroup className={getClass({b: 'centeredText'})}>
+  		<hgroup className={getClass({b: 'centeredText', add: ""})}>
 			<h1 className={getClass(composeClasses("brand", 'name', modifier, "baseChild"))}>
 				<span className={getClass({b: 'cian'})}>Art</span>
 				<span className={getClass({b: 'orange'})}>Ceil</span>
