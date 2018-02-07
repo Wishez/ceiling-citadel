@@ -1,10 +1,8 @@
-from django.http import JsonResponse, HttpResponse, HttpRequest
-from pages.models import CatalogPage
-from django.contrib.auth.models import AnonymousUser
+from django.http import JsonResponse, HttpResponse
+
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 import requests
-import json
 from django.contrib.sites.models import Site
 def extract_entities(m2m):
     array = m2m.all()
