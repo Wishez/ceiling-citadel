@@ -16,7 +16,7 @@ body
     family: $mainFont
     size: 16px
   
-  line-height: 1.4
+  line-height: 1.5
   word-break: break-word
   hyphens: auto
   -webkit-hyphenate-before: 2
@@ -24,6 +24,17 @@ body
   hyphenate-lines: 3
   background-color: $white
   color: $darkGray
+
+
+main * + *
+  margin-top:  1.5rem
+  &:not(p):not(img)
+    margin-top:  3rem
+    margin-bottom: 3rem
+
+li, dt, th, td, tr
+  margin-top:  0
+
 
 h1 
   font-size: em(28)
@@ -83,3 +94,4 @@ button
   background-color: transparent
 input, textarea
   @include placehodler-color($gray)
+

@@ -4,6 +4,7 @@
 	height: em(302)
 	flex: 1 0 span(6)
 	min-width: span(6)
+	margin: 0 auto
 	background: $gray no-repeat center
 	background-size: cover
 	overflow: hidden
@@ -23,16 +24,65 @@
 	will-change: transform
 .catalogDescription
 	transition: transform .5s ease
+	min-width: 	span(12)
 	@extend %absolute
 	padding: 0 1.5em 	
-	width: span(12)
+	// width: span(12)
 	min-height: span(9)
 	bottom: 0
 	transform: translateY(100%)
 	background-color: $white
-.catalogSection
+// Catalog
+.catalogSection, .catalogSubsection
 	max-width: em(960)
 	width: span(12)
+.catalogSubsection
+	margin-top: 1.5rem
+.catalogSection, .catalogSubsection
+	&__title
+		margin-bottom: 	1.5rem
+		min-width: span(12)
+.catalogHeader
+	width: 	span(12)
+	&__title
+		min-height: em(65, 28)
+		&_catalog
+			flex-basis: 30%
+	&__slogan
+		margin-top: 0 $i
+		font-weight: bold
+		white-space: nowrap
+		text-overflow: ellipsis
+		overflow: hidden
+		display: block
+		text-align: right	
+.catalogRefersList, .breadcrumbs
+	order: -1
+	margin: 0
+.catalogRefer, .breadcrumb
+	margin: 0	
+.breadcrumb
+	@extend %relative
+	&:after
+		background-color: $darkGray
+		content: ""
+		@extend %absolute
+		$squareSize: em(10)
+		width: $squareSize
+		height: $squareSize
+		left: 48%
+		top: 102%
+		left: calc(50% - #{$squareSize / 3})
+		top: calc(100% + #{$squareSize / 3})
+		@extend %round
+	&_active
+		&:after
+			background-color: $orange
+.catalogRefersList, .catalogHeader__slogan, .breadcrumbs
+	border-bottom: 	1px solid $gray
+	padding-bottom: .5rem
+
+
 .table
 	min-height: span(3)
 	padding: 1em 0 
@@ -104,6 +154,12 @@
 	flex-basis: 15%
 	@include breakpoint($xs)
 		border: 0
+.callbackButtons, .orderButtons
+	// flex-basis: 10%
+	margin: 0	
+.orderButtons_stretch
+	flex-basis: 10%
+	margin-top: 1.5rem
 .deploy
 	@include breakpoint($xs)
 		margin-top: em(12)
@@ -119,3 +175,8 @@
 		border-radius: 2px
 		max-height: em(350)
 		height: span(12)
+
+
+.catalogSection:first-of-type
+	// margin-top: 0
+
