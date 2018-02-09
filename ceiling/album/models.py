@@ -25,7 +25,7 @@ class Album(TimeStampedModel):
         verbose_name_plural = _('Альбомы')
 
 class AlbumImage(TimeStampedModel):
-    image = ProcessedImageField(verbose_name=_('Изображение'), upload_to='albums', processors=[ResizeToFit(1280)], format='JPEG', options={'quality': 70})
+    image = ProcessedImageField(verbose_name=_('Изображение'), upload_to='albums', processors=[ResizeToFit(1280)], format='PNG', options={'quality': 70})
     #thumb = ProcessedImageField(upload_to='albums', processors=[ResizeToFit(300)], format='JPEG', options={'quality': 80})
     album = models.ForeignKey(
         'album',
