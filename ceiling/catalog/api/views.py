@@ -15,7 +15,7 @@ class BrandsView(ListAPIView):
     lookup_field = 'uuid'
 class CollectionsView(ListAPIView):
     queryset = Collection.objects.all()
-    serializer_class = CollectionSerializer
+    serializer_class = CollectionListSerializer
     permission_classes = (AllowAny,)
     lookup_field = 'uuid'
 
@@ -33,8 +33,8 @@ class BrandView(RetrieveAPIView):
 
 class CollectionView(RetrieveAPIView):
     queryset = Collection.objects.all()
-    serializer_class = CollectionListSerializer
-    permission_classes = (IsAuthenticated, )
+    serializer_class = CollectionSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
     lookup_field = 'uuid'
 
 class ProductView(RetrieveAPIView):

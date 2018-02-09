@@ -283,14 +283,14 @@ class Product(BaseProductModel):
 
     visualisation = models.ForeignKey(
         "album.albumimage",
-        verbose_name=_('Изображение визуализирующая продукт'),
+        verbose_name=_('Изображение визуализирующие продукт'),
         related_name='product_visualisation',
         blank=True,
         null=True
     )
     album = models.ForeignKey(
         "album.album",
-        verbose_name=_('Изображения визуализирующая продукт'),
+        verbose_name=_('Презентационный альбом'),
         help_text=_("Альбом для слайдов."),
         blank=True,
         null=True
@@ -299,6 +299,23 @@ class Product(BaseProductModel):
     content = models.TextField(
         _('Дополнительный контент'),
         max_length=8164,
+        blank=True,
+        null=True
+    )
+    brand = models.ForeignKey(
+        Brand,
+        verbose_name=_("Бренд образца"),
+        related_name="brand_of_product",
+        help_text=_("Выбирете бренд, который относится к этому образцу."),
+        blank=True,
+        null=True
+    )
+
+    section = models.ForeignKey(
+        CategorySection,
+        verbose_name=_("Категория продукта"),
+        related_name="section_of_product",
+        help_text=_("Выбирете категорию образца.."),
         blank=True,
         null=True
     )

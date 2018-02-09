@@ -113,6 +113,11 @@ class ProductAdmin(CategoryBaseAdminModel):
                 ('price', 'currency',),
             ),
         }),
+        ('Принадлежность продукта', {
+            'fields': (
+                ('brand', 'section',),
+            ),
+        }),
         ('Дополинтельные медиа и контент', {
             'fields': (
                 ('visualisation', 'album',),
