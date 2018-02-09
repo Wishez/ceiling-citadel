@@ -26,9 +26,9 @@ body
   color: $darkGray
 
 
-main * + *
+main * + *:not(.catalogForm *)
   margin-top:  1.5rem
-  &:not(p):not(img)
+  &:not(p):not(img):not(picture)
     margin-top:  3rem
     margin-bottom: 3rem
 

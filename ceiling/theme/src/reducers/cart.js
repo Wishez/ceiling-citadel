@@ -5,7 +5,8 @@ import {
 	DELETE_PRODUCT,
 	CHANGE_PRODUCT_QUANTITY,
 	SHOW_HELP_TEXT,
-	HIDE_HELP_TEXT
+	HIDE_HELP_TEXT,
+  SHOW_ACTION
 } from './../constants/cart.js';
 
 /*
@@ -107,8 +108,9 @@ export const initState = {
     ],
 	quantityOrderedProducts: 0,
 	helpText: '',
-	isShownHelpText: false
-
+	isShownHelpText: false,
+  isProductAdded: false,
+  isRequesting: false
 };
 
 const cart = (
@@ -118,6 +120,11 @@ const cart = (
 	let products, index;
 	
 	switch (action.type) {
+    case SHOW_ACTION:
+      return {
+        ...state,
+        isRequesting: true
+      };
     case OPEN_CART:
       console.log(`set position ${action.id}`)
 			return {
@@ -136,6 +143,8 @@ const cart = (
 					...state.products,
 					action.product
 				],
+        isProductAdded: true,
+        isRequesting: false,
 				quantityOrderedProducts: state.quantityOrderedProducts + 1
 			};
 		case DELETE_PRODUCT:

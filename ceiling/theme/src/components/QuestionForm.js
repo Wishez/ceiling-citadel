@@ -37,7 +37,7 @@ const QuestionForm = ({
 			type: "email",
 			maxLength: 150,
 			minLength: 3,
-			name: "phone_number",
+			name: "email",
 			validate: [required, email],
 			placeholder: "ask_maria@yandex.ru",
 			label: "Email",

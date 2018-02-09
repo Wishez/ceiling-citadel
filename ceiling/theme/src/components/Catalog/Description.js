@@ -1,5 +1,6 @@
 import React  from 'react';
 import getClass from './../../constants/classes';
+import {Link} from 'react-router-dom';
 
 const Description = ({ 
 	block,
@@ -9,11 +10,17 @@ const Description = ({
 	modifier,
 	className,
 	content,
+	url,
 	...rest
 }) => (
-	<p className={`${getClass({b: "catalogDescription", m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row centered'})}`}>
+	<p className={`${getClass({b: "catalogDescription", m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row centered zeroVerticalMargin'})}`}>
 		{content}
 	 	{children}
+	 	<Link to={url} className={getClass({
+				b: 'moreRefer',
+				m: modifier,
+				add: "parent row centered zeroVerticalMargin"
+		})}>Подробнее</Link>
 	</p>
 );
 

@@ -216,15 +216,34 @@
 
 	
 
+div[role="presentation"]
+	@extend %flyShadow
+	border: 1px solid $darkBlue $i
+	min-width: 	span(12)
 .controller 
-
+	max-width: em(300)
+	min-width: none
+	width: 100%
+	@extend %relative
 	&:not(:first-child) 
 		margin-top: em(12.35)
-	min-width: 	span(12)
 	&_required 
 		color: $red
 	&__icon 
 		margin-bottom: .15em
+	&_small
+		max-width: em(175)
+	&__paragraph
+		@extend %absolute
+		bottom: .70em
+		left: 100.5%
+		font-weight: bold
+		left: calc(100% + .2em)
+		white-space: nowrap
+		display: block
+		overflow: hidden
+		text-overflow: ellipsis
+
 	&__input 
 		border-radius: 3px
 		min-width: span(12)
@@ -250,14 +269,33 @@
 				border-color: #437A67	
 				
 			
-		
-		&_select 
-			padding: .5em
-			margin-top: .5em
-			max-height: em(200)
-		
-
 	
+		&_select 
+			padding: 0 em(9)
+			& hr
+				display: none
+			& button
+				right: -9px $i
+
+	// 	padding: .5em
+	// 	margin-top: .5em
+	// 	max-height: em(200)
+		
+	
+
+	&__option
+		// background-color: #C4C4C4 $i
+		color: #4F4F4F $i
+		& .colorContainer
+			margin-left: 0
+			&__name
+				opacity: 1
+			&__color
+				margin: 0 .5em 0 0
+		&:hover
+			background-color: #4F4F4F $i
+			color: #F2F2F2 $i
+
 	&Icon 
 		margin-bottom: em(2.3)
 	&__error
@@ -485,7 +523,8 @@
 	padding-left: em(15)
 	margin-right: auto
 	margin-left: auto
-
+	@include breakpoint($xxs)
+		padding: 0
 
 @media (min-width: em(576)) 
 	.container 
@@ -573,6 +612,11 @@ input[type=number]:hover::-webkit-inner-spin-button
 	background-color: $darkBlue
 	color: $white
 	margin-top: em(35)
+	&_product
+		@extend %absolute
+		bottom: 5%
+		left: em(37)
+
 .serverError
 	color: $red
 .serverError, .successfull
@@ -601,3 +645,11 @@ input[type=number]:hover::-webkit-inner-spin-button
 		&Active
 			transition: transform .5s ease-in
 			transform: translateX(0);
+
+.moreRefer
+	font-size: em(18)
+	@extend %absolute
+	bottom: em(29.34)
+	right: em(34.41)
+	// align-self: flex-end
+	// justify-self: flex-end

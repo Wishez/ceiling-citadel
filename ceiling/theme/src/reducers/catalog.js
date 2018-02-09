@@ -2,7 +2,7 @@ import {
 	REQUEST_CATALOG,
 	RETRIEVE_CATEGORY,
 	RETRIEVE_PRODUCTS,
-	RETRIEVE_SINGLE_PRODUCT,
+	RETRIEVE_PRODUCT,
 	RETRIEVE_COLLECTION,
 	RETRIEVE_BRAND,
 	REFETCH_DATA,
@@ -60,7 +60,7 @@ const catalog = (
 				CATEGORY: action.id,
 				...fetchState
 			};
-		case RETRIEVE_SINGLE_PRODUCT:
+		case RETRIEVE_PRODUCT:
 			return {
 				...state,
 				shown: PRODUCT,

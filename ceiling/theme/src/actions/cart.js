@@ -5,7 +5,8 @@ import {
 	DELETE_PRODUCT,
 	CHANGE_PRODUCT_QUANTITY,
 	HIDE_HELP_TEXT,
-	SHOW_HELP_TEXT
+	SHOW_HELP_TEXT,
+	SHOW_ACTION
 } from './../constants/cart.js';
 
 
@@ -19,7 +20,14 @@ export const deleteProduct = id => ({
 	id
 });
 
+export const showAction = () => ({
+	type: SHOW_ACTION
+});
 
+export const showAddingProductToCart = product => dispatch => {
+	dispatch(showACtion());
+	dispatch(putProduct(product));
+};
 
 export const showHelpText = helpText => ({
 	type: SHOW_HELP_TEXT,

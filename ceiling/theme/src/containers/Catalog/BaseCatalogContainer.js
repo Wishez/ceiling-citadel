@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
 import getClass from './../../constants/classes';
 import BreadcrumbsContainer from './../BreadcrumbsContainer';
-
+import {CATALOG} from './../../constants/catalog';
+import {localData} from './../../constants/pureFunctions';
 
 class BaseCatalogContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    CONSTANT: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    BRAND: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    COLLECTION: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    PRODUCT: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-    CATEGORY: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    CONSTANT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    BRAND: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    CATEGORY: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     name: PropTypes.string.isRequired,
     slogan: PropTypes.string.isRequired,
-    routes: PropTypes.array.isRequired,
-    children: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    routes: PropTypes.object.isRequired,
+    children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    isProduct: PropTypes.bool,
+    modifier: PropTypes.string
   }
 
 
@@ -31,23 +34,25 @@ class BaseCatalogContainer extends Component {
       this.forceUpdate();
     }
   }
-
   render() {        
+  
     const {
       name,
       slogan,
       routes,
-      children
+      children,
+      isProduct,
+      modifier
     } = this.props;
 
     return (
-      <div className={getClass({b: 'collection', add:'container'})}>
+      <div className={getClass({b: 'catalog', m: modifier, add:'container parent column centered'})}>
           <div className={getClass({b: 'catalogHeader', add: "parent row v-start h-centered"})}> 
-            <h1 className={getClass({b: 'catalogHeader', el: "title", add: "parent row centered baseChild"})}>
+            <h1 className={getClass({b: 'catalogHeader', el: "title", m: isProduct ? 'active' : '', add: "parent row centered baseChild"})}>
               {name}
             </h1>
             <BreadcrumbsContainer routes={routes} />
-            <p className={getClass({b: 'catalogHeader', el: "slogan", add: "parent row h-end  darkBlue baseChild"})}>
+            <p className={getClass({b: 'catalogHeader', el: "slogan", m: modifier, add: "parent row h-end  darkBlue baseChild"})}>
                 {slogan}
             </p>
           </div>

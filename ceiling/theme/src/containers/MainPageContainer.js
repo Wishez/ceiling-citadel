@@ -15,7 +15,7 @@ import Fading from './../components/Animation/Fading';
 import getClass from './../constants/classes';
 
 import {localData, getArray} from './../constants/pureFunctions';
-import { catalogItemsCombiner } from './../constants/filter';
+import { catalogSectionCombiner } from './../constants/filter';
 import {catalogBrandUrl} from './../constants/conf';
 import { aboutSections } from './../constants/conf';
 import { CATALOG } from './../constants/catalog';
@@ -58,7 +58,7 @@ class MainPageContainer extends Component {
 				<CatalogSection name="Основные бренды" titleShown={false}>
 					{!isRequesting && 
 					brands.length ?
-						catalogItemsCombiner(brands, catalogBrandUrl) : <Loader />
+						catalogSectionCombiner(brands, catalogBrandUrl) : <Loader />
 					}
 				</CatalogSection>
 				{aboutSections.map((section, index) => (

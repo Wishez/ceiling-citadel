@@ -1,7 +1,7 @@
 // import lozad from 'lozad';
 import {Linear} from 'gsap';
 
-export function trasformName(name) {
+export function transformName(name) {
 	return `${name.charAt(0).toUpperCase()}${name.slice(1)}`
 }
 export const getDeleteProductArguments = (index, name, quantityOrderedProducts) => {

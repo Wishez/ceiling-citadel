@@ -5,12 +5,11 @@ import { withRouter } from 'react-router-dom'
 
 import getClass from './../../constants/classes';
 import {CATALOG, CATEGORY} from './../../constants/catalog';
-import {localData, trasformName} from './../../constants/pureFunctions';
-import {catalogItemsCombiner} from './../../constants/filter';
+import {localData, transformName} from './../../constants/pureFunctions';
+import {catalogSubsectionsCombiner} from './../../constants/filter';
 import {catalogCollectionUrl} from './../../constants/conf';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
-import BreadcrumbsContainer from './../BreadcrumbsContainer';
 
 import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
 
@@ -21,7 +20,7 @@ class CategoryContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
-    CATEGORY: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+    CATEGORY: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
 
   }
@@ -46,26 +45,14 @@ class CategoryContainer extends Component {
     
   }
 
-  componentWillReceiveProps(nextProps) {
-    
-    // console.log('will check nextProps', this.props.BRAND, nextProps.BRAND)
-    // Will be accuracy. 
-    // There is BRAND constant in catalog's constants.
-    if (!this.props.CATEGORY && nextProps.CATEGORY) {
-      // console.log('will force update')
-      this.forceUpdate();
-    }
-  }
-
   render() {        
     const {
       dispatch,
-      isRequesting,
-      categoryRoutes
+      isRequesting
     } = this.props;
 
     const {id} = this.state;
-
+    
     let category = false,
         slogan = '',
         categoryName = '';
@@ -75,34 +62,25 @@ class CategoryContainer extends Component {
     } 
     
     if (category) {
-        categoryName =trasformName(category.name);
+        categoryName =transformName(category.name);
         slogan = category.slogan;
     }
-    console.log('category', category);
+    const {url} = this.props.match;
+    
     return (
       <BaseCatalogContainer name={categoryName}
-              slogan={slogan}
-              routes={{
-                '/catalog': 'Каталог',
-                '/catalog/category': false,
-                '/catalog/category/:categorySlug': categoryName,
-              }}
-              CONSTANT={CATEGORY}
-        >
-      {/*<div className={getClass({b: 'category', add:'container'})}>
-          <div className={getClass({b: 'catalogHeader', add: "parent row v-start h-centered"})}> 
-            <h1 className={getClass({b: 'catalogHeader', el: "title", add: "parent row centered baseChild"})}>
-              {categoryName}
-            </h1>
-            <BreadcrumbsContainer  />
-            <p className={getClass({b: 'catalogHeader', el: "slogan", add: "parent row h-end  darkBlue baseChild"})}>
-                {slogan}
-            </p>
-          </div>*/}
+          slogan={slogan}
+          routes={{
+            '/catalog': 'Каталог',
+            '/catalog/category': false,
+            '/catalog/category/:categorySlug': categoryName,
+          }}
+          CONSTANT={CATEGORY}
+      >
           <CatalogSection name="Коллекции" headerId="collections">
             {!isRequesting && 
             category ?
-              catalogItemsCombiner(category.collections, catalogCollectionUrl) : <Loader />
+              catalogSubsectionsCombiner(category.collections, url,  'brand') : <Loader />
             }
           </CatalogSection>
       </BaseCatalogContainer>
@@ -114,15 +92,13 @@ const mapStateToProps = state => {
   const { catalog } = state;
   const { 
     shown,
-    isRequesting,
-    categoryRoutes
+    isRequesting
   } = catalog;
 
   return {
     shown,
     CATEGORY: catalog.CATEGORY,
-    isRequesting,
-    categoryRoutes
+    isRequesting
   };
 };
 

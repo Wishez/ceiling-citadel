@@ -3,38 +3,93 @@ import CatalogItem from './../components/Catalog/CatalogItem';
 import {catalogBrandUrl, catalogCategoryUrl} from './conf';
 import {getArray} from './pureFunctions';
 import  CatalogSubsection from './../components/Catalog/CatalogSubsection';
+import getClass from './classes';
 
+export const makeSelectOptions = options => (
+	options ? 
+		options.map(option => ({
+			text: option,
+			value: option 
+		})) : 
+		[]
+);
 
-export const catalogItemsCombiner = (items, url) => (
-	items.map((item, index) => {
-		const name = item.name;
-		const slug = item.slug;
+export const makeSelectColorOptions = colors => (
+	colors ? 
+		colors.map(color => ({
+			color: color.color,
+			value: color.name ,
+			showIcon: true,
+			text: color.name
+		})) : 
+		[]
+);
+export const findUUID = (array, slug) => {
+	const item = array.filter(item => (item.slug === slug));
 
-		return <CatalogItem key={index}
-			description={item.description} 
-			name={name} item
-			image={item.preview.image} 
-			slug={slug}
-			style={items.length - 1 === index ? 
-						"center" :
-						index % 2 === 0 ? 
-							"right" : 
-							"left"}
-			url={url}
-		/>;
-	})
+	if (item.length)
+		return item[0].uuid;
+	return false;
+};
+
+export const getProductData = (array, collectionSlug, productSlug) => {
+	const data = {};
+	let collection = array.filter(item => (item.slug === collectionSlug));
+	
+	if (collection.length) {
+		collection = collection[0];
+		
+		return {
+			collectionName: collection.name,
+			id: findUUID(collection.collection_items, productSlug)
+		};
+	}
+	return false;
+};
+
+const combineCatalogSimpleItem = props => <CatalogItem  {...props}/>;
+
+export const catalogSectionCombiner = (
+	items, 
+	url,
+	isSample=false
+) => (
+	items.map((item, index) => (
+		combineCatalogSimpleItem({
+			key: index,
+			description: item.description,
+			name: item.name,
+			image: item.preview.image,
+			slug: item.slug,
+			style: items.length - 1 === index ? 
+					"center" :
+					index % 2 === 0 ? 
+						"right" : 
+						"left",
+			url: fixUrl(url),
+			modifier: isSample ? 'sample' : '',
+			isSample,
+			item
+		})
+		
+	))
 );
 
 
-export const catalogCategoriesCombiner = (categories) => {
+export const catalogSubsectionsCombiner = (
+	items, 
+	url, 
+	sectionPropertyName,
+	isSample=false
+) => {
 	const subsections = {};
 
 	// Generate subsections of section.
-	categories
-		.forEach((category, index) => {
-			const subsection = category.section;
-			const slug = category.slug;
-			const name = category.name;
+	items
+		.forEach((item, index) => {
+			const subsection = item[sectionPropertyName];
+			const slug = item.slug;
+			const name = item.name;
 			// Create object or go next
 			
 			if (!(subsection in subsections)) {
@@ -50,18 +105,22 @@ export const catalogCategoriesCombiner = (categories) => {
 			const items = [];
 			// Combine items.
 			items.push(
-				<CatalogItem key={index}
-					description={category.description} 
-					name={name} 
-					image={category.preview.image} 
-					slug={slug}
-					style={category.length - 1 === index ? 
-								"center" :
-								index % 2 === 0 ? 
-									"right" : 
-									"left"}
-					url={catalogCategoryUrl} 
-				/>
+				combineCatalogSimpleItem({
+					key: index,
+					description: item.description,
+					image: item.preview.image,
+					style: items.length - 1 === index ? 
+							"center" :
+							index % 2 === 0 ? 
+								"right" : 
+								"left",
+					url: fixUrl(url),
+					modifier: isSample ? 'sample' : '',
+					isSample,
+					name,
+					slug,
+					item
+				})
 			); // end push
 				
 		 	newSubsection.items = items;
@@ -76,3 +135,7 @@ export const catalogCategoriesCombiner = (categories) => {
 			</CatalogSubsection>
 		);
 };
+
+function fixUrl(url) {
+	return url.lastIndexOf('/') !== url.length - 1 ? `${url}/` : url;
+}

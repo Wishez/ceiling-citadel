@@ -7,13 +7,15 @@ import {Route, Switch} from 'react-router-dom';
 // import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 // import { TransitionGroup } from 'react-transition-group'
 import getClass from './../../constants/classes';
+
 import CatalogPageContainer from './CatalogPageContainer';
 import BrandContainer from './BrandContainer';
 import CategoryContainer from './CategoryContainer';
-import BrandCategoryContainer from './BrandCategoryContainer';
-import ProductContainer from './ProductContainer';
 import BrandCollectionContainer from './BrandCollectionContainer'
 import CategoryCollectionContainer from './CategoryCollectionContainer'
+import BrandProductContainer from './BrandProductContainer';
+import CategoryProductContainer from './CategoryProductContainer';
+
 import { 
   tryFetchCatalog, 
   fetchCatalogEntityOrGetLocale
@@ -44,17 +46,18 @@ class CatalogRoutes extends Component {
 
   render() {
     const { 
-        match 
-    } = this.props;
-    const url = match.url;
-
+        url
+    } = this.props.match;
+    
     return (
       <section className={getClass({b: 'catalog'})}>
             <Switch >
-              <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
+              <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
               <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
-              <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
+              <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
+              <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
               <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
+              <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
               <MyRoute path={`${url}`} component={CatalogPageContainer} />
             </Switch>
       </section>

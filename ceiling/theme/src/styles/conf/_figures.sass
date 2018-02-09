@@ -8,9 +8,20 @@
 .imageContainer
 	// margin-top: 1rem
 	// margin-bottom: 	1rem
+	z-index: 1
 	&__image
 		// margin-top: 1.5rem
 		// margin-bottom: 	1.5rem
+		&_sample
+			margin-top: 0
+
+	&_sample, &_product
+		@extend %absolute
+		top: 0
+		right: 0
+		z-index: 0
+ 	&_product
+
 	&_maria
 		align-self: flex-end
 		margin-right: span(1)

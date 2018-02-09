@@ -3,6 +3,7 @@ import getClass from './../../constants/classes';
 import Table from './Table';
 import Figure from './../Figure';
 import Description from './Description';
+import Characteristics from './Characteristics';
 
 const CatalogItem = ({ 
 	block,
@@ -17,18 +18,22 @@ const CatalogItem = ({
 	style,
 	slug,
 	url,
-	takeStep,
+	isSample,
+	item,
 	...rest
 }) => (
-	<article style={{backgroundImage:`url("${image}")`}} 
-		className={getClass({b: "catalogItem", m: modifier, add: `${className}${style ? ` catalogItem_${style}`: ''} parent row h-start v-end` })}>
+	<article style={{backgroundImage: isSample ? '' : `url("${image}")` }} 
+		className={getClass({b: "catalogItem", m: modifier, add: `${className}${style ? ` catalogItem_${style}`: ''} parent zeroVerticalMargin row h-start v-end` })}>
+		{isSample ? <Figure name="sample" url={image} maxWidth="50%" /> : ''}
 		<Table  url={url} 
 			slug={slug} 
 			content={name} 
 			modifier={tablePosition} 
-			onClick={takeStep}
+			isNotRoute={isSample}
 		/>
-		<Description content={description} />
+		{isSample ? 
+		  <Characteristics url={`${url}${slug}/`} {...item} /> :
+		  <Description url={`${url}${slug}/`} content={description} />}
 	</article>
 	
 );

@@ -1,37 +1,44 @@
 .main
-	padding: 2em 0 em(90)
+	padding: em(75) 0 em(90)
 .catalogItem
-	height: em(302)
+	height: em(360)
 	flex: 1 0 span(6)
 	min-width: span(6)
 	margin: 0 auto
-	background: $gray no-repeat center
+	background: #EDEDED no-repeat center
 	background-size: cover
 	overflow: hidden
 	@extend %relative
 	cursor: pointer
 	transition: box-shadow .3s ease
-	@include breakpoint($xxs) 
+
+	&_sample
+		// background-size: cover
+		background-position: right top
+
+	@include breakpoint($xs) 
 		min-width: span(12)
+	
 	&:hover 
 		// @extend %flyShadow
 		z-index: 2
 		& .table
-			transform: translateY(-298%);
-		& .catalogDescription
+			transform: translateY(-326%);
+		& .catalogDescription, & .characteristics
 			transform: translateY(0)
-.catalogDescription, .table
+.catalogDescription, .table, .characteristics
 	will-change: transform
-.catalogDescription
+.catalogDescription, .characteristics
 	transition: transform .5s ease
 	min-width: 	span(12)
 	@extend %absolute
-	padding: 0 1.5em 	
+	padding:  0 em(24.29) em(29.39)
 	// width: span(12)
-	min-height: span(9)
+	min-height: em(245.7, 16)
 	bottom: 0
 	transform: translateY(100%)
 	background-color: $white
+
 // Catalog
 .catalogSection, .catalogSubsection
 	max-width: em(960)
@@ -46,8 +53,17 @@
 	width: 	span(12)
 	&__title
 		min-height: em(65, 28)
+		@include breakpoint($xs)
+			min-width: span(6)
+			flex-grow: 0
 		&_catalog
 			flex-basis: 30%
+		&_active
+			border-bottom: 1px solid $gray
+			&:after
+				top: 87.5% $i
+		
+			
 	&__slogan
 		margin-top: 0 $i
 		font-weight: bold
@@ -56,12 +72,25 @@
 		overflow: hidden
 		display: block
 		text-align: right	
+		@include breakpoint($xs)
+			text-align: center
+			border-bottom: 0 $i
+		&_product
+			@include breakpoint($xs)
+				margin-top: em(16) $i
 .catalogRefersList, .breadcrumbs
 	order: -1
 	margin: 0
+.catalogRefersList, 
+.breadcrumbs, 
+.catalogHeader__slogan
+	@include breakpoint($xs)
+		min-width: span(12)
 .catalogRefer, .breadcrumb
 	margin: 0	
-.breadcrumb
+.catalogRefer
+	margin-right: .1em
+.breadcrumb, .catalogHeader__title_active
 	@extend %relative
 	&:after
 		background-color: $darkGray
@@ -75,6 +104,7 @@
 		left: calc(50% - #{$squareSize / 3})
 		top: calc(100% + #{$squareSize / 3})
 		@extend %round
+.breadcrumb, .catalogHeader__title
 	&_active
 		&:after
 			background-color: $orange
@@ -84,11 +114,15 @@
 
 
 .table
-	min-height: span(3)
-	padding: 1em 0 
+	// min-height: span(3)
+	height: em(64.25)
+	// padding: 1em 0 
+	margin-top: 0
+	margin-bottom: 0
 	font-size: em(21)
 	transition: transform .5s ease, box-shadow .3s ease, color .4s linear
-	background-color: darken($white, 5%)
+	background-color: #dcdcdc
+	z-index: 3
 	&:hover, &:focus
 		@extend %flyShadow
 	&__refer
@@ -180,3 +214,78 @@
 .catalogSection:first-of-type
 	// margin-top: 0
 
+.characteristics
+	height: em(275)	
+	
+.zeroVerticalMargin
+	margin-top: 0
+	margin-bottom: 0
+.sampleCharacteristic, .colorContainer, .characteristics, .sampleCharacteristic__characteristic
+.sampleCharacteristic
+	margin-top: em(9.11)
+	&:not(&_colors)
+		// transform: translateY(-240%)
+	&_brand
+		margin-top: em(29.777)
+	&_colors
+		transform: translateY(35%)
+		min-width: span(4)
+		align-self: flex-end
+		flex-flow: column wrap
+		align-items: flex-end
+		// order: -1
+	&__label
+		text-align: right
+		color: $gray
+	&__characteristic
+		font-weight: bold
+.colors
+	transform: translateY(-75%)
+.colorContainer
+	margin-left: em(10.12)
+	&__color
+		$squareSize: em(22.26)
+		width: $squareSize
+		height: $squareSize
+	&__name
+		opacity: 0
+.addProductForm
+	@include breakpoint($md-up)
+		height: em(633)
+	@include breakpoint($sm)
+		height: em(666)
+.catalogForm
+	margin-top: 3rem
+	background-color: #F2F2F2
+	border-radius: 3px
+	min-width: span(12)
+	padding: em(34) em(37) em(100)
+	@extend %relative
+	@include breakpoint($xs)
+		padding-bottom: em(168)
+	@include breakpoint($xxs)
+		padding: em(34) em(18) em(150)
+	.controller
+		// &_width, &_height, &_length, &_thickness
+
+		align-self: flex-start
+		& hr
+			display: none
+		& button
+		&_small
+			align-self: flex-end
+			@include breakpoint($xs)
+				order: -1	
+			@include breakpoint($xxs)
+				max-width: em(112)
+			@include breakpoint($md-up)
+				// transform: translate(-75%, -138%)
+				transform: translate(-145%, -1.1em)
+			@include breakpoint($sm)
+				transform: translate(-37%, 108%)
+			&:last-of-type
+				@include breakpoint($sm)
+					// transform: translate(-37%, 146%)
+		&__input
+			background-color: #BDBDBD $i
+			border-color: $darkBlue

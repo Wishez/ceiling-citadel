@@ -67,8 +67,9 @@ const getProductToTheCartTest = () => {
 		...initState,
 		products: [
 			...initState.products,
-			newProduct
+			newProduct,
 		],
+		isProductAdded: true,
 		quantityOrderedProducts: cartBefore.quantityOrderedProducts + 1
 	};
 

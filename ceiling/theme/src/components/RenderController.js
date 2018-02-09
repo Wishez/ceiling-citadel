@@ -1,7 +1,7 @@
 import React from 'react';
-import getClass, { composeClasses } from './../constants/classes';
+import getClass from './../constants/classes';
 import Figure from './Figure';
-import _styles  from './../index.sass';
+import Paragraph from './Paragraph';
 
 const RenderController = ({
 	input,
@@ -16,6 +16,8 @@ const RenderController = ({
 	style,
 	iconOptions,
 	className,
+	asideText=false,
+	selected,
 	...rest
 }) => (
 	<div style={style ? style : {}} 
@@ -40,6 +42,7 @@ const RenderController = ({
 					{...iconOptions} 
 				/> : ''
 			}
+
 			{rest.type !== "textarea" ?
 				<input {...input}
 					{...rest}
@@ -60,7 +63,9 @@ const RenderController = ({
 					})} 
 				/>
 			}
-			
+		 {asideText ? 
+		 	<Paragraph block="controller" text={`: ${asideText}`}/> : 
+		 	''}
 		 {touched && 
 		 	((error && 
 		 		<span className={getClass({

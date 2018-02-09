@@ -22,10 +22,12 @@ const Form = ({
 		onSubmit={handleSubmit(onSubmit.bind(this))}
 	>
 		{fields.map((field, index) => (
-
-			<Field   key={index} {...field}
-				component={"component" in field ? field.component : RenderController} />
-
+			("isShown" in field && field.isShown) || !("isShown" in field) ?
+				<Field   key={index} {...field}
+					component={"component" in field ? 
+						field.component : 
+						RenderController
+					} /> : ''
 		))}
 		{children}
 		{serverError ?  

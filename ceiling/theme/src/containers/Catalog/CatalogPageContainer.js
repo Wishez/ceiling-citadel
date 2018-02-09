@@ -4,16 +4,18 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom'
 
 import {CATALOG} from './../../constants/catalog';
-
 import getClass from './../../constants/classes';
-import picture from './../../images/icons/picture.png';
-// import { slideTo } from './../../constants/pureFunctions';
 import {localData, getArray} from './../../constants/pureFunctions.js';
-import CatalogSection from './../../components/CatalogSection';
+import {catalogSectionCombiner, catalogSubsectionsCombiner} from './../../constants/filter'
+import {catalogBrandUrl, catalogCategoryUrl} from './../../constants/conf';
+
+import picture from './../../images/icons/picture.png';
+
+// import { slideTo } from './../../constants/pureFunctions';
+import CatalogSection from './../../components/catalog/CatalogSection';
 import Figure from './../../components/Figure';
 import Loader from './../../components/Loader';
-import {catalogItemsCombiner, catalogCategoriesCombiner} from './../../constants/filter'
-import {catalogBrandUrl, catalogCategoryUrl} from './../../constants/conf';
+
 
 class CatalogPageContainer extends Component {
   static propTypes = {
@@ -22,12 +24,6 @@ class CatalogPageContainer extends Component {
     isRequesting: PropTypes.bool.isRequired,
   }
 
-  componentDidMount() {
-
-  }
-
-  
-
   render() {  
     const { isRequesting } = this.props;
     
@@ -35,8 +31,6 @@ class CatalogPageContainer extends Component {
     const catalog = localData.get(CATALOG); 
     let brands = [];
     let categories = [];
-
-    // console.log(catalog)
     
     if (catalog !== null) {
       brands = getArray(catalog.brands);
@@ -71,13 +65,13 @@ class CatalogPageContainer extends Component {
         <CatalogSection name="Бренды" headerId="brands">
           {!isRequesting && 
           brands.length ?
-            catalogItemsCombiner(brands, catalogBrandUrl) : <Loader />
+            catalogSectionCombiner(brands, catalogBrandUrl) : <Loader />
           }
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
             {!isRequesting && 
             categories.length ?
-                catalogCategoriesCombiner(categories, catalogCategoryUrl) : <Loader />
+                catalogSubsectionsCombiner(categories, catalogCategoryUrl, 'section') : <Loader />
             }
         </CatalogSection>
       </div>
