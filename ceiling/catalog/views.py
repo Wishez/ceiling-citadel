@@ -4,6 +4,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 import requests
 from django.contrib.sites.models import Site
+from album.models import *
+import json
 def extract_entities(m2m):
     array = m2m.all()
     return [entity for entity in array if entity in array]
@@ -24,3 +26,18 @@ def retrieve_catalog(request):
         return JsonResponse(data)
     return HttpResponse(False)
 
+@csrf_exempt
+def get_album(request, slug):
+    if request.method == "GET":
+        album = Album.objects.get(slug=slug)
+        current_site = 'http://%s' % Site.objects.get_current().domain
+
+        images = [{
+                "image": '%s%s' % (current_site, image.image.url),
+                "alt": image.alt
+            } for image in AlbumImage.objects.filter(album=album)]
+
+        return JsonResponse({
+            "images": images
+        })
+    return HttpResponse(False)

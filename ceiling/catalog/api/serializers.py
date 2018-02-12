@@ -28,16 +28,16 @@ class ImageSerializer(serializers.ModelSerializer):
             'alt'
         ]
 
-class AlbumSerializer(serializers.ModelSerializer):
-    albumimage = ImageSerializer(
-        read_only=True,
-        many=True
-    )
-    class Meta:
-        model = Album
-        fields = [
-            'albumimage'
-        ]
+# class AlbumSerializer(serializers.ModelSerializer):
+#     albumimage = ImageSerializer(
+#         read_only=True,
+#         many=True
+#     )
+#     class Meta:
+#         model = Album
+#         fields = [
+#             'albumimage'
+#         ]
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
@@ -119,9 +119,12 @@ class ProductSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True,
     )
-
-    album = AlbumSerializer(
-        read_only=True
+    # album = AlbumSerializer(
+    #     read_only=True
+    # )
+    album = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="slug"
     )
     section = serializers.SlugRelatedField(
         read_only=True,

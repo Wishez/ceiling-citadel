@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from .api.views import *
 from .api.viewsets import *
-from .views import retrieve_catalog
+from .views import retrieve_catalog, get_album
 
 urlpatterns = [
     url(
@@ -14,6 +14,11 @@ urlpatterns = [
         r'^api/current/catalog/$',
         retrieve_catalog,
         name="catalog_entities"
+    ),
+    url(
+        r'^api/current/album/(?P<slug>[-\w_]+)/$',
+        get_album,
+        name="get_album"
     ),
     url(
         r'^api/current/category/(?P<uuid>[-\w]+)/$',
