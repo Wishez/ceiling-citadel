@@ -10,18 +10,32 @@ import {
 	COLLECTION,
 	CATEGORY,
 	PRODUCT,
-	CATALOG
+	CATALOG,
+	LAST_ALBUM,
+	SET_FOUND_ENTITIES,
+	FIND_ENTITIES,
+	SEARCH_COLLECTION_STORE,
+	SEARCH_PRODUCTS_STORE,
+	SEARCH_CATEGORIES_STORE,
+	SEARCH_BRANDS_STORE,
+	CLEAN_SEARCH_ENTITIES
+
 } from './../constants/catalog';
 
 import customAjaxRequest from './../constants/ajax';
+
 import {
 	categoryUrl, 
 	productUrl, 
 	collectionUrl, 
 	brandUrl,
-	catalogUrl
+	catalogUrl,
+	productAlbumUrl,
+	catalogBrandUrl,
+	catalogCategoryUrl,
+	catalogCollectionUrl,
 } from './../constants/conf';
-import { localData } from './../constants/pureFunctions';
+import { localData, getArray } from './../constants/pureFunctions';
 
 export const retrieveEntity = (type , id) => ({
 	type: type,
@@ -32,6 +46,9 @@ export const retriveCatalog = () => ({
 });
 
 
+export const findEntities = () => ({
+	type: FIND_ENTITIES
+});
 export const requestCatalog = () => ({
 	type: REQUEST_CATALOG
 });
@@ -71,11 +88,19 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
         cache: true,
         isSettingAccept: false,
         success: response => {
-        	
-			localData.set(name, response.body)
-			console.log(type, id, 'type and id');
-			dispatch(retrieveEntity(type, id));
+        	const entity = response.body;
 
+			localData.set(name, entity)
+			
+			const slug = "album" in entity && entity.album;
+			
+			if (slug) {
+				getAlbum(slug, () => {
+					dispatch(retrieveEntity(type, id));	
+				});
+			} else {
+				dispatch(retrieveEntity(type, id));
+			}
 			
 	    },
         failure: error => {
@@ -83,6 +108,25 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
         }
 	});
 };
+
+function getAlbum(slug, callback) {
+	return customAjaxRequest({
+		url: `${productAlbumUrl}${slug}/`,
+        cache: true,
+        data: {},
+        success: response => {
+      
+			localData.set(LAST_ALBUM, {
+				slug: slug,
+				images: response.body.images
+			});
+			callback();
+	    },
+        failure: error => {
+			throw new Error(`Somethin going wrong ${error.message}`);
+        }
+	});
+}
 function extractData(data) {
 	const newData = {};
 
@@ -133,3 +177,170 @@ export const fetchCatalogEntityOrGetLocale = (name, id) =>
 
 	return localData.get(name);
 };
+
+export const setFoundEntities = foundEntities => ({
+	type: SET_FOUND_ENTITIES,
+	foundEntities
+});
+
+const filterEntities = (array, callback) =>  (
+	array
+		.map(callback)
+		.filter(entity => entity)
+);
+
+const getMatchedEntity = (
+	string, 
+	searchedValue, 
+	callback
+) => {
+	const isThereEntity  = new RegExp(searchedValue, 'ig').test(string);
+
+	if (isThereEntity) {
+		return callback();
+	}
+
+	return false;
+
+};
+
+const getFoundEntities = (
+	array,
+	value,
+	pathTo,
+	signification
+) => ({
+	name: signification,
+	items: filterEntities(array, 
+		entity => getMatchedEntity(
+			entity.name,
+			value,
+			() => ({
+				name: entity.name,
+				url: `${pathTo}${entity.slug}/`
+			})
+		))
+});
+
+
+export const dumpEntitiesForSearch = () => {	
+	const catalog = localData.get(CATALOG);
+	const brands = getArray(catalog.brands);
+	const categories = getArray(catalog.categories);
+	let products = [];
+	const collections = brands.reduce((collections, brand) => (
+				// Concat collections with needed properties of a collection.
+				collections.concat(
+					brand.collections.map(
+						collection => {
+							// Compose url to a collection.
+							const collectionUrl = `/catalog/brand/${brand.slug}/${collection.slug}/`;
+							// Get and compose products of a collection.
+							const collectionProducts = collection.collection_items
+								.map(product => ({
+									name: product.name,
+									url: `${collectionUrl}${product.slug}/`
+								}));
+
+							// Concat the bunch of products.
+							products = products.concat(collectionProducts);
+
+							// Return for the array collection data.
+							return {
+								name: collection.name,
+								url: collectionUrl
+							};
+						}
+					)// end brand.collections.map
+				) // end collections.concat
+			), // end callback of brands.reduce
+		[]); // end brands.reduce
+
+	localData.set(
+		SEARCH_BRANDS_STORE, 
+		brands
+	);
+	
+	localData.set(
+		SEARCH_CATEGORIES_STORE, 
+		categories
+	);
+
+	localData.set(
+		SEARCH_COLLECTION_STORE, 
+		collections
+	); // end localData.set
+
+	localData.set(SEARCH_PRODUCTS_STORE, products);
+};
+
+export const findEntitiesAndShowResults = (catalog, value) => dispatch => {
+	dispatch(findEntities());
+
+	const brands = localData.get(SEARCH_BRANDS_STORE) || [];
+	const categories = localData.get(SEARCH_CATEGORIES_STORE) || [];
+	const products = localData.get(SEARCH_PRODUCTS_STORE) || [];
+	const collections = localData.get(SEARCH_COLLECTION_STORE) || [];
+	
+	dispatch(
+		setFoundEntities([
+			getFoundEntities(
+				brands, 
+				value, 
+				catalogBrandUrl,
+				'Бренды'
+			),
+			{
+				name: 'Категории',
+				items: filterEntities(
+					categories, 
+					category => getMatchedEntity(
+						category.name,
+						value,
+						() => ({
+							name: `${category.name} | ${category.section}`,
+							url: `${catalogCategoryUrl}${category.slug}/`
+						})
+					)
+				)
+			},
+			{
+				name: 'Коллекции',
+				items: filterEntities(
+					collections, 
+					collection => getMatchedEntity(
+						collection.name,
+						value,
+						() => (collection)
+					)
+				)
+			},
+			{
+				name: 'Образцы',
+				items: filterEntities(
+					products, 
+					product => getMatchedEntity(
+						product.name,
+						value,
+						() => (product)
+					)
+				)
+			}
+		].filter(section => section.items.length)
+	));
+};
+
+export const cleanSearchEntities = () => ({
+	type: CLEAN_SEARCH_ENTITIES
+});
+export const fetchCatalogAndFindEntitiesIfNeeded = value => (dispatch, getStore) => {
+	const catalog = localData.get(CATALOG);
+	const isRequesting = getStore().catalog.isRequesting;
+
+	if (!catalog && !isRequesting) {
+		dispatch(tryFetchCatalog());
+	} else {
+	
+		dispatch(findEntitiesAndShowResults(catalog, value));
+	}
+}

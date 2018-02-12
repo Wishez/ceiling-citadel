@@ -20,9 +20,9 @@
   cursor: pointer;
   border-radius: 3px; }
 .owl-nav [class*='owl-'] {
-
+  transition: .2s ease;
   &:hover, &:active, &:focus {
-      background: $purple;
+      background: $darkBlue;
       color: #FFF;
       text-decoration: none; 
   }
@@ -36,6 +36,7 @@
 
 .owl-dots {
   text-align: center;
+  display: none;
   -webkit-tap-highlight-color: transparent; }
 .owl-dots .owl-dot {
   display: inline-block;
@@ -50,7 +51,9 @@
     -webkit-backface-visibility: visible;
     transition: opacity 200ms ease;
     border-radius: 30px; 
+    will-change: opacity;
 }
 .owl-dots .owl-dot.active span, .owl-dots .owl-dot:hover span {
-  background: $purple; 
+  background: $darkBlue; 
+
 }  

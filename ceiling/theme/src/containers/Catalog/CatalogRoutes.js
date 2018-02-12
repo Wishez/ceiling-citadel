@@ -39,8 +39,9 @@ class CatalogRoutes extends Component {
     
     dispatch(tryFetchCatalog());
     dispatch(selectNavigationItem(initNavigationState.secondNavItem.index));
-
     document.title = 'Каталог | ArtCeil'
+    
+    this.forceUpdate();
   }
 
 

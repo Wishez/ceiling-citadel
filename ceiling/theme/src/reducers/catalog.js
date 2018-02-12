@@ -11,7 +11,10 @@ import {
 	COLLECTION,
 	CATEGORY,
 	PRODUCT,
-	CATALOG
+	CATALOG,
+	SET_FOUND_ENTITIES,
+	FIND_ENTITIES,
+	CLEAN_SEARCH_ENTITIES
 } from './../constants/catalog';
 
 /*
@@ -26,13 +29,13 @@ const fetchState = {
 
 export const initState = {
 	helpText: '',
-	isCatalogShow: true,
 	BRAND: false,
 	CATEGORY: false,
 	COLLECTION: false,
 	PRODUCT: false,
 	CATALOG: false,
-	shown: CATALOG,
+	searchEntities: [],
+	isFinding: false,
 	...fetchState
 };
 
@@ -42,6 +45,22 @@ const catalog = (
 ) => {
 	
 	switch (action.type) {
+		case CLEAN_SEARCH_ENTITIES:
+			return {
+				...state,
+				searchEntities: []
+			}
+		case SET_FOUND_ENTITIES:
+			return {
+				...state,
+				isFinding: false,
+				searchEntities: action.foundEntities,
+			};
+		case FIND_ENTITIES:
+			return {
+				...state,
+				isFinding: true
+			};
 		case REQUEST_CATALOG:
 			return {
 				...state,
@@ -50,34 +69,29 @@ const catalog = (
 		case RETRIEVE_CATALOG:
 			return {
 				...state,
-				shown: CATALOG,
 				...fetchState
 			};
 		case RETRIEVE_CATEGORY:
 			return {
 				...state,
-				shown: CATEGORY,
 				CATEGORY: action.id,
 				...fetchState
 			};
 		case RETRIEVE_PRODUCT:
 			return {
 				...state,
-				shown: PRODUCT,
 				PRODUCT: action.id,
 				...fetchState
 			};
 		case RETRIEVE_COLLECTION:
 			return {
 				...state,
-				shown: COLLECTION,
 				COLLECTION: action.id,
 				...fetchState
 			};
 		case RETRIEVE_BRAND:
 			return {
 				...state,
-				shown: BRAND,
 				BRAND: action.id,
 				...fetchState
 			};

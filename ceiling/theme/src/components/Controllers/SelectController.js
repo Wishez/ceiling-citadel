@@ -64,7 +64,7 @@ const SelectController = ({
 	 				primaryText={option.text}
 	 				leftIcon={
 	 					"showIcon" in option  ? 
-	 						<ActionLabel color={option.color} /> : false}
+	 						<ActionLabel color={option.color} /> : <span></span>}
 	 			/>
 			))}
 		</SelectField>

@@ -96,12 +96,10 @@ class BrandCategoryContainer extends Component {
 const mapStateToProps = state => {
   const { catalog } = state;
   const { 
-    shown,
     isRequesting
   } = catalog;
 
   return {
-    shown,
     COLLECTION: catalog.COLLECTION,
     isRequesting
   };

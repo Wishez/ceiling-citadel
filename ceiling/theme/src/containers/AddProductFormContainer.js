@@ -23,17 +23,19 @@ class AddProductFormContainer extends Component {
       isProductAdded: PropTypes.bool.isRequired,
       isRequesting: PropTypes.bool.isRequired,
       image: PropTypes.string.isRequired,
-      combustibility: PropTypes.array.isRequired,
-      edges: PropTypes.array.isRequired,
-      colors: PropTypes.array.isRequired,
-      material: PropTypes.array.isRequired,
-      lightning: PropTypes.array.isRequired,
-      width: PropTypes.string.isRequired,
-      height: PropTypes.string.isRequired,
-      thickness: PropTypes.string.isRequired,
-      length: PropTypes.string.isRequired,
+      combustibility: PropTypes.array,
+      edges: PropTypes.array,
+      colors: PropTypes.array,
+      material: PropTypes.array,
+      lightning: PropTypes.array,
+      width: PropTypes.string,
+      height: PropTypes.string,
+      thickness: PropTypes.string,
+      length: PropTypes.string,
       uuid: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
   }
+  // Internal state of select controllers' values.
   state = {
     combustibilityValue: '',
     acousticsValue: '',
@@ -44,20 +46,28 @@ class AddProductFormContainer extends Component {
   }
   
   onChangeSelect = input => (event, index, value) => {
-
       input.onChange(value) ;
-      console.log('change', index, value, input, `${input.name}Value`)
+
       this.setState({
         [`${input.name}Value`]: value 
       });
       
   }
   submitAddProduct = (values, dispatch) => {
-    const {uuid} = this.props;
-    console.log(values, uuid);
+    const {
+      uuid, 
+      name, 
+      image,
+      url
+    } = this.props;
+    console.log(values, uuid, name);
     dispatch(showAddingProductToCart({
       ...values,
-      uuid
+      uuid,
+      name,
+      quantity: 1, 
+      image: image,
+      url
     }));
   }
 
@@ -79,23 +89,24 @@ class AddProductFormContainer extends Component {
       thickness,
       length
     } = this.props;
-    
-   console.log('state', this.state)
 
     return (
       <MuiThemeProvider>
         <section className={getClass({b: 'addProductFormSection', add: "catalogForm"})}>
 
           <h2 className={getClass({b: 'addProductFormSection', el: "title", add: "upper parent row"})}>Характеристики</h2>
-          <div className={getClass({b: 'addProductFormContainer',  add: "parent column h-end"})}>
+          <div className={getClass({b: 'addProductFormContainer',  add: `parent column ${isProductAdded ? "centered" : "h-end" }`})}>
             <Figure url={image} maxWidth="33.33%" name="product" />
             {!isProductAdded ? 
 
               <AddProductForm {...this.state}
                 buttonOptions={{ 
-                  content: !isRequesting ? "В корзину" : <Loader />,
+                  content: !isRequesting ? "В корзину" : <Loader name="addProductFormLoader" />,
                   modifier: 'product'
                 }}
+                className="row h-start v-centered"
+                centered={false}
+                column={false}
                 onChangeSelect={this.onChangeSelect}
                 combustibility={makeSelectOptions(combustibility)}
                 acoustics={makeSelectOptions(acoustics)}
@@ -111,11 +122,12 @@ class AddProductFormContainer extends Component {
                 helpText={helpText.toString()}
                 block="addProductForm"
               /> :
-              <p className={getClass({b: "successfull", add: "parent row centered"})}>
+              <p className={getClass({b: "successfull", m:"addProductForm", add: "parent row centered"})}>
                 {ReactHtmlParser(helpText)}
                 <OrderButtonContainer 
                     cartPosition={cartPositions.bag}
                     cartModifier="hover_bottom" 
+                    modifier="product"
                 />
               </p>
             }
@@ -126,7 +138,8 @@ class AddProductFormContainer extends Component {
   }
 }
 
-
+{/*className="h-start v-start"*/}
+                {/*centered={false}*/}
 const mapStateToProps = state => {
   const { cart, catalog } = state;
   const { 

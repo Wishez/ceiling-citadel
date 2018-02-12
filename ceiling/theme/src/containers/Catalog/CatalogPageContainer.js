@@ -57,7 +57,7 @@ class CatalogPageContainer extends Component {
                 </li>
 
             </ul>
-            <p className={getClass({b: 'catalogHeader', el: "slogan", add: "parent row h-end baseChild"})}>
+            <p className={getClass({b: 'catalogHeader', el: "slogan", add: "parent row h-end baseChild darkBlue"})}>
                 Цитадель потолочных покрытий
             </p>
         </div>

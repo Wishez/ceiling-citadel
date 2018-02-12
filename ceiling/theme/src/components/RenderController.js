@@ -17,7 +17,7 @@ const RenderController = ({
 	iconOptions,
 	className,
 	asideText=false,
-	selected,
+	isShown,
 	...rest
 }) => (
 	<div style={style ? style : {}} 
@@ -42,7 +42,16 @@ const RenderController = ({
 					{...iconOptions} 
 				/> : ''
 			}
-
+			{(touched && asideText) && 
+			 	((error && 
+			 		<span className={getClass({
+						b: block,
+						el: "error"
+					})}>{error}</span>) || 
+			 		(warning && <span className={getClass({
+						b: block,
+						el: "error"
+					})}>{warning}</span>))}
 			{rest.type !== "textarea" ?
 				<input {...input}
 					{...rest}
@@ -66,7 +75,7 @@ const RenderController = ({
 		 {asideText ? 
 		 	<Paragraph block="controller" text={`: ${asideText}`}/> : 
 		 	''}
-		 {touched && 
+		 {(touched && !asideText) && 
 		 	((error && 
 		 		<span className={getClass({
 					b: block,

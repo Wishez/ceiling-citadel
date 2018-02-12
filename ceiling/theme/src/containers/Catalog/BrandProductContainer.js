@@ -2,10 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
+import ReactHtmlParser from 'react-html-parser';
 
 import getClass from './../../constants/classes';
-import {CATALOG, PRODUCT} from './../../constants/catalog';
-import {localData, transformName} from './../../constants/pureFunctions';
+import {
+  CATALOG, 
+  PRODUCT, 
+  LAST_ALBUM
+} from './../../constants/catalog';
+import {
+  localData, 
+  transformName
+} from './../../constants/pureFunctions';
+
 import { 
   getProductData, 
   findUUID
@@ -15,24 +24,28 @@ import {catalogCollectionUrl} from './../../constants/conf';
 import BreadcrumbsContainer from './../BreadcrumbsContainer';
 import BaseCatalogContainer from './BaseCatalogContainer';
 import AddProductFormContainer from './../AddProductFormContainer';
-import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {
+  fetchCatalogEntityOrGetLocale
+} from './../../actions/catalog';
 
+import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
 import Loader from './../../components/Loader';
+import ImagesCarousel from './../../components/ImagesCarousel';
 
-class CategoryProductContainer extends Component {
+class BrandProductContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
-
   }
+
 
   state = {
     id: '',
     brandName: '',
-    collectionName: '',
+    collectionName: ''
   }
 
   componentDidMount() {
@@ -54,6 +67,7 @@ class CategoryProductContainer extends Component {
           productSlug
         );
 
+
         this.setState({
           brandName: category.name,
           ...productData
@@ -73,10 +87,12 @@ class CategoryProductContainer extends Component {
       collectionName,
       brandName
     } = this.state;
+    const {url} = this.props.match;
 
     let product = false,
         slogan = '',
-        productName = '';
+        productName = '',
+        album = false;
 
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
@@ -86,9 +102,10 @@ class CategoryProductContainer extends Component {
     if (product) {
         productName = transformName(product.name); 
         slogan = product.slogan;
+        album = localData.get(LAST_ALBUM);
     }
 
-    console.log(product)
+    console.log(product, album)
     return (
       
       <BaseCatalogContainer name={productName}
@@ -105,10 +122,31 @@ class CategoryProductContainer extends Component {
             CONSTANT={PRODUCT}
       >
           {product ? 
-            <AddProductFormContainer 
-              image={product.preview.image}
-              {...product}
-            /> : <Loader />}
+            <div style={{width: "100%"}}>
+              <AddProductFormContainer 
+                  image={product.preview.image}
+                  {...product}
+                  url={url}
+              /> 
+              {product.visualisation !== null ? 
+                  <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
+                  ''}
+              {(album && album.slug === product.album) ? 
+                <ImagesCarousel 
+                  images={album.images} 
+                  loop 
+                  autoplay
+                  smartSpeed={350}
+                  items={1}
+                  dotsEach
+                  lazyLoad
+                  autoplayHoverPause
+                />: ''}
+              {product.content ? 
+                <section className={getClass({b: "productContent"})}>{ReactHtmlParser(product.content)}</section> : ''}
+            </div>
+            : 
+            <Loader />}
       </BaseCatalogContainer>
     );
   }
@@ -117,15 +155,13 @@ class CategoryProductContainer extends Component {
 const mapStateToProps = state => {
   const { catalog } = state;
   const { 
-    shown,
     isRequesting
   } = catalog;
 
-  return {
-    shown,
+  return { 
     PRODUCT: catalog.PRODUCT,
     isRequesting
   };
 };
 
-export default withRouter(connect(mapStateToProps)(CategoryProductContainer));
+export default withRouter(connect(mapStateToProps)(BrandProductContainer));
