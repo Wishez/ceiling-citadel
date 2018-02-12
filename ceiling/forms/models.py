@@ -16,7 +16,7 @@ from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
 from catalog.models import Product
-
+from home.models import Combustibility, Acoustics, Lightning, Edge, Material, Color
 
 class Callback(TimeStampedModel):
     consumer = models.ForeignKey(
@@ -108,17 +108,57 @@ class OrderManager(models.Manager):
             instance.ordered_products.remove(item[0])
         else:
             return False
+    def set_product_characteristics(self, product, data):
+        # Foreign keys
+        characteristics = (
+            ('combustibility', Combustibility,),
+            ('colors', Color,),
+            ('material', Material,),
+            ('acoustics', Acoustics,),
+            ('edges', Edge,),
+            ('lightning', Lightning,),
+        )
+
+        proportions = (
+            'width',
+            'height',
+            'thickness',
+            'length',
+            'quantity',
+        )
+
+        for characteristic in proportions:
+            if characteristic in data:
+                setattr(product, characteristic, data[characteristic])
+
+        for characteristic, Model in characteristics:
+            if characteristic in data:
+                instance = Model.objects.filter(name=data[characteristic])
+
+                if instance.exists():
+                    setattr(product, characteristic, instance[0])
+
 
 
     def create_and_put_ordered_product_to_order(self, instance, uuid, data):
-        ordered_product = OrderedProduct.objects.create(
-            product=Product.objects.get(uuid=uuid),
-            **data
-        )
-        ordered_product.save()
+        product = Product.objects.filter(uuid=uuid)
 
-        instance.ordered_products.add(ordered_product)
+        if product.exists():
 
+            ordered_product = OrderedProduct.objects.create(
+                product=product[0]
+            )
+
+            self.set_product_characteristics(
+                ordered_product,
+                data
+            )
+
+            ordered_product.save()
+
+            instance.ordered_products.add(ordered_product)
+        else:
+            print("Doesn't exist")
 
     def get_ordered_products(self, instance):
         ordered_products = []

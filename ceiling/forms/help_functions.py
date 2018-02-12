@@ -12,16 +12,20 @@ def get_or_create_consumer(data):
     if consumer.count() == 0:
         consumer = Consumer()
 
-        if 'phone_number' in data:
-            consumer.phone_number = data.get('phone_number')
-        if 'email' in data:
-            consumer.email = data.get('email')
 
-        consumer = Consumer.objects.fill_name_by_fields_and_save(
+
+        consumer = Consumer.objects.fill_name_by_fields(
             consumer,
             full_name
         )
     else:
         consumer = consumer[0]
+
+    if 'phone_number' in data:
+        consumer.phone_number = data.get('phone_number')
+    if 'email' in data:
+        consumer.email = data.get('email')
+
+    consumer.save()
 
     return consumer

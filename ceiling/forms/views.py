@@ -15,7 +15,6 @@ def order_callback(request):
     if request.method == 'POST':
         data = json.loads(request._body)
         consumer = get_or_create_consumer(data)
-        print('go to next')
 
         callback = Callback.objects.create(
             consumer=consumer
@@ -35,6 +34,7 @@ def make_order(request):
     if request.method == 'POST':
 
         data = json.loads(request._body)
+
         isNotTest = not 'isTest' in data
         consumer = get_or_create_consumer(data)
 
@@ -47,13 +47,12 @@ def make_order(request):
         for product in products:
             uuid = product.get('uuid')
 
-            del product['uuid']
-
             Order.objects.create_and_put_ordered_product_to_order(
                 order,
                 uuid,
                 product
             )
+
         if isNotTest:
             Thread(
                 target=save_order_and_notify_about,
@@ -67,7 +66,7 @@ def make_order(request):
 def ask_question(request):
     if request.method == 'POST':
         data = json.loads(request._body)
-        print(data)
+
         consumer = get_or_create_consumer(data)
         question = data['question']
 

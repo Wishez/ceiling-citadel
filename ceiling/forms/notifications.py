@@ -60,12 +60,13 @@ def send_notification_about_changed_status_of_order_to_consumer(sender, instance
         isChanged = True
 
     if isChanged:
+        consumer = instance.consumer
         MessageParser(
-            [instance],
+            [instance, consumer],
             message,
             subject,
             isMessageKey=False,
-            receiver=instance.consumer
+            receiver=consumer
         )()
 
     return isChanged
