@@ -9,25 +9,30 @@ import {
   changeProductQuantity, 
   deleteProductAndNotifyAbout
 } from './../actions/cart';
+
+import {PRODUCTION_STORE} from './../constants/cart'
+
 import OrderButton from './../components/OrderButton';
 import {openOrder} from './../actions/order';
-import { getDeleteProductArguments } from './../constants/pureFunctions';
+import {localData, getDeleteProductArguments} from './../constants/pureFunctions';
 
 class OrderButtonContainer extends Component {
 	static propTypes = {
 	    dispatch: PropTypes.func.isRequired,
 	    quantityOrderedProducts: PropTypes.number.isRequired,
 	    isCartOpened: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-	    products: PropTypes.array.isRequired,
 	    isShownHelpText: PropTypes.bool.isRequired,
 	    helpText: PropTypes.string.isRequired,
 	    cartPosition: PropTypes.string.isRequired,
 	    cartModifier: PropTypes.string.isRequired,
+	    modifier: PropTypes.string
   	}
 	
 	onSubmitQuantityProduct = index => e => {
       	const { dispatch } = this.props;
+      	
       	dispatch(changeProductQuantity(index, e.target.value));
+      	this.forceUpdate();
   	}
 
 	showCart = () => {
@@ -57,16 +62,21 @@ class OrderButtonContainer extends Component {
 	}
 
 	render() {
-		const { cartPosition, isCartOpened } = this.props;
+		const { 
+			cartPosition, 
+			isCartOpened 
+		} = this.props;
+		const products = localData.get(PRODUCTION_STORE);
 
 		return (
 			<OrderButton {...this.props} 
-                 isCartOpened={isCartOpened === cartPosition}
-                 openCart={this.showCart} 
-                 closeCart={this.hideCart}
-                 openOrder={this.openOrderForm}
-                 onSubmitQuantityProduct={this.onSubmitQuantityProduct}
-                 deleteProduct={this.deleteProduct}
+				products={products || []}
+	            isCartOpened={isCartOpened === cartPosition}
+	            openCart={this.showCart} 
+	            closeCart={this.hideCart}
+	            openOrder={this.openOrderForm}
+	            onSubmitQuantityProduct={this.onSubmitQuantityProduct}
+	            deleteProduct={this.deleteProduct}
             />			
 		);
 	}
@@ -78,7 +88,6 @@ const mapStateToProps = state => {
 	const { 
 	    quantityOrderedProducts,
 	    isCartOpened,
-	    products,
 	    isShownHelpText,
 	    helpText
 	} = cart;
@@ -86,7 +95,6 @@ const mapStateToProps = state => {
 	return {
 		quantityOrderedProducts,
 		isCartOpened,
-		products,
 		isShownHelpText,
 		helpText
 	};

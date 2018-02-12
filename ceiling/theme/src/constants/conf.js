@@ -12,17 +12,20 @@ export const collectionUrl = `${siteApi}${catalogApi}/collection/`;
 export const categoryUrl = `${siteApi}${catalogApi}/category/`;
 export const brandUrl = `${siteApi}${catalogApi}/brand/`;
 export const catalogUrl = `${siteApi}${catalogApi}/catalog/`
+export const productAlbumUrl = `${siteApi}${catalogApi}/album/`
 
 export const catalogCollectionUrl = `/catalog/collection/`;
 export const catalogBrandUrl = `/catalog/brand/`;
 export const catalogCategoryUrl = `/catalog/category/`;
 
+// About section constants
 import OrderButton from './../components/OrderButton';
 import nice_to_meet_you from './../images/about/sharp_first.png';
 import products from './../images/about/sharp.png';
 import design from './../images/about/square.png';
 import exhibition from './../images/about/exhebition1.png';
 import boxes from './../images/about/boxes.png';
+
 
 export const aboutSections = [{
 	title: "приятно познакомиться",

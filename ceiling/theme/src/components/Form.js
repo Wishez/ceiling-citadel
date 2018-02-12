@@ -13,12 +13,14 @@ const Form = ({
 	buttonOptions,
 	button,
 	className,
-	fields,
+	fields=[],
+	column=true,
 	serverError,
 	showButton=true,
+	centered=true,
 	...rest
 }) => (
-	<form className={getClass(composeClasses(block, '', modifier, `${className} parent column centered`))}
+	<form className={getClass(composeClasses(block, '', modifier, `${className} parent${column ? " column" : ""}${centered ? " centered" : ""}`))}
 		onSubmit={handleSubmit(onSubmit.bind(this))}
 	>
 		{fields.map((field, index) => (

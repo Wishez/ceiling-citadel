@@ -17,10 +17,13 @@ import {
 } from './../constants/validation';
 
 const OrderForm = ({
-	...rest,
 	helpText,
 	products,
-	closeOrder
+	closeOrder,
+	cartModifier,
+	quantityOrderedProducts,
+	...rest,
+	
 }) => (
 	<Form fields={[
 		{
@@ -70,7 +73,8 @@ const OrderForm = ({
 	serverError={helpText}
 	{...rest}>
 		<Cart {...rest}
-			modifier="order"
+     	 	quantityOrderedProducts={quantityOrderedProducts}
+          	modifier="order" 
           	cartProducts={products} />
 	</Form>
 );

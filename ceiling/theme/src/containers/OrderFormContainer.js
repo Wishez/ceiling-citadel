@@ -15,7 +15,10 @@ import {
   changeProductQuantity, 
   deleteProductAndNotifyAbout 
 } from './../actions/cart';
-import { getDeleteProductArguments } from './../constants/pureFunctions';
+
+import {PRODUCTION_STORE} from './../constants/cart';
+
+import {getDeleteProductArguments, localData} from './../constants/pureFunctions';
 
 class OrderFormContainer extends Component {
   static propTypes = { 
@@ -25,14 +28,16 @@ class OrderFormContainer extends Component {
       isShownHelpText: PropTypes.bool.isRequired,
       isOrderedOrder: PropTypes.bool.isRequired,
       isRequesting: PropTypes.bool.isRequired,
-      products: PropTypes.array.isRequired,
       quantityOrderedProducts: PropTypes.number.isRequired,
   }
 
   submitOrder = (values, dispatch) => {
     // if (values.length < 3 ) return false;
-    values.products = this.props.products;
+    values.products = localData.get(PRODUCTION_STORE);
     console.log(values);
+    
+    if (!values.products.length)
+      return false;
     dispatch(tryMakeOrder(values));
   }
 
@@ -43,23 +48,25 @@ class OrderFormContainer extends Component {
 
   deleteProduct = (index, name, quantityOrderedProducts) => () => {
     const { dispatch } = this.props;
-    console.log(index, name, quantityOrderedProducts);
-      
+
     dispatch(
       deleteProductAndNotifyAbout(
-        ...getDeleteProductArguments(index, name, quantityOrderedProducts)
-      )
+          ...getDeleteProductArguments(index, name, quantityOrderedProducts)
+        )
     );
-
   }
+
   onSubmitQuantityProduct = index => e => {
-      const { dispatch } = this.props;
-      dispatch(changeProductQuantity(index, e.target.value));
+        const { dispatch } = this.props;
+
+        dispatch(changeProductQuantity(index, e.target.value));
+        this.forceUpdate();
   }
 
   render() {
     const { helpText, isOrderedOrder, isRequesting } = this.props;
     
+    const products = localData.get(PRODUCTION_STORE) || [];
 
     return (
       <PopupFormContainer  
@@ -74,10 +81,10 @@ class OrderFormContainer extends Component {
         }}
           onSubmit={this.submitOrder} 
           {...this.props}
+          products={products}
           helpText={helpText.toString()}
           deleteProduct={this.deleteProduct}
           onSubmitQuantityProduct={this.onSubmitQuantityProduct}
-
         /> :
           <p className={getClass({b: "successfull"})}>{ReactHtmlParser(helpText)}</p>
         }
@@ -90,11 +97,10 @@ class OrderFormContainer extends Component {
 
 const mapStateToProps = state => {
   const { order, cart } = state;
-  const { products, quantityOrderedProducts } = cart;
-  console.log(products, quantityOrderedProducts);
+  const { quantityOrderedProducts } = cart;
+  
   return {
     ...order,
-    products,
     quantityOrderedProducts
   };
 };
