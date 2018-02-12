@@ -7,9 +7,14 @@ import {
 	showHelpText,
 	hideHelpText
 } from './../actions/cart';
+import {
+	TEST_STORE,
+	EMPTY_ORDERED_PRODUCT
+} from './../constants/cart';
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
 import cart, {initState} from './../reducers/cart';
+
 
 const testOpenCart = () => {
 	const cartBefore = initState;
@@ -42,9 +47,13 @@ const testCloseCart = () => {
 };
 
 const getProductToTheCartTest = () => {
+	localData.set(TEST_STORE, EMPTY_ORDERED_PRODUCT);
+
+	const products = localData.get(TEST_STORE);
+
 	const cartBefore = {
 		...initState,
-		quantityOrderedProducts: initState.products.length
+		quantityOrderedProducts: products.length
 	};
 
 	const newProduct = {
@@ -65,73 +74,101 @@ const getProductToTheCartTest = () => {
 
 	const cartAfter = {
 		...initState,
-		products: [
-			...initState.products,
-			newProduct,
-		],
 		isProductAdded: true,
+		helpText: "Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.",
 		quantityOrderedProducts: cartBefore.quantityOrderedProducts + 1
 	};
+	const storeAfter = [
+            ...products,
+            newProduct
+  	];
 
 	deepFreeze(cartBefore);
 
 	expect(
-		cart(cartBefore, putProduct(newProduct))
+		cart(cartBefore, putProduct(newProduct, TEST_STORE))
 	).toEqual(cartAfter);
+
+	const updatedStore = localData.get(TEST_STORE);
+
+	expect(
+		updatedStore
+	).toEqual(storeAfter);
 };
 
 const throwProductFormCartTest = () => {
+	localData.set(TEST_STORE, EMPTY_ORDERED_PRODUCT);
+
+	const products = localData.get(TEST_STORE);
 	const cartBefore = {
 		...initState,
-		quantityOrderedProducts: initState.products.length
+		quantityOrderedProducts: products.length
 	};
 
-	const products = cartBefore.products;
 	const index = 2;
 
 	const cartAfter = {
 		...initState,
-		products: [
-			...products.slice(0, index),
-			...products.slice(index + 1)
-		],
 		quantityOrderedProducts: cartBefore.quantityOrderedProducts - 1
 	};
+	const storeAfter = [
+        ...products.slice(0, index),
+        ...products.slice(index + 1)
+    ];
 
 	deepFreeze(cartBefore);
+	
+	expect(
+		cart(cartBefore, deleteProduct(index, TEST_STORE))
+	).toEqual(cartAfter);
+
+	const updatedStore = localData.get(TEST_STORE);
 
 	expect(
-		cart(cartBefore, deleteProduct(index))
-	).toEqual(cartAfter);
+		updatedStore
+	).toEqual(storeAfter);
 };
+import {localData} from './../constants/pureFunctions';
 
 const changeProductQuantityTest = () => {
+
+	localData.set(TEST_STORE, EMPTY_ORDERED_PRODUCT);
+
+	const products = localData.get(TEST_STORE);
+
 	const cartBefore = {
 		...initState,
-		quantityOrderedProducts: initState.products.length
+		quantityOrderedProducts: products.length
 	};
+				
 
-	const products = cartBefore.products;
 	const index = 3;
 	const quantity = 6;
-
-	const cartAfter = {
-		...cartBefore,
-		products: [
-			...products.slice(0, index),
-			{
-				...products[index],
-				quantity: quantity
-			},					
-			...products.slice(index + 1)
-		]
-	};
+	
+	const cartAfter = cartBefore;
+	const storeAfter =[
+	      ...products.slice(0, index),
+	      {
+	        ...products[index],
+	        quantity
+	      },          
+	      ...products.slice(index + 1)
+	  ];
 
 	deepFreeze(cartBefore);
 
 	expect(
-		cart(cartBefore, changeProductQuantity(index, quantity))
+		cart(
+			cartBefore, 
+			changeProductQuantity(index, quantity, TEST_STORE)
+		)
 	).toEqual(cartAfter);
+
+	const updatedStore = localData.get(TEST_STORE);
+
+	expect(
+		updatedStore
+	).toEqual(storeAfter);
 };
 
 const showHelpTextTest = () => {

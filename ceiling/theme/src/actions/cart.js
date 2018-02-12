@@ -6,18 +6,21 @@ import {
 	CHANGE_PRODUCT_QUANTITY,
 	HIDE_HELP_TEXT,
 	SHOW_HELP_TEXT,
-	SHOW_ACTION
-} from './../constants/cart.js';
+	SHOW_ACTION,
+	PRODUCTION_STORE
+} from './../constants/cart';
 
 
-export const putProduct = product => ({
+export const putProduct = (product, store=PRODUCTION_STORE) => ({
 	type: PUT_PRODUCT,
+	store,
 	product
 });
 
-export const deleteProduct = id => ({
+export const deleteProduct = (id, store=PRODUCTION_STORE) => ({
 	type: DELETE_PRODUCT,
-	id
+	store,
+	id,
 });
 
 export const showAction = () => ({
@@ -25,7 +28,7 @@ export const showAction = () => ({
 });
 
 export const showAddingProductToCart = product => dispatch => {
-	dispatch(showACtion());
+	dispatch(showAction());
 	dispatch(putProduct(product));
 };
 
@@ -64,8 +67,9 @@ export const openCart = id => ({
 	id
 });
 
-export const changeProductQuantity = (id, quantity) => ({
+export const changeProductQuantity = (id, quantity, store=PRODUCTION_STORE) => ({
 	type: CHANGE_PRODUCT_QUANTITY,
+	store,
 	quantity,
 	id
 });

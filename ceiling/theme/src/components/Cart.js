@@ -34,7 +34,9 @@ const Cart = ({
 			<li className={getClass({b: 'orderedProducts', el: "product", add: "baseChild"})} key={index}>
 				<CartProduct {...product}
 					deleteProduct={deleteProduct(index, product.name, quantityOrderedProducts)}
-					onSubmitQuantityProduct={onSubmitQuantityProduct(index)}/>
+					onSubmitQuantityProduct={onSubmitQuantityProduct(index)} 
+					index={index}
+				/>
 			</li>
 		)) :
 		<p className={getClass({b: "cart", el: "hint", m: "empty"})}>Ваша корзина пуста, но вы всегда можете её пополнить ʕ•ᴥ•ʔ!</p>

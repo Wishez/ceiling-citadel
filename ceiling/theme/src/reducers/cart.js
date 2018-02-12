@@ -6,106 +6,13 @@ import {
 	CHANGE_PRODUCT_QUANTITY,
 	SHOW_HELP_TEXT,
 	HIDE_HELP_TEXT,
-  SHOW_ACTION
-} from './../constants/cart.js';
-
-/*
- * State:
- */
+  SHOW_ACTION,
+  PRODUCTION_STORE
+} from './../constants/cart';
+import {localData} from './../constants/pureFunctions';
 
 export const initState = {
 	isCartOpened: false,
-	products: [{
-     	name: "Редкий предмет",
-      	uuid: "",
-      	quantity: 1,
-      	combustibility: "",
-        acoustics: "",
-        lightning: "",
-        edges: "",
-        material: "",
-        colors: "",
-        width: "",
-        height: "",
-        length: "",
-        thickness: "",
-    },
-    {
-      	name: "Великолепный предмет",
-      	uuid: "",
-      	quantity: 1,
-      	combustibility: "",
-        acoustics: "",
-        lightning: "",
-        edges: "",
-        material: "",
-        colors: "",
-        width: "",
-        height: "",
-        length: "",
-        thickness: "",
-    },
-    {
-     	name: "Редкий предмет",
-      	uuid: "",
-      	quantity: 1,
-      	combustibility: "",
-        acoustics: "",
-        lightning: "",
-        edges: "",
-        material: "",
-        colors: "",
-        width: "",
-        height: "",
-        length: "",
-        thickness: "",
-    },
-    {
-      	name: "Великолепный предмет",
-      	uuid: "",
-      	quantity: 1,
-      	combustibility: "",
-        acoustics: "",
-        lightning: "",
-        edges: "",
-        material: "",
-        colors: "",
-        width: "",
-        height: "",
-        length: "",
-        thickness: "",
-    },
-    {
-     	name: "Редкий предмет",
-      	uuid: "",
-      	quantity: 1,
-      	combustibility: "",
-        acoustics: "",
-        lightning: "",
-        edges: "",
-        material: "",
-        colors: "",
-        width: "",
-        height: "",
-        length: "",
-        thickness: "",
-    },
-    {
-      	name: "Великолепный предмет",
-      	uuid: "",
-      	quantity: 1,
-      	combustibility: "",
-        acoustics: "",
-        lightning: "",
-        edges: "",
-        material: "",
-        colors: "",
-        width: "",
-        height: "",
-        length: "",
-        thickness: ""
-    }
-    ],
 	quantityOrderedProducts: 0,
 	helpText: '',
 	isShownHelpText: false,
@@ -117,16 +24,15 @@ const cart = (
 	state=initState,
 	action
 ) => {
-	let products, index;
+	let products, index, storeName;
 	
 	switch (action.type) {
-    case SHOW_ACTION:
-      return {
-        ...state,
-        isRequesting: true
-      };
-    case OPEN_CART:
-      console.log(`set position ${action.id}`)
+	    case SHOW_ACTION:
+			return {
+				...state,
+				isRequesting: true
+			};
+	    case OPEN_CART:
 			return {
 				...state,
 				isCartOpened: action.id
@@ -137,44 +43,51 @@ const cart = (
 				isCartOpened: false
 			};
 		case PUT_PRODUCT:
-			return {
-				...state,
-				products: [
-					...state.products,
-					action.product
-				],
-        isProductAdded: true,
-        isRequesting: false,
-				quantityOrderedProducts: state.quantityOrderedProducts + 1
-			};
-		case DELETE_PRODUCT:
-			index = action.id;
-			products = state.products;
+			storeName = action.store;
+			products = localData.get(storeName) || [];
 
+			localData.set(storeName, [
+			    ...products,
+			    action.product
+			]);
+
+				return {
+					...state,
+					isProductAdded: true,
+					isRequesting: false,
+					helpText: "Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.",
+					quantityOrderedProducts: state.quantityOrderedProducts + 1
+				};
+			case DELETE_PRODUCT:
+				storeName = action.store;
+				index = action.id;
+				products = localData.get(storeName) || [];
+
+			localData.set(storeName, [
+			  ...products.slice(0, index),
+			  ...products.slice(index + 1)
+			]);
+
+			
 			return {
 				...state,
-				products: [
-					...products.slice(0, index),
-					...products.slice(index + 1)
-				],
 				quantityOrderedProducts: state.quantityOrderedProducts - 1
 			};
 		case CHANGE_PRODUCT_QUANTITY:
-			products = state.products;
-			index = action.id;
+			storeName = action.store;
+				products = localData.get(storeName);
+				index = action.id;
 
-			return {
-				...state,
-				products: [
-					...products.slice(0, index),
-					{
-						...products[index],
-						quantity: action.quantity
-					},					
-					...products.slice(index + 1)
+			localData.set(storeName, [
+			  ...products.slice(0, index),
+			  {
+			    ...products[index],
+			    quantity: action.quantity
+			  },          
+			  ...products.slice(index + 1)
+			]);
 
-				]
-			};
+			return state;
 		case SHOW_HELP_TEXT:
 			return {
 				...state,
@@ -188,9 +101,10 @@ const cart = (
 				isShownHelpText: false	
 			};
 		default:
+      		products = localData.get(PRODUCTION_STORE) || [];
 			return {
 				...state,
-				quantityOrderedProducts: state.products.length
+				quantityOrderedProducts: products.length
 			};
 	}
 }
