@@ -55,7 +55,7 @@ class ConsumerTestModel(TestCase):
             Consumer.objects.get_full_name(consumer),
             '%(last)s %(first)s %(middle)s' % full_name
         )
-    def fill_name_by_fields_and_save_test(self):
+    def fill_name_by_fields_test(self):
         consumers = {
             "one_consumer": {
                 "full_name": "Last First Middle"
@@ -76,6 +76,7 @@ class ConsumerTestModel(TestCase):
                 new_consumer,
                 tested_consumer["full_name"]
             )
+
         def get_consumer_instance(name):
             return consumers.get(name).get('instance')
 

@@ -5,13 +5,13 @@ import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Product, BaseProductModel
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 class ConsumerManager(models.Manager):
     use_for_related_fields = True
 
-    def fill_name_by_fields_and_save(self, instance, full_name):
+    def fill_name_by_fields(self, instance, full_name):
         shared_name = full_name.split(' ')
         length = len(shared_name)
         if length  < 2:
@@ -22,8 +22,6 @@ class ConsumerManager(models.Manager):
 
         if length == 3:
             setattr(instance, 'middle_name', shared_name[2] or "")
-
-        instance.save()
 
         return instance
 
@@ -76,32 +74,44 @@ class OrderedProduct(BaseProductModel):
     combustibility = models.ForeignKey(
         "home.combustibility",
         verbose_name=_("Горючесть"),
-        default=None
+        default=None,
+        null=True,
+        blank=True
     )
     acoustics = models.ForeignKey(
         "home.acoustics",
         verbose_name=_("Акустика"),
-        default=None
+        default=None,
+        null=True,
+        blank=True
     )
     lightning = models.ForeignKey(
         "home.lightning",
         verbose_name=_("Освящение"),
-        default=None
+        default=None,
+        null=True,
+        blank=True
     )
     edges = models.ForeignKey(
         "home.edge",
         verbose_name=_("Кромки"),
-        default=None
+        default=None,
+        null=True,
+        blank=True
     )
     material = models.ForeignKey(
         "home.material",
         verbose_name=_("Материал"),
-        default = None
+        default = None,
+        null=True,
+        blank=True
     )
     colors = models.ForeignKey(
         "home.color",
         verbose_name=_("Цвет"),
-        default=None
+        default=None,
+        null=True,
+        blank=True
     )
     product = models.ForeignKey(
         Product,
@@ -137,8 +147,9 @@ class OrderedProduct(BaseProductModel):
         verbose_name = _('Оформленный продукт')
         verbose_name_plural = _('Оформленные продукты')
 
-@receiver(pre_save, sender=OrderedProduct)
+# @receiver(pre_save, sender=OrderedProduct)
 def count_whole_price_of_ordered_product(sender, instance, **kwargs):
-    price = instance.product.price
+    price = getattr(instance, 'price', None)
     if price:
         instance.full_price = price * instance.quantity
+    return True
