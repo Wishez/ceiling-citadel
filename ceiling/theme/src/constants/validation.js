@@ -1,4 +1,5 @@
-export const required = value => value ? undefined : 'Это поле обязательно';
+export const required = value => value ? undefined : 'Нельзя просто так взять и оставить это поле пустым';
+export const selectRequired = value => value ? undefined : 'Нам необходим ваш выбор';
 
 export const email = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Неправильный e-mail адрес' : undefined;
 export const firstMiddleLastNames = value => value && /^[A-ZА-ЯЁ][a-zа-яё]*$/i.test(value) ? undefined :
@@ -18,7 +19,8 @@ export const full_name = value => value && /^\+?([A-Za-zА-Я-а-яёЁ\-]*\s)([
 	'Вы можете использовать кириллические и латинские буквы от a-z, от а-я, как в верхнем, так и в нижнем регистре и знак тире "-".';
 
 
-
+export const number = value => value && /^\+?([0-9]*).?([0-9]{1,2})?$/i.test(value) ? undefined :
+	'Введите целое число, либо с десятичной дробью.';
 
 
 const createMessage = (nameOfSmth, min, max) => (
