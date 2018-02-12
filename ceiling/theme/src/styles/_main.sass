@@ -11,7 +11,10 @@
 	@extend %relative
 	cursor: pointer
 	transition: box-shadow .3s ease
-
+	&:nth-child(3n+2) .table
+		background-color: $darkGray
+		& .table__refer
+			color: $white
 	&_sample
 		// background-size: cover
 		background-position: right top
@@ -23,7 +26,7 @@
 		// @extend %flyShadow
 		z-index: 2
 		& .table
-			transform: translateY(-326%);
+			transform: translateY(-324%);
 		& .catalogDescription, & .characteristics
 			transform: translateY(0)
 .catalogDescription, .table, .characteristics
@@ -38,11 +41,16 @@
 	bottom: 0
 	transform: translateY(100%)
 	background-color: $white
+.catalogDescription
 
 // Catalog
 .catalogSection, .catalogSubsection
 	max-width: em(960)
 	width: span(12)
+.catalogSection
+	&:not(:first-of-type)
+		margin-top: 3rem
+	margin-bottom: 3rem
 .catalogSubsection
 	margin-top: 1.5rem
 .catalogSection, .catalogSubsection
@@ -115,7 +123,7 @@
 
 .table
 	// min-height: span(3)
-	height: em(64.25)
+	height: em(65)
 	// padding: 1em 0 
 	margin-top: 0
 	margin-bottom: 0
@@ -123,6 +131,7 @@
 	transition: transform .5s ease, box-shadow .3s ease, color .4s linear
 	background-color: #dcdcdc
 	z-index: 3
+	
 	&:hover, &:focus
 		@extend %flyShadow
 	&__refer
@@ -189,8 +198,9 @@
 	@include breakpoint($xs)
 		border: 0
 .callbackButtons, .orderButtons
-	// flex-basis: 10%
 	margin: 0	
+	@include breakpoint($xxs)
+	    margin-top: 0 $i
 .orderButtons_stretch
 	flex-basis: 10%
 	margin-top: 1.5rem
@@ -216,7 +226,23 @@
 
 .characteristics
 	height: em(275)	
-	
+	&_static
+		position: static
+		background: $darkGray
+		height: auto
+		padding: 0 0 1.5rem 0
+		min-height: auto
+		&, &:hover, &:focus
+			transform: none
+		& .sampleCharacteristic_colors
+			// margin-top: 0
+			transform: none
+			& .sampleCharacteristic__characteristic
+				transform: translateY(-100%)
+		& .moreRefer
+			display: none
+
+
 .zeroVerticalMargin
 	margin-top: 0
 	margin-bottom: 0
@@ -233,7 +259,7 @@
 		align-self: flex-end
 		flex-flow: column wrap
 		align-items: flex-end
-		// order: -1
+		position: absolute
 	&__label
 		text-align: right
 		color: $gray
@@ -251,41 +277,84 @@
 		opacity: 0
 .addProductForm
 	@include breakpoint($md-up)
-		height: em(633)
+		// height: em(633)
 	@include breakpoint($sm)
-		height: em(666)
+		// height: em(666)
+	@include breakpoint($xs)
+		flex-direction: column
 .catalogForm
 	margin-top: 3rem
 	background-color: #F2F2F2
 	border-radius: 3px
 	min-width: span(12)
-	padding: em(34) em(37) em(100)
+	padding: em(34) em(37) em(150)
 	@extend %relative
 	@include breakpoint($xs)
-		padding-bottom: em(168)
+		// padding-bottom: em(152)
+		
+		
 	@include breakpoint($xxs)
 		padding: em(34) em(18) em(150)
 	.controller
-		// &_width, &_height, &_length, &_thickness
 
-		align-self: flex-start
+		@include breakpoint($md-up)
+			
+		@include breakpoint($sm)
+			
 		& hr
 			display: none
 		& button
 		&_small
-			align-self: flex-end
+			// align-self: flex-end
 			@include breakpoint($xs)
-				order: -1	
+				// order: -1	
+				// transform: translateX(80%)
+				// align-self: flex-start
 			@include breakpoint($xxs)
 				max-width: em(112)
 			@include breakpoint($md-up)
 				// transform: translate(-75%, -138%)
-				transform: translate(-145%, -1.1em)
+				// transform: translate(-14em, -.75em) // 145%,
 			@include breakpoint($sm)
-				transform: translate(-37%, 108%)
+				// transform: translate(-6em, 13.5em)
 			&:last-of-type
 				@include breakpoint($sm)
 					// transform: translate(-37%, 146%)
 		&__input
 			background-color: #BDBDBD $i
 			border-color: $darkBlue
+.proportionFields, .selectFields
+	flex-wrap: nowrap
+	@include breakpoint($xs)
+		min-width: span(12)
+
+.proportionFields
+	order: 2
+	@include breakpoint($xs)
+		// transform: translateX(-5em)
+		align-items: flex-start
+		width: em(305)
+		margin-top: 1.5rem
+		min-width: fit-content;
+		order: -1
+.proportionFields, .formButton_product
+	@include breakpoint($xs)
+.formButton_product
+	@include breakpoint($xs)
+		transform: translateX(-5.75em)
+		left: auto
+	@include breakpoint($xxs)
+		transform: none
+.selectFields
+	& .controller
+		&:first-of-type
+			margin-top: 1rem
+	@include breakpoint($xs-up)
+		margin-right: em(41.886784)
+.productContent 
+	margin-top: 3rem
+	& * + *
+		margin-top:  1.5rem
+		&:not(p):not(img)
+			margin-top:  3rem
+			margin-bottom: 3rem

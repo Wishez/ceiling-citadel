@@ -383,6 +383,7 @@ div[role="presentation"]
 	margin-top: em(1, 24)
 	transition: opacity .2s
 	box-shadow: inner 0 0 14;
+	z-index: 99
 	@extend %relative
 	@include breakpoint($xxs)
 		width: 75vw
@@ -390,8 +391,8 @@ div[role="presentation"]
 		width: 	span(12)
 		margin-top: em(21, 24)
 		& .cart__hint
-			width: 98%;
-			border-right: 0;
+			width: 98%
+			border-right: 0 
 	&_hover
 		&_up, &_bottom
 			@extend %absolute
@@ -410,13 +411,14 @@ div[role="presentation"]
 		@extend %absolute
 		left: 0
 		left: calc(0% + 3px)
+
 		top: 0
 		top: calc(0% + 3px)
 		border: 2px solid $darkBlue
 		border-top: 0
 		border-left: 0
 		color: $white
-		font-size: em(16, 24)
+		font-size: em(16, 24) $i
 		padding: .5em
 		text-align: center
 		width: span(5)
@@ -484,12 +486,14 @@ div[role="presentation"]
 .deleteProductButton	
 	font-size: em(18)
 .cartProduct
-	background: #f7f7f7 
+	background: #f7f7f7 no-repeat top right
+	background-size: 70%
 	@extend %relative
 	border-radius: 2px
 	@extend %shadow
 	width: em(105)
 	height: em(105)
+	cursor: pointer
 	&__name
 		max-width: span(7)
 		-webkit-box: block
@@ -499,6 +503,7 @@ div[role="presentation"]
 		text-overflow: ellipsis
 		display: -webkit-box
 		left: 0
+		text-transform: none
 
 .productController, .cartProduct__name
 	color: $white
@@ -560,7 +565,9 @@ input[type=number]::-webkit-inner-spin-button
 	will-change: opacity
 	cursor:pointer
 	z-index: 2
-
+div[data-id="tooltip"]	
+	font-size: 1rem
+	z-index: 100
 input[type=number]:hover::-webkit-inner-spin-button 
 	opacity: 1
 	cursor:pointer
@@ -614,7 +621,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 	margin-top: em(35)
 	&_product
 		@extend %absolute
-		bottom: 5%
+		bottom: em(150 / 2 - 25)
 		left: em(37)
 
 .serverError
@@ -623,6 +630,8 @@ input[type=number]:hover::-webkit-inner-spin-button
 	font-weight: bold
 .successfull
 	color: $darkBlue
+	&_addProductForm
+		transform: translateY(2em);
 
 
 .fading
@@ -646,10 +655,21 @@ input[type=number]:hover::-webkit-inner-spin-button
 			transition: transform .5s ease-in
 			transform: translateX(0);
 
+
 .moreRefer
 	font-size: em(18)
 	@extend %absolute
 	bottom: em(29.34)
 	right: em(34.41)
+	&_product
+		position: absolute
+		font-size: 1rem
+		top: 0
+		left: 0
+		padding: .1rem
+		background-color: $orange
+		max-height: 2rem
+		max-width: 6rem
+		color: $darkGray
 	// align-self: flex-end
 	// justify-self: flex-end

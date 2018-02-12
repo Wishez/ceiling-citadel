@@ -4,9 +4,11 @@
 	padding: 0
 	height: auto
 .searchButton
-	max-width: em(85)
+	max-width: em(35)
+	@extend %absolute
 	min-width: auto
-	padding-top: .5em
+	right: 0
+	top: .6em
 
 
 	
@@ -27,7 +29,7 @@
 	&__bar
 		width: em(55)
 		margin: em(2.99) 0
-		height: em(7)
+		min-height: em(7)
 		transition: .2s ease
 		&_darkBlue
 			max-width: span(8)
@@ -63,12 +65,14 @@
 			transform: translate(0%, -25%)
 			right: 10%
 .searchForm
-	width: 	em(313)
-	margin-top: em(16)
+	margin-top: 2rem
+	@extend %relative
 
 
 .infoHeaderBlock
 	min-width: span(2.75)
+	@extend %relative
+	z-index: 2
 	@include breakpoint($md-less)
 		order: 3
 		min-width: span(3.5)
@@ -86,7 +90,7 @@
 		color: $gray
 .header
 	@extend %relative
-	padding: em(8) 0
+	padding: 1rem 0
 	@include breakpoint($md-less)
 		padding: em(16) 0
 	& > .container
@@ -131,7 +135,7 @@
 
 .buttonsGroup
 	max-width: em(218)
-	
+	z-index: 1
 	&_header
 		@include breakpoint($md)
 			margin-left: auto
@@ -165,10 +169,39 @@
 	@include breakpoint($xxs)
 		transform: translateY(0)
 		margin: 1em auto 1.5em
+.header 
+	& .searchBlock
+		margin-bottom: 0 
+.searchBlock
+	@extend %relative
+	max-width: em(270)
+	margin: 1rem auto 2rem
+.result
+	@extend %absolute
+	top: 100%
+	max-height: em(210)
+	width: span(12)
+	padding: .5em
+	z-index: 100
+	overflow-y: auto
+	background: $white
+	border-radius: 3px
+	border: 1px solid $darkGray
+	@extend %flyShadow
+
+.resultSection
+	// font-size: em(18)
+	&:not(:first-of-type)
+		margin-top: 1rem
+
+.resultRefer
+	// color: $cian $i
+	// background-image: url()
 .brand
-	background-image: none
+	&, &:hover, &:focus
+		background-image: none
+	max-width: em(260)
 	&_header
-		max-width: em(250)
 		@include breakpoint($md-less)
 			max-width: em(265)
 			order: 4
@@ -194,7 +227,7 @@
 		text-transform: none
 .controller_search
 	min-width: auto
-	max-width: span(10)
+	max-width: span(12)
 .navList
 	flex-wrap: nowrap
 
@@ -219,7 +252,8 @@
 
 
 .orderButtons, .callbackButtons
-	margin-top: em(11)
+	&_header
+		margin-top: em(11) $i
 	margin-bottom: 0
 	@include breakpoint($xs)
 		margin-top: 0

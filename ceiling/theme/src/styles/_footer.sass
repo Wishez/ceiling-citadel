@@ -21,6 +21,8 @@
 		transform: translateY(-2.5em)
 .container_footer
 	min-height: em(255)
+	@include breakpoint($xs)
+		padding: 0
 .footerNavigationContainer
 	border: 1px solid $darkGray
 	border-top: 0
@@ -96,9 +98,11 @@
     @include breakpoint($xs)
     	flex-direction: column
     	// min-width: 	span(12)
-    	min-height: em(180)
+    	// min-height: em(180)
+    	min-height: em(225)
     	padding: 1em 0
-
+    @include breakpoint($xxs)
+	
 
 		
 .brand, .contacts
@@ -122,9 +126,9 @@
 				// background-image: linear-gradient(to right,  0%, #403866 100%)
 .contacts_footer
 	margin-top: em(23)
-.brand__name_footer
+.brand__name
 	font-size: 	em(36)
-.brand__slogan_footer
+.brand__slogan
 	font-size: 	em(9)
 
 .askedSuccessfull
