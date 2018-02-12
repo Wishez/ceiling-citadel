@@ -37,11 +37,11 @@ class  FooterContainer extends Component {
     } = this.props;
 
     return (
-      <footer className={getClass({b: 'header'})}>
+      <footer className={getClass({b: 'footer'})}>
           <QuestionFormContainer />
           <div className={getClass({b: 'container', m: "footer", add: "parent row v-centered h-around"})}>
       			<div className={getClass({b: 'firstFooterBlock',  add: "parent column h-around baseChild"})}>
-      				 <SearchContainer modifier="footer" />
+      				 <SearchContainer searchName="footerSearch" modifier="footer" />
       				 <ButtonsGroup className="baseChild" modifier="footer">
       				   <CallbackButtonContainer  />
       				   <OrderButtonContainer 

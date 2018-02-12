@@ -11,6 +11,7 @@ import MainRoutes from './MainRoutes';
 // import Fading from './../components/Animation/Fading';
 import getClass from './../constants/classes';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import {localData} from './../constants/pureFunctions';
 
 import './../tests/cart';
 import './../tests/app';
@@ -82,8 +83,9 @@ const mapStateToProps = state => {
   const { isCallbackOpened } = callback;
   const { isOrderOpened } = order;
   const { phone, email, address, addressHref } = app;
-  console.log(state);
   
+  const catalog = localData.get('CATALOG');
+  console.log(catalog)  
   return {
     isCallbackOpened,
     isOrderOpened,

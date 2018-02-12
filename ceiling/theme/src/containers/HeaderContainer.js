@@ -32,13 +32,13 @@ class  HeaderContainer extends Component {
           <div className={getClass({b: 'container',  add: "parent row v-centered h-around"})}>
               <NavContainer isFooter={false} />
   
-             <Logo maxWidth={isBigScreen ? 50 : 65} modifier="header"/>
+             <Logo maxWidth={65} modifier="header"/>
              <div className={getClass({b: 'infoHeaderBlock'})}>  
                 
                 <Contacts 
                   {...this.props}
                 />
-                <SearchContainer modifier="header" />
+                <SearchContainer searchName="headerSearch" modifier="header" />
              </div>
              <ButtonsGroup className="baseChild" modifier="header">
                <CallbackButtonContainer {...this.props}
@@ -46,6 +46,7 @@ class  HeaderContainer extends Component {
                <OrderButtonContainer
                   cartPosition={cartPositions.header}
                   cartModifier="hover_bottom"
+                  modifier="header"
                 />
              </ButtonsGroup>
 

@@ -1,6 +1,5 @@
 import 'babel-polyfill';
 import 'whatwg-fetch';
-// import 'jquery';
 import React from 'react';
 import { render } from 'react-dom';
 import App from './containers/App';
