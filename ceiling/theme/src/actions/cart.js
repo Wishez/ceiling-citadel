@@ -49,11 +49,8 @@ export const deleteProductAndNotifyAbout = (index, message, quantity) => dispatc
 	dispatch(deleteProduct(index));
 	dispatch(showHelpText(message));
 		lastTimeOut = setTimeout(() => {
-			// if (quantity !== 0) {
-				dispatch(hideHelpText())
-			// } else {
-				
-			// }
+			dispatch(hideHelpText())
+
 		}, 1300);
 	
 };

@@ -12,27 +12,6 @@ import {
 import Loader from './../components/Loader';
 import ReactHtmlParser from 'react-html-parser';
 
-// import { TransitionGroup, CSSTransition } from 'react-transition-group'
-
-// const Fade = ({ children, ...props }) => (
-//   <CSSTransition
-//     {...props}
-//     timeout={{
-//       enter: 500,
-//       exit: 300
-//     }}  
-//     component="div"
-//     classNames={{
-//       enter: getClass({b: 'fading', m: "enter"}),
-//       enterActive: getClass({b: 'fading', m: "enterActive"}),
-//       leave: getClass({b: 'fading', m: "leave"}),
-//       leaveActive: getClass({b: 'fading', m: "leaveActive"})
-//     }}
-//   >
-//     {children}
-//   </CSSTransition>
-// );
-
 class CallbackFormContainer extends Component {
   static propTypes = { 
       dispatch: PropTypes.func.isRequired,

@@ -44,12 +44,10 @@ export const tryAskQuestion = userData => dispatch => {
         cache: true,
         success: response => {
 			const text = response.text;
-			console.log(response, text)
 
 			dispatch(askQuestion(true, text));
 	    },
         failure: error => {
-        	console.log('error')
 			dispatch(askQuestion(false, error.message));
         }
 	});

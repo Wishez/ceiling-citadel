@@ -30,7 +30,6 @@ class BaseCatalogContainer extends Component {
     // Will be accuracy. 
     // There is CONSTANT constant in catalog's constants.
     if (!this.props[CONSTANT] && nextProps[CONSTANT]) {
-      // console.log('will force update')
       this.forceUpdate();
     }
   }

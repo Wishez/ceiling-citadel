@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import {Route, Switch} from 'react-router-dom'; 
 
-// import Fading from './../components/Animation/Fading';
 import getClass from './../constants/classes';
 
 import MainPageContainer from './MainPageContainer';

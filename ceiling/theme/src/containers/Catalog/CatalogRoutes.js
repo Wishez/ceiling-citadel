@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 import {Route, Switch} from 'react-router-dom'; 
 
-// import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-// import { TransitionGroup } from 'react-transition-group'
 import getClass from './../../constants/classes';
 
 import CatalogPageContainer from './CatalogPageContainer';

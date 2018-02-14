@@ -105,7 +105,6 @@ class BrandProductContainer extends Component {
         album = localData.get(LAST_ALBUM);
     }
 
-    console.log(product, album)
     return (
       
       <BaseCatalogContainer name={productName}

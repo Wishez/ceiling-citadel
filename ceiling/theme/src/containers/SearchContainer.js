@@ -20,18 +20,13 @@ class SearchContainer extends Component {
       isFinding: PropTypes.bool.isRequired,
       SearchForm: PropTypes.object
   }
-  state = {
-    lastValue: ''
-  }
+
   componentDidMount() {
     const {searchName} = this.props;
     
     if (searchName === "headerSearch") {
       dumpEntitiesForSearch()
     }
-  }
-  submitSearch = (values, dispatch) => {
-    console.log(values);
   }
 
   searchEntity = (values) => {
@@ -41,15 +36,15 @@ class SearchContainer extends Component {
       SearchForm,
       dispatch
     } = this.props;
+
     if ('active' in SearchForm && searchName === SearchForm.active) {
       const currentValue = values[searchName];
 
-      console.log(SearchForm, currentValue);
+      
       if (typeof currentValue !== 'undefined') {
         dispatch(fetchCatalogAndFindEntitiesIfNeeded(currentValue));
       } else {
         if (searchEntities.length) {
-          console.log('clean state')
           dispatch(cleanSearchEntities());
         }
       }
@@ -65,7 +60,7 @@ class SearchContainer extends Component {
             b: 'searchBlock',
       })}>
         <Search {...this.props}
-          submitSearch={this.submitSearch}
+          submitSearch={this.searchEntity}
           onChange={this.searchEntity}
         />
         {searchEntities.length ? 

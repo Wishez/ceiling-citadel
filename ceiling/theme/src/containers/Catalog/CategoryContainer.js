@@ -30,14 +30,11 @@ class CategoryContainer extends Component {
   }
 
   componentDidMount() {
-    
     const {dispatch, match} = this.props;
     const {categorySlug} = match.params;
     const catalog = localData.get(CATALOG);
-    // console.log(catalog);
-    if (catalog !== null && categorySlug in catalog.categories) {
-        console.log(catalog, categorySlug, 'cateogrySlug');
-        
+
+    if (catalog !== null && categorySlug in catalog.categories) {        
         const id = catalog.categories[categorySlug].uuid;
         
         this.setState({id});

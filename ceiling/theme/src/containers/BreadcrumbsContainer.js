@@ -1,6 +1,5 @@
 import React from 'react';
 import getClass from './../constants/classes';
-// import Breadcrumbs from './../components/Breadcrumbs/Breadcrumbs';
 import Breadcrumbs  from 'react-router-dynamic-breadcrumbs';   
 
 const BradcrumbsContainer = ({

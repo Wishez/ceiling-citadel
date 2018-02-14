@@ -60,7 +60,7 @@ class AddProductFormContainer extends Component {
       image,
       url
     } = this.props;
-    console.log(values, uuid, name);
+    
     dispatch(showAddingProductToCart({
       ...values,
       uuid,
@@ -138,8 +138,6 @@ class AddProductFormContainer extends Component {
   }
 }
 
-{/*className="h-start v-start"*/}
-                {/*centered={false}*/}
 const mapStateToProps = state => {
   const { cart, catalog } = state;
   const { 

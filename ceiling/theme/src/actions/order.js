@@ -36,13 +36,11 @@ export const tryMakeOrder = userData => dispatch => {
         cache: true,
         success: response => {
 			const text = response.text;
-			console.log(response, text)
 
 			dispatch(makeOrder(true, text));
 			setUserData(userData.full_name, userData.phone_number, '');
 	    },
         failure: error => {
-        	console.log('error')
 			dispatch(makeOrder(false, error.message));
         }
 	});

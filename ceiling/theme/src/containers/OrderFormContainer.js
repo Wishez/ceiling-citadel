@@ -32,9 +32,7 @@ class OrderFormContainer extends Component {
   }
 
   submitOrder = (values, dispatch) => {
-    // if (values.length < 3 ) return false;
     values.products = localData.get(PRODUCTION_STORE);
-    console.log(values);
     
     if (!values.products.length)
       return false;

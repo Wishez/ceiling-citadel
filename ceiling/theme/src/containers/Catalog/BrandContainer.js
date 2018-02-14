@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom'
 
-
-
 import {CATALOG, BRAND} from './../../constants/catalog';
 import getClass from './../../constants/classes';
 import {localData, transformName} from './../../constants/pureFunctions';

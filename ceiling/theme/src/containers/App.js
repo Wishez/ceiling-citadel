@@ -7,18 +7,16 @@ import CallbackFormContainer from './CallbackFormContainer';
 import OrderFormContainer from './OrderFormContainer';
 import FooterContainer from './FooterContainer';
 import MainRoutes from './MainRoutes';
-
-// import Fading from './../components/Animation/Fading';
 import getClass from './../constants/classes';
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
+// import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import {localData} from './../constants/pureFunctions';
 
-import './../tests/cart';
-import './../tests/app';
-import './../tests/callback';
-import './../tests/catalog';
-import './../tests/search';
-import './../tests/order';
+// import './../tests/cart';
+// import './../tests/app';
+// import './../tests/callback';
+// import './../tests/catalog';
+// import './../tests/search';
+// import './../tests/order';
 
 
 // const Fade = ({ children, ...props }) => (
@@ -84,8 +82,6 @@ const mapStateToProps = state => {
   const { isOrderOpened } = order;
   const { phone, email, address, addressHref } = app;
   
-  const catalog = localData.get('CATALOG');
-  console.log(catalog)  
   return {
     isCallbackOpened,
     isOrderOpened,
