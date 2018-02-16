@@ -37,14 +37,14 @@ class BrandCategoryContainer extends Component {
     const catalog = localData.get(CATALOG);
     
     if (catalog !== null && categorySlug in catalog.categories) {
-        const category = catalog.categories[categorySlug];
+      const category = catalog.categories[categorySlug];
 
-        const id = findUUID(category.collections, collectionSlug);
+      const id = findUUID(category.collections, collectionSlug);
     
-        this.setState({
-          categoryName: transformName(category.name),
-          id
-        });
+      this.setState({
+        categoryName: transformName(category.name),
+        id
+      });
     }
     
   }
@@ -58,8 +58,8 @@ class BrandCategoryContainer extends Component {
     const {id, categoryName} = this.state;
 
     let collection = false,
-        slogan = '',
-        collectionName = '';
+      slogan = '',
+      collectionName = '';
 
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
@@ -67,27 +67,27 @@ class BrandCategoryContainer extends Component {
     } 
 
     if (collection) {
-        collectionName = transformName(collection.name);
-        slogan = collection.slogan;
+      collectionName = transformName(collection.name);
+      slogan = collection.slogan;
     }
     
     return (
       <BaseCatalogContainer name={collectionName}
-              slogan={slogan}
-              routes={{
-                '/catalog': 'Каталог',
-                '/catalog/category': false,
-                '/catalog/category/:categorySlug': categoryName,
-                '/catalog/category/:categorySlug/:collectionSlug': collectionName
-              }}
-              CONSTANT={COLLECTION}
-        >
-          <CatalogSection name="Образцы" headerId="collections">
-            {!isRequesting && 
+        slogan={slogan}
+        routes={{
+          '/catalog': 'Каталог',
+          '/catalog/category': false,
+          '/catalog/category/:categorySlug': categoryName,
+          '/catalog/category/:categorySlug/:collectionSlug': collectionName
+        }}
+        CONSTANT={COLLECTION}
+      >
+        <CatalogSection name="Образцы" headerId="collections">
+          {!isRequesting && 
             collection ?
-              catalogSectionCombiner(collection.collection_items, url, true) : <Loader />
-            }
-          </CatalogSection>
+            catalogSectionCombiner(collection.collection_items, url, true) : <Loader />
+          }
+        </CatalogSection>
       </BaseCatalogContainer>
     );
   }

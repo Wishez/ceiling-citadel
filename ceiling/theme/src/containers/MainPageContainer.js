@@ -30,69 +30,69 @@ import {cartPositions} from './../constants/cart';
 
 class MainPageContainer extends Component {
 	static propTypes = {
-		dispatch: PropTypes.func.isRequired,
-		match: PropTypes.object,
-		location: PropTypes.object,
-		isRequesting: PropTypes.bool.isRequired
+	  dispatch: PropTypes.func.isRequired,
+	  match: PropTypes.object,
+	  location: PropTypes.object,
+	  isRequesting: PropTypes.bool.isRequired
 	}
 
 	componentDidMount() {
-		const { dispatch } = this.props;
+	  const { dispatch } = this.props;
 		
-		dispatch(tryFetchCatalog());
-		dispatch(selectNavigationItem(initNavigationState.firstNavItem.index));
-		document.title = 'Главная | ArtCeil';
-    }
+	  dispatch(tryFetchCatalog());
+	  dispatch(selectNavigationItem(initNavigationState.firstNavItem.index));
+	  
+	}
 
 	render() {
-		const { isRequesting } = this.props;
-		const catalog = localData.get(CATALOG);
-		let brands = [];
+	  const { isRequesting } = this.props;
+	  const catalog = localData.get(CATALOG);
+	  let brands = [];
 		
 		
-		if (catalog !== null && "brands" in catalog)
-			brands = getArray(catalog.brands);
+	  if (catalog !== null && 'brands' in catalog)
+	    brands = getArray(catalog.brands);
 		
-		return (
-			<div className={getClass({b: 'container', m: "main", add: "parent column centered"})}>
-				<CatalogSection name="Основные бренды" titleShown={false}>
-					{!isRequesting && 
+	  return (
+	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
+	      <CatalogSection name="Основные бренды" titleShown={false}>
+	        {!isRequesting && 
 					brands.length ?
-						catalogSectionCombiner(brands, catalogBrandUrl) : <Loader />
-					}
-				</CatalogSection>
-				{aboutSections.map((section, index) => (
-					<AboutSection key={index} {...section} />
-				))}
-				<AboutSection text={false}
-					title="просторная сумка"
-					image={boxes} 
-					sources={[]} 
-					modifier="bag"
-					maxWidth={404}
-				>
-					<Paragraph text="Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ." 
-						block="aboutSection" />
-					<OrderButtonContainer 
-						cartPosition={cartPositions.bag}
+	          catalogSectionCombiner(brands, catalogBrandUrl) : <Loader />
+	        }
+	      </CatalogSection>
+	      {aboutSections.map((section, index) => (
+	        <AboutSection key={index} {...section} />
+	      ))}
+	      <AboutSection text={false}
+	        title="просторная сумка"
+	        image={boxes} 
+	        sources={[]} 
+	        modifier="bag"
+	        maxWidth={404}
+	      >
+	        <Paragraph text="Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ." 
+	          block="aboutSection" />
+	        <OrderButtonContainer 
+	          cartPosition={cartPositions.bag}
               			cartModifier="hover_up"
               			modifier="stretch"
               		/>
-					<Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!" 
-						block="aboutSection" />
-				</AboutSection>
-			</div>
-		);
+	        <Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!" 
+	          block="aboutSection" />
+	      </AboutSection>
+	    </div>
+	  );
 	}
 }
 
 const mapStateToProps = state => {
-	const { catalog } = state;
-	const { isRequesting } = catalog;
+  const { catalog } = state;
+  const { isRequesting } = catalog;
 	
-	return {
-		isRequesting
-	};
-}
+  return {
+    isRequesting
+  };
+};
 
 export default withRouter(connect(mapStateToProps)(MainPageContainer));

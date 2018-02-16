@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom';
 
 import {CATALOG} from './../../constants/catalog';
 import getClass from './../../constants/classes';
 import {localData, getArray} from './../../constants/pureFunctions.js';
-import {catalogSectionCombiner, catalogSubsectionsCombiner} from './../../constants/filter'
+import {catalogSectionCombiner, catalogSubsectionsCombiner} from './../../constants/filter';
 import {catalogBrandUrl, catalogCategoryUrl} from './../../constants/conf';
 
 import picture from './../../images/icons/picture.png';
@@ -38,28 +38,28 @@ class CatalogPageContainer extends Component {
     }
 
     return (
-      <div className={getClass({b: 'container', m: "main", add: "parent column centered catalogSection"})}>
-         <div className={getClass({b: 'catalogHeader',m: "catalog", add: "parent row v-start h-centered"})}> 
-            <h1 className={getClass({b: 'catalogHeader', el: "title", m: "catalog", add: "parent row centered baseChild"})}>
+      <div className={getClass({b: 'container', m: 'main', add: 'parent column centered catalogSection'})}>
+        <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-start h-centered'})}> 
+          <h1 className={getClass({b: 'catalogHeader', el: 'title', m: 'catalog', add: 'parent row centered baseChild'})}>
               Выставочный зал
-              <Figure name="picture" url={picture} maxWidth={68} />
-            </h1>
-            <ul className={getClass({b: 'catalogRefersList', add: "parent row h-start baseChild"})}>
-                <li className={getClass({b: 'catalogRefer'})}>
-                  <a href="#brands" 
+            <Figure name="picture" url={picture} maxWidth={68} />
+          </h1>
+          <ul className={getClass({b: 'catalogRefersList', add: 'parent row h-start baseChild'})}>
+            <li className={getClass({b: 'catalogRefer'})}>
+              <a href="#brands" 
                     
-                    className={getClass({b: "catalogRefer", el: "refer"})}>Бренды</a>,&nbsp;
-                </li>
-                <li className={getClass({b: 'catalogRefer'})}>
-                  <a href="#categories" 
+                className={getClass({b: 'catalogRefer', el: 'refer'})}>Бренды</a>,&nbsp;
+            </li>
+            <li className={getClass({b: 'catalogRefer'})}>
+              <a href="#categories" 
                     
-                    className={getClass({b: "catalogRefer", el: "refer"})}>Категория</a>
-                </li>
+                className={getClass({b: 'catalogRefer', el: 'refer'})}>Категория</a>
+            </li>
 
-            </ul>
-            <p className={getClass({b: 'catalogHeader', el: "slogan", add: "parent row h-end baseChild darkBlue"})}>
+          </ul>
+          <p className={getClass({b: 'catalogHeader', el: 'slogan', add: 'parent row h-end baseChild darkBlue'})}>
                 Цитадель потолочных покрытий
-            </p>
+          </p>
         </div>
 
         <CatalogSection name="Бренды" headerId="brands">
@@ -69,10 +69,10 @@ class CatalogPageContainer extends Component {
           }
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
-            {!isRequesting && 
+          {!isRequesting && 
             categories.length ?
-                catalogSubsectionsCombiner(categories, catalogCategoryUrl, 'section') : <Loader />
-            }
+            catalogSubsectionsCombiner(categories, catalogCategoryUrl, 'section') : <Loader />
+          }
         </CatalogSection>
       </div>
     );

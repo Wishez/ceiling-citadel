@@ -9,7 +9,7 @@ import {
   deleteProductAndNotifyAbout
 } from './../actions/cart';
 
-import {PRODUCTION_STORE} from './../constants/cart'
+import {PRODUCTION_STORE} from './../constants/cart';
 
 import OrderButton from './../components/OrderButton';
 import {openOrder} from './../actions/order';
@@ -35,68 +35,68 @@ class OrderButtonContainer extends Component {
   	}
 
 	showCart = () => {
-		const { dispatch, cartPosition } = this.props;
+	  const { dispatch, cartPosition } = this.props;
 
-		dispatch(openCart(cartPosition));
+	  dispatch(openCart(cartPosition));
 	}
 
 	hideCart = () => {
-		const { dispatch } = this.props;
+	  const { dispatch } = this.props;
 
-		dispatch(closeCart());
+	  dispatch(closeCart());
 	}
 	openOrderForm = () => { 
-		const { dispatch } = this.props;
-		dispatch(openOrder());
+	  const { dispatch } = this.props;
+	  dispatch(openOrder());
 	}
 	deleteProduct = (index, name, quantityOrderedProducts) => () => {
-		const { dispatch } = this.props;
+	  const { dispatch } = this.props;
 
 
-		dispatch(
-			deleteProductAndNotifyAbout(
+	  dispatch(
+	    deleteProductAndNotifyAbout(
 		    	...getDeleteProductArguments(index, name, quantityOrderedProducts)
 		  	)
-		);
+	  );
 	}
 
 	render() {
-		const { 
-			cartPosition, 
-			isCartOpened 
-		} = this.props;
-		const products = localData.get(PRODUCTION_STORE);
+	  const { 
+	    cartPosition, 
+	    isCartOpened 
+	  } = this.props;
+	  const products = localData.get(PRODUCTION_STORE);
 
-		return (
-			<OrderButton {...this.props} 
-				products={products || []}
+	  return (
+	    <OrderButton {...this.props} 
+	      products={products || []}
 	            isCartOpened={isCartOpened === cartPosition}
 	            openCart={this.showCart} 
 	            closeCart={this.hideCart}
 	            openOrder={this.openOrderForm}
 	            onSubmitQuantityProduct={this.onSubmitQuantityProduct}
 	            deleteProduct={this.deleteProduct}
-            />			
-		);
+	    />			
+	  );
 	}
 }
 
 const mapStateToProps = state => {
-	const { cart } = state;
+  const { cart } = state;
 
-	const { 
+  const { 
 	    quantityOrderedProducts,
 	    isCartOpened,
 	    isShownHelpText,
 	    helpText
-	} = cart;
+  } = cart;
 
-	return {
-		quantityOrderedProducts,
-		isCartOpened,
-		isShownHelpText,
-		helpText
-	};
+  return {
+    quantityOrderedProducts,
+    isCartOpened,
+    isShownHelpText,
+    helpText
+  };
 };
 
 export default connect(mapStateToProps)(OrderButtonContainer);

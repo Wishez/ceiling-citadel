@@ -22,13 +22,13 @@ import {getDeleteProductArguments, localData} from './../constants/pureFunctions
 
 class OrderFormContainer extends Component {
   static propTypes = { 
-      dispatch: PropTypes.func.isRequired,
-      isOrderOpened: PropTypes.bool.isRequired,
-      helpText: PropTypes.string.isRequired,
-      isShownHelpText: PropTypes.bool.isRequired,
-      isOrderedOrder: PropTypes.bool.isRequired,
-      isRequesting: PropTypes.bool.isRequired,
-      quantityOrderedProducts: PropTypes.number.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    isOrderOpened: PropTypes.bool.isRequired,
+    helpText: PropTypes.string.isRequired,
+    isShownHelpText: PropTypes.bool.isRequired,
+    isOrderedOrder: PropTypes.bool.isRequired,
+    isRequesting: PropTypes.bool.isRequired,
+    quantityOrderedProducts: PropTypes.number.isRequired,
   }
 
   submitOrder = (values, dispatch) => {
@@ -49,16 +49,16 @@ class OrderFormContainer extends Component {
 
     dispatch(
       deleteProductAndNotifyAbout(
-          ...getDeleteProductArguments(index, name, quantityOrderedProducts)
-        )
+        ...getDeleteProductArguments(index, name, quantityOrderedProducts)
+      )
     );
   }
 
   onSubmitQuantityProduct = index => e => {
-        const { dispatch } = this.props;
+    const { dispatch } = this.props;
 
-        dispatch(changeProductQuantity(index, e.target.value));
-        this.forceUpdate();
+    dispatch(changeProductQuantity(index, e.target.value));
+    this.forceUpdate();
   }
 
   render() {
@@ -74,17 +74,17 @@ class OrderFormContainer extends Component {
         signification="Заказ"
         {...this.props}>
         {!isOrderedOrder ? 
-        <OrderForm buttonOptions={{ 
-          content: !isRequesting ? "Заказать" : <Loader />,
-        }}
+          <OrderForm buttonOptions={{ 
+            content: !isRequesting ? 'Заказать' : <Loader />,
+          }}
           onSubmit={this.submitOrder} 
           {...this.props}
           products={products}
           helpText={helpText.toString()}
           deleteProduct={this.deleteProduct}
           onSubmitQuantityProduct={this.onSubmitQuantityProduct}
-        /> :
-          <p className={getClass({b: "successfull"})}>{ReactHtmlParser(helpText)}</p>
+          /> :
+          <p className={getClass({b: 'successfull'})}>{ReactHtmlParser(helpText)}</p>
         }
 
       </PopupFormContainer>

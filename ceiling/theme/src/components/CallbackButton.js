@@ -6,33 +6,33 @@ import Figure from './Figure';
 import callbackIcon from './../images/icons/callback.png';
 
 const CallbackButton = ({
-	openCallback,
+  openCallback,
   isCallbackOpened,
   closeCallback,
   modifier,
   ...rest
 }) => (
   <div className={getClass({
-    b: "callbackButtons",
+    b: 'callbackButtons',
     m: modifier,
-    add: "parent row h-between v-centered"
+    add: 'parent row h-between v-centered'
   })}>
   	<Button
       id='menuButton'
       className={getClass({
-        b: "callbackButtons",
+        b: 'callbackButtons',
         el: 'button',
         m: modifier,
-        add: "button_cian baseChild"
+        add: 'button_cian baseChild'
       })}
       onClick={isCallbackOpened ? closeCallback :openCallback}
       content="Обратный вызов" 
     />
     <button aria-pressed={false}
       className={getClass({
-        b: "callbackFigureButton",
+        b: 'callbackFigureButton',
         m: modifier,
-        add: "parent row h-between v-centered"
+        add: 'parent row h-between v-centered'
       })}
       onClick={isCallbackOpened ? closeCallback : openCallback} 
       title="Открывает форму для заказа консультации">

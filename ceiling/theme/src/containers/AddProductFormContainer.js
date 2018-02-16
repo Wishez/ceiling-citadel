@@ -18,22 +18,22 @@ import {makeSelectOptions, makeSelectColorOptions} from './../constants/filter';
 
 class AddProductFormContainer extends Component {
   static propTypes = { 
-      dispatch: PropTypes.func.isRequired,
-      helpText: PropTypes.string.isRequired,
-      isProductAdded: PropTypes.bool.isRequired,
-      isRequesting: PropTypes.bool.isRequired,
-      image: PropTypes.string.isRequired,
-      combustibility: PropTypes.array,
-      edges: PropTypes.array,
-      colors: PropTypes.array,
-      material: PropTypes.array,
-      lightning: PropTypes.array,
-      width: PropTypes.string,
-      height: PropTypes.string,
-      thickness: PropTypes.string,
-      length: PropTypes.string,
-      uuid: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    helpText: PropTypes.string.isRequired,
+    isProductAdded: PropTypes.bool.isRequired,
+    isRequesting: PropTypes.bool.isRequired,
+    image: PropTypes.string.isRequired,
+    combustibility: PropTypes.array,
+    edges: PropTypes.array,
+    colors: PropTypes.array,
+    material: PropTypes.array,
+    lightning: PropTypes.array,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    thickness: PropTypes.string,
+    length: PropTypes.string,
+    uuid: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   }
   // Internal state of select controllers' values.
   state = {
@@ -46,11 +46,11 @@ class AddProductFormContainer extends Component {
   }
   
   onChangeSelect = input => (event, index, value) => {
-      input.onChange(value) ;
+    input.onChange(value) ;
 
-      this.setState({
-        [`${input.name}Value`]: value 
-      });
+    this.setState({
+      [`${input.name}Value`]: value 
+    });
       
   }
   submitAddProduct = (values, dispatch) => {
@@ -92,16 +92,16 @@ class AddProductFormContainer extends Component {
 
     return (
       <MuiThemeProvider>
-        <section className={getClass({b: 'addProductFormSection', add: "catalogForm"})}>
+        <section className={getClass({b: 'addProductFormSection', add: 'catalogForm'})}>
 
-          <h2 className={getClass({b: 'addProductFormSection', el: "title", add: "upper parent row"})}>Характеристики</h2>
-          <div className={getClass({b: 'addProductFormContainer',  add: `parent column ${isProductAdded ? "centered" : "h-end" }`})}>
+          <h2 className={getClass({b: 'addProductFormSection', el: 'title', add: 'upper parent row'})}>Характеристики</h2>
+          <div className={getClass({b: 'addProductFormContainer', add: `parent column ${isProductAdded ? 'centered' : 'h-end' }`})}>
             <Figure url={image} maxWidth="33.33%" name="product" />
             {!isProductAdded ? 
 
               <AddProductForm {...this.state}
                 buttonOptions={{ 
-                  content: !isRequesting ? "В корзину" : <Loader name="addProductFormLoader" />,
+                  content: !isRequesting ? 'В корзину' : <Loader name="addProductFormLoader" />,
                   modifier: 'product'
                 }}
                 className="row h-start v-centered"
@@ -122,12 +122,12 @@ class AddProductFormContainer extends Component {
                 helpText={helpText.toString()}
                 block="addProductForm"
               /> :
-              <p className={getClass({b: "successfull", m:"addProductForm", add: "parent row centered"})}>
+              <p className={getClass({b: 'successfull', m:'addProductForm', add: 'parent row centered'})}>
                 {ReactHtmlParser(helpText)}
                 <OrderButtonContainer 
-                    cartPosition={cartPositions.bag}
-                    cartModifier="hover_bottom" 
-                    modifier="product"
+                  cartPosition={cartPositions.bag}
+                  cartModifier="hover_bottom" 
+                  modifier="product"
                 />
               </p>
             }
@@ -146,7 +146,7 @@ const mapStateToProps = state => {
     helpText
   } = cart;
 
-  const { PRODUCT } = catalog
+  const { PRODUCT } = catalog;
   return {
     isProductAdded,
     helpText,

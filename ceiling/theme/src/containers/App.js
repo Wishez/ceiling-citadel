@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import HeaderContainer from './HeaderContainer';
 import CallbackFormContainer from './CallbackFormContainer';
 import OrderFormContainer from './OrderFormContainer';
@@ -9,8 +9,8 @@ import FooterContainer from './FooterContainer';
 import MainRoutes from './MainRoutes';
 import getClass from './../constants/classes';
 // import { TransitionGroup, CSSTransition } from 'react-transition-group'
+// 
 import {localData} from './../constants/pureFunctions';
-
 // import './../tests/cart';
 // import './../tests/app';
 // import './../tests/callback';
@@ -43,16 +43,14 @@ class App extends Component {
     dispatch: PropTypes.func.isRequired,
     isCallbackOpened: PropTypes.bool.isRequired,
   }
-  componentDidMount() {
-    
-  }
+
 
   render() {
     const { 
-        isCallbackOpened, 
-        isOrderOpened,
-        phone, email,
-        address, addressHref } = this.props;
+      isCallbackOpened, 
+      isOrderOpened,
+      phone, email,
+      address, addressHref } = this.props;
 
     return (
       <div>
@@ -61,8 +59,8 @@ class App extends Component {
         <FooterContainer address={address} addressHref={addressHref}
           phone={phone} email={email} />
         {isCallbackOpened ? 
-            <CallbackFormContainer /> : ''
-         }
+          <CallbackFormContainer /> : ''
+        }
           
         {isOrderOpened ? 
           <OrderFormContainer /> : 

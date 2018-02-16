@@ -16,7 +16,7 @@ import {cartPositions} from './../constants/cart';
 import getClass from './../constants/classes';
 
 
-class  HeaderContainer extends Component {
+class HeaderContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     phone: PropTypes.string.isRequired,
@@ -28,30 +28,30 @@ class  HeaderContainer extends Component {
     const isBigScreen = window.innerWidth > 1199;
   
     return (
-        <header className={getClass({b: 'header'})}>
-          <div className={getClass({b: 'container',  add: "parent row v-centered h-around"})}>
-              <NavContainer isFooter={false} />
+      <header className={getClass({b: 'header'})}>
+        <div className={getClass({b: 'container', add: 'parent row v-centered h-around'})}>
+          <NavContainer isFooter={false} />
   
-             <Logo maxWidth={65} modifier="header"/>
-             <div className={getClass({b: 'infoHeaderBlock'})}>  
+          <Logo maxWidth={65} modifier="header"/>
+          <div className={getClass({b: 'infoHeaderBlock'})}>  
                 
-                <Contacts 
-                  {...this.props}
-                />
-                <SearchContainer searchName="headerSearch" modifier="header" />
-             </div>
-             <ButtonsGroup className="baseChild" modifier="header">
-               <CallbackButtonContainer {...this.props}
-                  openCallback={this.openCallbackForm} />
-               <OrderButtonContainer
-                  cartPosition={cartPositions.header}
-                  cartModifier="hover_bottom"
-                  modifier="header"
-                />
-             </ButtonsGroup>
-
+            <Contacts 
+              {...this.props}
+            />
+            <SearchContainer searchName="headerSearch" modifier="header" />
           </div>
-        </header>
+          <ButtonsGroup className="baseChild" modifier="header">
+            <CallbackButtonContainer {...this.props}
+              openCallback={this.openCallbackForm} />
+            <OrderButtonContainer
+              cartPosition={cartPositions.header}
+              cartModifier="hover_bottom"
+              modifier="header"
+            />
+          </ButtonsGroup>
+
+        </div>
+      </header>
     );
   }
 }
@@ -61,7 +61,7 @@ class  HeaderContainer extends Component {
 const mapStateToProps = state => {
   
   return {};
-}
+};
       
 
 export default connect(mapStateToProps)(HeaderContainer);

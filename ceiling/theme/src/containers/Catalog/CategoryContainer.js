@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
 import getClass from './../../constants/classes';
 import {CATALOG, CATEGORY} from './../../constants/catalog';
@@ -35,9 +35,9 @@ class CategoryContainer extends Component {
     const catalog = localData.get(CATALOG);
 
     if (catalog !== null && categorySlug in catalog.categories) {        
-        const id = catalog.categories[categorySlug].uuid;
+      const id = catalog.categories[categorySlug].uuid;
         
-        this.setState({id});
+      this.setState({id});
     }
     
   }
@@ -51,35 +51,35 @@ class CategoryContainer extends Component {
     const {id} = this.state;
     
     let category = false,
-        slogan = '',
-        categoryName = '';
+      slogan = '',
+      categoryName = '';
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
       category = dispatch(fetchCatalogEntityOrGetLocale(CATEGORY, id));
     } 
     
     if (category) {
-        categoryName =transformName(category.name);
-        slogan = category.slogan;
+      categoryName =transformName(category.name);
+      slogan = category.slogan;
     }
     const {url} = this.props.match;
     
     return (
       <BaseCatalogContainer name={categoryName}
-          slogan={slogan}
-          routes={{
-            '/catalog': 'Каталог',
-            '/catalog/category': false,
-            '/catalog/category/:categorySlug': categoryName,
-          }}
-          CONSTANT={CATEGORY}
+        slogan={slogan}
+        routes={{
+          '/catalog': 'Каталог',
+          '/catalog/category': false,
+          '/catalog/category/:categorySlug': categoryName,
+        }}
+        CONSTANT={CATEGORY}
       >
-          <CatalogSection name="Коллекции" headerId="collections">
-            {!isRequesting && 
+        <CatalogSection name="Коллекции" headerId="collections">
+          {!isRequesting && 
             category ?
-              catalogSubsectionsCombiner(category.collections, url,  'brand') : <Loader />
-            }
-          </CatalogSection>
+            catalogSubsectionsCombiner(category.collections, url, 'brand') : <Loader />
+          }
+        </CatalogSection>
       </BaseCatalogContainer>
     );
   }

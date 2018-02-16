@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 
 import getClass from './../../constants/classes';
@@ -52,26 +52,26 @@ class CategoryProductContainer extends Component {
     
     const {dispatch, match} = this.props;
     const {
-        categorySlug,
-        collectionSlug, 
-        productSlug
+      categorySlug,
+      collectionSlug, 
+      productSlug
     } = match.params;
 
     const catalog = localData.get(CATALOG);
     
     if (catalog !== null && categorySlug in catalog.categories) {
-        const category = catalog.categories[categorySlug];
-        const productData = getProductData(
-          category.collections, 
-          collectionSlug, 
-          productSlug
-        );
+      const category = catalog.categories[categorySlug];
+      const productData = getProductData(
+        category.collections, 
+        collectionSlug, 
+        productSlug
+      );
 
 
-        this.setState({
-          categoryName: category.name,
-          ...productData
-        });
+      this.setState({
+        categoryName: category.name,
+        ...productData
+      });
     }
     
   }
@@ -91,9 +91,9 @@ class CategoryProductContainer extends Component {
     const {url} = this.props.match;
 
     let product = false,
-        slogan = '',
-        productName = '',
-        album = false;
+      slogan = '',
+      productName = '',
+      album = false;
 
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
@@ -101,52 +101,52 @@ class CategoryProductContainer extends Component {
     } 
 
     if (product) {
-        productName = transformName(product.name); 
-        slogan = product.slogan;
-        album = localData.get(LAST_ALBUM);
+      productName = transformName(product.name); 
+      slogan = product.slogan;
+      album = localData.get(LAST_ALBUM);
     }
 
     return (
       
       <BaseCatalogContainer name={productName}
-            slogan={slogan}
-            modifier="product"
-            routes={{
-              '/catalog': 'Каталог',
-              '/catalog/category': false,
-              '/catalog/category/:categorySlug': categoryName,
-              '/catalog/category/:categorySlug/:collectionSlug': collectionName,
-              '/catalog/category/:categorySlug/:collectionSlug/:productSlug/': false
-            }}
-            isProduct={true}
-            CONSTANT={PRODUCT}
+        slogan={slogan}
+        modifier="product"
+        routes={{
+          '/catalog': 'Каталог',
+          '/catalog/category': false,
+          '/catalog/category/:categorySlug': categoryName,
+          '/catalog/category/:categorySlug/:collectionSlug': collectionName,
+          '/catalog/category/:categorySlug/:collectionSlug/:productSlug/': false
+        }}
+        isProduct={true}
+        CONSTANT={PRODUCT}
       >
-          {product ? 
-            <div style={{width: "100%"}}>
-              <AddProductFormContainer 
-                  image={product.preview.image}
-                  {...product}
-                  url={url}
-              /> 
-              {product.visualisation !== null ? 
-                  <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
-                  ''}
-              {(album && album.slug === product.album) ? 
-                <ImagesCarousel 
-                  images={album.images} 
-                  loop 
-                  autoplay
-                  smartSpeed={350}
-                  items={1}
-                  dotsEach
-                  lazyLoad
-                  autoplayHoverPause
-                />: ''}
-              {product.content ? 
-                <section className={getClass({b: "productContent"})}>{ReactHtmlParser(product.content)}</section> : ''}
-            </div>
-            : 
-            <Loader />}
+        {product ? 
+          <div style={{width: '100%'}}>
+            <AddProductFormContainer 
+              image={product.preview.image}
+              {...product}
+              url={url}
+            /> 
+            {product.visualisation !== null ? 
+              <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
+              ''}
+            {(album && album.slug === product.album) ? 
+              <ImagesCarousel 
+                images={album.images} 
+                loop 
+                autoplay
+                smartSpeed={350}
+                items={1}
+                dotsEach
+                lazyLoad
+                autoplayHoverPause
+              />: ''}
+            {product.content ? 
+              <section className={getClass({b: 'productContent'})}>{ReactHtmlParser(product.content)}</section> : ''}
+          </div>
+          : 
+          <Loader />}
       </BaseCatalogContainer>
     );
   }

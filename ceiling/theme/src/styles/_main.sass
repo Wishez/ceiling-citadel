@@ -11,10 +11,10 @@
 	@extend %relative
 	cursor: pointer
 	transition: box-shadow .3s ease
-	&:nth-child(3n+2) .table
-		background-color: $darkGray
-		& .table__refer
-			color: $white
+	// &:nth-child(3n+2) .table
+	// 	background-color: $darkGray
+	// 	& .table__refer
+	// 		color: $white
 	&_sample
 		// background-size: cover
 		background-position: right top
@@ -48,11 +48,10 @@
 	max-width: em(960)
 	width: span(12)
 .catalogSection
-	&:not(:first-of-type)
-		margin-top: 3rem
+	margin-top: 3rem
 	margin-bottom: 3rem
 .catalogSubsection
-	margin-top: 1.5rem
+	margin:	2.5rem 0
 .catalogSection, .catalogSubsection
 	&__title
 		margin-bottom: 	1.5rem
@@ -62,8 +61,11 @@
 	&__title
 		min-height: em(65, 28)
 		@include breakpoint($xs)
-			min-width: span(6)
-			flex-grow: 0
+			max-width: em(384, 28)
+			flex-grow: 1
+			margin-top: 1.5rem
+			margin-bottom: 0.5rem
+			text-align: center
 		&_catalog
 			flex-basis: 30%
 		&_active

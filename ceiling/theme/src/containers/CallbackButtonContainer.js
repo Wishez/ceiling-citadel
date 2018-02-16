@@ -14,7 +14,7 @@ class CallbackButtonContainer extends Component {
 	    isCallbackOpened: PropTypes.bool.isRequired,
     	isShownHelpText: PropTypes.bool.isRequired,
     	helpText: PropTypes.string.isRequired,
-      modifier: PropTypes.string
+	  modifier: PropTypes.string
   	}
 
 	openCallbackForm = () => { 
@@ -23,15 +23,15 @@ class CallbackButtonContainer extends Component {
   	}
 
 	render() {
-		return (
-			<CallbackButton {...this.props}
-                  openCallback={this.openCallbackForm} />
-		);
+	  return (
+	    <CallbackButton {...this.props}
+	      openCallback={this.openCallbackForm} />
+	  );
 	}
 }
 
 const mapStateToProps = state => {
-	const { callback } = state;
+  const { callback } = state;
 
   const { 
     isCallbackOpened, 

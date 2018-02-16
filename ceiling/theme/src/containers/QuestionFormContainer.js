@@ -14,10 +14,10 @@ import ReactHtmlParser from 'react-html-parser';
 
 class QuestionFormContainer extends Component {
   static propTypes = { 
-      dispatch: PropTypes.func.isRequired,
-      helpText: PropTypes.string.isRequired,
-      isAskedQuestion: PropTypes.bool.isRequired,
-      isRequesting: PropTypes.bool.isRequired
+    dispatch: PropTypes.func.isRequired,
+    helpText: PropTypes.string.isRequired,
+    isAskedQuestion: PropTypes.bool.isRequired,
+    isRequesting: PropTypes.bool.isRequired
   }
 
   submitQuestion = (values, dispatch) => {
@@ -32,18 +32,18 @@ class QuestionFormContainer extends Component {
     return (
       <section className={getClass({b: 'questionFormSection'})}>
 
-        <h2 className={getClass({b: 'questionFormSection', el: "title", add: "upper parent row centered"})}>задайте вопрос маше</h2>
-        <div className={getClass({b: 'questionFormContainer',  add: "container parent row centered"})}>
+        <h2 className={getClass({b: 'questionFormSection', el: 'title', add: 'upper parent row centered'})}>задайте вопрос маше</h2>
+        <div className={getClass({b: 'questionFormContainer', add: 'container parent row centered'})}>
           <Figure url={maria} maxWidth={280} name="maria" />
           {!isAskedQuestion ? 
             <QuestionForm buttonOptions={{ 
-                content: !isRequesting ? "Спросить" : <Loader />,
-              }}
-              onSubmit={this.submitQuestion} 
-              helpText={helpText.toString()}
-              block="questionForm"
+              content: !isRequesting ? 'Спросить' : <Loader />,
+            }}
+            onSubmit={this.submitQuestion} 
+            helpText={helpText.toString()}
+            block="questionForm"
             /> :
-            <p className={getClass({b: "askedSuccessfull", add: "parent row centered"})}>{ReactHtmlParser(helpText)}</p>
+            <p className={getClass({b: 'askedSuccessfull', add: 'parent row centered'})}>{ReactHtmlParser(helpText)}</p>
           }
         </div>
       </section>

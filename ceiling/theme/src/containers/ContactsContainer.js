@@ -20,56 +20,57 @@ import CallbackButtonContainer from './CallbackButtonContainer';
 
 class ContactsContainer extends Component {
 	static propTypes = {
-		dispatch: PropTypes.func.isRequired,
-		email: PropTypes.string.isRequired,
-		phone: PropTypes.string.isRequired,
-		address: PropTypes.string.isRequired,
-		addressHref: PropTypes.string.isRequired,
-		map: PropTypes.string.isRequired
+	  dispatch: PropTypes.func.isRequired,
+	  email: PropTypes.string.isRequired,
+	  phone: PropTypes.string.isRequired,
+	  address: PropTypes.string.isRequired,
+	  addressHref: PropTypes.string.isRequired,
+	  map: PropTypes.string.isRequired
 	}
 	
 	componentDidMount() {
-		const { dispatch } = this.props;
-		dispatch(selectNavigationItem(initNavigationState.fourthNavItem.index));
-		document.title = 'Контакты | ArtCeil';
+	  const { dispatch } = this.props;
+	  dispatch(selectNavigationItem(initNavigationState.fourthNavItem.index));
+	  if (!document.title)
+	  		document.title = 'Контакты | ArtCeil';
 	}
 
 	render() {
-		const {map} = this.props;
-		return (
-			<section className={getClass({b: 'container', m: "main", add: "parent column centered contactsSection"})}>
-				<h1 className={getClass({b: 'contactsSection', el: "title", add: "parent row centered"})}>
+	  const {map} = this.props;
+	  return (
+	    <section className={getClass({b: 'container', m: 'main', add: 'parent column centered contactsSection'})}>
+	      <h1 className={getClass({b: 'contactsSection', el: 'title', add: 'parent row centered'})}>
 					Всегда на связи мы
-					<Figure name="contacts" url={yoda} maxWidth={74} />
-				</h1>
-				<Contacts {...this.props} modifier="topMaring"/>
-				<CallbackButtonContainer modifier="stretched" />
-				<article className={getClass({b: 'map'})}>
-					<h2 className={getClass({b: 'map', el: "title"})}>Карта проезда</h2>
-					{ReactHtmlPareser(map)}
-				</article>
-			</section>
-		);
+	        <Figure name="contacts" url={yoda} maxWidth={74} />
+	      </h1>
+	      <Contacts {...this.props} modifier="topMaring"/>
+	      <CallbackButtonContainer modifier="stretched" />
+	      <article className={getClass({b: 'map'})}>
+	        <h2 className={getClass({b: 'map', el: 'title'})}>Карта проезда</h2>
+	        {ReactHtmlPareser(map)}
+	      </article>
+	    </section>
+	  );
 	}
 }
 
 const mapStateToProps = state => {
-	const {app} = state;
-	const {
-		email,
-		phone,
-		address,
-		addressHref,
-		map
-	} = app;
+  const {app} = state;
+  const {
+    email,
+    phone,
+    address,
+    addressHref,
+    map
+  } = app;
 
-	return {
-		email,
-		phone,
-		address,
-		addressHref,
-		map
-	};
+  return {
+    email,
+    phone,
+    address,
+    addressHref,
+    map
+  };
 };
 
 export default withRouter(connect(mapStateToProps)(ContactsContainer));

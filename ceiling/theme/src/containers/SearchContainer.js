@@ -3,29 +3,30 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Search from './../components/Search';
-import {localData} from './../constants/catalog';
+import {CATALOG} from './../constants/catalog';
+import {localData} from './../constants/pureFunctions';
 import getClass from './../constants/classes';
 
 import {
-  fetchCatalogAndFindEntitiesIfNeeded,
-  dumpEntitiesForSearch,
+  fetchCatalogIfNeededAndDumpEntities,
+  findEntitiesAndShowResults,
   cleanSearchEntities
 } from './../actions/catalog';
 
 class SearchContainer extends Component {
   static propTypes = { 
-      dispatch: PropTypes.func.isRequired,
-      searchName: PropTypes.string.isRequired,
-      searchEntities: PropTypes.array.isRequired,
-      isFinding: PropTypes.bool.isRequired,
-      SearchForm: PropTypes.object
+    dispatch: PropTypes.func.isRequired,
+    searchName: PropTypes.string.isRequired,
+    searchEntities: PropTypes.array.isRequired,
+    isFinding: PropTypes.bool.isRequired,
+    SearchForm: PropTypes.object
   }
 
   componentDidMount() {
-    const {searchName} = this.props;
+    const {searchName, dispatch} = this.props;
     
-    if (searchName === "headerSearch") {
-      dumpEntitiesForSearch()
+    if (searchName === 'headerSearch') {
+      dispatch(fetchCatalogIfNeededAndDumpEntities());
     }
   }
 
@@ -42,7 +43,7 @@ class SearchContainer extends Component {
 
       
       if (typeof currentValue !== 'undefined') {
-        dispatch(fetchCatalogAndFindEntitiesIfNeeded(currentValue));
+        dispatch(findEntitiesAndShowResults(currentValue));
       } else {
         if (searchEntities.length) {
           dispatch(cleanSearchEntities());
@@ -53,11 +54,15 @@ class SearchContainer extends Component {
   }
 
   render() {
-    const {searchEntities} = this.props;
+    const {
+      searchEntities,
+      modifier
+    } = this.props;
 
     return (
       <div className={getClass({
-            b: 'searchBlock',
+        b: 'searchBlock',
+        m: modifier
       })}>
         <Search {...this.props}
           submitSearch={this.searchEntity}
@@ -68,26 +73,26 @@ class SearchContainer extends Component {
             b: 'result',
           })}>
             {searchEntities.map((section, key) => (
-                <article className={getClass({
-                    b: 'resultSection',
-                  })} key={key}>
-                  <h2 className={getClass({
-                    b: 'resultSection',
-                    el: 'title'
-                  })}>{section.name}</h2>
-                  <ul>
-                      {section.items.map((item, index) => (
-                        <li className="" key={index}>
-                          <a href={item.url} 
-                            className={getClass({
-                                b: 'resultRefer'
-                          })}>
-                            {item.name}
-                          </a>
-                        </li>
-                      ))}
-                  </ul>
-                </article>
+              <article className={getClass({
+                b: 'resultSection',
+              })} key={key}>
+                <h2 className={getClass({
+                  b: 'resultSection',
+                  el: 'title'
+                })}>{section.name}</h2>
+                <ul>
+                  {section.items.map((item, index) => (
+                    <li className="" key={index}>
+                      <a href={item.url} 
+                        className={getClass({
+                          b: 'resultRefer'
+                        })}>
+                        {item.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             ))}
           </section> : ''}
       </div>
@@ -111,6 +116,6 @@ const mapStateToProps = state => {
     isFinding,
     SearchForm
   };
-}
+};
 
 export default withRouter(connect(mapStateToProps)(SearchContainer));

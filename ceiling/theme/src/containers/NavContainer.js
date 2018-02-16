@@ -10,16 +10,16 @@ import getClass from './../constants/classes';
 
 class NavContainer extends Component {
   static propTypes = { 
-      navigationItems: PropTypes.array.isRequired,
-      dispatch: PropTypes.func.isRequired,
-      isOpened: PropTypes.bool.isRequired,
-      isFooter: PropTypes.bool.isRequired,
-      modifier: PropTypes.string
+    navigationItems: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    isOpened: PropTypes.bool.isRequired,
+    isFooter: PropTypes.bool.isRequired,
+    modifier: PropTypes.string
   }
 
   state = {
-      navStyles: {
-      }
+    navStyles: {
+    }
   };
 
   openMenu = () => {
@@ -28,8 +28,8 @@ class NavContainer extends Component {
   }
 
   changeActiveNavigationItem = navigationItem => () => {
-        this.props.dispatch(selectNavigationItem(navigationItem));
-        this.closeMenu();
+    this.props.dispatch(selectNavigationItem(navigationItem));
+    this.closeMenu();
   }
 
 
@@ -55,20 +55,20 @@ class NavContainer extends Component {
     
     return (
       <div className={getClass({
-        b: isFooter ? "footerNavigationContainer" : "navigationContainer",
+        b: isFooter ? 'footerNavigationContainer' : 'navigationContainer',
         m: modifier 
       })}>
-          {!isFooter ? 
-            <MenuButton 
-                isOpened={isOpened}
-                openMenu={this.openMenu}
-                closeMenu={this.closeMenu}
-             />
-            : ''}
-          <Navigation {...this.props}
-            getActiveClasses={this.getActiveClasses}
-            changeActiveNavigationItem={this.changeActiveNavigationItem}
+        {!isFooter ? 
+          <MenuButton 
+            isOpened={isOpened}
+            openMenu={this.openMenu}
+            closeMenu={this.closeMenu}
           />
+          : ''}
+        <Navigation {...this.props}
+          getActiveClasses={this.getActiveClasses}
+          changeActiveNavigationItem={this.changeActiveNavigationItem}
+        />
         
       </div>
     );
@@ -91,7 +91,7 @@ const mapStateToProps = state => {
   return {
     navigationItems,
     isOpened: isMenuOpened
-  }
-}
+  };
+};
 
 export default withRouter(connect(mapStateToProps)(NavContainer));

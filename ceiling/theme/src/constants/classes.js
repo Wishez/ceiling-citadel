@@ -1,61 +1,59 @@
-import _styles from '../index.sass'
+import _styles from '../index.sass';
 
 export const composeClasses = (block, element, modifier, additionalClasses) => {
-	let composedClasses = {};
+  let composedClasses = {};
 
-	composedClasses.b = block;
+  composedClasses.b = block;
 
-	if  (element) {
-		composedClasses.el = element;
-	}
+  if (element) {
+    composedClasses.el = element;
+  }
 
-	if (modifier) {
-		composedClasses.m = modifier;
-	}
+  if (modifier) {
+    composedClasses.m = modifier;
+  }
 
-	if (additionalClasses) {
-		composedClasses.add = additionalClasses;
-	}
+  if (additionalClasses) {
+    composedClasses.add = additionalClasses;
+  }
 
-	return composedClasses;		
+  return composedClasses;		
 };
 
-const toCapitalize = str =>  str.charAt(0).toUpperCase() + str.slice(1);
+const toCapitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
 
 function getClass({
-	b='', 
-	el='', 
-	m='', 
-	add='',
-	styles=_styles
+  b='', 
+  el='', 
+  m='', 
+  add='',
 }) {
-	const elementClass =  `${b}__${el}`;
-	const blockClass = b;
+  let elementClass = false;
 
-	if (add.indexOf(' ') !== -1) {
-		add = add
-			.split(' ')
-			.map(additionalClass => additionalClass in styles ? styles[additionalClass] : '')
-			.join(' ');
-	} else {
-		add = add in styles ? styles[add] : '';
-	}
-	b = blockClass in styles ? styles[blockClass] : '';
-	el = elementClass in styles  ? styles[elementClass] : '';
-	
-	
-	if (el)  {
-		b = '';
-	}
+  // if (add.indexOf(' ') !== -1) {
+  //   add = add
+  //     .split(' ')
+  //     .map(additionalClass => additionalClass)
+  //     .join(' ');
+  // } else {
+  //   add = add;
+  // }
+  //
 
-	if (el && m) {
-		m =  m ? styles[`${elementClass}_${m}`] : '';
-	} else if (b && m) {
-		m =  m ? styles[`${blockClass}_${m}`] : '';
-	}
-	return [b, el, m, add]
-		.filter(filteredClass => filteredClass)
-		.join(" ");
+  if (el) {
+    elementClass = `${b}__${el}`;
+    b = '';
+  }
+
+  if (elementClass && m) {
+    m = `${elementClass}_${m}`;
+  } else if (b && m) {
+    m = `${b}_${m}`;
+  }
+
+  return [b, elementClass, m, add]
+    .filter(filteredClass => filteredClass)
+    .join(' ');
 }
 
 export default getClass;

@@ -37,13 +37,13 @@ class BrandCollectionContainer extends Component {
     const catalog = localData.get(CATALOG);
     
     if (catalog !== null && brandSlug in catalog.brands) {
-        const brand = catalog.brands[brandSlug];
-        const id = findUUID(brand.collections, collectionSlug);
+      const brand = catalog.brands[brandSlug];
+      const id = findUUID(brand.collections, collectionSlug);
         
-        this.setState({
-          brandName: brand.name,
-          id
-        });
+      this.setState({
+        brandName: brand.name,
+        id
+      });
     }
     
   }
@@ -57,8 +57,8 @@ class BrandCollectionContainer extends Component {
     const {id, brandName} = this.state;
 
     let collection = false,
-        slogan = '',
-        collectionName = '';
+      slogan = '',
+      collectionName = '';
 
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
@@ -67,26 +67,26 @@ class BrandCollectionContainer extends Component {
 
 
     if (collection) {
-        collectionName = transformName(collection.name);
-        slogan = collection.slogan;
+      collectionName = transformName(collection.name);
+      slogan = collection.slogan;
     }
     return (
       <BaseCatalogContainer name={collectionName}
-              slogan={slogan}
-              routes={{
-                '/catalog': 'Каталог',
-                '/catalog/brand': false,
-                '/catalog/brand/:brandSlug': brandName,
-                '/catalog/brand/:brandSlug/:collectionSlug': collectionName
-              }}
-              CONSTANT={COLLECTION}
-        >
-          <CatalogSection name="Образцы" headerId="samples">
-            {!isRequesting && 
+        slogan={slogan}
+        routes={{
+          '/catalog': 'Каталог',
+          '/catalog/brand': false,
+          '/catalog/brand/:brandSlug': brandName,
+          '/catalog/brand/:brandSlug/:collectionSlug': collectionName
+        }}
+        CONSTANT={COLLECTION}
+      >
+        <CatalogSection name="Образцы" headerId="samples">
+          {!isRequesting && 
             collection ?
-              catalogSectionCombiner(collection.collection_items, url, true) : <Loader />
-            }
-          </CatalogSection>
+            catalogSectionCombiner(collection.collection_items, url, true) : <Loader />
+          }
+        </CatalogSection>
       </BaseCatalogContainer>
     );
   }

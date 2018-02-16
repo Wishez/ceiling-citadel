@@ -17,40 +17,41 @@ import Paragraph from './../components/Paragraph';
 
 class ContactsContainer extends Component {
 	static propTypes = {
-		dispatch: PropTypes.func.isRequired
+	  dispatch: PropTypes.func.isRequired
 	}
 	
 	componentDidMount() {
-		const { dispatch } = this.props;
-		document.title = 'Сервис | ArtCeil';
-		dispatch(selectNavigationItem(initNavigationState.thirdNavItem.index));
+	  const { dispatch } = this.props;
+	  dispatch(selectNavigationItem(initNavigationState.thirdNavItem.index));
+	  if (!document.title)
+	  		document.title = 'Сервис | ArtCeil';
 	}
 
 	render() {
 		
-		return (
-			<section className={getClass({b: 'container', m: "main", add: "parent column centered serviceSection"})}>
-				<h1 className={getClass({b: 'serviceSection', el: "title", add: "parent row centered"})}>
+	  return (
+	    <section className={getClass({b: 'container', m: 'main', add: 'parent column centered serviceSection'})}>
+	      <h1 className={getClass({b: 'serviceSection', el: 'title', add: 'parent row centered'})}>
 					Сервис
-					<Figure name="service" url={service} maxWidth={71} />
-				</h1>
+	        <Figure name="service" url={service} maxWidth={71} />
+	      </h1>
 				
 				
-				<article className={getClass({b: 'deploy'})}>
-					<h2 className={getClass({b: 'deploy', el: "title"})}>Монтаж</h2>
-					<Paragraph block="deploy" text={`У нас есть профессиональная команда, устанавливающая потолки в разнообразных и необычных местах.`} />
-					<Paragraph block="deploy" text={`Каждый член команды — квалифицированный специалист, всегда готовый прийти  к вам  на помощь и разобраться с не установленным потолком, или его недостающими  частями!`} />
-				</article>
-			</section>
-		);
+	      <article className={getClass({b: 'deploy'})}>
+	        <h2 className={getClass({b: 'deploy', el: 'title'})}>Монтаж</h2>
+	        <Paragraph block="deploy" text={'У нас есть профессиональная команда, устанавливающая потолки в разнообразных и необычных местах.'} />
+	        <Paragraph block="deploy" text={'Каждый член команды — квалифицированный специалист, всегда готовый прийти  к вам  на помощь и разобраться с не установленным потолком, или его недостающими  частями!'} />
+	      </article>
+	    </section>
+	  );
 	}
 }
 
 const mapStateToProps = state => {
 
-	return {
+  return {
 		
-	};
+  };
 };
 
 export default withRouter(connect(mapStateToProps)(ContactsContainer));

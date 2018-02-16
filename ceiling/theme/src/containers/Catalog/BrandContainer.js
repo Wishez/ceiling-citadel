@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 
 import {CATALOG, BRAND} from './../../constants/catalog';
 import getClass from './../../constants/classes';
@@ -32,8 +32,8 @@ class BrandContainer extends Component {
     const catalog = localData.get(CATALOG);
     
     if (catalog !== null && brandSlug in catalog.brands) {
-        const id = catalog.brands[brandSlug].uuid;
-        this.setState({id});
+      const id = catalog.brands[brandSlug].uuid;
+      this.setState({id});
     }
     
   }
@@ -47,8 +47,8 @@ class BrandContainer extends Component {
     const {id} = this.state;
 
     let brand = false,
-        slogan = '',
-        brandName = '';
+      slogan = '',
+      brandName = '';
     
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
@@ -56,27 +56,27 @@ class BrandContainer extends Component {
     }  
 
     if (brand) {
-        brandName = transformName(brand.name);
-        slogan = brand.slogan;
+      brandName = transformName(brand.name);
+      slogan = brand.slogan;
     }
     
     return (
       
-        <BaseCatalogContainer name={brandName}
-          slogan={slogan}
-          routes={{
-            '/catalog': 'Каталог',
-            '/catalog/brand': false,
-            '/catalog/brand/:brandSlug': brandName,
-          }}
-          CONSTANT={BRAND}
-        >
-          <CatalogSection name="Коллекции" headerId="collections">
-            {!isRequesting && 
+      <BaseCatalogContainer name={brandName}
+        slogan={slogan}
+        routes={{
+          '/catalog': 'Каталог',
+          '/catalog/brand': false,
+          '/catalog/brand/:brandSlug': brandName,
+        }}
+        CONSTANT={BRAND}
+      >
+        <CatalogSection name="Коллекции" headerId="collections">
+          {!isRequesting && 
             brand ?
-              catalogSectionCombiner(brand.collections, url) : <Loader />
-            }
-          </CatalogSection>
+            catalogSectionCombiner(brand.collections, url) : <Loader />
+          }
+        </CatalogSection>
       </BaseCatalogContainer>
     );
   }

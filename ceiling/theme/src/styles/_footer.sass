@@ -21,6 +21,7 @@
 		transform: translateY(-2.5em)
 .container_footer
 	min-height: em(255)
+	max-width: em(1280)
 	@include breakpoint($xs)
 		padding: 0
 .footerNavigationContainer
@@ -34,7 +35,10 @@
 	&_footer,
 		max-width: 	span(12)
 		flex: 1 0 15%
-
+.searchBlock_footer
+	@include breakpoint($sm-up)
+		margin-top: 0
+		margin-left: 0
 .navigation_footer
 	height: em(330, 24) 
 	position: static
@@ -59,6 +63,8 @@
 
 .firstFooterBlock
 	align-items: flex-start
+	@include breakpoint($md-up)
+		padding-left: 5em
 	@include breakpoint($md)
 		padding-left: 2em
 	@include breakpoint($sm-less)
@@ -91,7 +97,7 @@
 
 
 .thirdFooterBlock
-    height: em(180)
+    // height: em(180)
     justify-content: space-between
     @include breakpoint($sm-less)
     	order: 1
@@ -125,7 +131,7 @@
 				// color: $white
 				// background-image: linear-gradient(to right,  0%, #403866 100%)
 .contacts_footer
-	margin-top: em(23)
+	// margin-top: em(23)
 .brand__name
 	font-size: 	em(36)
 .brand__slogan

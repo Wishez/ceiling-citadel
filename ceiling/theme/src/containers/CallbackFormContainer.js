@@ -14,12 +14,12 @@ import ReactHtmlParser from 'react-html-parser';
 
 class CallbackFormContainer extends Component {
   static propTypes = { 
-      dispatch: PropTypes.func.isRequired,
-      isCallbackOpened: PropTypes.bool.isRequired,
-      helpText: PropTypes.string.isRequired,
-      isShownHelpText: PropTypes.bool.isRequired,
-      isOrderedCallback: PropTypes.bool.isRequired,
-      isRequesting: PropTypes.bool.isRequired
+    dispatch: PropTypes.func.isRequired,
+    isCallbackOpened: PropTypes.bool.isRequired,
+    helpText: PropTypes.string.isRequired,
+    isShownHelpText: PropTypes.bool.isRequired,
+    isOrderedCallback: PropTypes.bool.isRequired,
+    isRequesting: PropTypes.bool.isRequired
   }
 
   submitCallback = (values, dispatch) => {
@@ -45,13 +45,13 @@ class CallbackFormContainer extends Component {
         signification="Консультация"
         {...this.props}>
         {!isOrderedCallback ? 
-        <CallbackForm buttonOptions={{ 
-          content: !isRequesting ? "Заказать" : <Loader />,
-        }}
+          <CallbackForm buttonOptions={{ 
+            content: !isRequesting ? 'Заказать' : <Loader />,
+          }}
           onSubmit={this.submitCallback} 
           helpText={helpText.toString()}
           /> :
-          <p className={getClass({b: "successfull"})}>{ReactHtmlParser(helpText)}</p>
+          <p className={getClass({b: 'successfull'})}>{ReactHtmlParser(helpText)}</p>
         }
 
       </PopupFormContainer>

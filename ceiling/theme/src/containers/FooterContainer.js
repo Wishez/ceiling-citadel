@@ -21,7 +21,7 @@ import { getDeleteProductArguments, notFollow } from './../constants/pureFunctio
 import {openCallback} from './../actions/callback';
 import {openOrder} from './../actions/order';
 
-class  FooterContainer extends Component {
+class FooterContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     phone: PropTypes.string.isRequired,
@@ -38,36 +38,36 @@ class  FooterContainer extends Component {
 
     return (
       <footer className={getClass({b: 'footer'})}>
-          <QuestionFormContainer />
-          <div className={getClass({b: 'container', m: "footer", add: "parent row v-centered h-around"})}>
-      			<div className={getClass({b: 'firstFooterBlock',  add: "parent column h-around baseChild"})}>
+        <QuestionFormContainer />
+        <div className={getClass({b: 'container', m: 'footer', add: 'parent row v-centered h-around'})}>
+      			<div className={getClass({b: 'firstFooterBlock', add: 'parent column h-around baseChild'})}>
       				 <SearchContainer searchName="footerSearch" modifier="footer" />
       				 <ButtonsGroup className="baseChild" modifier="footer">
-      				   <CallbackButtonContainer  />
+      				   <CallbackButtonContainer />
       				   <OrderButtonContainer 
-                   cartPosition={cartPositions.footer}
-                   cartModifier="hover_up"
+                cartPosition={cartPositions.footer}
+                cartModifier="hover_up"
       				    />
       				 </ButtonsGroup>
       			</div>
 
-             <NavContainer isFooter={true} modifier="footer" className="baseChild" />
-             <div className={getClass({b: 'thirdFooterBlock',  add: "parent column v-centered h-around baseChild"})}>
+          <NavContainer isFooter={true} modifier="footer" className="baseChild" />
+          <div className={getClass({b: 'thirdFooterBlock', add: 'parent column v-centered h-around baseChild'})}>
 		            <Logo maxWidth={65} modifier="footer"/>
 		            <Contacts 
 		                {...this.props}
-                    modifier="footer"
+              modifier="footer"
 		            />
 			       </div>
-          </div>
-          <div className={getClass({b: "copyright", add: "parent column centered"})}> 
-              <p className={getClass({b: "copyright", el: "paragraph", add: "centeredText"})}>&copy;2018&nbsp;ArtCeil<br/> 
+        </div>
+        <div className={getClass({b: 'copyright', add: 'parent column centered'})}> 
+          <p className={getClass({b: 'copyright', el: 'paragraph', add: 'centeredText'})}>&copy;2018&nbsp;ArtCeil<br/> 
 Созданно&nbsp;с&nbsp;поддержкой&nbsp;потолочных&nbsp;систем</p>
-              <p className={getClass({b: "copyright", el: "paragraph", add: "centeredText"})}>
-                  Дизайн и разработка: <a onClick={notFollow} className={getClass({b: "copyright", el: "paragraph", m: "refer", add:"reverse"})} href="https://shining-present.ru">Филипп Журавлёв</a>
-              </p>
-          </div>
-        </footer>
+          <p className={getClass({b: 'copyright', el: 'paragraph', add: 'centeredText'})}>
+                  Дизайн и разработка: <a onClick={notFollow} className={getClass({b: 'copyright', el: 'paragraph', m: 'refer', add:'reverse'})} href="https://shining-present.ru">Филипп Журавлёв</a>
+          </p>
+        </div>
+      </footer>
     );
   }
 }
@@ -76,7 +76,7 @@ class  FooterContainer extends Component {
 
 const mapStateToProps = state => {
   return {};
-}
+};
       
 
 export default connect(mapStateToProps)(FooterContainer);

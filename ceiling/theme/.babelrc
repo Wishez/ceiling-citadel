@@ -5,5 +5,13 @@
         "transform-object-rest-spread",
        	"transform-react-jsx-source"
 	],
- 	"presets": ["env", "react", "stage-0"]
+ 	"presets": [
+ 		[
+ 			"env", 
+ 			{
+        	"loose": true
+      		}
+      	],
+      	"react", "stage-1",
+    ]
 }

@@ -65,7 +65,7 @@
 			transform: translate(0%, -25%)
 			right: 10%
 .searchForm
-	margin-top: 2rem
+	margin-top: 1.5rem
 	@extend %relative
 
 
@@ -81,11 +81,16 @@
 		// margin-top: em(32)
 .contacts
 	font-size: em(21)
-	max-width: em(250, 18)
+	// max-width: em(250, 18)
 	@include breakpoint($md-less)
 		max-width: span(12)
+	& .imageContainer
+		margin-right: .5rem
+		transform: translateY(.25rem)
 
 .contactsItem
+	// &:not(:first-child)
+	margin-top: .5rem
 	&__label
 		color: $gray
 .header
@@ -113,15 +118,15 @@
 	height: 100%
 	width: 	100%
 	transform: translateY(-100%)
-	z-index: 3
+	z-index: 4
 	min-width: span(12)
 	font-size: em(24)
-
 	color: $gray
 	background-color: #F2F2F2
 	border-top: 1px solid $darkGray
 	&_opened
 		transform: translateY(0)
+
 .navigationContainer
 	max-width: span(2)
 	@include breakpoint($xs)
@@ -158,7 +163,7 @@
 		box-sizing: content-box
 		height: auto
 	@include breakpoint($xxs)
-		min-height: none
+		min-height: em(140)
 		flex-direction: column
 		max-height: none
 
@@ -169,13 +174,15 @@
 	@include breakpoint($xxs)
 		transform: translateY(0)
 		margin: 1em auto 1.5em
-.header 
-	& .searchBlock
-		margin-bottom: 0 
+
 .searchBlock
 	@extend %relative
-	max-width: em(270)
+	max-width: em(222)
+	width: span(12)
 	margin: 1rem auto 2rem
+	&_header
+		margin-bottom: 0 
+		max-width: span(10)
 .result
 	@extend %absolute
 	top: 100%
@@ -254,6 +261,8 @@
 .orderButtons, .callbackButtons
 	&_header
 		margin-top: em(11) $i
+		@include breakpoint($xxs)
+		    padding-top: 0
 	margin-bottom: 0
 	@include breakpoint($xs)
 		margin-top: 0
