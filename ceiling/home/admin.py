@@ -10,6 +10,7 @@ class SettingsAdmin(SingleModelAdmin):
         ('Настройка информации сайта', {
             'fields': (
                 ('widgets',),
+                ('meta',),
             ),
         },),
         ('Настройка контактной информации', {

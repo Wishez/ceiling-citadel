@@ -13,6 +13,12 @@ class Settings(TimeStampedModel):
         blank=True,
         null=True
     )
+    meta = models.TextField(
+        _('Глобальное мето описание'),
+        max_length=300,
+        blank=True,
+        null=True
+    )
     # Contacts
     email = models.CharField(
         _('Email'),
