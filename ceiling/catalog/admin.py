@@ -8,7 +8,8 @@ base_description = ('Базовое описание', {
         ('name', 'slug',),
         ('slogan',),
         ('description',),
-        ('preview', 'uuid',),
+        ('preview',),
+        ('is_shown',),
     ),
 })
 

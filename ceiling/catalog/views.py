@@ -6,18 +6,21 @@ import requests
 from django.contrib.sites.models import Site
 from album.models import *
 import json
+from decouple import config
 def extract_entities(m2m):
     array = m2m.all()
     return [entity for entity in array if entity in array]
 
+current_domain = config('CURRENT_DOMAIN')
+
 @csrf_exempt
 def retrieve_catalog(request):
     if request.method == "GET":
-        
-        current_site = 'http://%s' % Site.objects.get_current().domain
+        print(current_domain)
+        current_site = 'https://%s' % current_domain
         brands_response = requests.get("%s%s" % (current_site, reverse('brands_list')))
         categories_response = requests.get("%s%s" % (current_site, reverse('categories_list')))
-        
+
         data = {
             "brands": brands_response.json(), #extract_entities(catalog.brands),
             "categories": categories_response.json()#extract_entities(catalog.categories)
@@ -30,7 +33,7 @@ def retrieve_catalog(request):
 def get_album(request, slug):
     if request.method == "GET":
         album = Album.objects.get(slug=slug)
-        current_site = 'http://%s' % Site.objects.get_current().domain
+        current_site = 'https://%s' % current_domain
 
         images = [{
                 "image": '%s%s' % (current_site, image.image.url),

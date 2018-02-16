@@ -45,6 +45,11 @@ class BaseDescriptionModel(TimeStampedModel):
         default=""
     )
 
+    is_shown = models.BooleanField(
+        _('Отобрзить в каталоге?'),
+        default=True
+    )
+
     def __str__(self):
         return self.name
     class Meta:
@@ -80,8 +85,8 @@ class CategorySection(TimeStampedModel):
         return self.section_name
     class Meta:
         db_table = 'section_of_category'
-        verbose_name = _('Секция категории')
-        verbose_name_plural = _('Секции категории')
+        verbose_name = _('Секция')
+        verbose_name_plural = _('Секции')
 
 class Category(BaseDescriptionModel):
     section = models.ForeignKey(
@@ -189,6 +194,11 @@ class Product(BaseProductModel):
         blank=True,
         null=True
     )
+    is_shown = models.BooleanField(
+        _('Отобрзить в каталоге?'),
+        default=True
+    )
+
     meta = models.TextField(
         _('META-описание страницы'),
         max_length=350,

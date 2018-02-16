@@ -9,7 +9,8 @@ base_list_fields = [
     'name',
     'description',
     'preview',
-    'slug'
+    'slug',
+    'is_shown',
 ]
 
 base_fields = [
@@ -18,9 +19,14 @@ base_fields = [
     'description',
     'slug',
     'slogan',
+    'is_shown',
 ]
 # Base
 class ImageSerializer(serializers.ModelSerializer):
+    image = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="url"
+    )
     class Meta:
         model = AlbumImage
         fields = [
