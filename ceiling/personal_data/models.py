@@ -1,12 +1,9 @@
 # -*- encoding: utf-8 -*-
-
 from model_utils.models import TimeStampedModel
 import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Product, BaseProductModel
-from django.db.models.signals import pre_save, post_save
-from django.dispatch import receiver
 
 class ConsumerManager(models.Manager):
     use_for_related_fields = True
