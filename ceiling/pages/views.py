@@ -3,12 +3,15 @@ from django.views.generic import TemplateView
 from .models import *
 from django.contrib.sites.models import Site
 from home.models import *
+from catalog.models import Product, Brand, Category, Collection
 from home.models import Settings
 
 def get_single_model(Model):
     return Model.objects.get()
 
+
 class BaseView(TemplateView):
+    template_name = 'index.html'
     def __init__(self):
         self.page_model = None
         self.page = None
@@ -30,7 +33,7 @@ class BaseView(TemplateView):
             self.get_page()
 
         is_page_set = self.page is not None
-
+        print(is_page_set)
         if is_page_set:
             page = self.page
             context['title'] = page.page_title
@@ -39,44 +42,100 @@ class BaseView(TemplateView):
             if page.meta != '':
                 self.meta = page.meta
 
-
-        context['active_page'] = self.active_page
         context['site'] = Site.objects.get_current().domain
         context['meta'] = self.meta
         context['settings'] = self.settings
 
         return self.set_additional_context(context)
 
+class BaseProductView(BaseView):
+    def __init__(self):
+        super(BaseProductView, self).__init__()
+        self.page_model = Product
+        self.is_single_model = False
+
+    def get_page(self, productSlug):
+        self.page = self.page_model.objects.get(slug=productSlug)
+
+class CategoryProductView(BaseProductView):
+
+    def get(
+        self,
+        request,
+        categorySlug,
+        collectionSlug,
+        productSlug
+    ):
+        self.get_page(productSlug)
+
+        return super(CategoryProductView, self).get(request)
+
+class BrandProductView(BaseProductView):
+
+    def get(
+        self,
+        request,
+        brandSlug,
+        collectionSlug,
+        productSlug
+    ):
+        self.get_page(productSlug)
+
+        return super(BrandProductView, self).get(request)
+
 
 class HomeView(BaseView):
-    template_name = 'index.html'
-
     def __init__(self):
         super(HomeView, self).__init__()
         self.page_model = HomePage
-        self.active_page = 'home'
 
 
 class ServiceView(BaseView):
-    template_name = 'service.html'
 
     def __init__(self):
         super(ServiceView, self).__init__()
         self.page_model = ServicePage
-        self.active_page = 'business'
 
 class ContactsView(BaseView):
-    template_name = 'contacts.html'
-
     def __init__(self):
         super(ContactsView, self).__init__()
         self.page_model = ContactsPage
-        self.active_page = 'contacts'
 
 class CatalogView(BaseView):
-    template_name = 'catalog.html'
-
     def __init__(self):
         super(CatalogView, self).__init__()
         self.page_model = CatalogPage
-        self.active_page = 'contacts'
+
+class BrandView(CatalogView):
+    def get(
+        self,
+        request,
+        brandSlug,
+    ):
+        return super(BrandView, self).get(request)
+class CategoryView(CatalogView):
+    def get(
+        self,
+        request,
+        categorySlug,
+    ):
+        return super(CategoryView, self).get(request)
+
+class BrandCollectionView(CatalogView):
+    def get(
+        self,
+        request,
+        brandSlug,
+        collectionSlug,
+    ):
+        return super(BrandCollectionView, self).get(request)
+
+class CategoryCollectionView(CatalogView):
+    def get(
+        self,
+        request,
+        categorySlug,
+        collectionSlug,
+    ):
+        return super(CategoryCollectionView, self).get(request)
+

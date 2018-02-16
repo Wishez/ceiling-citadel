@@ -18,11 +18,11 @@ base_settings_page = ('Базовая настройка страницы', {
 class HomePageAdmin(SingleModelAdmin):
     fieldsets = (
         base_settings_page,
-        ('Контент страницы', {
-            'fields': (
-                ('brands',),
-            ),
-        },),
+        # ('Контент страницы', {
+        #     'fields': (
+        #         ('brands',),
+        #     ),
+        # },),
     )
 
 
@@ -41,12 +41,12 @@ class ContactsPageAdmin(SingleModelAdmin):
 class CatalogPageAdmin(SingleModelAdmin):
     fieldsets = (
         base_settings_page,
-        ('Контент страницы', {
-            'fields': (
-                ('brands',),
-                ('categories',),
-            ),
-        },),
+        # ('Контент страницы', {
+        #     'fields': (
+        #         ('brands',),
+        #         ('categories',),
+        #     ),
+        # },),
     )
 
 
@@ -56,8 +56,8 @@ class CatalogPageAdmin(SingleModelAdmin):
 class ServicePageAdmin(SingleModelAdmin):
     fieldsets = (
         base_settings_page,
-        ('Контент страницы', {
-            'fields': (
-            ),
-        },),
+        # ('Контент страницы', {
+        #     'fields': (
+        #     ),
+        # },),
     )

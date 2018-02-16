@@ -1,0 +1,35 @@
+<html>
+<head>
+  <meta charset="utf-8">
+	<meta 
+		name="viewport"
+		content="width=device-width, initial-scale=1.0">
+  
+	<meta
+    name='description'
+    meta='{{ meta }}'
+  >
+    
+  <meta
+    http-equive="X-UA-Compatible"
+    content="IE=edge"
+  >
+  <link
+      rel="shortcut icon"
+      type="image/x-icon" 
+      href="./images/favicon.ico"
+  >
+  <title>{{ title }}</title>
+<link href="/static/styles/app.css?ac980545d5619fa0a395" rel="stylesheet"></head>
+<body>
+  <div id="root"></div>
+  <script>
+    window.navigator.ARTCEILING_INFO = {
+      address: "{{ settings.address }}",
+      email: "{{ settings.email }}",
+      phone: "{{ settings.phone }}",
+      addressHref: "{{ settings.addressHref }}",
+    };
+  </script>
+<script type="text/javascript" src="/static/vendor.js?ac980545d5619fa0a395"></script><script type="text/javascript" src="/static/app.js?ac980545d5619fa0a395"></script></body>
+</html>

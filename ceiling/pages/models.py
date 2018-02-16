@@ -2,8 +2,12 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
+from django.conf import settings
 
-
+if getattr(settings, 'IS_PRODUCTION', False):
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 class PageManager(models.Manager):
     user_for_related_fields = True
@@ -86,5 +90,5 @@ class ServicePage(BasePage):
 
     class Meta:
         db_table = 'data_service_page'
-        verbose_name = _('Страница "Бизнес"')
-        verbose_name_plural = _('Страница "Бизнес"')
+        verbose_name = _('Страница "Сервис"')
+        verbose_name_plural = _('Страница "Сервис"')
