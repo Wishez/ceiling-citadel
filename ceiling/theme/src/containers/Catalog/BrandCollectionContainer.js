@@ -59,7 +59,7 @@ class BrandCollectionContainer extends Component {
     let collection = false,
       slogan = '',
       collectionName = '';
-
+  
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
       collection = dispatch(fetchCatalogEntityOrGetLocale(COLLECTION, id));
@@ -70,6 +70,8 @@ class BrandCollectionContainer extends Component {
       collectionName = transformName(collection.name);
       slogan = collection.slogan;
     }
+    console.log('collection', collection);
+
     return (
       <BaseCatalogContainer name={collectionName}
         slogan={slogan}

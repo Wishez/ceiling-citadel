@@ -32,13 +32,13 @@ class CatalogPageContainer extends Component {
     let brands = [];
     let categories = [];
     
-    if (catalog !== null) {
+    if (catalog !== null && 'brands' in catalog) {
       brands = getArray(catalog.brands);
       categories = getArray(catalog.categories);
     }
 
     return (
-      <div className={getClass({b: 'container', m: 'main', add: 'parent column centered catalogSection'})}>
+      <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
         <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-start h-centered'})}> 
           <h1 className={getClass({b: 'catalogHeader', el: 'title', m: 'catalog', add: 'parent row centered baseChild'})}>
               Выставочный зал

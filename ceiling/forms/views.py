@@ -30,7 +30,6 @@ def order_callback(request):
 
 @csrf_exempt
 def make_order(request):
-    print(request)
     if request.method == 'POST':
 
         data = json.loads(request._body)

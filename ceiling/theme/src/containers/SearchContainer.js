@@ -27,6 +27,7 @@ class SearchContainer extends Component {
     
     if (searchName === 'headerSearch') {
       dispatch(fetchCatalogIfNeededAndDumpEntities());
+      this.forceUpdate();
     }
   }
 

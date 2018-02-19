@@ -16,7 +16,7 @@ current_domain = config('CURRENT_DOMAIN')
 @csrf_exempt
 def retrieve_catalog(request):
     if request.method == "GET":
-        print(current_domain)
+
         current_site = 'https://%s' % current_domain
         brands_response = requests.get("%s%s" % (current_site, reverse('brands_list')))
         categories_response = requests.get("%s%s" % (current_site, reverse('categories_list')))

@@ -38,8 +38,6 @@ const CartProduct = ({
       {width && length ? 
         <p>
 				   	Квадратные метры: {width * length * quantity}²<br/>
-          {thickness ? 
-				   		`Кубические метры: ${width * length * thickness * quantity}³` : ''}
         </p> : ''}
       <Characteristics width={width}
         length={length}

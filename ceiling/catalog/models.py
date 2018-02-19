@@ -181,6 +181,36 @@ class BaseProductModel(TimeStampedModel):
         null=True
     )
 
+    step_between_panels = models.CharField(
+        _('Шаг между панелями'),
+        max_length=100,
+        help_text=_('Пример: от 100 мм до 1000 мм'),
+        blank=True,
+        null=True
+    )
+
+    angle_of_bend = models.IntegerField(
+        _('Минимальный угол загиба'),
+        help_text=_('Целочисленное значение, к примеру: 30'),
+        blank=True,
+        null=True
+    )
+
+    diameter = models.CharField(
+        _('Диаметр окружности'),
+        max_length=100,
+        help_text=_('Пример: от 50 мм до 150 мм'),
+        blank=True,
+        null=True
+    )
+    ceil_size = models.CharField(
+        _('Размер ячеек'),
+        max_length=100,
+        help_text=_('Пример: от 5мм до 50 мм'),
+        blank=True,
+        null=True
+    )
+
 
     class Meta:
         abstract = True

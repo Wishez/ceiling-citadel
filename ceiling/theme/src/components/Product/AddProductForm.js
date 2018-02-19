@@ -40,7 +40,11 @@ const AddProductForm = ({
   width,
   height,
   thickness,
+  step_between_panels,
+  angle_of_bend,
+  diameter,
   length,
+  ceil_size,
   combustibilityValue,
   acousticsValue,
   edgesValue,
@@ -108,6 +112,24 @@ const AddProductForm = ({
         type: 'text',
         maxLength: 10,
         minLength: 1,
+        name: 'diameter',
+        modifier: 'small',
+        validate: [required, number],
+        placeholder: '55мм',
+        label: 'Диаметр окружности',
+        iconOptions: {
+          url: heightIcon,
+          maxWidth: 35,
+          name: 'diameter'
+        },
+        className:'parent row h-around',
+        asideText: diameter,
+        isShown: diameter
+      },
+      {
+        type: 'text',
+        maxLength: 10,
+        minLength: 1,
         name: 'thickness',
         modifier: 'small',
         validate: [required, number],
@@ -126,6 +148,42 @@ const AddProductForm = ({
         type: 'text',
         maxLength: 10,
         minLength: 1,
+        name: 'angle_of_bend',
+        modifier: 'small',
+        validate: [required, number],
+        placeholder: '500мм',
+        label: 'Мин. угол загиба',
+        iconOptions: {
+          url: heightIcon,
+          maxWidth: 35,
+          name: 'angle_of_bend'
+        },
+        className:'parent row h-around',
+        asideText: angle_of_bend,
+        isShown: angle_of_bend
+      },
+      {
+        type: 'text',
+        maxLength: 10,
+        minLength: 1,
+        name: 'ceil_size',
+        modifier: 'small',
+        validate: [required, number],
+        placeholder: '500мм',
+        label: 'Размер ячеек',
+        iconOptions: {
+          url: heightIcon,
+          maxWidth: 35,
+          name: 'ceil_size'
+        },
+        className:'parent row h-around',
+        asideText: ceil_size,
+        isShown: ceil_size
+      },
+      {
+        type: 'text',
+        maxLength: 10,
+        minLength: 1,
         name: 'length',
         validate: [required, number],
         placeholder: '5м',
@@ -139,7 +197,26 @@ const AddProductForm = ({
         className:'parent row h-around',
         asideText: length ,
         isShown: length
-      }].map((field, index) => (
+      },
+      {
+        type: 'text',
+        maxLength: 10,
+        minLength: 1,
+        name: 'step_between_panels',
+        modifier: 'small',
+        validate: [required, number],
+        placeholder: '500мм',
+        label: 'Шаг между панелями',
+        iconOptions: {
+          url: heightIcon,
+          maxWidth: 35,
+          name: 'step_between_panels'
+        },
+        className:'parent row h-around',
+        asideText: step_between_panels,
+        isShown: step_between_panels
+      },
+      ].map((field, index) => (
         ('isShown' in field && field.isShown)?
           <Field key={index} {...field}
             component={RenderController} /> : ''

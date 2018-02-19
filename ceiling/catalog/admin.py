@@ -20,6 +20,8 @@ base_product_characteristics = ('Характеристики продукта',
         ('material', 'colors',),
         ('width', 'height',),
         ('length', 'thickness',),
+        ('step_between_panels', 'angle_of_bend',),
+        ('diameter', 'ceil_size',),
     ),
 })
 
@@ -34,6 +36,10 @@ base_product_characteristics_fields = (
     'height',
     'length',
     'thickness',
+    'step_between_panels',
+    'angle_of_bend',
+    'diameter',
+    'ceil_size',
 )
 
 class CategoryBaseAdminModel(admin.ModelAdmin):

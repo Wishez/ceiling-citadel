@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from ..models import *
+from forms.models import *
 from model_mommy import mommy
 from django.utils.timezone import now
 from home.models import Settings

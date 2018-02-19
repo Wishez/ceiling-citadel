@@ -33,7 +33,7 @@ class BaseView(TemplateView):
             self.get_page()
 
         is_page_set = self.page is not None
-        print(is_page_set)
+
         if is_page_set:
             page = self.page
             context['title'] = page.page_title

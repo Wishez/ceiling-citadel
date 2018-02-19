@@ -39,7 +39,7 @@ class MainPageContainer extends Component {
 	componentDidMount() {
 	  const { dispatch } = this.props;
 		
-	  dispatch(tryFetchCatalog());
+	  // dispatch(tryFetchCatalog());
 	  dispatch(selectNavigationItem(initNavigationState.firstNavItem.index));
 	  
 	}
@@ -56,8 +56,8 @@ class MainPageContainer extends Component {
 	  return (
 	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
 	      <CatalogSection name="Основные бренды" titleShown={false}>
-	        {!isRequesting && 
-					brands.length ?
+	        {!isRequesting && brands &&
+				brands.length ?
 	          catalogSectionCombiner(brands, catalogBrandUrl) : <Loader />
 	        }
 	      </CatalogSection>

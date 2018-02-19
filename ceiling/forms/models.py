@@ -125,6 +125,10 @@ class OrderManager(models.Manager):
             'thickness',
             'length',
             'quantity',
+            'step_between_panels',
+            'angle_of_bend',
+            'diameter',
+            'ceil_size',
         )
 
         for characteristic in proportions:

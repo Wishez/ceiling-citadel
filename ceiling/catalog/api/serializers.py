@@ -81,6 +81,10 @@ class ProductsListSerializer(serializers.ModelSerializer):
             'height',
             'length',
             'thickness',
+            'step_between_panels',
+            'angle_of_bend',
+            'diameter',
+            'ceil_size',
             'brand',
             'section',
         ]
@@ -153,12 +157,16 @@ class ProductSerializer(serializers.ModelSerializer):
             'height',
             'length',
             'thickness',
+            'step_between_panels',
+            'angle_of_bend',
+            'diameter',
             'visualisation',
             'album',
             'content',
             'section',
             'brand',
-            'preview'
+            'preview',
+            'ceil_size',
         ]
 
 class InfoProductSerializer(serializers.ModelSerializer):

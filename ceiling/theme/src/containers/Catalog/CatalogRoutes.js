@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {Route, Switch} from 'react-router-dom'; 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import getClass from './../../constants/classes';
 
@@ -47,36 +48,39 @@ class CatalogRoutes extends Component {
     const { 
       url
     } = this.props.match;
-    
+    const {
+      location
+    } = this.props;
+  
     return (
       <section className={getClass({b: 'catalog'})}>
-        <Switch >
-          <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
-          <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
-          <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
-          <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
-          <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
-          <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
-          <MyRoute path={`${url}`} component={CatalogPageContainer} />
-        </Switch>
+        <TransitionGroup>
+          <CSSTransition key={location.key}  
+            classNames="translate"  
+            appear={true}
+            enter={true}          
+            exit={true}
+            timeout={{
+              enter: 500,
+              exit: 300
+            }}
+          >
+            <Switch location={location}>
+              <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
+              <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
+              <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
+              <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
+              <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
+              <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
+              <MyRoute path={`${url}`} component={CatalogPageContainer} />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
       </section>
     );
   }
 }
-// <TransitionGroup
-//             component="div"
-//             classNames={{
-//               enter: getClass({b: 'translate', m: "enter"}),
-//               enterActive: getClass({b: 'translate', m: "enterActive"}),
-//               leave: getClass({b: 'translate', m: "leave"}),
-//               leaveActive: getClass({b: 'translate', m: "leaveActive"})
-//             }}
-//             timeout={{
-//                enter: 500,
-//                exit: 500,
-//             }}
-//         >
-// </TransitionGroup>
+
 const mapStateToProps = state => {
   const { catalog } = state;
 

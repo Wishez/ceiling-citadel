@@ -34,6 +34,10 @@ class AddProductFormContainer extends Component {
     length: PropTypes.string,
     uuid: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    step_between_panels: PropTypes.string,
+    diameter: PropTypes.string,
+    angle_of_bend: PropTypes.string,
+    ceil_size:  PropTypes.string,
   }
   // Internal state of select controllers' values.
   state = {
@@ -86,8 +90,12 @@ class AddProductFormContainer extends Component {
       lightning,
       width,
       height,
+      ceil_size,
       thickness,
-      length
+      length,
+      step_between_panels,
+      angle_of_bend,
+      diameter,
     } = this.props;
 
     return (
@@ -118,6 +126,10 @@ class AddProductFormContainer extends Component {
                 height={height}
                 thickness={thickness}
                 length={length}
+                ceil_size={ceil_size}
+                step_between_panels={step_between_panels}
+                angle_of_bend={angle_of_bend}
+                diameter={diameter}
                 onSubmit={this.submitAddProduct} 
                 helpText={helpText.toString()}
                 block="addProductForm"
