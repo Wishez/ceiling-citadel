@@ -28,8 +28,7 @@ const OrderForm = ({
   <Form fields={[
     {
       maxLength: 150,
-      minLenght: 10,
-      autoFocus: true,
+      minLength: 10,
       name: 'full_name',
       type: 'text',
       validate: [required, fullNameLength, full_name],
@@ -44,7 +43,7 @@ const OrderForm = ({
     {
       type: 'tel',
       maxLength: 26,
-      minLenght: 11,
+      minLength: 11,
       name: 'phone_number',
       validate: [required, phone, phoneLength],
       placeholder: '+7 (985) 905-02-51',

@@ -77,6 +77,7 @@ class OrderFormContainer extends Component {
           <OrderForm buttonOptions={{ 
             content: !isRequesting ? 'Заказать' : <Loader />,
           }}
+          id="orderForm"
           onSubmit={this.submitOrder} 
           {...this.props}
           products={products}

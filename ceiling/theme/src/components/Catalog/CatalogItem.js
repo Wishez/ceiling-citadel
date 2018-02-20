@@ -5,6 +5,8 @@ import Figure from './../Figure';
 import Description from './Description';
 import Characteristics from './Characteristics';
 import {siteApi} from './../../constants/conf';
+import {slideTo, timeout} from './../../constants/pureFunctions';
+
 const CatalogItem = ({ 
   block,
   children,
@@ -30,6 +32,12 @@ const CatalogItem = ({
       content={name} 
       modifier={tablePosition} 
       isNotRoute={isSample}
+      onClick={() => {
+        console.log('start');
+        timeout(() => {
+          slideTo('.header');
+        }, 800);
+      }}
     />
     {isSample ? 
 		  <Characteristics url={`${url}${slug}/`} {...item} /> :

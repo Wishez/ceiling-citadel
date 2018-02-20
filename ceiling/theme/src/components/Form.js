@@ -18,10 +18,12 @@ const Form = ({
   serverError,
   showButton=true,
   centered=true,
+  id='',
   ...rest
 }) => (
   <form className={getClass(composeClasses(block, '', modifier, `${className} parent${column ? ' column' : ''}${centered ? ' centered' : ''}`))}
     onSubmit={handleSubmit(onSubmit.bind(this))}
+    id={id}
   >
     {fields.map((field, index) => (
       ('isShown' in field && field.isShown) || !('isShown' in field) ?

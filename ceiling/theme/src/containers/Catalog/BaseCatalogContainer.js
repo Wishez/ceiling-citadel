@@ -8,6 +8,8 @@ import BreadcrumbsContainer from './../BreadcrumbsContainer';
 import {CATALOG} from './../../constants/catalog';
 import {localData} from './../../constants/pureFunctions';
 
+import Loader from './../../components/Loader';
+
 class BaseCatalogContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -55,7 +57,7 @@ class BaseCatalogContainer extends Component {
             {slogan}
           </p>
         </div>
-        {children}
+        {children ? children : <Loader />}
       </div>
     );
   }

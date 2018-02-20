@@ -1,5 +1,7 @@
 .main
 	padding: em(75) 0 em(90)
+.fullWidth 
+	width: span(12)
 .catalogItem
 	height: em(360)
 	flex: 1 0 span(6)
@@ -42,6 +44,8 @@
 	transform: translateY(100%)
 	background-color: $white
 .catalogDescription
+.catalog
+	position: relative
 
 // Catalog
 .catalogSection, .catalogSubsection
@@ -263,13 +267,14 @@
 		flex-flow: column wrap
 		align-items: flex-end
 		position: absolute
+		max-width: 33%
 	&__label
 		text-align: right
 		color: $gray
 	&__characteristic
 		font-weight: bold
 .colors
-	transform: translateY(-75%)
+	// transform: translateY(-75%)
 .colorContainer
 	margin-left: em(10.12)
 	&__color

@@ -23,7 +23,6 @@ const CallbackForm = ({
       maxLength: 150,
       minLength: 10,
       name: 'full_name',
-      autoFocus: true,
       type: 'text',
       validate: [required, fullNameLength, full_name],
       placeholder: 'Иванов Иван Иванович',

@@ -14,6 +14,14 @@ export const getDeleteProductArguments = (index, name, quantityOrderedProducts) 
     quantityOrderedProducts - 1
   ];
 };
+
+export const slideTo = selector => {
+  const element = document.querySelector(selector);
+  
+  if (element)
+    element.scrollIntoView({ behavior: 'smooth'});
+};
+
 export const cookiesHandler = {
   setUsernameAndPasswordToCookies: ({
     site,
@@ -34,6 +42,26 @@ export const cookiesHandler = {
     localStorage.removeItem(`${site}Password`);
   }
 
+};
+export function timeout(callback, timeout) {
+  // stuff for animating goes here
+  let pastTime = 0;
+  function animate(time) {
+    if(!pastTime) {
+      pastTime = time;
+    }
+    const delta = time - pastTime;
+
+    if (delta >= timeout) {
+      callback();
+      console.log('end');
+      return false;      
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 };
 
 export const localData = {

@@ -34,7 +34,7 @@ const Characteristics = ({
     {angle_of_bend ? <Characteristic name="angle_of_bend" value={`${angle_of_bend}°`} label="Мин. угол загиба" /> : ''}
     {(typeof colors === 'object' && colors.length) ? 
       <Characteristic name="colors" label="Цвета">
-        <div className={getClass({b: 'colors', add: 'zeroVerticalMargin parent row'})}>
+        <div className={getClass({b: 'colors', add: 'zeroVerticalMargin parent row h-between'})}>
           {colors.map((color, index) => (
             <div key={index} className={getClass({b: 'colorContainer', add: 'parent column zeroVerticalMargin'})}>
               <span style={{backgroundColor: color.color}} className={getClass({b: 'colorContainer', el: 'color', add: 'zeroVerticalMargin'})}></span>

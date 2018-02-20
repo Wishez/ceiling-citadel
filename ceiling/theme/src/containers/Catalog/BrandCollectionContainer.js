@@ -70,7 +70,7 @@ class BrandCollectionContainer extends Component {
       collectionName = transformName(collection.name);
       slogan = collection.slogan;
     }
-    console.log('collection', collection);
+    
 
     return (
       <BaseCatalogContainer name={collectionName}
@@ -86,7 +86,7 @@ class BrandCollectionContainer extends Component {
         <CatalogSection name="Образцы" headerId="samples">
           {!isRequesting && 
             collection ?
-            catalogSectionCombiner(collection.collection_items, url, true) : <Loader />
+            catalogSectionCombiner(collection.collection_items, url, true) : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

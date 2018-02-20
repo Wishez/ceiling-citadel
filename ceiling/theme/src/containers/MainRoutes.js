@@ -22,7 +22,7 @@ class MainRoutes extends Component {
       <main id="main" className={getClass({b: 'main'})}>
        
 
-        <Switch location={location}>
+        <Switch>
           <Route exact path="/" component={MainPageContainer} />
           <Route path="/catalog" 
             component={
@@ -31,6 +31,10 @@ class MainRoutes extends Component {
           />
           <Route path="/contacts" component={ContactsContainer} />
           <Route path="/service" component={ServiceContainer} />
+          <Route render={() => <section className='container'>
+            <h1>В интернете нет страниц с таким адресом.</h1>
+            <p>За исключением этой страницы, которая сообщает вам о статусе 404 NotFound!</p>
+          </section>} />
         </Switch>
 
 
@@ -46,10 +50,6 @@ class MainRoutes extends Component {
 //            exit={false}
 //            timeout={1000}
 //          >
-/*<Route render={() => <div>
-                  <h1>В интернете нет страниц с таким адресом.</h1>
-                  <p>За исключением этой страницы, которая сообщает вам о статусе 404 NotFound!</p>
-                </div>} />*/
 const mapStateToProps = state => {
   const { catalog } = state;
 

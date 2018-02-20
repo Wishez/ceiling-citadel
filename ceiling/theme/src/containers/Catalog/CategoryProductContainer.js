@@ -30,7 +30,7 @@ import {
 
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
-import Loader from './../../components/Loader';
+// import Loader from './../../components/Loader';
 import ImagesCarousel from './../../components/ImagesCarousel';
 
 class CategoryProductContainer extends Component {
@@ -146,7 +146,7 @@ class CategoryProductContainer extends Component {
               <section className={getClass({b: 'productContent'})}>{ReactHtmlParser(product.content)}</section> : ''}
           </div>
           : 
-          <Loader />}
+          ''}
       </BaseCatalogContainer>
     );
   }

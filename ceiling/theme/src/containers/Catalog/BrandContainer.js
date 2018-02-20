@@ -59,7 +59,7 @@ class BrandContainer extends Component {
       brandName = transformName(brand.name);
       slogan = brand.slogan;
     }
-    
+
     return (
       
       <BaseCatalogContainer name={brandName}
@@ -74,7 +74,7 @@ class BrandContainer extends Component {
         <CatalogSection name="Коллекции" headerId="collections">
           {!isRequesting && 
             brand ?
-            catalogSectionCombiner(brand.collections, url) : <Loader />
+            catalogSectionCombiner(brand.collections, url) : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

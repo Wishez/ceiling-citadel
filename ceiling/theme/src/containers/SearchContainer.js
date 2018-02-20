@@ -8,7 +8,6 @@ import {localData} from './../constants/pureFunctions';
 import getClass from './../constants/classes';
 
 import {
-  fetchCatalogIfNeededAndDumpEntities,
   findEntitiesAndShowResults,
   cleanSearchEntities
 } from './../actions/catalog';
@@ -23,12 +22,7 @@ class SearchContainer extends Component {
   }
 
   componentDidMount() {
-    const {searchName, dispatch} = this.props;
-    
-    if (searchName === 'headerSearch') {
-      dispatch(fetchCatalogIfNeededAndDumpEntities());
-      this.forceUpdate();
-    }
+    // const {searchName, dispatch} = this.props;
   }
 
   searchEntity = (values) => {
@@ -59,7 +53,7 @@ class SearchContainer extends Component {
       searchEntities,
       modifier
     } = this.props;
-
+    
     return (
       <div className={getClass({
         b: 'searchBlock',

@@ -1,9 +1,11 @@
 import React from 'react';
 import CatalogItem from './../components/Catalog/CatalogItem';
+import Fading from './../components/Animation/Fading';
 import {catalogBrandUrl, catalogCategoryUrl} from './conf';
 import {getArray} from './pureFunctions';
 import  CatalogSubsection from './../components/Catalog/CatalogSubsection';
 import getClass from './classes';
+
 
 export const makeSelectOptions = options => (
   options ? 
@@ -47,7 +49,14 @@ export const getProductData = (array, collectionSlug, productSlug) => {
   return false;
 };
 
-const combineCatalogSimpleItem = props => props.item.is_shown ? <CatalogItem {...props}/> : '';
+const combineCatalogSimpleItem = props => ( 
+  props.item.is_shown ? 
+    <Fading key={props.key}>
+      <CatalogItem {...props}/> 
+    </Fading>
+    : ''
+);
+  
 
 export const catalogSectionCombiner = (
   items, 

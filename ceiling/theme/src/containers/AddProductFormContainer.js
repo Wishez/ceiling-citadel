@@ -24,6 +24,7 @@ class AddProductFormContainer extends Component {
     isRequesting: PropTypes.bool.isRequired,
     image: PropTypes.string.isRequired,
     combustibility: PropTypes.array,
+    proportions: PropTypes.array,
     edges: PropTypes.array,
     colors: PropTypes.array,
     material: PropTypes.array,
@@ -47,6 +48,7 @@ class AddProductFormContainer extends Component {
     colorsValue: '',
     materialValue: '',
     lightningValue: '',
+    proportionsValue: '',
   }
   
   onChangeSelect = input => (event, index, value) => {
@@ -96,6 +98,7 @@ class AddProductFormContainer extends Component {
       step_between_panels,
       angle_of_bend,
       diameter,
+      proportions,
     } = this.props;
 
     return (
@@ -122,6 +125,7 @@ class AddProductFormContainer extends Component {
                 colors={makeSelectColorOptions(colors)}
                 material={makeSelectOptions(material)}
                 lightning={makeSelectOptions(lightning)}
+                proportions={makeSelectOptions(proportions)}
                 width={width}
                 height={height}
                 thickness={thickness}

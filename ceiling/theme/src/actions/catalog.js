@@ -145,9 +145,11 @@ function extractData(data) {
   return newData;
 }
 
-export const tryFetchCatalog = (callback=false) => dispatch => {
-
-  dispatch(requestCatalog());
+export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch => {
+  if (!silentUpdate) {
+    console.log('is silent mode', silentUpdate);
+    dispatch(requestCatalog());
+  }
 
   return customAjaxRequest({
     data: {},
@@ -157,7 +159,12 @@ export const tryFetchCatalog = (callback=false) => dispatch => {
       const newData = extractData(response.body);
 
       localData.set(CATALOG, newData);
-      dispatch(retriveCatalog());
+    
+      if (!silentUpdate) {
+        console.log('retrieve is silent mode', silentUpdate);
+        dispatch(retriveCatalog());
+      }
+
       if (callback)
         callback();
 	    },
@@ -339,10 +346,12 @@ export const fetchCatalogIfNeededAndDumpEntities = () => (dispatch, getStore) =>
 
   if (!catalog && !isRequesting) {
     dispatch(tryFetchCatalog(() => {
-      dispatch(dumpEntitiesForSearch(catalog));
+      dumpEntitiesForSearch(localData.get(CATALOG));
     }));
   } else {
-    dumpEntitiesForSearch(catalog);
+    dispatch(tryFetchCatalog(() => {
+      dumpEntitiesForSearch(localData.get(CATALOG));
+    }, true));
   }
   
 };

@@ -61,7 +61,8 @@ class CatalogRoutes extends Component {
             enter={true}          
             exit={true}
             timeout={{
-              enter: 500,
+              appear: 800,
+              enter: 800,
               exit: 300
             }}
           >

@@ -657,26 +657,28 @@ input[type=number]:hover::-webkit-inner-spin-button
 	position: relative
 .translate
 	&-appear
-		transform: translateX(-100%)
+		transform: translateX(-200%)
 		will-change: transform
 		&.translate-appear-active
-			transition: transform .5s ease-in
+			transition: transform .7s ease-in
 			transform: translateX(0)
 	&-enter
-		transform: translateX(-100%)
+		transform: translateX(-200%)
 		will-change: transform
 		&.translate-enter-active
-			transition: transform .5s ease-in
+			transition: transform .7s ease-in
 			transform: translateX(0)
 	&-exit
+		
+		// margin-top: 4.6875em 
 		position: absolute
-		margin-top: 4.6875em 
-		top: 0
-		transform: translateX(0)
-		will-change: transform
+		
+		will-change: opacity
+		opacity: 1
 		&.translate-exit-active
-			transition: transform .3s ease-in
-			transform: translateX(250%);
+			transition: opacity .3s ease-in
+			opacity: 0
+			// transform: translate(250%);
 
 .moreRefer
 	font-size: em(18)

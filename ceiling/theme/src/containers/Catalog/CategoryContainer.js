@@ -14,7 +14,7 @@ import BaseCatalogContainer from './BaseCatalogContainer';
 import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
 
 import CatalogSection from './../../components/Catalog/CatalogSection';
-import Loader from './../../components/Loader';
+// import Loader from './../../components/Loader';
 
 class CategoryContainer extends Component {
   static propTypes = {
@@ -77,7 +77,7 @@ class CategoryContainer extends Component {
         <CatalogSection name="Коллекции" headerId="collections">
           {!isRequesting && 
             category ?
-            catalogSubsectionsCombiner(category.collections, url, 'brand') : <Loader />
+            catalogSubsectionsCombiner(category.collections, url, 'brand') : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

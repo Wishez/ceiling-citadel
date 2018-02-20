@@ -8,9 +8,11 @@ import OrderFormContainer from './OrderFormContainer';
 import FooterContainer from './FooterContainer';
 import MainRoutes from './MainRoutes';
 import getClass from './../constants/classes';
-// import { TransitionGroup, CSSTransition } from 'react-transition-group'
-// 
+import {
+  fetchCatalogIfNeededAndDumpEntities
+} from './../actions/catalog';
 import {localData} from './../constants/pureFunctions';
+
 // import './../tests/cart';
 // import './../tests/app';
 // import './../tests/callback';
@@ -19,31 +21,19 @@ import {localData} from './../constants/pureFunctions';
 // import './../tests/order';
 
 
-// const Fade = ({ children, ...props }) => (
-//   <CSSTransition
-//     {...props}
-//     timeout={{
-//       enter: 500,
-//       exit: 300
-//     }}  
-//     component="div"
-//     classNames={{
-//       enter: getClass({b: 'fading', m: "enter"}),
-//       enterActive: getClass({b: 'fading', m: "enterActive"}),
-//       leave: getClass({b: 'fading', m: "leave"}),
-//       leaveActive: getClass({b: 'fading', m: "leaveActive"})
-//     }}
-//   >
-//     {children}
-//   </CSSTransition>
-// );
 
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     isCallbackOpened: PropTypes.bool.isRequired,
   }
+  componentDidMount() {
+    const { dispatch } = this.props;
 
+    dispatch(fetchCatalogIfNeededAndDumpEntities());
+    this.forceUpdate(); 
+    
+  }
 
   render() {
     const { 
@@ -58,14 +48,11 @@ class App extends Component {
         <MainRoutes />
         <FooterContainer address={address} addressHref={addressHref}
           phone={phone} email={email} />
-        {isCallbackOpened ? 
-          <CallbackFormContainer /> : ''
-        }
+        
+        <CallbackFormContainer in={isCallbackOpened} /> : ''
           
-        {isOrderOpened ? 
-          <OrderFormContainer /> : 
-          ''
-        }
+       
+        <OrderFormContainer in={isOrderOpened}/>
             
         
       </div>

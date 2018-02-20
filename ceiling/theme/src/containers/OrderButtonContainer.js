@@ -8,12 +8,17 @@ import {
   changeProductQuantity, 
   deleteProductAndNotifyAbout
 } from './../actions/cart';
+import Scroll from 'react-scroll-to-element';
 
 import {PRODUCTION_STORE} from './../constants/cart';
 
 import OrderButton from './../components/OrderButton';
 import {openOrder} from './../actions/order';
-import {localData, getDeleteProductArguments} from './../constants/pureFunctions';
+import {
+  localData, 
+  getDeleteProductArguments, 
+  slideTo
+} from './../constants/pureFunctions';
 
 class OrderButtonContainer extends Component {
 	static propTypes = {
@@ -36,7 +41,6 @@ class OrderButtonContainer extends Component {
 
 	showCart = () => {
 	  const { dispatch, cartPosition } = this.props;
-
 	  dispatch(openCart(cartPosition));
 	}
 
@@ -48,6 +52,7 @@ class OrderButtonContainer extends Component {
 	openOrderForm = () => { 
 	  const { dispatch } = this.props;
 	  dispatch(openOrder());
+	  slideTo('.popupFormContainer__title');
 	}
 	deleteProduct = (index, name, quantityOrderedProducts) => () => {
 	  const { dispatch } = this.props;
@@ -68,15 +73,16 @@ class OrderButtonContainer extends Component {
 	  const products = localData.get(PRODUCTION_STORE);
 
 	  return (
-	    <OrderButton {...this.props} 
-	      products={products || []}
+		    <OrderButton {...this.props} 
+		     	products={products || []}
 	            isCartOpened={isCartOpened === cartPosition}
 	            openCart={this.showCart} 
 	            closeCart={this.hideCart}
 	            openOrder={this.openOrderForm}
 	            onSubmitQuantityProduct={this.onSubmitQuantityProduct}
 	            deleteProduct={this.deleteProduct}
-	    />			
+	    	/>			
+	   
 	  );
 	}
 }

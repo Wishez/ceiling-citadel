@@ -48,6 +48,7 @@ class CallbackFormContainer extends Component {
           <CallbackForm buttonOptions={{ 
             content: !isRequesting ? 'Заказать' : <Loader />,
           }}
+          id="callbackForm"
           onSubmit={this.submitCallback} 
           helpText={helpText.toString()}
           /> :

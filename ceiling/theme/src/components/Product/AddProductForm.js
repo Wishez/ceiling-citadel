@@ -51,7 +51,9 @@ const AddProductForm = ({
   colorsValue,
   materialValue,
   lightningValue,
+  proportions,
   onChangeSelect,
+  proportionsValue,
   ...rest
 }) => (
   <Form 
@@ -117,11 +119,11 @@ const AddProductForm = ({
         validate: [required, number],
         placeholder: '55мм',
         label: 'Диаметр окружности',
-        iconOptions: {
-          url: heightIcon,
-          maxWidth: 35,
-          name: 'diameter'
-        },
+        // iconOptions: {
+        //   url: heightIcon,
+        //   maxWidth: 35,
+        //   name: 'diameter'
+        // },
         className:'parent row h-around',
         asideText: diameter,
         isShown: diameter
@@ -153,11 +155,11 @@ const AddProductForm = ({
         validate: [required, number],
         placeholder: '500мм',
         label: 'Мин. угол загиба',
-        iconOptions: {
-          url: heightIcon,
-          maxWidth: 35,
-          name: 'angle_of_bend'
-        },
+        // iconOptions: {
+        //   url: heightIcon,
+        //   maxWidth: 35,
+        //   name: 'angle_of_bend'
+        // },
         className:'parent row h-around',
         asideText: angle_of_bend,
         isShown: angle_of_bend
@@ -171,11 +173,11 @@ const AddProductForm = ({
         validate: [required, number],
         placeholder: '500мм',
         label: 'Размер ячеек',
-        iconOptions: {
-          url: heightIcon,
-          maxWidth: 35,
-          name: 'ceil_size'
-        },
+        // iconOptions: {
+        // url: heightIcon,
+        // maxWidth: 35,
+        // name: 'ceil_size'
+        // },
         className:'parent row h-around',
         asideText: ceil_size,
         isShown: ceil_size
@@ -207,11 +209,11 @@ const AddProductForm = ({
         validate: [required, number],
         placeholder: '500мм',
         label: 'Шаг между панелями',
-        iconOptions: {
-          url: heightIcon,
-          maxWidth: 35,
-          name: 'step_between_panels'
-        },
+        // iconOptions: {
+        //   url: heightIcon,
+        //   maxWidth: 35,
+        //   name: 'step_between_panels'
+        // },
         className:'parent row h-around',
         asideText: step_between_panels,
         isShown: step_between_panels
@@ -242,6 +244,25 @@ const AddProductForm = ({
         isShown: combustibility.length,
         value: combustibilityValue,
         hintText: 'Огнеупорная',
+        onChangeSelect,
+        validate: [selectRequired],
+      },
+      {
+        name: 'proportions',
+        placeholder: '600x600x20',
+        label: 'Пропорции',
+        modifier: 'whiteBg',
+        // iconOptions: {
+        //   url: combustibilityIcon,
+        //   maxWidth: 35,
+        //   name: 'combustibility'
+        // },
+        options: proportions,
+        className:'parent row h-around',
+        
+        isShown: proportions.length,
+        value: proportionsValue,
+        hintText: '600x600x20',
         onChangeSelect,
         validate: [selectRequired],
       },
