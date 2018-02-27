@@ -16,7 +16,14 @@ from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
 from django.utils import timezone
 from catalog.models import Product
-from home.models import Combustibility, Acoustics, Lightning, Edge, Material, Color
+from home.models import \
+    Combustibility, \
+    Acoustics, \
+    Lightning, \
+    Edge, \
+    Material, \
+    Color, \
+    Proportion
 
 class Callback(TimeStampedModel):
     consumer = models.ForeignKey(
@@ -117,6 +124,7 @@ class OrderManager(models.Manager):
             ('acoustics', Acoustics,),
             ('edges', Edge,),
             ('lightning', Lightning,),
+            ('proportions', Proportion,),
         )
 
         proportions = (

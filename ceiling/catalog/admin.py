@@ -18,6 +18,7 @@ base_product_characteristics = ('Характеристики продукта',
         ('combustibility', 'acoustics',),
         ('lightning', 'edges',),
         ('material', 'colors',),
+        ('proportions',),
         ('width', 'height',),
         ('length', 'thickness',),
         ('step_between_panels', 'angle_of_bend',),
@@ -40,6 +41,7 @@ base_product_characteristics_fields = (
     'angle_of_bend',
     'diameter',
     'ceil_size',
+    'proportions',
 )
 
 class CategoryBaseAdminModel(admin.ModelAdmin):

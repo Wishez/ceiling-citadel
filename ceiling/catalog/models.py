@@ -4,7 +4,14 @@ from model_utils.models import TimeStampedModel
 import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from home.models import Combustibility, Color, Material, Acoustics, Lightning, Edge
+from home.models import \
+    Combustibility, \
+    Color, \
+    Material, \
+    Acoustics, \
+    Lightning, \
+    Edge, \
+    Proportion
 from pages.validators import validate_slug_field
 
 class BaseDescriptionModel(TimeStampedModel):
@@ -314,6 +321,11 @@ class Product(BaseProductModel):
     colors = models.ManyToManyField(
         Color,
         verbose_name=_("Цвет"),
+        blank=True
+    )
+    proportions = models.ManyToManyField(
+        Proportion,
+        verbose_name=_("Пропорции"),
         blank=True
     )
     preview = models.ForeignKey(

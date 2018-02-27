@@ -63,6 +63,7 @@
     "react-router-breadcrumbs": "^2.1.1",
     "react-router-dom": "^4.2.2",
     "react-router-dynamic-breadcrumbs": "^2.1.0",
+    "react-scroll-to-element": "^0.2.0",
     "react-semantic-ui": "^0.2.0",
     "react-slick": "^0.16.0",
     "react-tooltip": "^3.4.0",

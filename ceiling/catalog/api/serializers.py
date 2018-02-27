@@ -81,6 +81,7 @@ class ProductsListSerializer(serializers.ModelSerializer):
             'height',
             'length',
             'thickness',
+            'proportions',
             'step_between_panels',
             'angle_of_bend',
             'diameter',
@@ -121,6 +122,11 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only=True
     )
     material = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='name'
+    )
+    proportions = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
@@ -167,6 +173,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'brand',
             'preview',
             'ceil_size',
+            'proportions',
         ]
 
 class InfoProductSerializer(serializers.ModelSerializer):

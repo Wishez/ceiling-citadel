@@ -234,3 +234,10 @@ class Color(DropdownCharacteristics):
         db_table = 'item_color'
         verbose_name = _('Цвет')
         verbose_name_plural = _('Цвета')
+
+class Proportion(DropdownCharacteristics):
+
+    class Meta:
+        db_table = 'item_proportions'
+        verbose_name = _('Пропорции')
+        verbose_name_plural = _('Пропорции')

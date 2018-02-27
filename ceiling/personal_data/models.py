@@ -96,6 +96,13 @@ class OrderedProduct(BaseProductModel):
         null=True,
         blank=True
     )
+    proportions = models.ForeignKey(
+        "home.proportion",
+        verbose_name=_("Пропорции"),
+        default=None,
+        null=True,
+        blank=True
+    )
     material = models.ForeignKey(
         "home.material",
         verbose_name=_("Материал"),

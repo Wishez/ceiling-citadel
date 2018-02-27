@@ -71,6 +71,10 @@ class AcousticsAdminModel(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ('name',)
 
+@admin.register(Proportion, site=admin_site)
+class AcousticsAdminModel(admin.ModelAdmin):
+    list_per_page = 10
+    search_fields = ('name',)
 
 
 
