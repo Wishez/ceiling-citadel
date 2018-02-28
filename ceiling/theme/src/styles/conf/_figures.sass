@@ -81,13 +81,18 @@
 		@include breakpoint($sm-less)
 			left: 80%
 			max-width: em(372)
-		top: -20%
+		top: -10%
 	&_contacts, &_service
 		order: -1
 		margin-right: em(16, 28)
 .imageContainer__image_exhibition
+	@extend .lowCascadingShadow
+	@include round(2px)
 	@include breakpoint($md-up)
-		transform: translate(40%, -105%)
+		transform: translate(40%, -118%)
+	@include breakpoint($sm-less) 
+		box-shadow: none
+
 .successfull
 	& .orderButtons
 		margin-top: em(24)

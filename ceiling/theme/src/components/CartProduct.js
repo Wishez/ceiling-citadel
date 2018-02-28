@@ -28,7 +28,7 @@ const CartProduct = ({
     className={getClass(composeClasses('cartProduct', '', modifier, className))}
     data-tip data-for={`orderedProduct_${index}`}
   >
-    <CloseButton block="deleteProductButton"
+    <CloseButton label="Удалить продукт из корзины" block="deleteProductButton"
       onClick={deleteProduct} />
 			
     <h3 className={getClass(composeClasses('cartProduct','name', '', ''))}>{name}</h3>

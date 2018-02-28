@@ -28,7 +28,7 @@ class HeaderContainer extends Component {
     const isBigScreen = window.innerWidth > 1199;
   
     return (
-      <header className={getClass({b: 'header'})}>
+      <header className={getClass({b: 'header', add: 'materialCascadingShadow'})}>
         <div className={getClass({b: 'container', add: 'parent row v-centered h-around'})}>
           <NavContainer isFooter={false} />
   

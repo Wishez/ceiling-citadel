@@ -19,7 +19,6 @@ const Navigation = ({
       b: 'navList',
       add: 'parent centered column baseChild'
     })}
-    id='navList'
     style={navStyles}>
       { navigationItems.map((item, index) => (
         <li className={getClass(

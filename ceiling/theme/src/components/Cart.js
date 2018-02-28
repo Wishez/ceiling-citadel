@@ -23,7 +23,7 @@ const Cart = ({
     <section className={getClass(composeClasses('cart', '', modifier, className))}
     >	
       {closeButton ? 
-        <CloseButton {...closeButton} /> :
+        <CloseButton {...closeButton} label="Закрыть корзину" /> :
         ''
       }
       <h2 className={getClass({b: 'visible-hidden'})}>Корзина</h2>

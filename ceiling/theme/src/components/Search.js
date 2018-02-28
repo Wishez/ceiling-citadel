@@ -35,7 +35,7 @@ const Search = ({
       add: 'baseChild parent row centered'
     })} width="45" height="45" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"> 
       <circle cx="75" cy="75" r="75" fill={colors.darkGray}></circle>
-      <circle cx="75" cy="75" r="55" fill={colors.orange}></circle>
+      <circle cx="75" cy="75" r="55" fill="#C98C4D"></circle>
       <path d="M95 135 135 120 L180 180 150 200" ></path>
     </svg>
   </form>

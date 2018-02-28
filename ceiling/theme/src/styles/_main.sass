@@ -1,5 +1,5 @@
 .main
-	padding: em(75) 0 em(90)
+	padding: 6rem 0
 .fullWidth 
 	width: span(12)
 .catalogItem
@@ -27,23 +27,36 @@
 	&:hover 
 		// @extend %flyShadow
 		z-index: 2
-		& .table
-			transform: translateY(-324%);
-		& .catalogDescription, & .characteristics
-			transform: translateY(0)
+		& .table, & .catalogDescription, & .characteristics
+			transform: translateY(0);
+		// & .catalogDescription, & .characteristics
+			// transform: translateY(0)
 .catalogDescription, .table, .characteristics
 	will-change: transform
+.cropedText
+	overflow: hidden
+	text-overflow: ellipsis
+	display: flex
+	display: -webkit-box
+	-webkit-box-orient: vertical
+	&_5
+		-webkit-line-clamp: 5
+		height: (5px * 1.5 * 18)
+
+
+
 .catalogDescription, .characteristics
+	box-shadow: inset 0 0 12px rgba(0,0,0, .15)
 	transition: transform .5s ease
 	min-width: 	span(12)
-	@extend %absolute
-	padding:  0 em(24.29) em(29.39)
+	// @extend %absolute
+	margin-top: 0 $i
+	padding:  0 1.5rem em(29.39)
 	// width: span(12)
 	min-height: em(245.7, 16)
-	bottom: 0
 	transform: translateY(100%)
 	background-color: $white
-.catalogDescription
+
 .catalog
 	position: relative
 
@@ -58,10 +71,13 @@
 	margin:	2.5rem 0
 .catalogSection, .catalogSubsection
 	&__title
-		margin-bottom: 	1.5rem
+		// margin-bottom: 	1.5rem
+		padding: 1.5rem
 		min-width: span(12)
 .catalogHeader
+	border-radius: 2px
 	width: 	span(12)
+	padding: 2rem 0 1.5rem
 	&__title
 		min-height: em(65, 28)
 		text-align: center
@@ -74,7 +90,7 @@
 			flex-basis: 30%
 		&_active
 			border-bottom: 1px solid $gray
-    		padding-bottom: 0.5rem
+			padding-bottom: 1rem
 			&:after
 				top: 90.5% $i
 		
@@ -136,7 +152,8 @@
 	margin-bottom: 0
 	font-size: em(21)
 	transition: transform .5s ease, box-shadow .3s ease, color .4s linear
-	background-color: #dcdcdc
+	background-color: #fff
+	transform: translateY(324%)
 	z-index: 3
 	
 	&:hover, &:focus
@@ -165,7 +182,10 @@
 	
 .aboutSection
 	max-width: em(404)
-	margin-top: em(41)
+	margin-top: 3rem
+	border-radius: 3px
+	background-color: #fff
+	padding: 1.5rem
 	&__title
 		align-self: flex-start
 	@extend %relative

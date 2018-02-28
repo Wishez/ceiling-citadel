@@ -7,12 +7,14 @@ const Button = ({
   modifier='',
   content,
   children,
-  className,
+  className='',
+  label='',
   ...rest
 }) => (
   <button 
+    aria-label={label}
     type="button"
-    aria-pressed={false}
+    ariaPressed={false}
     className={`${getClass({b: block, el: element, m: modifier, add: `button ${className}`})} ${className}`}
     {...rest}
   >

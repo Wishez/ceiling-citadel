@@ -13,7 +13,7 @@ const CatalogSection = ({
   headerId,
   ...rest
 }) => (
-  <section className={getClass({b: 'catalogSection', m: modifier, add: `${className}` })}>
+  <section className={getClass({b: 'catalogSection', m: modifier, add: `${className} lowCascadingShadow` })}>
     <h2 key="heading" id={headerId} className={getClass({b: 'catalogSection', el: 'title', m: modifier, add: titleShown ? '' : 'visible-hidden' })}>
       {name}
     </h2>

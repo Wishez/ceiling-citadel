@@ -41,7 +41,7 @@ const PopupFormContainer = ({
       className={getClass({b: 'popupBackground', add: `${!inProp ? 'visible-hidden' : ''} parent row centered`})}>
         <section className={getClass(composeClasses(block, '', modifier, `popupFormContainer ${className}`))}>
           <h2 className={getClass({b: block, el: 'title', add: 'popupFormContainer__titleupper '})}>{signification}</h2>
-          <CloseButton {...closeButton} />
+          <CloseButton {...closeButton} label="Закрыть всплывающую форму" />
           {children}
         </section>
       </div>

@@ -1,5 +1,5 @@
+const path = require("path");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 // importLoader:1 from https://blog.madewithenvy.com/webpack-2-postcss-cssnext-fdcd2fd7d0bd
 
 const extractSass = new ExtractTextPlugin('styles/[name].css');
@@ -10,6 +10,9 @@ module.exports = {
     module: {
         rules: [{
             test: /\.css$/,
+            exclude: [
+                path.resolve(__dirname, 'images'),
+            ],
             use: extractSass.extract({
                 use: [
                     {
@@ -29,6 +32,9 @@ module.exports = {
             }) // end extract
         }, {
             test: /\.(scss|sass)$/,
+            exclude: [
+                path.resolve(__dirname, 'images'),
+            ],
             use: extractSass.extract({
                 use: [{
                         loader: 'css-loader',

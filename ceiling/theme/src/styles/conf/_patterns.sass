@@ -5,7 +5,10 @@
 	width: 1px
 	height: 1px
 	position: absolute
-
+.materialCascadingShadow
+	box-shadow: 0 4px 30px -1px $shadow
+.lowCascadingShadow
+	box-shadow: 0 4px 15px -1px $shadow
 .visible-hidden-smLess 
 	@include breakpoint($sm-less) 
 		white-space: nowrap
@@ -245,6 +248,7 @@ div[role="presentation"]
 		text-overflow: ellipsis
 
 	&__input 
+		box-shadow: 0 0 15px $shadow
 		border-radius: 3px
 		min-width: span(12)
 		max-width: span(12)
@@ -254,6 +258,7 @@ div[role="presentation"]
 		background-color: #C4C4C4
 		border-width: 2px 
 		border-style: solid
+		transition: box-shadow .3s ease-in
 		&_whiteBg, &_textarea
 			background-color: $white
 		&_textarea
@@ -262,6 +267,7 @@ div[role="presentation"]
 		&_red 
 			border-color:  $red
 		&:focus 
+			box-shadow: 0 7px 15px -1px $shadow
 			&:invalid 
 				border-color: #5C1D31	
 			
@@ -349,7 +355,8 @@ div[role="presentation"]
 
 .button 
 	width: 100%
-	max-width: em(125)
+	max-width: em(152)
+	box-shadow: 0 0 15px $shadow
 	color: $darkGray
 	border: 2px solid $darkGray
 	border-radius: em(2)

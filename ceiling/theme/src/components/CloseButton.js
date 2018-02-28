@@ -6,9 +6,11 @@ const CloseButton = ({
   element='',
   modifier='',
   className,
+  label='',
   ...rest
 }) => (
   <button {...rest}
+    aria-label={label}
     type="button"
     aria-pressed={false}
     className={getClass(composeClasses(block, element, modifier, `closeButton ${className}`))}>

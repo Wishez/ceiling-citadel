@@ -32,7 +32,7 @@ class QuestionFormContainer extends Component {
     return (
       <section className={getClass({b: 'questionFormSection'})}>
 
-        <h2 className={getClass({b: 'questionFormSection', el: 'title', add: 'upper parent row centered'})}>задайте вопрос маше</h2>
+        <h2 className={getClass({b: 'questionFormSection', el: 'title', add: 'upper parent row centered lowCascadingShadow'})}>задайте вопрос маше</h2>
         <div className={getClass({b: 'questionFormContainer', add: 'container parent row centered'})}>
           <Figure url={maria} maxWidth={280} name="maria" />
           {!isAskedQuestion ? 

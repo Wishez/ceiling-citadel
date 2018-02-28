@@ -1,21 +1,24 @@
 
 
 .questionFormSection
-	background-color: #C4C4C4
+	background-color: #e8e8e8
+	box-shadow: inset 0 0 15px rgba(0,0,0,.5)
 	&__title
 		background-color: $orange
 		height: 75px
+		color: $white
 	border-bottom: 75px solid $cian;
 
 .questionFormContainer
-	padding: em(29) 0 0
+	padding: 3rem 0 0
 	@include breakpoint($xs) 
 		flex-direction: column
-
+.footer, .copyright
+	box-shadow: 0 -4px 30px rgba(0,0,0, .15)
 .questionForm
 	width: em(300)
 	margin-left: span(1)
-	margin-bottom: em(39)
+	margin-bottom: 3.5rem
 	@include breakpoint($xs) 
 		margin-left: 0
 		transform: translateY(-2.5em)
@@ -34,7 +37,8 @@
 .buttonsGroup, .searchForm, .brand, .contacts, .navigation
 	&_footer,
 		max-width: 	span(12)
-		flex: 1 0 15%
+		flex: 1 0 auto
+
 .searchBlock_footer
 	@include breakpoint($sm-up)
 		margin-top: 0
@@ -131,7 +135,7 @@
 				// color: $white
 				// background-image: linear-gradient(to right,  0%, #403866 100%)
 .contacts_footer
-	// margin-top: em(23)
+	margin-top: 1.5rem
 .brand__name
 	font-size: 	em(36)
 .brand__slogan

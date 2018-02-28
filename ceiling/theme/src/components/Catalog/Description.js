@@ -14,7 +14,9 @@ const Description = ({
   ...rest
 }) => (
   <p className={`${getClass({b: 'catalogDescription', m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row centered zeroVerticalMargin'})}`}>
-    {content}
+    <span class="cropedText cropedText_5">
+      {content}
+    </span>
 	 	{children}
 	 	<Link to={url} className={getClass({
       b: 'moreRefer',

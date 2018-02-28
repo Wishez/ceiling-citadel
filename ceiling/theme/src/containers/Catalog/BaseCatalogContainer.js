@@ -48,7 +48,7 @@ class BaseCatalogContainer extends Component {
 
     return (
       <div className={getClass({b: 'catalog', m: modifier, add:'container parent column centered'})}>
-        <div className={getClass({b: 'catalogHeader', add: 'parent row v-start h-centered'})}> 
+        <div className={getClass({b: 'catalogHeader', add: 'parent row v-start h-centered lowCascadingShadow'})}> 
           <h1 className={getClass({b: 'catalogHeader', el: 'title', m: isProduct ? 'active' : '', add: 'parent row centered baseChild'})}>
             {name}
           </h1>

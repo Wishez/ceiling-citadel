@@ -57,7 +57,7 @@ const OrderForm = ({
     {
       type: 'email',
       maxLength: 150,
-      minLenght: 1,
+      minLength: 1,
       name: 'email',
       validate: [required, email],
       placeholder: 'awesome_maria@mail.ru',

@@ -48,13 +48,8 @@ class App extends Component {
         <MainRoutes />
         <FooterContainer address={address} addressHref={addressHref}
           phone={phone} email={email} />
-        
-        <CallbackFormContainer in={isCallbackOpened} /> : ''
-          
-       
+        <CallbackFormContainer in={isCallbackOpened} />
         <OrderFormContainer in={isOrderOpened}/>
-            
-        
       </div>
     );
   }

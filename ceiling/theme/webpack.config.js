@@ -7,8 +7,12 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const BundleTracker = require('webpack-bundle-tracker')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 let env = process.env.NODE_ENV;
+
 const TARGET = process.env.npm_lifecycle_event;
 const isProduction = TARGET === 'prod';
 const withHash = isProduction ? '-[hash]' : "";
@@ -58,10 +62,14 @@ const common = {
       '#cheap-module-eval-source-map',
   devServer: {
       contentBase: './static',
-      hot: false
+      hot: true
   },
 
   plugins: [
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'src/sw.js'),
+      excludes: ['**/*.map', '*.html', '*.json'],
+    }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         filename: `[name]${withHash}.js`,
@@ -85,8 +93,6 @@ const common = {
         'process.env': { NODE_ENV: TARGET === 'dev' ? '"development"' : '"production"' },
         '__DEVELOPMENT__': TARGET === 'dev'
     }),
-
-    new webpack.HotModuleReplacementPlugin(),
     new BundleTracker({filename: './webpack-stats.json'}),
     new webpack.LoaderOptionsPlugin({
       options: {
@@ -110,7 +116,20 @@ const common = {
         dry:      false
     }),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+
+    new ImageminPlugin({
+      disable: !isProduction, // Disable during development
+      pngquant: {
+        quality: '95-100',
+        optimizationLevel: 9
+      }
+    }),
+
+    // new CopyWebpackPlugin([
+    //     'images/'
+    // ],
+    //{})
   ],
 
   module: {
@@ -190,32 +209,32 @@ const common = {
         exclude: path.resolve(__dirname, 'src', 'fonts'),
         use: [
           'file-loader?name=/images/[name].[ext]',
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              bypassOnDebug: isProduction,
-              mozjpeg: {
-                progressive: true,
-                quality: 65
-              },
-              // optipng.enabled: false will disable optipng
-              optipng: {
-                enabled: isProduction,
-              },
-              pngquant: {
-                quality: '65-90',
-                speed: 4
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              // the webp option will enable WEBP
-              webp: {
-                quality: 75
-              }
-            },
+      //     {
+      //       loader: 'image-webpack-loader',
+      //       options: {
+      //         bypassOnDebug: isProduction,
+      //         mozjpeg: {
+      //           progressive: true,
+      //           quality: 65
+      //         },
+      //         // optipng.enabled: false will disable optipng
+      //         optipng: {
+      //           enabled: isProduction,
+      //         },
+      //         pngquant: {
+      //           quality: '65-90',
+      //           speed: 4
+      //         },
+      //         gifsicle: {
+      //           interlaced: false,
+      //         },
+      //         // the webp option will enable WEBP
+      //         webp: {
+      //           quality: 75
+      //         }
+      //       },
 
-          },
+      //     },
         ],
       }
     ],

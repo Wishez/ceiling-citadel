@@ -1,3 +1,4 @@
+const path = require("path");
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -10,6 +11,9 @@ module.exports = {
     module: {
         rules: [{
             test: /\.css$/,
+            exclude: [
+                path.resolve(__dirname, 'images'),
+            ],
             use: extractSass.extract({
                 use: [{
                     loader: 'css-loader',
@@ -19,6 +23,9 @@ module.exports = {
             })
         }, {
             test: /\.(scss|sass)$/,
+            exclude: [
+                path.resolve(__dirname, 'images'),
+            ],
             use: extractSass.extract({
                 use: [{
                         loader: 'css-loader',

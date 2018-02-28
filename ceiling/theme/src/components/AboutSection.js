@@ -18,7 +18,7 @@ const AboutSection = ({
   <article className={getClass({
     b: 'aboutSection', 
     m: modifier, 
-    add: `${className} parent column centered` 
+    add: `${className} parent column centered lowCascadingShadow` 
   })}>
     <h2 className={getClass({
       b: 'aboutSection', 

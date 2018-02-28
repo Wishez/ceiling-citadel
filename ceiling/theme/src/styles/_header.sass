@@ -14,7 +14,7 @@
 	
 .upper
 	text-transform: uppercase
-	letter-spacing: .12
+	letter-spacing: .12em
 .menuButton
 	min-width: auto
 	position: relative	
@@ -95,7 +95,7 @@
 		color: $gray
 .header
 	@extend %relative
-	padding: 1rem 0
+	padding: 1rem 0 1.5rem
 	@include breakpoint($md-less)
 		padding: em(16) 0
 	& > .container
@@ -182,7 +182,7 @@
 	margin: 1rem auto 2rem
 	&_header
 		margin-bottom: 0 
-		max-width: span(10)
+		max-width: span(12)
 .result
 	@extend %absolute
 	top: 100%
@@ -212,6 +212,7 @@
 		@include breakpoint($md-less)
 			max-width: em(265)
 			order: 4
+			margin-left: 3rem
 		@include breakpoint($xs)
 			order: 1
 			transform: translateX(-25%)
