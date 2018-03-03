@@ -17,13 +17,13 @@ const Table = ({
 }) => (
   <h3 className={`${getClass({b: block, el: element, m: elementModifier, add: 'lowCascadingShadow upper centeredText'})} ${getClass({b: 'table', m: modifier, add: `${className} parent centered row` })}`}>
     {isNotRoute ? 
-      <a className={getClass({b: 'table', el: 'refer', m: modifier})} 
+      <a className={getClass({b: 'table', el: 'refer', m: modifier, add: 'parent row centered'})} 
         href={`${url}${slug}/`}
         onClick={onClick}
       >
         {content}
       </a> :
-      <Link className={getClass({b: 'table', el: 'refer', m: modifier})} 
+      <Link className={getClass({b: 'table', el: 'refer', m: modifier, add: 'parent row centered'})} 
         to={`${url}${slug}/`}
         onClick={onClick}
       >

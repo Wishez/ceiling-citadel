@@ -20,14 +20,14 @@ const Cart = ({
   ...rest
 }) => (
   <Draggable disabled={!closeButton}>
-    <section className={getClass(composeClasses('cart', '', modifier, className))}
+    <section className={getClass(composeClasses('cart', '', modifier, 'lowCascadingShadow ' + className))}
     >	
       {closeButton ? 
         <CloseButton {...closeButton} label="Закрыть корзину" /> :
         ''
       }
       <h2 className={getClass({b: 'visible-hidden'})}>Корзина</h2>
-      <p className={getClass({b: 'cart', el: 'hint', m: `${isShownHelpText ? 'shown' : ''}`})}>{helpText}</p>
+      <p className={getClass({b: 'cart', el: 'hint', m: `${isShownHelpText ? 'shown' : ''}`, add: 'lowCascadingShadow'})}>{helpText}</p>
       <ul style={{backgroundImage: `url(${mesh})` }} className={getClass({b: 'orderedProducts', add: 'parent row h-around'})}>
         {quantityOrderedProducts ? 
           cartProducts.map((product, index) => (

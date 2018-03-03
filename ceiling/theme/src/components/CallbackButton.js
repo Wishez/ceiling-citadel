@@ -35,7 +35,7 @@ const CallbackButton = ({
         m: modifier,
         add: 'parent row h-between v-centered'
       })}
-      ariaLabel={!isCallbackOpened ? 'Открывает форму обратного вызова' : 'Закрывает форму обратного вызова'}
+      aria-label={!isCallbackOpened ? 'Открывает форму обратного вызова' : 'Закрывает форму обратного вызова'}
       onClick={isCallbackOpened ? closeCallback : openCallback} 
       title="Открывает форму для заказа консультации">
       <Figure name="callback"

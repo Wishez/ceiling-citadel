@@ -6,20 +6,21 @@
 // 	@include adaptiveImage($name, $max-width, adaptive($width, $height), $url, $isIcon)
 
 .imageContainer
-	// margin-top: 1rem
-	// margin-bottom: 	1rem
 	z-index: 1
 	&__image
 		// margin-top: 1.5rem
 		// margin-bottom: 	1.5rem
 		&_sample
 			margin-top: 0
+			height: 100% $i	
 
 	&_sample, &_product
 		@extend %absolute
 		top: 0
 		right: 0
 		z-index: 0
+	&_sample
+		max-width: 100% $i
  	&_product
 
 	&_maria
@@ -31,7 +32,7 @@
 			max-width: em(171) $i
 			margin-right: 0
 	&_brand
-		// margin-right: em(9)
+		margin-right: .5rem
 	&_niceToMeetYou, &_design, &_products, &_exhibition, &_bag
 		// height: span(12)
 		@extend %absolute
@@ -43,26 +44,26 @@
 			opacity: 0
 	&_niceToMeetYou
 		@include breakpoint($sm-less)
-			left: 110%
-			top: 20%
+			left: 120%
+			top: 50%
 			transform: rotate(25deg)
 		@include breakpoint($xs)
 			align-self: flex-end
-			transform: transitionY(50%)
+			transform: translateY(45%) rotate(25deg)
 	&_products
 
 		@include breakpoint($md-up)
-			left: 80%
-			bottom: 50%
+			left: 70%
+			bottom: 110%
 			max-width: em(327.49) $i
 			transform: rotate(25deg)
 		@include breakpoint($sm-less)
-			right: 110%
+			right: 120%
 			transform: rotateY(180deg) rotate(25deg)
 			top: 10%
 	&_design
-		left: 110%
-		top: 5%
+		left: 125%
+		top: 14%
 	&_addProductFormLoader
 		transform: translateY(3rem)
 	&_exhibition
@@ -87,9 +88,9 @@
 		margin-right: em(16, 28)
 .imageContainer__image_exhibition
 	@extend .lowCascadingShadow
-	@include round(2px)
+	// @include round(2px)
 	@include breakpoint($md-up)
-		transform: translate(40%, -118%)
+		transform: translate(40%, -123%)
 	@include breakpoint($sm-less) 
 		box-shadow: none
 

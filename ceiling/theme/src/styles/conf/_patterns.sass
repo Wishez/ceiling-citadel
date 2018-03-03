@@ -5,10 +5,12 @@
 	width: 1px
 	height: 1px
 	position: absolute
+
 .materialCascadingShadow
-	box-shadow: 0 4px 30px -1px $shadow
+	box-shadow: 0 2px 6px 0 $shadow
 .lowCascadingShadow
-	box-shadow: 0 4px 15px -1px $shadow
+	box-shadow: 2px 2px 6px 0 $shadow
+
 .visible-hidden-smLess 
 	@include breakpoint($sm-less) 
 		white-space: nowrap
@@ -133,7 +135,7 @@
 		top: em(6.3, 28)
 		left: em(6.2, 28)
 		@extend %shadow
-		background-color: $orange
+		background-color: $contrastOrange
 	
 	
 
@@ -223,6 +225,574 @@ div[role="presentation"]
 	@extend %flyShadow
 	border: 1px solid $darkBlue $i
 	min-width: 	span(12)
+
+
+$anim-speed: 0.3s
+$input-height: 40px
+$input-space: 20px
+$border-width: 2px
+$border-color: $darkBlue
+
+$num-of-cols: 12;
+$col-1: percentage(1 / $num-of-cols);
+$col-2: percentage(2 / $num-of-cols);
+$col-3: percentage(3 / $num-of-cols);
+$col-4: percentage(4 / $num-of-cols);
+$col-5: percentage(5 / $num-of-cols);
+$col-6: percentage(6 / $num-of-cols);
+$col-7: percentage(7 / $num-of-cols);
+$col-8: percentage(8 / $num-of-cols);
+$col-9: percentage(9 / $num-of-cols);
+$col-10: percentage(10 / $num-of-cols);
+$col-11: percentage(11 / $num-of-cols);
+$col-12: percentage(12 / $num-of-cols);
+
+.st-form__input--wrapper
+	@extend  %relative
+	min-width: span(12)
+
+	.input-border 
+		bottom: 0
+		display: block
+		left: 0
+		position: absolute
+		top: 0
+		width: 0
+
+		&:before, &:after 
+			bottom: 0
+			content: ''
+			display: block
+			position: absolute
+			top: 0
+			width: 0
+			transition: $anim-speed ease-in-out all
+    
+
+		&:after 
+			display: none
+    
+  
+
+	&.from-left 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				width: 100%
+
+				&:before,
+				&:after 
+					width: 100%
+
+		.input-border 
+			&:before 
+				box-shadow: inset 0 0 0 $border-width $border-color
+				left: 0
+	&.from-right 
+
+		.controller__input
+			&:focus ~ .input-border 
+				width: 100%
+
+				&:before,
+				&:after 
+					width: 100%
+		        
+	      
+	    
+
+		.input-border 
+
+			&:before 
+				box-shadow: inset 0 0 0 $border-width $border-color
+				right: 0
+      
+	&.from-top 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				width: 100%
+
+				&:before,
+				&:after 
+					height: 100%
+
+		.input-border 
+
+			&:before 
+				box-shadow: inset 0 0 0 $border-width $border-color
+				height: 0
+				width: 100%
+
+	&.from-bottom 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				width: 100%
+
+				&:before,
+				&:after 
+					height: 100%
+
+			.input-border 
+
+				&:before 
+					box-shadow: inset 0 0 0 $border-width $border-color
+					top: auto
+					height: 0
+					width: 100%
+
+    
+  
+
+  	&.from-side 
+		.controller__input
+
+			&:focus ~ .input-border 
+				opacity: 1
+				width: 100%
+
+			&:before,
+			&:after 
+				width: 50% 
+
+		.input-border 
+			opacity: 0
+		
+			&:before, &:after 
+				box-shadow: none
+				bottom: 0
+				content: ''
+				display: block
+				position: absolute
+				top: 0
+				width: 0
+				transition: $anim-speed ease-in-out all
+      
+
+			&:before 
+				border: solid $border-width $border-color
+				border-right: 0
+				left: 0
+      
+
+			&:after 
+				border: solid $border-width $border-color
+				border-left: 0
+				right: 0
+      
+	&.from-center 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				opacity: 1
+				width: 100%
+
+				&:before,
+				&:after 
+					width: 50%
+
+			.input-border 
+				opacity: 0
+
+				&:before, &:after 
+					box-shadow: none
+					bottom: 0
+					content: ''
+					display: block
+					position: absolute
+					top: 0
+					width: 0
+					transition: $anim-speed ease-in-out all
+
+
+				&:before 
+					border: solid $border-width $border-color
+					border-left: 0
+					left: 50%
+
+
+				&:after 
+					border: solid $border-width $border-color
+					border-right: 0
+					right: 50%
+
+	&.from-middle 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				opacity: 1
+				height: 100%
+				width: 100%
+
+			&:before,
+			&:after 
+				height: 100%
+				opacity: 1
+				width: 50%
+	        
+	      
+	    
+
+		.input-border 
+			height: 0
+			opacity: 0
+			top: 50%
+			transform: translateY(-50%)
+			width: 100%
+
+			&:before, &:after 
+				box-shadow: none
+				bottom: 0
+				content: ''
+				display: block
+				height: 0
+				position: absolute
+				opacity: 0
+				top: 50%
+				transform: translateY(-50%)
+				width: 0
+				transition: $anim-speed ease-in-out all
+	      
+
+			&:before 
+				border: solid $border-width $border-color
+				border-left: 0
+				left: 50%
+		      
+
+			&:after 
+				border: solid $border-width $border-color
+				border-right: 0
+				right: 50%
+      
+    
+  
+
+	&.blink 
+
+		.controller__input
+
+		  	&:focus ~ .input-border 
+		        animation: blink $anim-speed forwards 1 alternate
+		        width: 100%
+
+		        &:before,
+		        &:after 
+		          	width: 100%
+	        
+	      
+	    
+
+		.input-border 
+			opacity: 0
+
+			&:before, &:after 
+				box-shadow: none
+				bottom: 0
+				content: ''
+				display: block
+				position: absolute
+				top: 0
+				width: 100%
+
+	      
+
+			&:before 
+				border: solid $border-width $border-color
+				width: 100%
+	      
+
+			&:after 
+				display: none
+      
+    
+  
+
+	&.half 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				opacity: 1
+				width: 100%
+
+				&:before,
+				&:after 
+					width: 100%
+
+		.input-border 
+			opacity: 0
+
+			&:before, &:after 
+				box-shadow: none
+				bottom: 0
+				content: ''
+				display: block
+				position: absolute
+				top: 0
+				width: 0
+				transition: ($anim-speed * 2) ease-in-out all
+	      
+		
+			&:before 
+				border-left: solid $border-width $border-color
+				border-top: solid $border-width $border-color
+				left: 0%
+		      
+
+			&:after 
+				border-right: solid $border-width $border-color
+				border-bottom: solid $border-width $border-color
+				right: 0%
+      
+    
+  
+
+	&.circle 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+
+				&:first-of-type 
+
+					&:before 
+						transition: ($anim-speed / 2) ease-in-out all
+						transition-delay: 0s
+						width: $col-12
+
+
+					&:after 
+						height: $col-12
+						transition: ($anim-speed / 2) ease-in-out all
+						transition-delay: ($anim-speed / 2)
+
+				&:last-of-type 
+					background: transparent
+
+					&:before 
+						transition: ($anim-speed / 2) ease-in-out all
+						transition-delay: $anim-speed
+						width: $col-12
+
+
+					&:after 
+						height: $col-12
+						transition: ($anim-speed / 2) ease-in-out all
+						transition-delay: (($anim-speed / 2) + $anim-speed)
+						top: 0
+
+		.input-border 
+			bottom: auto
+			height: $col-12
+			width: $col-12
+
+			&:before,
+			&:after 
+				background-color: $border-color
+				content: ''
+				display: block
+				position: absolute
+
+
+			&:first-of-type 
+
+				&:before 
+					height: $border-width
+					left: 0
+					top: 0
+					width: 0
+
+
+				&:after 
+					height: 0
+					right: 0
+					top: 0
+					width: $border-width
+
+
+
+			&:last-of-type 
+
+				&:before 
+					background-color: $border-color
+					height: $border-width
+					top: calc(#{$col-12} - #{$border-width})
+					right: 0
+					width: 0
+
+
+				&:after 
+					background-color: $border-color
+					height: 0
+					top: calc(#{$col-12} - #{$border-width})
+					left: 0
+					width: $border-width
+
+	&.just-bottom 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				opacity: 1
+				width: 100%
+
+				&:before,
+				&:after 
+					width: 50%
+    
+  
+
+
+		.input-border 
+			opacity: 0
+
+			&:before, &:after 
+				box-shadow: none
+				bottom: 0
+				content: ''
+				display: block
+				position: absolute
+				top: 0
+				width: 0
+				transition: $anim-speed ease-in-out all
+
+
+			&:before 
+				border-bottom: solid $border-width $border-color
+				left: 50%
+
+
+			&:after 
+				border-bottom: solid $border-width $border-color
+				right: 50%
+
+
+
+
+	&.top-bottom 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+				opacity: 1
+				width: 100%
+
+			&:before,
+			&:after 
+				width: 50%
+	        
+      
+    
+
+		.input-border 
+			opacity: 0
+
+			&:before, &:after 
+				box-shadow: none
+				bottom: 0
+				content: ''
+				display: block
+				position: absolute
+				top: 0
+				width: 0
+				transition: $anim-speed ease-in-out all
+
+
+			&:before 
+				border-bottom: solid $border-width $border-color
+				border-top: solid $border-width $border-color
+				border-right: solid 1px $white
+				left: 50%
+
+
+			&:after 
+				border-bottom: solid $border-width $border-color
+				border-top: solid $border-width $border-color
+				border-left: solid 1px $white
+				right: 50%
+      
+    
+  
+
+	&.partially 
+
+		.controller__input
+
+			&:focus ~ .input-border 
+
+				&:first-of-type 
+					border-left: solid $border-width $border-color
+
+
+				&:last-of-type 
+					background: transparent
+					border-right: solid $border-width $border-color
+
+
+				&:before,
+				&:after 
+					height: $border-width
+					width: ($col-1 / 2)
+
+
+
+
+		.input-border 
+			bottom: auto
+			height: $col-12
+			width: $col-12
+
+			&:before,
+			&:after 
+				background-color: $border-color
+				content: ''
+				display: block
+				position: absolute
+
+
+			&:before 
+				top: 0
+
+
+			&:after 
+				bottom: 0
+				top: auto
+
+
+			&:first-of-type 
+				left: 0
+
+				&:before,
+				&:after 
+					left: 0
+
+
+
+			&:last-of-type 
+				right: 0
+
+				&:before,
+				&:after 
+					right: 0
+
+	&.enlarge 
+
+		.controller__input
+
+		&:focus 
+			background-color: $white
+			border-color: $border-color
+			border-width: 2px
+			transition: ($anim-speed * 0.5) ease-in-out all
+		.input-border 
+			display: none
 .controller 
 	max-width: em(300)
 	min-width: none
@@ -234,6 +804,7 @@ div[role="presentation"]
 		color: $red
 	&__icon 
 		margin-bottom: .15em
+		z-index: 11
 	&_small
 		max-width: em(175)
 	&__paragraph
@@ -248,17 +819,18 @@ div[role="presentation"]
 		text-overflow: ellipsis
 
 	&__input 
-		box-shadow: 0 0 15px $shadow
 		border-radius: 3px
 		min-width: span(12)
 		max-width: span(12)
+		@extend %relative
+		z-index: 10
 		font-size: em(18, 21)
 		padding: em(16) em(12.5)
-		@include round(em(2, 21))
 		background-color: #C4C4C4
-		border-width: 2px 
-		border-style: solid
-		transition: box-shadow .3s ease-in
+		// border-width: 2px 
+		// border-style: solid
+		@extend .lowCascadingShadow
+		// transition: border .3s ease, box-shadow .3s ease-in
 		&_whiteBg, &_textarea
 			background-color: $white
 		&_textarea
@@ -267,12 +839,20 @@ div[role="presentation"]
 		&_red 
 			border-color:  $red
 		&:focus 
-			box-shadow: 0 7px 15px -1px $shadow
-			&:invalid 
-				border-color: #5C1D31	
+			outline: none
+			box-shadow: 0 4px 16px -1px $shadow
+			background-color: transparent
+			border-color: transparent
+			& ~ .input-border
+				background-color: $white
+
+				&:before,
+				&:after 
+			// &:invalid 
+			// 	border-color: #5C1D31	
 			
-			&:valid 
-				border-color: #437A67	
+			// &:valid 
+			// 	border-color: #437A67	
 				
 			
 	
@@ -303,12 +883,14 @@ div[role="presentation"]
 			color: #F2F2F2 $i
 
 	&Icon 
-		margin-bottom: em(2.3)
+		margin-bottom: 5.5px
 	&__error
 		color: $red
 		margin-top: em(6, 16)
 		font-size: em(16, 18)
 		text-align: left
+		padding: .25rem 0.5rem
+		font-weight: bold
 	&__label 
 		align-self: flex-end
 		font-size: em(18)
@@ -356,9 +938,10 @@ div[role="presentation"]
 .button 
 	width: 100%
 	max-width: em(152)
-	box-shadow: 0 0 15px $shadow
+
+	// box-shadow: 0 0 15px $shadow
 	color: $darkGray
-	border: 2px solid $darkGray
+	// border: 2px solid $darkGray
 	border-radius: em(2)
 	padding: .75em .5em
 	background-color: transparent
@@ -389,7 +972,7 @@ div[role="presentation"]
 	width: em(300)
 	margin-top: em(1, 24)
 	transition: opacity .2s
-	box-shadow: inner 0 0 14;
+	// box-shadow: inset 0 0 6px
 	z-index: 99
 	@extend %relative
 	@include breakpoint($xxs)
@@ -404,7 +987,7 @@ div[role="presentation"]
 		&_up, &_bottom
 			@extend %absolute
 			will-change: transform
-			@extend %flyShadow
+			// @extend %flyShadow
 			cursor: move
 			z-index: 100
 		&_bottom
@@ -417,11 +1000,7 @@ div[role="presentation"]
 	&__hint
 		@extend %absolute
 		left: 0
-		left: calc(0% + 3px)
-
 		top: 0
-		top: calc(0% + 3px)
-		border: 2px solid $darkBlue
 		border-top: 0
 		border-left: 0
 		color: $white
@@ -430,7 +1009,7 @@ div[role="presentation"]
 		text-align: center
 		width: span(5)
 		margin: 0 $i
-		background-color: $orange
+		background-color: $contrastOrange
 		z-index: -1
 		opacity: 0
 		will-change: opacity
@@ -458,21 +1037,21 @@ div[role="presentation"]
 	height: 75px
 ::-webkit-scrollbar-thumb
 	// background-clip: padding-box
-	border: 5px solid rgba(0, 0, 0, 0);
+	border: 5px solid rgba(0, 0, 0, 0)
 	// width: 5px
 	height: 75px
 	
 	margin: 0 auto
 	// border-radius: 10px
 
-	background-color: $orange
+	background-color: $contrastOrange
 ::-webkit-scrollbar-button 
-    width: 0;
-    height: 0;
-    display: none;
+    width: 0
+    height: 0
+    display: none
 
 ::-webkit-scrollbar-corner 
-    background-color: transparent;
+    background-color: transparent
 .centeredText
 	text-align: center	
 .orderedProducts
@@ -482,7 +1061,7 @@ div[role="presentation"]
 
 	overflow-y: auto
 	border-radius: 3px
-	border: 3px solid $darkBlue
+	box-shadow: inset 0 0 20px -5px rgba(0, 0,0,.25)
 	height: em(165)
 	overflow-y: auto
 	&__product
@@ -519,7 +1098,7 @@ div[role="presentation"]
 	font-size: em(14, 24)
 	height: em((24 * 1.5) * 2 + (16 / 2 * 2), 24) 
 
-	background-color: $orange
+	background-color: $contrastOrange
 	@extend %absolute
 	bottom: 0
 .productController
@@ -583,21 +1162,21 @@ input[type=number]:hover::-webkit-inner-spin-button
 	min-height: em(980)
 	overflow-y: auto
 	&:after, &
-		top: 0;
+		top: 0
 		height: 100%
 		width: 100%
 		left: 0
 		z-index: 4
-		// -webkit-filter: blur(3px);
-  		// mask: url('#mask-linear');
-  		// filter: url('#filtre2');
+		// -webkit-filter: blur(3px)
+  		// mask: url('#mask-linear')
+  		// filter: url('#filtre2')
 		// background: url('./../dist/background-black.png')
 	&:after
 		opacity: .4
 		content: ""
 		@extend %absolute
-		background: rgba(51, 51, 51, 0.5);
-		backdrop-filter: blur(4px);
+		background: rgba(51, 51, 51, 0.5)
+		backdrop-filter: blur(4px)
 
 
 .popupFormContainer
@@ -638,7 +1217,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 .successfull
 	color: $darkBlue
 	&_addProductForm
-		transform: translateY(2em);
+		transform: translateY(2em)
 
 
 .fading
@@ -685,7 +1264,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 		&.translate-exit-active
 			transition: opacity .3s ease-in
 			opacity: 0
-			// transform: translate(250%);
+			// transform: translate(250%)
 
 .moreRefer
 	font-size: em(18)
@@ -698,7 +1277,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 		top: 0
 		left: 0
 		padding: .1rem
-		background-color: $orange
+		background-color: $contrastOrange
 		max-height: 2rem
 		max-width: 6rem
 		color: $darkGray

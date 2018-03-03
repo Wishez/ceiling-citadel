@@ -42,36 +42,40 @@ const RenderController = ({
         {...iconOptions} 
       /> : ''
     }
-    {(touched && asideText) && 
-			 	((error && 
-			 		<span className={getClass({
-			 		  b: block,
-			 		  el: 'error'
-			 		})}>{error}</span>) || 
-			 		(warning && <span className={getClass({
-			 		  b: block,
-			 		  el: 'error'
-			 		})}>{warning}</span>))}
-    {rest.type !== 'textarea' ?
-      <input {...input}
-        {...rest}
-        className={getClass({
-          b: block,
-          el: 'input',
-          m: modifier,
-          add: 'baseChild'
-        })} 
-      /> :
-      <textarea {...input}
-        {...rest}
-        className={getClass({
-          b: block,
-          el: 'input',
-          m: modifier,
-          add: 'baseChild'
-        })} 
-      />
-    }
+    <div className="st-form__input--wrapper  half">
+      {(touched && asideText) && 
+  			 	((error && 
+  			 		<span className={getClass({
+  			 		  b: block,
+  			 		  el: 'error'
+  			 		})}>{error}</span>) || 
+  			 		(warning && <span className={getClass({
+  			 		  b: block,
+  			 		  el: 'error'
+  			 		})}>{warning}</span>))}
+      {rest.type !== 'textarea' ?
+        <input {...input}
+          {...rest}
+          className={getClass({
+            b: block,
+            el: 'input',
+            m: modifier,
+            add: 'baseChild'
+          })} 
+        /> :
+        <textarea {...input}
+          {...rest}
+          className={getClass({
+            b: block,
+            el: 'input',
+            m: modifier,
+            add: 'baseChild'
+          })} 
+        />
+      }
+      <span className="input-border"></span>
+      <span className="input-border"></span>
+    </div>
 		 {asideText ? 
 		 	<Paragraph block="controller" text={`: ${asideText}`}/> : 
 		 	''}

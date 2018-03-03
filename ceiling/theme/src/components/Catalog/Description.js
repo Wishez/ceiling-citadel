@@ -14,7 +14,7 @@ const Description = ({
   ...rest
 }) => (
   <p className={`${getClass({b: 'catalogDescription', m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row centered zeroVerticalMargin'})}`}>
-    <span class="cropedText cropedText_5">
+    <span className="cropedText cropedText_5">
       {content}
     </span>
 	 	{children}

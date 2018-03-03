@@ -34,7 +34,7 @@ const OrderButton = ({
     />
     <button 
       onClick={isCartOpened ? closeCart : openCart} 
-      ariaPressed={false} 
+      aria-pressed={false} 
       aria-label={!isCartOpened ? 'Открывает корзину' : 'Закрывает корзину'}
       className={getClass({b: 'quantityOrderedProductsButton'})}>
       <svg width="45" height="45" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"> 

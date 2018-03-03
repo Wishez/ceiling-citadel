@@ -14,8 +14,8 @@ const Button = ({
   <button 
     aria-label={label}
     type="button"
-    ariaPressed={false}
-    className={`${getClass({b: block, el: element, m: modifier, add: `button ${className}`})} ${className}`}
+    aria-pressed={false}
+    className={`${getClass({b: block, el: element, m: modifier, add: `button lowCascadingShadow ${className}`})} ${className}`}
     {...rest}
   >
     {content}

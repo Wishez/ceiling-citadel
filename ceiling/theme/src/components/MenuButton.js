@@ -26,25 +26,25 @@ const MenuButton = ({
       b: 'menuButton',
       el: 'bar',
       m: 'orange',
-      add: `baseChild ${isOpened ? 'menuButton__bar_ceil' : ''}`
+      add: `lowCascadingShadow baseChild ${isOpened ? 'menuButton__bar_ceil' : ''}`
     })}></span>
     <span className={getClass({
       b: 'menuButton',
       el: 'bar',
       m: 'cian',
-      add: `baseChild ${isOpened ? 'menuButton__bar_cross_right' : ''}`
+      add: `lowCascadingShadow baseChild ${isOpened ? 'menuButton__bar_cross_right' : ''}`
     })}></span>
     <span className={getClass({
       b: 'menuButton',
       el: 'bar',
       m: 'cian',
-      add: `${isOpened ? 'menuButton__bar_cross_left' : 'visible-hidden'}`
+      add: `lowCascadingShadow ${isOpened ? 'menuButton__bar_cross_left' : 'visible-hidden'}`
     })}></span>
     <span className={getClass({
       b: 'menuButton',
       el: 'bar',
       m: 'darkBlue',
-      add: `baseChild ${isOpened ? 'menuButton__bar_floor' : ''}`
+      add: `lowCascadingShadow baseChild ${isOpened ? 'menuButton__bar_floor' : ''}`
     })}></span>
     <span className={getClass({
       b: 'menuButton',
