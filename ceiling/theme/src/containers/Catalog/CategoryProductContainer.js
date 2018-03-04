@@ -122,7 +122,7 @@ class CategoryProductContainer extends Component {
         CONSTANT={PRODUCT}
       >
         {product ? 
-          <div style={{width: '100%'}}>
+          <div className="fullwWidth lowCascadingShadow">
             <AddProductFormContainer 
               image={product.preview.image}
               {...product}
