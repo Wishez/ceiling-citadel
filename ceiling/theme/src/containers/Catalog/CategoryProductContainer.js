@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 
 import getClass from './../../constants/classes';
-import {
+import catalogStore, {
   CATALOG, 
   PRODUCT, 
   LAST_ALBUM
@@ -31,7 +31,7 @@ import {
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
 // import Loader from './../../components/Loader';
-import ImagesCarousel from './../../components/ImagesCarousel';
+// import ImagesCarousel from './../../components/ImagesCarousel';
 
 class CategoryProductContainer extends Component {
   static propTypes = {
@@ -122,7 +122,7 @@ class CategoryProductContainer extends Component {
         CONSTANT={PRODUCT}
       >
         {product ? 
-          <div className="fullwWidth lowCascadingShadow">
+          <div className="fullWidth lowCascadingShadow">
             <AddProductFormContainer 
               image={product.preview.image}
               {...product}
@@ -132,18 +132,9 @@ class CategoryProductContainer extends Component {
               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
               ''}
             {(album && album.slug === product.album) ? 
-              <ImagesCarousel 
-                images={album.images} 
-                loop 
-                autoplay
-                smartSpeed={350}
-                items={1}
-                dotsEach
-                lazyLoad
-                autoplayHoverPause
-              />: ''}
+              '': ''}
             {product.content ? 
-              <section className={getClass({b: 'productContent'})}>{ReactHtmlParser(product.content)}</section> : ''}
+              <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
           </div>
           : 
           ''}

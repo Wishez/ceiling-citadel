@@ -1,4 +1,4 @@
-import {
+import catalogStore, {
   REQUEST_CATALOG,
   RETRIEVE_CATEGORY,
   RETRIEVE_PRODUCTS,
@@ -19,7 +19,6 @@ import {
   SEARCH_CATEGORIES_STORE,
   SEARCH_BRANDS_STORE,
   CLEAN_SEARCH_ENTITIES
-
 } from './../constants/catalog';
 
 import customAjaxRequest from './../constants/ajax';
@@ -90,8 +89,12 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
     success: response => {
         	const entity = response.body;
 
-      localData.set(name, entity);
-			
+      // localData.set(name, entity);
+      catalogStore.setItem(name, entity);
+      catalogStore.getItem(name, function(err, item) {
+
+        console.log('You set item:', item);
+      });
       const slug = 'album' in entity && entity.album;
 			
       if (slug) {
@@ -116,12 +119,17 @@ function getAlbum(slug, callback) {
     data: {},
     success: response => {
       
-      localData.set(LAST_ALBUM, {
+      // localData.set(LAST_ALBUM, {
+      //   slug: slug,
+      //   images: response.body.images
+      // });
+      catalogStore.setItem(LAST_ALBUM, {
         slug: slug,
         images: response.body.images
       });
+
       callback();
-	    },
+	  },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
     }
@@ -158,15 +166,18 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
     success: response => {
       const newData = extractData(response.body);
 
-      localData.set(CATALOG, newData);
-    
-      if (!silentUpdate) {
-        console.log('retrieve is silent mode', silentUpdate);
-        dispatch(retriveCatalog());
-      }
+      // localData.set(CATALOG, newData);
+      catalogStore.setItem(CATALOG, newData, function() {
 
-      if (callback)
-        callback();
+        if (!silentUpdate) {
+          console.log('retrieve is silent mode', silentUpdate);
+          dispatch(retriveCatalog());
+        }
+
+        if (callback)
+          callback();
+      });
+    
 	    },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
@@ -183,7 +194,14 @@ export const fetchCatalogEntityOrGetLocale = (name, id) =>
       return false;
     } 
 
-    return localData.get(name);
+    console.log(name);
+
+    const request = catalogStore.getItem(name, (err, item) => {
+      return item;  
+    });
+    
+    return request;
+  
   };
 
 export const setFoundEntities = foundEntities => ({
@@ -263,32 +281,47 @@ export const dumpEntitiesForSearch = (catalog) => {
   ), // end callback of brands.reduce
   []); // end brands.reduce
 
-  localData.set(
+  catalogStore.setItem(
     SEARCH_BRANDS_STORE, 
     brands
   );
-	
-  localData.set(
+  // localData.set(
+  //   SEARCH_BRANDS_STORE, 
+  //   brands
+  // );
+  catalogStore.setItem(
     SEARCH_CATEGORIES_STORE, 
     categories
   );
-
-  localData.set(
+  // localData.set(
+  //   SEARCH_CATEGORIES_STORE, 
+  //   categories
+  // );
+  catalogStore.setItem(
     SEARCH_COLLECTION_STORE, 
     collections
-  ); // end localData.set
+  ); // end
+  // localData.set(
+  //   SEARCH_COLLECTION_STORE, 
+  //   collections
+  // ); // end localData.set
 
-  localData.set(SEARCH_PRODUCTS_STORE, products);
+  catalogStore.setItem(SEARCH_PRODUCTS_STORE, products);
+  // localData.set(SEARCH_PRODUCTS_STORE, products);
 };
 
 export const findEntitiesAndShowResults = value => dispatch => {
   dispatch(findEntities());
+  
+  // const brands = localData.get(SEARCH_BRANDS_STORE) || [];
+  // const categories = localData.get(SEARCH_CATEGORIES_STORE) || [];
+  // const products = localData.get(SEARCH_PRODUCTS_STORE) || [];
+  // const collections = localData.get(SEARCH_COLLECTION_STORE) || [];
+  const brands = catalogStore.getItem(SEARCH_BRANDS_STORE) || [];
+  const categories = catalogStore.getItem(SEARCH_CATEGORIES_STORE) || [];
+  const products = catalogStore.getItem(SEARCH_PRODUCTS_STORE) || [];
+  const collections = catalogStore.getItem(SEARCH_COLLECTION_STORE) || [];
 
-  const brands = localData.get(SEARCH_BRANDS_STORE) || [];
-  const categories = localData.get(SEARCH_CATEGORIES_STORE) || [];
-  const products = localData.get(SEARCH_PRODUCTS_STORE) || [];
-  const collections = localData.get(SEARCH_COLLECTION_STORE) || [];
-	
   dispatch(
     setFoundEntities([
       getFoundEntities(
@@ -341,17 +374,30 @@ export const cleanSearchEntities = () => ({
   type: CLEAN_SEARCH_ENTITIES
 });
 export const fetchCatalogIfNeededAndDumpEntities = () => (dispatch, getStore) => {
-  const catalog = localData.get(CATALOG);
-  const isRequesting = getStore().catalog.isRequesting;
+  catalogStore.getItem(CATALOG, function(err, catalog) {
 
-  if (!catalog && !isRequesting) {
-    dispatch(tryFetchCatalog(() => {
-      dumpEntitiesForSearch(localData.get(CATALOG));
-    }));
-  } else {
-    dispatch(tryFetchCatalog(() => {
-      dumpEntitiesForSearch(localData.get(CATALOG));
-    }, true));
-  }
+  // const catalog = localData.get(CATALOG);
+    const isRequesting = getStore().catalog.isRequesting;
+
+    if (!catalog && !isRequesting) {
+      dispatch(tryFetchCatalog(() => {
+      // dumpEntitiesForSearch(localData.get(CATALOG));
+        catalogStore.getItem(CATALOG, function(err, catalog) {
+
+          dumpEntitiesForSearch(catalog);
+        
+        });
+      
+      }));
+    } else {
+      dispatch(tryFetchCatalog(() => {
+      // dumpEntitiesForSearch(localData.get(CATALOG));
+        catalogStore.getItem(CATALOG, function(err, catalog) {
+          console.log(catalog);
+          dumpEntitiesForSearch(catalog);      
+        });
+      }, true));
+    }
   
+  });
 };

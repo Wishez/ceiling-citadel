@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import getClass from './../../constants/classes';
-import {CATALOG, CATEGORY} from './../../constants/catalog';
-import {localData, transformName} from './../../constants/pureFunctions';
+import catalogStore, {CATALOG, CATEGORY} from './../../constants/catalog';
+import {transformName} from './../../constants/pureFunctions';
 import {catalogSubsectionsCombiner} from './../../constants/filter';
 import {catalogCollectionUrl} from './../../constants/conf';
 
@@ -26,19 +26,40 @@ class CategoryContainer extends Component {
   }
 
   state = {
-    id: ''
+    id: '',
+    category: false,
+    categoryName: '',
+    slogan: ''
   }
 
   componentDidMount() {
     const {dispatch, match} = this.props;
     const {categorySlug} = match.params;
-    const catalog = localData.get(CATALOG);
+    catalogStore.getItem(CATALOG, catalog => {
+      if (catalog !== null && categorySlug in catalog.categories) {        
+        const id = catalog.categories[categorySlug].uuid;
+          
+        // this.setState({});
+        const request = dispatch(
+          fetchCatalogEntityOrGetLocale(CATEGORY, id)
+        );
 
-    if (catalog !== null && categorySlug in catalog.categories) {        
-      const id = catalog.categories[categorySlug].uuid;
-        
-      this.setState({id});
-    }
+        if (request)
+          request.then(requestedCategory => {
+            console.log(requestedCategory);
+            if (requestedCategory) {
+              this.setState({
+                categoryName: transformName(requestedCategory.name),
+                slogan: requestedCategory.slogan,
+                category: requestedCategory,
+                id
+              });
+            }
+
+          });
+      }
+    });
+
     
   }
 
@@ -47,22 +68,18 @@ class CategoryContainer extends Component {
       dispatch,
       isRequesting
     } = this.props;
-
-    const {id} = this.state;
-    
-    let category = false,
-      slogan = '',
-      categoryName = '';
-    if (id) {
-      // fetchCatalogEntityOrGetLocale can return false.
-      category = dispatch(fetchCatalogEntityOrGetLocale(CATEGORY, id));
-    } 
-    
-    if (category) {
-      categoryName =transformName(category.name);
-      slogan = category.slogan;
-    }
     const {url} = this.props.match;
+    const {
+      id,
+      category,
+      slogan,
+      categoryName
+    } = this.state;
+
+    if (!category && id) {
+      // fetchCatalogEntityOrGetLocale can return false.
+
+    } 
     
     return (
       <BaseCatalogContainer name={categoryName}

@@ -18,7 +18,7 @@ import {localData, getArray} from './../constants/pureFunctions';
 import { catalogSectionCombiner } from './../constants/filter';
 import {catalogBrandUrl} from './../constants/conf';
 import { aboutSections } from './../constants/conf';
-import { CATALOG } from './../constants/catalog';
+import catalogStore, { CATALOG } from './../constants/catalog';
 
 import { initNavigationState } from './../reducers/navigation';
 
@@ -35,7 +35,10 @@ class MainPageContainer extends Component {
 	  location: PropTypes.object,
 	  isRequesting: PropTypes.bool.isRequired
 	}
-
+	state = {
+	  isBrandsGotten: false,
+	  brands: []
+	}	
 	componentDidMount() {
 	  const { dispatch } = this.props;
 		
@@ -45,21 +48,40 @@ class MainPageContainer extends Component {
 	}
 
 	render() {
-	  const { isRequesting } = this.props;
-	  const catalog = localData.get(CATALOG);
-	  let brands = [];
-		
-		
-	  if (catalog !== null && 'brands' in catalog)
-	    brands = getArray(catalog.brands);
+	  const {isRequesting} = this.props;
+	  const {isBrandsGotten, brands} = this.state;
+	  // let catalog = [];
+	  // let brands = [];
+	  // const catalog = localData.get(CATALOG);
+	  // let catalog = catalogStore.getItem(CATALOG);
+
+	  if (!isBrandsGotten)
+		  catalogStore.getItem(
+		  	CATALOG, 
+		  	(err, catalog) => {
+			  console.log('catalog', catalog);
+			  if (catalog !== null && 'brands' in catalog) {
+			    // brands = getArray(catalog.brands);
+				  this.setState({ 
+				  	brands: catalogSectionCombiner(
+				  		getArray(catalog.brands), 
+				  		catalogBrandUrl
+				  	),
+				  	isBrandsGotten: true
+				  });
+			  }
+	  });
+
+	  // console.log(brands);
 		
 	  return (
 	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
 	      <CatalogSection name="Основные бренды" titleShown={false}>
-	        {!isRequesting && brands &&
-				brands.length ?
-	          catalogSectionCombiner(brands, catalogBrandUrl) : <Loader />
-	        }
+	        {
+	        	!isRequesting && brands.length ?
+	          	brands : 
+	          	<Loader /> 
+	       }
 	      </CatalogSection>
 	      {aboutSections.map((section, index) => (
 	        <AboutSection key={index} {...section} />
@@ -83,6 +105,8 @@ class MainPageContainer extends Component {
 	      </AboutSection>
 	    </div>
 	  );
+		
+		
 	}
 }
 

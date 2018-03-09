@@ -25,7 +25,7 @@ class BaseCatalogContainer extends Component {
     isProduct: PropTypes.bool,
     modifier: PropTypes.string
   }
-
+  
 
   componentWillReceiveProps(nextProps) {
     const {CONSTANT} = this.props;

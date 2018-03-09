@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Scroll from 'react-scroll-to-element';
 
-import {CATALOG} from './../../constants/catalog';
+import catalogStore, {CATALOG} from './../../constants/catalog';
 import getClass from './../../constants/classes';
 import {localData, getArray} from './../../constants/pureFunctions.js';
 import {catalogSectionCombiner, catalogSubsectionsCombiner} from './../../constants/filter';
@@ -24,19 +24,48 @@ class CatalogPageContainer extends Component {
     match: PropTypes.object.isRequired,
     isRequesting: PropTypes.bool.isRequired,
   }
+  state = {
+    isCatalogGotten: false,
+    categories: [],
+    brands: [] 
+  }
 
   render() {  
     const { isRequesting } = this.props;
-    
+    const {
+      isCatalogGotten,
+      categories,
+      brands
+    } = this.state;
 
-    const catalog = localData.get(CATALOG); 
-    let brands = [];
-    let categories = [];
+
+    // const catalog = localData.get(CATALOG); 
     
-    if (catalog !== null && 'brands' in catalog) {
-      brands = getArray(catalog.brands);
-      categories = getArray(catalog.categories);
-    }
+    if (!isCatalogGotten)
+      catalogStore.getItem(
+        CATALOG, 
+        (err, catalog) => {
+          console.log('catalog', catalog);
+          if (catalog !== null) {
+          
+            this.setState({ 
+              brands: catalogSectionCombiner(
+                getArray(catalog.brands), 
+                catalogBrandUrl
+              ),
+              categories: catalogSubsectionsCombiner(
+                getArray(catalog.categories), 
+                catalogCategoryUrl, 
+                'section'
+              ),
+              isCatalogGotten: true
+            });
+          }
+        });
+    // if (catalog !== null && 'brands' in catalog) {
+    //   brands = getArray(catalog.brands);
+    //   categories = getArray(catalog.categories);
+    // }
     
     return (
       <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
@@ -66,14 +95,14 @@ class CatalogPageContainer extends Component {
         <CatalogSection name="Бренды" headerId="brands">
           {!isRequesting && 
           brands.length ?
-            catalogSectionCombiner(brands, catalogBrandUrl)
-            : ''
+            brands
+            : null
           }
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
           {!isRequesting && 
             categories.length ?
-            catalogSubsectionsCombiner(categories, catalogCategoryUrl, 'section') : ''
+            categories : null
           }
         </CatalogSection>
       </div>

@@ -31,8 +31,19 @@ import {
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
 import Loader from './../../components/Loader';
-import ImagesCarousel from './../../components/ImagesCarousel';
 
+// import ImagesCarousel from './../../components/ImagesCarousel';
+import Slider from './../../components/Slider/Slider';
+// <ImagesCarousel 
+//                 images={album.images} 
+//                 loop 
+//                 autoplay
+//                 smartSpeed={350}
+//                 items={1}
+//                 dotsEach
+//                 lazyLoad
+//                 autoplayHoverPause
+//               />
 class BrandProductContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -92,7 +103,8 @@ class BrandProductContainer extends Component {
     let product = false,
       slogan = '',
       productName = '',
-      album = false;
+      album = false,
+      slides = [];
 
     if (id) {
       // fetchCatalogEntityOrGetLocale can return false.
@@ -103,8 +115,14 @@ class BrandProductContainer extends Component {
       productName = transformName(product.name); 
       slogan = product.slogan;
       album = localData.get(LAST_ALBUM);
+      slides = album.images.map(
+        (image, index) => ({
+          content: <Figure key={`${index}${index + 1001}`} {...image} name="productSlide" />,
+          preview: <Figure key={`${index}${index + 1002}`} {...image} name="productSlidePreview" />
+        })
+      );
     }
-
+    console.log(album, slides);
     return (
       
       <BaseCatalogContainer name={productName}
@@ -121,7 +139,7 @@ class BrandProductContainer extends Component {
         CONSTANT={PRODUCT}
       >
         {product ? 
-          <div className="fullwWidth lowCascadingShadow">
+          <div className="fullWidth lowCascadingShadow">
             <AddProductFormContainer 
               image={product.preview.image}
               {...product}
@@ -131,18 +149,12 @@ class BrandProductContainer extends Component {
               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
               ''}
             {(album && album.slug === product.album) ? 
-              <ImagesCarousel 
-                images={album.images} 
-                loop 
-                autoplay
-                smartSpeed={350}
-                items={1}
-                dotsEach
-                lazyLoad
-                autoplayHoverPause
-              />: ''}
+              <Slider slides={slides}
+                animSettings={{animDuration: 500, animElasticity: 200}}
+                dotSettings={{size: 12, gap: 6}} />
+              : ''}
             {product.content ? 
-              <section className={getClass({b: 'productContent'})}>{ReactHtmlParser(product.content)}</section> : ''}
+              <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
           </div>
           : 
           <Loader />}

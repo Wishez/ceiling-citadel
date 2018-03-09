@@ -22,9 +22,7 @@ class BrandContainer extends Component {
     isRequesting: PropTypes.bool.isRequired,
 
   }
-  state = {
-    id: ''
-  }
+  
 
   componentDidMount() {   
     const {dispatch, match} = this.props;
@@ -38,28 +36,47 @@ class BrandContainer extends Component {
     
   }
 
+  state = {
+    id: '',
+    brandName: '',
+    slogan: '',
+    brand:  false
+  }
+
   render() {      
     const {
       dispatch,
       isRequesting
     } = this.props;
     const {url} = this.props.match;
-    const {id} = this.state;
+    const {
+      id,
+      brand,
+      slogan,
+      brandName
+    } = this.state;
 
-    let brand = false,
-      slogan = '',
-      brandName = '';
-    
-    if (id) {
+    if (!brand && id) {
       // fetchCatalogEntityOrGetLocale can return false.
-      brand = dispatch(fetchCatalogEntityOrGetLocale(BRAND, id));
-    }  
+      
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(BRAND, id)
+      );
 
-    if (brand) {
-      brandName = transformName(brand.name);
-      slogan = brand.slogan;
-    }
+      if (request)
+        request.then(requestedBrand => {
 
+          if (requestedBrand) {
+            this.setState({
+              brandName: transformName(requestedBrand.name),
+              slogan: requestedBrand.slogan,
+              brand: requestedBrand
+            });
+          }
+
+        });
+    } 
+      
     return (
       
       <BaseCatalogContainer name={brandName}
