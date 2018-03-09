@@ -83,9 +83,13 @@ const mapStateToProps = state => {
   } = navigation;
 
   let navigationItems = [];
-
-  for (const prop in navigation) {
-    navigationItems.push(navigation[prop]);
+  
+  for (const key in navigation) {
+    const value = navigation[key];
+    
+    if (typeof value === 'object') {
+      navigationItems.push(value);
+    }
   }
   
   return {

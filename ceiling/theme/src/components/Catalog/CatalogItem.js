@@ -5,7 +5,7 @@ import Figure from './../Figure';
 import Description from './Description';
 import Characteristics from './Characteristics';
 import {siteApi} from './../../constants/conf';
-import {slideTo, timeout} from './../../constants/pureFunctions';
+import {slideTo, timeout, focusHeader} from './../../constants/pureFunctions';
 
 const CatalogItem = ({ 
   block,
@@ -33,7 +33,8 @@ const CatalogItem = ({
       modifier={tablePosition} 
       isNotRoute={isSample}
       onClick={() => {
-        console.log('start');
+        // console.log('start');
+        // focusHeader();
         timeout(() => {
           slideTo('.header');
         }, 800);

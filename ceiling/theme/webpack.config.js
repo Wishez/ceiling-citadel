@@ -10,7 +10,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const WriteFilePlugin  = require('write-file-webpack-plugin');
 let env = process.env.NODE_ENV;
 
 const TARGET = process.env.npm_lifecycle_event;
@@ -37,17 +37,14 @@ const VENDOR = [
 
 const basePath = path.resolve(__dirname, 'src');
 
-const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: env === "development"
-});
-
 const common = {
   context: basePath,
 
   entry: {
     app: './index.js',
     vendor: VENDOR,
+    // hotUpdateChunkFilename: 'hot/hot-update.js',
+    // hotUpdateMainFilename: 'hot/hot-update.json'
   },
   // 'react-hot-loader/patch', 
 
@@ -117,7 +114,9 @@ const common = {
     }),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-
+    new WriteFilePlugin({
+          test: /^(?!.*(hot)).*/,
+    }),
     new ImageminPlugin({
       disable: !isProduction, // Disable during development
       pngquant: {

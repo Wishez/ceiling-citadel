@@ -20,23 +20,26 @@ const Navigation = ({
       add: 'parent centered column baseChild'
     })}
     style={navStyles}>
-      { navigationItems.map((item, index) => (
-        <li className={getClass(
-          composeClasses('navItem', '', item.active ? 'active' : '', '')
-        )} 
-        key={index}
-        onClick={changeActiveNavigationItem(item.index)} 
-        >  
-          <NavItem
-            block='navItem'
-            href={item.pathTo}
-            isActive={item.active}
-            {...rest}
-          >
-            {item.name}
-          </NavItem>
-        </li>
-      ))}
+      { 
+        navigationItems.map((item, index) => (
+          <li className={getClass(
+            composeClasses('navItem', '', item.active ? 'active' : '', '')
+          )} 
+          key={index}
+          onClick={changeActiveNavigationItem(item.index)} 
+          >  
+            <NavItem
+              block='navItem'
+              href={item.pathTo}
+              isActive={item.active}
+              {...rest}
+            >
+              {item.name ? item.name : ''}
+            </NavItem>
+          </li>
+        )
+        )// end map
+      }
     </ul>
   </nav>
 );

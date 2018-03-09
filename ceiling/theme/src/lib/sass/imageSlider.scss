@@ -1,0 +1,118 @@
+$bgColor: #E8EAF6;
+
+// nav settings
+$trackColor: $darkGray;
+$trackOffset: 6px;
+$currentColor: $contrastOrange;
+$indicatorColor: $orange;
+
+// preview box settings
+$triangleSize: 6px;
+$previewBorderWidth: 4px;
+$previewWidth: 35vmin;
+$previewMax: 200px;
+$previewColor: $orange;
+
+img {
+  width: 100%;
+  display: block;
+}
+.slides {
+  margin-bottom: 1.5rem
+}
+.slide-wrap {
+  margin-bottom: 30px;
+  background: darken($bgColor, 7%);
+  overflow: hidden;
+}
+
+.slide {
+  margin: 0 auto;
+  width: 70%;
+  max-width: 700px;
+  position: relative;
+  box-shadow:
+    0 0 30px rgba(0,0,0,0.1),
+    0 0 3px rgba(0,0,0,0.15),
+    0 0 2px rgba(0,0,0,0.2);
+}
+
+.slide__inner {
+  background: #ddd;
+  &--active {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+}
+
+.slide-nav-wrap {
+  overflow: hidden;
+  display: flex;
+  margin: auto;
+}
+
+.slide-nav {
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  white-space: nowrap;
+  position: relative;
+  background-color: $trackColor;
+  border: $trackOffset solid $trackColor;
+  border-radius: 100vmax;
+  line-height: 0;
+  margin: 0 auto;
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.slide-nav__current {
+  will-change: transform;
+  background: $currentColor;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 1;
+}
+
+.slide-nav__indicator {
+  background: $indicatorColor;
+  display: inline-block;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 0;
+  transform: scale(.5);
+  position: relative;
+}
+
+.slide__slide-preview {
+  pointer-events: none;
+  transition: opacity .2s cubic-bezier(.4, 0, 0,1);
+  &:not(&--active) {
+    opacity: 0;
+  }
+}
+
+.slide-preview__content {
+  background: white;
+  border-radius: 4px;
+  width: $previewWidth;
+  max-width: $previewMax;
+  overflow: hidden;
+  opacity: 1;
+  border: $previewBorderWidth solid $previewColor;
+  will-change: transform;
+  position: absolute;
+}
+
+.slide-preview__triangle {
+  will-change: transform;
+  position: absolute;
+  border-left: $triangleSize solid transparent;
+  border-right: $triangleSize  solid transparent;
+  border-top: $triangleSize / 1.3  solid $previewColor;
+  border-bottom: 0;
+}

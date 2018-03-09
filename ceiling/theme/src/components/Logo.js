@@ -8,7 +8,7 @@ const Logo = ({
   modifier,
   maxWidth
 }) => (
-  	<a href='/' className={getClass(composeClasses('brand', '', modifier, 'baseChild parent row h-between'))}>
+  	<Link to='/' className={getClass(composeClasses('brand', '', modifier, 'baseChild parent row h-between'))}>
   		<Figure name="brand" 
   			maxWidth={maxWidth}
   			url={brand} 
@@ -25,7 +25,7 @@ const Logo = ({
 				Цитадель потолочных покрытий
       </h2>
   		</hgroup>
-  </a>
+  </Link>
 );
 
 export default Logo;

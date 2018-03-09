@@ -1,6 +1,7 @@
 import React from 'react';
 import getClass from './../constants/classes';
 import ReactHtmlParser from 'react-html-parser';
+import { Link } from 'react-router-dom';
 
 const NavItem = ({
   block, 
@@ -8,11 +9,11 @@ const NavItem = ({
   name,
   children
 }) => (  
-  <a href={href}
+  <Link to={href}
     className={getClass({b: block, el: 'refer', add: 'baseChild'})}>
     {name}
     {ReactHtmlParser(children)}
-  </a>
+  </Link>
 );
 
 export default NavItem;

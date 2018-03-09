@@ -1,5 +1,5 @@
 .main
-	padding: 3rem 0 4.5rem
+	padding: em(67.772816512) 0 em(109.656417116416)
 .fullWidth 
 	width: span(12)
 .catalogItem
@@ -70,14 +70,24 @@
 .catalogSection
 	margin-top: 3rem
 	margin-bottom: 3rem
+	border-raidus: 3px
+	&__title
+		broder-top-color: $darkGray
+
+
 .catalogSubsection
-	margin:	2.5rem 0 0
+	margin:	0
 	&__title
 		font-weight: 200
+		broder-top-color: $darkBlue
+		padding-top: 4rem
 .catalogSection, .catalogSubsection
 	&__title
 		// margin-bottom: 	1.5rem
 		padding: 1.5rem
+		border-top-width: em(4.74074074074074074074, 24)
+		border-top-style: solid
+
 		min-width: span(12)
 .catalogHeader
 	border-radius: 2px
@@ -194,10 +204,16 @@
 	
 .aboutSection
 	max-width: em(404)
+	border-top: 6px solid
+	
 	margin-top: 3rem
 	border-radius: 3px
 	background-color: #fff
 	padding: 1.5rem 1.5rem 2.5rem
+	&:even
+		border-color: $cian
+	&:odd
+		border-color: $darkBlue
 	@include breakpoint($xs)
 		padding-top: 2.5rem
 	@include breakpoint($xxs)
@@ -330,7 +346,7 @@
 	@include breakpoint($xs)
 		flex-direction: column
 .catalogForm
-	margin-top: 3rem
+	// margin-top: 3rem
 	background-color: #F2F2F2
 	border-radius: 3px
 	min-width: span(12)
@@ -400,6 +416,7 @@
 		margin-right: em(41.886784)
 .productContent 
 	margin-top: 3rem
+	padding-bottom: 4rem
 	& * + *
 		margin-top:  1.5rem
 		&:not(p):not(img)

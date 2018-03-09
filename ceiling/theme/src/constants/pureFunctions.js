@@ -1,5 +1,31 @@
-// import lozad from 'lozad';
+import anime from 'animejs';
 // import {Linear} from 'gsap';
+// 
+export const focusHeader = () => {
+  document.querySelector('.catalogHeader__title').focus();
+};
+
+export const stopAnimation = animations => {
+  /*
+   This used to just pause any remaining animation
+   but anime gets stuck sometimes when an animation
+   is trying to tween values approaching 0.
+
+   Basically to avoid that we're just forcing near-finished
+   animations to jump to the end.
+
+   This is definitely a hack but it gets the job done—
+   if the root cause can be determined it would be good
+   to revisit.
+   */
+  const stop = anim => {
+    const { duration, remaining } = anim;
+    if (remaining === 1) anim.seek(duration);
+    else anim.pause();
+  };
+  if (Array.isArray(animations)) animations.forEach(anim => stop(anim));
+  else stop(animations);
+};
 
 export function transformName(name) {
   return `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
