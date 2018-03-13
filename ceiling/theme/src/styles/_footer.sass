@@ -54,6 +54,7 @@
 	background-color: #fff
 	border: 0 $i
 	padding-bottom: 0
+	padding-top: 0 
 	@include breakpoint($xs)
 		font-size: em(21)
 		// height: em(275, 21) 
@@ -108,16 +109,12 @@
 	justify-content: space-between
 	@include breakpoint($md-up)
 		aling-items: flex-end
-	// @include breakpoint($md-up)
-    @include breakpoint($sm-less)
-    	order: 1
-    @include breakpoint($xs)
-    	flex-direction: column
-    	// min-width: 	span(12)
-    	// min-height: em(180)
-    	min-height: em(225)
-    	padding: 1.5em 0 1rem
-    @include breakpoint($xxs)
+	@include breakpoint($sm-less)
+		order: 1
+	@include breakpoint($xs)
+		flex-direction: column
+		min-height: em(225)
+		padding: 1.5rem 0 1rem
 	
 
 		

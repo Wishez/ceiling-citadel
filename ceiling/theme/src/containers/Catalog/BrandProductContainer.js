@@ -5,13 +5,13 @@ import { withRouter } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 
 import getClass from './../../constants/classes';
-import {
+import catalogStore, {
   CATALOG, 
   PRODUCT, 
   LAST_ALBUM
 } from './../../constants/catalog';
-import {
-  localData, 
+
+import { 
   transformName
 } from './../../constants/pureFunctions';
 
@@ -32,18 +32,8 @@ import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
 import Loader from './../../components/Loader';
 
-// import ImagesCarousel from './../../components/ImagesCarousel';
 import Slider from './../../components/Slider/Slider';
-// <ImagesCarousel 
-//                 images={album.images} 
-//                 loop 
-//                 autoplay
-//                 smartSpeed={350}
-//                 items={1}
-//                 dotsEach
-//                 lazyLoad
-//                 autoplayHoverPause
-//               />
+
 class BrandProductContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -56,111 +46,144 @@ class BrandProductContainer extends Component {
   state = {
     id: '',
     brandName: '',
-    collectionName: ''
+    collectionName: '',
+    product: false,
+    slogan: '',
+    productName: '',
+    album: false,
+    slides: []
   }
 
-  componentDidMount() {
+   requestProduct = () => {
+     const {id} = this.state;
+     const {dispatch} = this.props;
+     // fetchCatalogEntityOrGetLocale can return false.  
+
+     if (id) {
+
+       const request = dispatch(
+         fetchCatalogEntityOrGetLocale(PRODUCT, id)
+       );
+
+       // Check Promise. It can be empty, because  
+       // there is a condition for requesting the
+       // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
+       if (request) {
+            
+          
+         request.then(product => {
+           if (product) {
+             // I and product need an album.
+             catalogStore.getItem(LAST_ALBUM)
+               .then(album => {
+                 // After receiving, we can show it updating the view.
+                 const slides = album.images.map(
+                   (image, index) => ({
+                     content: <Figure {...image} key={`${index}${index + 1001}`} url={image.image} name="productSlide" />,
+                     preview: <Figure {...image} key={`${index}${index + 1002}`} url={image.image} name="productSlidePreview" />
+                   })
+                 );
+
+                 this.setState({
+                   productName: transformName(product.name),
+                   slogan: product.slogan,
+                   product,
+                   album,
+                   slides
+                 }); // end setState
+               }); // end getting LAST_ALBUM
+           }
+         });
+       }
+     }
+   } 
+
+
+   componentDidMount() {
     
-    const {dispatch, match} = this.props;
-    const {
-      brandSlug,
-      collectionSlug, 
-      productSlug
-    } = match.params;
+     const {dispatch, match} = this.props;
+     const {
+       brandSlug,
+       collectionSlug, 
+       productSlug
+     } = match.params;
 
-    const catalog = localData.get(CATALOG);
-    
-    if (catalog !== null && brandSlug in catalog.brands) {
-      const category = catalog.brands[brandSlug];
-      const productData = getProductData(
-        category.collections, 
-        collectionSlug, 
-        productSlug
-      );
+     catalogStore.getItem(CATALOG, (error, catalog) => {
+       if (catalog !== null && brandSlug in catalog.brands) {
+         const category = catalog.brands[brandSlug];
+         const productData = getProductData(
+           category.collections, 
+           collectionSlug, 
+           productSlug
+         );
 
 
-      this.setState({
-        brandName: category.name,
-        ...productData
-      });
-    }
-    
-  }
+         this.setState({
+           brandName: category.name,
+           ...productData
+         });
+       }
+     });
+   }
 
-  render() {        
-    const {
-      dispatch,
-      isRequesting
-    } = this.props;
+   render() {        
+     const {
+       isRequesting
+     } = this.props;
+     const {url} = this.props.match;
+     const {
+       id, 
+       collectionName,
+       brandName,
+       product,
+       slogan,
+       album,
+       productName,
+       slides
+     } = this.state;
 
-    const {
-      id, 
-      collectionName,
-      brandName
-    } = this.state;
-    const {url} = this.props.match;
-
-    let product = false,
-      slogan = '',
-      productName = '',
-      album = false,
-      slides = [];
-
-    if (id) {
-      // fetchCatalogEntityOrGetLocale can return false.
-      product = dispatch(fetchCatalogEntityOrGetLocale(PRODUCT, id));
-    } 
-
-    if (product) {
-      productName = transformName(product.name); 
-      slogan = product.slogan;
-      album = localData.get(LAST_ALBUM);
-      slides = album.images.map(
-        (image, index) => ({
-          content: <Figure key={`${index}${index + 1001}`} {...image} name="productSlide" />,
-          preview: <Figure key={`${index}${index + 1002}`} {...image} name="productSlidePreview" />
-        })
-      );
-    }
-    console.log(album, slides);
-    return (
+     if (!product) {
+       // fetchCatalogEntityOrGetLocale can return false.
+       this.requestProduct();
+     } 
+     return (
       
-      <BaseCatalogContainer name={productName}
-        slogan={slogan}
-        modifier="product"
-        routes={{
-          '/catalog': 'Каталог',
-          '/catalog/brand': false,
-          '/catalog/brand/:brandSlug': brandName,
-          '/catalog/brand/:brandSlug/:collectionSlug': collectionName,
-          '/catalog/brand/:brandSlug/:collectionSlug/:productSlug/': false
-        }}
-        isProduct={true}
-        CONSTANT={PRODUCT}
-      >
-        {product ? 
-          <div className="fullWidth lowCascadingShadow">
-            <AddProductFormContainer 
-              image={product.preview.image}
-              {...product}
-              url={url}
-            /> 
-            {product.visualisation !== null ? 
-              <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
-              ''}
-            {(album && album.slug === product.album) ? 
-              <Slider slides={slides}
-                animSettings={{animDuration: 500, animElasticity: 200}}
-                dotSettings={{size: 12, gap: 6}} />
-              : ''}
-            {product.content ? 
-              <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
-          </div>
-          : 
-          <Loader />}
-      </BaseCatalogContainer>
-    );
-  }
+       <BaseCatalogContainer name={productName}
+         slogan={slogan}
+         modifier="product"
+         routes={{
+           '/catalog': 'Каталог',
+           '/catalog/brand': false,
+           '/catalog/brand/:brandSlug': brandName,
+           '/catalog/brand/:brandSlug/:collectionSlug': collectionName,
+           '/catalog/brand/:brandSlug/:collectionSlug/:productSlug/': false
+         }}
+         isProduct={true}
+         CONSTANT={PRODUCT}
+       >
+         {product ? 
+           <div className="productContainer fullWidth lowCascadingShadow">
+             <AddProductFormContainer 
+               image={product.preview.image}
+               {...product}
+               url={url}
+             /> 
+             {product.visualisation !== null ? 
+               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
+               ''}
+             {(album && album.slug === product.album) ? 
+               <Slider slides={slides}
+                 animSettings={{animDuration: 500, animElasticity: 200}}
+                 dotSettings={{size: 12, gap: 6}} />
+               : ''}
+             {product.content ? 
+               <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
+           </div>
+           : 
+           <Loader />}
+       </BaseCatalogContainer>
+     );
+   }
 }
 
 const mapStateToProps = state => {

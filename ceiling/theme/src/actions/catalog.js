@@ -87,24 +87,24 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
     cache: true,
     isSettingAccept: false,
     success: response => {
-        	const entity = response.body;
+    	const entity = response.body;
 
       // localData.set(name, entity);
-      catalogStore.setItem(name, entity);
-      catalogStore.getItem(name, function(err, item) {
+      catalogStore.setItem(name, entity, function() {
+        // Check for an album.
+        const slug = 'album' in entity && entity.album;
 
-        console.log('You set item:', item);
+        if (slug) {
+          // If it is in entity, then we'd like to have another one.
+          getAlbum(slug, () => {
+            dispatch(retrieveEntity(type, id));	
+          });
+        } else {
+          // Just saying that we got an entity.
+          dispatch(retrieveEntity(type, id));
+        }
+        
       });
-      const slug = 'album' in entity && entity.album;
-			
-      if (slug) {
-        getAlbum(slug, () => {
-          dispatch(retrieveEntity(type, id));	
-        });
-      } else {
-        dispatch(retrieveEntity(type, id));
-      }
-			
 	    },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
@@ -154,10 +154,11 @@ function extractData(data) {
 }
 
 export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch => {
-  if (!silentUpdate) {
-    console.log('is silent mode', silentUpdate);
-    dispatch(requestCatalog());
-  }
+  // Update catalog.
+  dispatch(requestCatalog());
+  // if (silentUpdate) {
+    
+  // }
 
   return customAjaxRequest({
     data: {},
@@ -167,18 +168,16 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
       const newData = extractData(response.body);
 
       // localData.set(CATALOG, newData);
-      catalogStore.setItem(CATALOG, newData, function() {
-
-        if (!silentUpdate) {
-          console.log('retrieve is silent mode', silentUpdate);
-          dispatch(retriveCatalog());
-        }
-
+      
+      catalogStore.setItem(CATALOG, newData, function(catalog) {
+        // if (silentUpdate) {
+        dispatch(retriveCatalog());
+        // }
         if (callback)
           callback();
       });
     
-	    },
+	   },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
     }
@@ -194,11 +193,7 @@ export const fetchCatalogEntityOrGetLocale = (name, id) =>
       return false;
     } 
 
-    console.log(name);
-
-    const request = catalogStore.getItem(name, (err, item) => {
-      return item;  
-    });
+    const request = catalogStore.getItem(name);
     
     return request;
   
@@ -312,62 +307,66 @@ export const dumpEntitiesForSearch = (catalog) => {
 
 export const findEntitiesAndShowResults = value => dispatch => {
   dispatch(findEntities());
-  
-  // const brands = localData.get(SEARCH_BRANDS_STORE) || [];
-  // const categories = localData.get(SEARCH_CATEGORIES_STORE) || [];
-  // const products = localData.get(SEARCH_PRODUCTS_STORE) || [];
-  // const collections = localData.get(SEARCH_COLLECTION_STORE) || [];
-  const brands = catalogStore.getItem(SEARCH_BRANDS_STORE) || [];
-  const categories = catalogStore.getItem(SEARCH_CATEGORIES_STORE) || [];
-  const products = catalogStore.getItem(SEARCH_PRODUCTS_STORE) || [];
-  const collections = catalogStore.getItem(SEARCH_COLLECTION_STORE) || [];
 
-  dispatch(
-    setFoundEntities([
-      getFoundEntities(
-        brands, 
-        value, 
-        catalogBrandUrl,
-        'Бренды'
-      ),
-      {
-        name: 'Категории',
-        items: filterEntities(
-          categories, 
-          category => getMatchedEntity(
-            category.name,
-            value,
-            () => ({
-              name: `${category.name} | ${category.section}`,
-              url: `${catalogCategoryUrl}${category.slug}/`
-            })
-          )
-        )
-      },
-      {
-        name: 'Коллекции',
-        items: filterEntities(
-          collections, 
-          collection => getMatchedEntity(
-            collection.name,
-            value,
-            () => (collection)
-          )
-        )
-      },
-      {
-        name: 'Образцы',
-        items: filterEntities(
-          products, 
-          product => getMatchedEntity(
-            product.name,
-            value,
-            () => (product)
-          )
-        )
-      }
-    ].filter(section => section.items.length)
-    ));
+  // Retrieve brands.
+  catalogStore.getItem(SEARCH_BRANDS_STORE).then(brands => {
+    // Retrieve categories.
+    catalogStore.getItem(SEARCH_CATEGORIES_STORE).then(categories => {
+      // Retrieve products.
+      catalogStore.getItem(SEARCH_PRODUCTS_STORE).then(products => {
+        // Retrieve collections.
+        catalogStore.getItem(SEARCH_COLLECTION_STORE).then(collections => {
+          // Filter by value and set results to the app's state.
+          dispatch(
+            setFoundEntities([
+              getFoundEntities(
+                brands, 
+                value, 
+                catalogBrandUrl,
+                'Бренды'
+              ),
+              {
+                name: 'Категории',
+                items: filterEntities(
+                  categories, 
+                  category => getMatchedEntity(
+                    category.name,
+                    value,
+                    () => ({
+                      name: `${category.name} | ${category.section}`,
+                      url: `${catalogCategoryUrl}${category.slug}/`
+                    })
+                  )
+                )
+              },
+              {
+                name: 'Коллекции',
+                items: filterEntities(
+                  collections, 
+                  collection => getMatchedEntity(
+                    collection.name,
+                    value,
+                    () => (collection)
+                  )
+                )
+              },
+              {
+                name: 'Образцы',
+                items: filterEntities(
+                  products, 
+                  product => getMatchedEntity(
+                    product.name,
+                    value,
+                    () => (product)
+                  )
+                )
+              }
+            ].filter(section => section.items.length)
+            )); // end setFoundEntities and dispatch
+        }); // end SEARCH_COLLECTION_STORE
+      }); // end SEARCH_PRODUCTS_STORE
+    }); // end SEARCH_CATEGORIES_STORE
+  }); // end SEARCH_BRANDS_STORE
 };
 
 export const cleanSearchEntities = () => ({
@@ -391,9 +390,7 @@ export const fetchCatalogIfNeededAndDumpEntities = () => (dispatch, getStore) =>
       }));
     } else {
       dispatch(tryFetchCatalog(() => {
-      // dumpEntitiesForSearch(localData.get(CATALOG));
         catalogStore.getItem(CATALOG, function(err, catalog) {
-          console.log(catalog);
           dumpEntitiesForSearch(catalog);      
         });
       }, true));

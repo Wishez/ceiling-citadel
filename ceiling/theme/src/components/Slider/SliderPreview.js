@@ -16,7 +16,6 @@ export default class SlidePreview extends React.Component {
 
     if (animations) stopAnimation(animations);
     this.setTopPosition(yOff);
-
     const contentOff = content.offsetWidth;
     const triangleOff = triangle.offsetWidth;
 
@@ -29,7 +28,7 @@ export default class SlidePreview extends React.Component {
 
     const triangleAnim = anime({
       targets: triangle,
-      translateX: xOff - triangleOff / 2,
+      translateX: xOff - triangleOff * 2 ,
       elasticity: animElasticity,
       duration: animDuration
     });

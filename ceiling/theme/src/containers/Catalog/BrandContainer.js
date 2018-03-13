@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import {CATALOG, BRAND} from './../../constants/catalog';
+import catalogStore, {CATALOG, BRAND} from './../../constants/catalog';
 import getClass from './../../constants/classes';
-import {localData, transformName} from './../../constants/pureFunctions';
+import {transformName} from './../../constants/pureFunctions';
 import {catalogSectionCombiner} from './../../constants/filter';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
@@ -23,16 +23,49 @@ class BrandContainer extends Component {
 
   }
   
+  requestBrand = () => {
+    const {id} = this.state;
+    const {dispatch} = this.props;
+    // fetchCatalogEntityOrGetLocale can return false.  
+
+    if (id) {
+
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(BRAND, id)
+      );
+
+      // Check Promise. It can be empty, because  
+      // there is a condition for requesting the
+      // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
+      if (request) {
+        request.then(requestedBrand => {
+          if (requestedBrand) {
+            this.setState({
+              brandName: transformName(requestedBrand.name),
+              slogan: requestedBrand.slogan,
+              brand: requestedBrand,
+            });
+          }
+
+        });
+      }
+    }
+  } 
 
   componentDidMount() {   
-    const {dispatch, match} = this.props;
+    const {match} = this.props;
     const {brandSlug} = match.params;
-    const catalog = localData.get(CATALOG);
-    
-    if (catalog !== null && brandSlug in catalog.brands) {
-      const id = catalog.brands[brandSlug].uuid;
-      this.setState({id});
-    }
+    // Get catalog
+    catalogStore.getItem(CATALOG, (error, catalog) => {
+      // Check for existance.
+      if (catalog !== null && brandSlug in catalog.brands) {
+        const id = catalog.brands[brandSlug].uuid;
+        // I need it for updating component, Then, 
+        // in view will be request for the current entity,
+        // if the user have already not seen it.
+        this.setState({id});
+      }
+    });
     
   }
 
@@ -45,7 +78,6 @@ class BrandContainer extends Component {
 
   render() {      
     const {
-      dispatch,
       isRequesting
     } = this.props;
     const {url} = this.props.match;
@@ -56,26 +88,9 @@ class BrandContainer extends Component {
       brandName
     } = this.state;
 
-    if (!brand && id) {
-      // fetchCatalogEntityOrGetLocale can return false.
-      
-      const request = dispatch(
-        fetchCatalogEntityOrGetLocale(BRAND, id)
-      );
-
-      if (request)
-        request.then(requestedBrand => {
-
-          if (requestedBrand) {
-            this.setState({
-              brandName: transformName(requestedBrand.name),
-              slogan: requestedBrand.slogan,
-              brand: requestedBrand
-            });
-          }
-
-        });
-    } 
+    if (!brand) {
+      this.requestBrand();
+    }
       
     return (
       

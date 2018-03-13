@@ -4,16 +4,22 @@
 // @each $name, $url, $height, $width, $max-width, $isIcon in $figures 
 	
 // 	@include adaptiveImage($name, $max-width, adaptive($width, $height), $url, $isIcon)
-
+button .imageContainer_loader
+	margin-top: 0 $i
+	margin-bottom: 0 $i
 .imageContainer
 	z-index: 1
+	&_productSlide, &__image_productSlide 
+		// height: 100%
 	&__image
 		// margin-top: 1.5rem
 		// margin-bottom: 	1.5rem
 		&_sample
 			margin-top: 0
 			height: 100% $i	
-
+	&_loader
+		margin-top: 3rem
+		margin-bottom: 3rem
 	&_sample, &_product
 		@extend %absolute
 		top: 0

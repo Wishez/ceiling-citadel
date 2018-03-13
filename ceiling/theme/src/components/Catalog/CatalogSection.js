@@ -1,6 +1,7 @@
 import React  from 'react';
 import getClass from './../../constants/classes';
 import {TransitionGroup } from 'react-transition-group';
+import Loader from './../Loader';
 
 
 const CatalogSection = ({ 
@@ -20,6 +21,10 @@ const CatalogSection = ({
     <TransitionGroup className="fullWidth parent row centered">
       {children}
     </TransitionGroup>
+    {children ? '' : 
+      <div className="fullWidth parent row centered">
+        <Loader />
+      </div>}
   </section>
 );
 

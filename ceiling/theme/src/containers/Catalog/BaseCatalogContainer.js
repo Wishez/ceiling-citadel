@@ -57,11 +57,12 @@ class BaseCatalogContainer extends Component {
             {slogan}
           </p>
         </div>
-        {children ? children : <Loader />}
+        {children}
       </div>
     );
   }
 }
+// ? children : <Loader />}
 
 const mapStateToProps = state => {
   const {catalog} = state;

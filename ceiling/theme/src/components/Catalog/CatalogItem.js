@@ -33,11 +33,11 @@ const CatalogItem = ({
       modifier={tablePosition} 
       isNotRoute={isSample}
       onClick={() => {
-        // console.log('start');
-        // focusHeader();
         timeout(() => {
-          slideTo('.header');
-        }, 800);
+          slideTo({
+            selector: '#main'
+          });
+        }, 500);
       }}
     />
     {isSample ? 

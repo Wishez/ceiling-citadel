@@ -51,9 +51,9 @@ export const getProductData = (array, collectionSlug, productSlug) => {
 
 const combineCatalogSimpleItem = props => ( 
   props.item.is_shown ? 
-    // <Fading key={props.key}>
-    <CatalogItem {...props}/> 
-    // </Fading>
+    <Fading key={props.key}>
+      <CatalogItem {...props}/> 
+    </Fading>
     : ''
 );
   

@@ -11,9 +11,11 @@ const Navigation = ({
   navStyles,
   isFooter,
   modifier,
+  onClick,
   ...rest
 }) => (
-  <nav className={getClass(composeClasses('navigation', '', isFooter || isOpened ? 'opened' : 'closed', `parent centered column baseChild${isFooter ? ' navigation_footer' : ''}`))}
+  <nav aria-label="Навигация сайта" 
+    className={getClass(composeClasses('navigation', '', isFooter || isOpened ? 'opened' : 'closed', `parent centered column baseChild${isFooter ? ' navigation_footer' : ''}`))}
   >
     <ul className={getClass({
       b: 'navList',

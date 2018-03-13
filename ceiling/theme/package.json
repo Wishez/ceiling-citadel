@@ -75,6 +75,7 @@
     "redux-actions": "^2.2.1",
     "redux-form": "^7.2.1",
     "redux-thunk": "^2.2.0",
+    "scroll-to-element": "^2.0.0",
     "scrollmagic": "^2.0.5",
     "semantic-ui-react": "^0.77.2",
     "semantic-ui-sass": "^2.2.11",

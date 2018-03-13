@@ -4,8 +4,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import getClass from './../../constants/classes';
-import {CATALOG, COLLECTION, CATEGORY} from './../../constants/catalog';
-import {localData, transformName} from './../../constants/pureFunctions';
+import catalogStore, {
+  CATALOG, 
+  COLLECTION, 
+  CATEGORY
+} from './../../constants/catalog';
+import {transformName} from './../../constants/pureFunctions';
 import {catalogSectionCombiner, findUUID} from './../../constants/filter';
 import {catalogCollectionUrl} from './../../constants/conf';
 
@@ -27,50 +31,81 @@ class BrandCategoryContainer extends Component {
 
   state = {
     id: '',
-    categoryName: ''
+    categoryName: '',
+    collection: false,
+    slogan: '',
+    collectionName: ''
   }
+
+  requestCollection = () => {
+    const {id} = this.state;
+    const {dispatch} = this.props;
+    // fetchCatalogEntityOrGetLocale can return false.  
+
+    if (id) {
+
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(COLLECTION, id)
+      );
+
+        // Check Promise. It can be empty, because  
+        // there is a condition for requesting the
+        // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
+      if (request) {
+        request.then(requestedCollection => {
+          if (requestedCollection) {
+            this.setState({
+              collectionName: transformName(requestedCollection.name),
+              slogan: requestedCollection.slogan,
+              collection: requestedCollection,
+            });
+          }
+        });
+      }
+    }
+  } 
 
   componentDidMount() {
     
     const {dispatch, match} = this.props;
     const {collectionSlug, categorySlug} = match.params;
-    const catalog = localData.get(CATALOG);
-    
-    if (catalog !== null && categorySlug in catalog.categories) {
-      const category = catalog.categories[categorySlug];
 
-      const id = findUUID(category.collections, collectionSlug);
+    catalogStore.getItem(CATALOG, (error, catalog) => {
     
-      this.setState({
-        categoryName: transformName(category.name),
-        id
-      });
-    }
-    
+      if (catalog !== null && categorySlug in catalog.categories) {
+        const category = catalog.categories[categorySlug];
+
+        const id = findUUID(category.collections, collectionSlug);
+      
+        this.setState({
+          categoryName: transformName(category.name),
+          id
+        });
+      }
+      
+    });
   }
 
   render() {        
     const {
-      dispatch,
       isRequesting
     } = this.props;
+
     const {url} = this.props.match;
-    const {id, categoryName} = this.state;
 
-    let collection = false,
-      slogan = '',
-      collectionName = '';
-
-    if (id) {
+    const {
+      id, 
+      categoryName,
+      collection,
+      collectionName,
+      slogan
+    } = this.state;
+    if (!collection) {
       // fetchCatalogEntityOrGetLocale can return false.
-      collection = dispatch(fetchCatalogEntityOrGetLocale(COLLECTION, id));
+      this.requestCollection();
     } 
 
-    if (collection) {
-      collectionName = transformName(collection.name);
-      slogan = collection.slogan;
-    }
-    
+   
     return (
       <BaseCatalogContainer name={collectionName}
         slogan={slogan}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Scroll from 'react-scroll-to-element';
+import Loader from './../../components/Loader';
 
 import catalogStore, {CATALOG} from './../../constants/catalog';
 import getClass from './../../constants/classes';
@@ -41,11 +42,10 @@ class CatalogPageContainer extends Component {
 
     // const catalog = localData.get(CATALOG); 
     
-    if (!isCatalogGotten)
+    if (!isCatalogGotten) {
       catalogStore.getItem(
         CATALOG, 
         (err, catalog) => {
-          console.log('catalog', catalog);
           if (catalog !== null) {
           
             this.setState({ 
@@ -62,10 +62,7 @@ class CatalogPageContainer extends Component {
             });
           }
         });
-    // if (catalog !== null && 'brands' in catalog) {
-    //   brands = getArray(catalog.brands);
-    //   categories = getArray(catalog.categories);
-    // }
+    }
     
     return (
       <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
@@ -96,13 +93,14 @@ class CatalogPageContainer extends Component {
           {!isRequesting && 
           brands.length ?
             brands
-            : null
+            : ''
           }
+          {/*<Loader />*/}
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
           {!isRequesting && 
             categories.length ?
-            categories : null
+            categories : '' 
           }
         </CatalogSection>
       </div>

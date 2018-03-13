@@ -10,10 +10,10 @@ import catalogStore, {
   PRODUCT, 
   LAST_ALBUM
 } from './../../constants/catalog';
-import {
-  localData, 
+import { 
   transformName
 } from './../../constants/pureFunctions';
+import Loader from './../../components/Loader';
 
 import { 
   getProductData, 
@@ -31,7 +31,7 @@ import {
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
 // import Loader from './../../components/Loader';
-// import ImagesCarousel from './../../components/ImagesCarousel';
+import Slider from './../../components/Slider/Slider';
 
 class CategoryProductContainer extends Component {
   static propTypes = {
@@ -45,8 +45,57 @@ class CategoryProductContainer extends Component {
   state = {
     id: '',
     categoryName: '',
-    collectionName: ''
+    collectionName: '',
+    product: false,
+    slogan: '',
+    productName: '',
+    album: false,
+    slides: []
   }
+
+  requestProduct = () => {
+    const {id} = this.state;
+    const {dispatch} = this.props;
+    // fetchCatalogEntityOrGetLocale can return false.  
+
+    if (id) {
+
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(PRODUCT, id)
+      );
+
+      // Check Promise. It can be empty, because  
+      // there is a condition for requesting the
+      // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
+      if (request) {
+          
+        
+        request.then(product => {
+          if (product) {
+            // I and product need an album.
+            catalogStore.getItem(LAST_ALBUM)
+              .then(album => {
+                const slides = album.images.map(
+                  (image, index) => ({
+                    content: <Figure {...image} key={`${index}${index + 1001}`} url={image.image} name="productSlide" />,
+                    preview: <Figure {...image} key={`${index}${index + 1002}`} url={image.image} name="productSlidePreview" />
+                  })
+                );
+
+                // After receiving, we can show it updating the view.
+                this.setState({
+                  productName: transformName(product.name),
+                  slogan: product.slogan,
+                  product,
+                  album,
+                  slides
+                });
+              });
+          }
+        });
+      }
+    }
+  } 
 
   componentDidMount() {
     
@@ -57,23 +106,24 @@ class CategoryProductContainer extends Component {
       productSlug
     } = match.params;
 
-    const catalog = localData.get(CATALOG);
+    catalogStore.getItem(CATALOG, (error, catalog) => {
     
-    if (catalog !== null && categorySlug in catalog.categories) {
-      const category = catalog.categories[categorySlug];
-      const productData = getProductData(
-        category.collections, 
-        collectionSlug, 
-        productSlug
-      );
+      if (catalog !== null && categorySlug in catalog.categories) {
+        const category = catalog.categories[categorySlug];
+
+        const productData = getProductData(
+          category.collections, 
+          collectionSlug, 
+          productSlug
+        );
 
 
-      this.setState({
-        categoryName: category.name,
-        ...productData
-      });
-    }
-    
+        this.setState({
+          categoryName: category.name,
+          ...productData
+        });
+      }
+    });
   }
 
   render() {        
@@ -85,26 +135,23 @@ class CategoryProductContainer extends Component {
     const {
       id, 
       collectionName,
-      categoryName
+      categoryName,
+      product,
+      slogan,
+      album,
+      productName,
+      slides
     } = this.state;
 
     const {url} = this.props.match;
 
-    let product = false,
-      slogan = '',
-      productName = '',
-      album = false;
 
-    if (id) {
+    if (!product) {
       // fetchCatalogEntityOrGetLocale can return false.
-      product = dispatch(fetchCatalogEntityOrGetLocale(PRODUCT, id));
+      this.requestProduct();
     } 
 
-    if (product) {
-      productName = transformName(product.name); 
-      slogan = product.slogan;
-      album = localData.get(LAST_ALBUM);
-    }
+    
 
     return (
       
@@ -122,7 +169,7 @@ class CategoryProductContainer extends Component {
         CONSTANT={PRODUCT}
       >
         {product ? 
-          <div className="fullWidth lowCascadingShadow">
+          <div className="productContainer fullWidth lowCascadingShadow">
             <AddProductFormContainer 
               image={product.preview.image}
               {...product}
@@ -132,12 +179,15 @@ class CategoryProductContainer extends Component {
               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
               ''}
             {(album && album.slug === product.album) ? 
-              '': ''}
+              <Slider slides={slides}
+                animSettings={{animDuration: 500, animElasticity: 200}}
+                dotSettings={{size: 12, gap: 6}} />
+              : ''}
             {product.content ? 
               <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
           </div>
           : 
-          ''}
+          <Loader />}
       </BaseCatalogContainer>
     );
   }

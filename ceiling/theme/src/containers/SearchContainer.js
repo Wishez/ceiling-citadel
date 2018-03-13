@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+
 import PropTypes from 'prop-types';
+
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Search from './../components/Search';
 import {CATALOG} from './../constants/catalog';
-import {localData} from './../constants/pureFunctions';
 import getClass from './../constants/classes';
 
 import {
@@ -19,10 +21,6 @@ class SearchContainer extends Component {
     searchEntities: PropTypes.array.isRequired,
     isFinding: PropTypes.bool.isRequired,
     SearchForm: PropTypes.object
-  }
-
-  componentDidMount() {
-    // const {searchName, dispatch} = this.props;
   }
 
   searchEntity = (values) => {
@@ -78,12 +76,12 @@ class SearchContainer extends Component {
                 <ul>
                   {section.items.map((item, index) => (
                     <li className="" key={index}>
-                      <a href={item.url} 
+                      <Link to={item.url} 
                         className={getClass({
                           b: 'resultRefer'
                         })}>
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

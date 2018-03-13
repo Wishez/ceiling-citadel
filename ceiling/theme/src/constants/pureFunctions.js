@@ -40,14 +40,38 @@ export const getDeleteProductArguments = (index, name, quantityOrderedProducts) 
     quantityOrderedProducts - 1
   ];
 };
+// var scrollToElement = require('scroll-to-element');
 
-export const slideTo = selector => {
+export const slideTo = ({
+  selector, 
+  easing='easeInOutQuad',
+  position=false,
+  offset=0
+}) => {
   const element = document.querySelector(selector);
-  
-  if (element)
-    element.scrollIntoView({ behavior: 'smooth'});
-};
+  // console.log('start sliding to', selector);
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  }
+  // scrollToElement(selector, {
+  // offset: 0,
+  // ease: 'out-bounce',
+  // duration: 1500
+  // });
+  // if (element) { 
+  //   anime({
+  //     targets: document.documentElement || document.body,
+  //     scrollTop: position || element.getBoundingClientRect().y - 49 + offset,
+  //     duration: 1500,
+  //     elasticity: 100,
+  //     easing
+  //   });
+  // }
 
+};
 export const cookiesHandler = {
   setUsernameAndPasswordToCookies: ({
     site,
@@ -80,7 +104,6 @@ export function timeout(callback, timeout) {
 
     if (delta >= timeout) {
       callback();
-      console.log('end');
       return false;      
     }
 

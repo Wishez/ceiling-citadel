@@ -23,10 +23,6 @@ export const BRAND = 'BRAND';
 export const CATALOG = 'CATALOG';
 
 import * as localForage from 'localforage';
-console.log(localForage);
-// const catalogStore = localForage.config({
-//   name: 'ART_CEIL_CATALOG_STORE',
-//   storeName: 'ART_CEIL_CATALOG_STORE_01'
-// });
+
 const catalogStore = localForage;
 export default catalogStore;

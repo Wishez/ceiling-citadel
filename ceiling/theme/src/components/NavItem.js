@@ -10,7 +10,8 @@ const NavItem = ({
   children
 }) => (  
   <Link to={href}
-    className={getClass({b: block, el: 'refer', add: 'baseChild'})}>
+    className={getClass({b: block, el: 'refer', add: 'baseChild'})}
+  >
     {name}
     {ReactHtmlParser(children)}
   </Link>

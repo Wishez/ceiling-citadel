@@ -8,7 +8,8 @@ const Figure = ({
   maxWidth,
   sources,
   className,
-  modifier
+  modifier,
+  alt
 }) => (
   <picture className={getClass({
     b: block,
@@ -25,6 +26,7 @@ const Figure = ({
       <source srcSet={url} media="screen" />
     }
     <img src={url} 
+      alt={alt ? alt : ''}
       className={getClass({
         b: block,
         el: 'image',

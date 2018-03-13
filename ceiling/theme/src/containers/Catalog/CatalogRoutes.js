@@ -54,7 +54,7 @@ class CatalogRoutes extends Component {
   
     return (
       <section className={getClass({b: 'catalog'})}>
-        <TransitionGroup>
+        {/*<TransitionGroup>
           <CSSTransition key={location.key}  
             classNames="translate"  
             appear={true}
@@ -65,18 +65,18 @@ class CatalogRoutes extends Component {
               enter: 800,
               exit: 300
             }}
-          >
-            <Switch location={location}>
-              <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
-              <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
-              <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
-              <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
-              <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
-              <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
-              <MyRoute path={`${url}`} component={CatalogPageContainer} />
-            </Switch>
-          </CSSTransition>
-        </TransitionGroup>
+          >*/}
+        <Switch location={location}>
+          <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
+          <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
+          <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
+          <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
+          <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
+          <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
+          <MyRoute path={`${url}`} component={CatalogPageContainer} />
+        </Switch>
+        {/*</CSSTransition>
+        </TransitionGroup>*/}
       </section>
     );
   }

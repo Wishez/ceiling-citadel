@@ -36,8 +36,8 @@ class AddProductFormContainer extends Component {
     uuid: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     step_between_panels: PropTypes.string,
-    diameter: PropTypes.string,
-    angle_of_bend: PropTypes.string,
+    diameter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    angle_of_bend: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     ceil_size:  PropTypes.string,
   }
   // Internal state of select controllers' values.

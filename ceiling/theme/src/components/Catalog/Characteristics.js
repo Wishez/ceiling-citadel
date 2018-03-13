@@ -1,6 +1,6 @@
 import React  from 'react';
 import getClass from './../../constants/classes';
-
+import {Link} from 'react-router-dom';
 import Characteristic from './Characteristic';
 
 const Characteristics = ({ 
@@ -46,11 +46,11 @@ const Characteristics = ({
     {typeof colors === 'string' ? 
       <Characteristic name="colors" label="Цвет" value={colors} /> : ''}
     {children}
-    <a href={url} className={getClass({
+    <Link to={url} className={getClass({
       b: 'moreRefer',
       m: modifier,
       add: 'parent row centered zeroVerticalMargin'
-    })}>Подробнее</a>
+    })}>Подробнее</Link>
   </article>
 	
 );

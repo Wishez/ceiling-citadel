@@ -2,6 +2,11 @@
 	padding: em(67.772816512) 0 em(109.656417116416)
 .fullWidth 
 	width: span(12)
+.productContainer
+	margin-top: 2.125em
+
+.slides
+	position: relative
 .catalogItem
 	height: em(360)
 	flex: 1 0 span(6)
@@ -61,6 +66,8 @@
 	position: relative
 	&  > .container
 		padding: 0
+		@include breakpoint($xxs)
+			padding: 0 1.5rem
 
 
 // Catalog
@@ -72,14 +79,14 @@
 	margin-bottom: 3rem
 	border-raidus: 3px
 	&__title
-		broder-top-color: $darkGray
+		border-top-color: $orange	
 
 
 .catalogSubsection
 	margin:	0
 	&__title
 		font-weight: 200
-		broder-top-color: $darkBlue
+		border-top-color: $darkBlue
 		padding-top: 4rem
 .catalogSection, .catalogSubsection
 	&__title
@@ -106,6 +113,8 @@
 		&_catalog
 			flex-basis: 35%
 			transform: translateY(12.5%)
+			@include breakpoint($xs)
+				transform: none
 		&_active
 			border-bottom: 1px solid $gray
 			padding-bottom: 1rem

@@ -32,31 +32,44 @@ class CategoryContainer extends Component {
     slogan: ''
   }
 
+  requestCategory = () => {
+    const {id} = this.state;
+    const {dispatch} = this.props;
+
+    if (id) {
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(CATEGORY, id)
+      );
+        
+      if (request) {
+        request.then(requestedCategory => {
+          console.log(requestedCategory);
+          if (requestedCategory) {
+            this.setState({
+              categoryName: transformName(requestedCategory.name),
+              slogan: requestedCategory.slogan,
+              category: requestedCategory,
+              id
+            });
+          }
+        });
+      }
+      
+    }
+  }
+
   componentDidMount() {
-    const {dispatch, match} = this.props;
+    const {match} = this.props;
     const {categorySlug} = match.params;
-    catalogStore.getItem(CATALOG, catalog => {
+
+    catalogStore.getItem(CATALOG, (error, catalog) => {
+
+
       if (catalog !== null && categorySlug in catalog.categories) {        
         const id = catalog.categories[categorySlug].uuid;
           
-        // this.setState({});
-        const request = dispatch(
-          fetchCatalogEntityOrGetLocale(CATEGORY, id)
-        );
+        this.setState({id});
 
-        if (request)
-          request.then(requestedCategory => {
-            console.log(requestedCategory);
-            if (requestedCategory) {
-              this.setState({
-                categoryName: transformName(requestedCategory.name),
-                slogan: requestedCategory.slogan,
-                category: requestedCategory,
-                id
-              });
-            }
-
-          });
       }
     });
 
@@ -65,7 +78,6 @@ class CategoryContainer extends Component {
 
   render() {        
     const {
-      dispatch,
       isRequesting
     } = this.props;
     const {url} = this.props.match;
@@ -76,10 +88,10 @@ class CategoryContainer extends Component {
       categoryName
     } = this.state;
 
-    if (!category && id) {
-      // fetchCatalogEntityOrGetLocale can return false.
-
-    } 
+    if (!category) {
+      this.requestCategory();
+    }
+      
     
     return (
       <BaseCatalogContainer name={categoryName}

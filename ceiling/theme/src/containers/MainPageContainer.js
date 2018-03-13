@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
 import OrderButtonContainer from './OrderButtonContainer';
 
 import CatalogSection from './../components/Catalog/CatalogSection';
@@ -50,10 +49,6 @@ class MainPageContainer extends Component {
 	render() {
 	  const {isRequesting} = this.props;
 	  const {isBrandsGotten, brands} = this.state;
-	  // let catalog = [];
-	  // let brands = [];
-	  // const catalog = localData.get(CATALOG);
-	  // let catalog = catalogStore.getItem(CATALOG);
 
 	  if (!isBrandsGotten)
 		  catalogStore.getItem(
@@ -71,20 +66,18 @@ class MainPageContainer extends Component {
 				  });
 			  }
 	  });
-
-	  // console.log(brands);
-		
+	  console.log(isRequesting);
 	  return (
 	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
-	      <CatalogSection name="Основные бренды" titleShown={false}>
-	        {
-	        	!isRequesting && brands.length ?
-	          	brands : 
-	          	<Loader /> 
-	       }
-	      </CatalogSection>
+	      	<CatalogSection name="Основные бренды" titleShown={false}>
+	    	{!isRequesting && brands.length ?
+          		brands :
+          		''}	
+	      	</CatalogSection>
 	      {aboutSections.map((section, index) => (
-	        <AboutSection key={index} {...section} />
+	        <Fading key={index}>      	
+	        	<AboutSection key={index} {...section} />
+	        </Fading>
 	      ))}
 	      <AboutSection text={false}
 	        title="просторная сумка"
