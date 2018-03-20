@@ -38,6 +38,7 @@ PROJECT_APPS = [
     'myadmin',
     'forms.apps.FormsConfig',
     'album.apps.AlbumConfig',
+    'marks.apps.MarksConfig',
     'personal_data.apps.PersonalDataConfig',
 ]
 

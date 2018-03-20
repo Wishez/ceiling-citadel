@@ -38,7 +38,7 @@
       href="/static/images/appIcons/favicon.ico"
   >
   <title>{{ title }}</title>
-<link href="/static/styles/app.css?bf71d9788ceea065c9d8" rel="stylesheet"></head>
+<link href="/static/styles/app.09e27256516171327a030f6d3edc921c.css?8d38c33c36ce95c85d3e" rel="stylesheet"></head>
 <body>
   <div id="root"></div>
   <script>
@@ -48,17 +48,17 @@
       phone: "{{ settings.phone }}",
       addressHref: "{{ settings.addressHref }}",
     };
-    console.log('Will register sw');
+    
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/static/sw.js')
         .then(function(reg) {
-          console.log('Service Worker was registered:', reg);
+          console.log('Service Worker was registered:', reg.scope);
         })
         .catch(function(err) {
-          console.log('There is some problem in registration of the service worker:', err);
+          console.log(err);
         });
     }
   </script>
   {{ settings.widgets|safe }}
-<script type="text/javascript" src="/static/vendor.js?bf71d9788ceea065c9d8"></script><script type="text/javascript" src="/static/app.js?bf71d9788ceea065c9d8"></script></body>
+<script type="text/javascript" src="/static/vendor-8d38c33c36ce95c85d3e.js?8d38c33c36ce95c85d3e"></script><script type="text/javascript" src="/static/app-8d38c33c36ce95c85d3e.js?8d38c33c36ce95c85d3e"></script></body>
 </html>

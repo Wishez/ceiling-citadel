@@ -192,7 +192,7 @@ class BrandOrCategoryCollectionSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Collection
-        fields = ['name', 'uuid', 'slug', 'collection_items']
+        fields = ['name', 'uuid', 'slug', 'collection_items', 'is_shown',]
 
 
 # Category

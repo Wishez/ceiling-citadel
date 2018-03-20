@@ -36,7 +36,7 @@ def get_album(request, slug):
         current_site = 'https://%s' % current_domain
 
         images = [{
-                "image": '%s%s' % (current_site, image.image.url),
+                "image":    '%s%s' % (current_site, image.image.url),
                 "alt": image.alt
             } for image in AlbumImage.objects.filter(album=album)]
 
