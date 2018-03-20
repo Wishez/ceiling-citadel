@@ -13,12 +13,13 @@ const OrderButton = ({
   isCartOpened,
   cartModifier,
   modifier,
+  className,
   ...rest
 }) => (
   <div className={getClass({
     b: 'orderButtons',
     m: modifier,
-    add: 'parent row h-between v-centered'
+    add: `parent row h-between v-centered ${className ? className : ''}`
   })}>
   	<Button
       id='menuButton'

@@ -184,11 +184,11 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
   });
 };
 
-export const fetchCatalogEntityOrGetLocale = (name, id) => 
+export const fetchCatalogEntityOrGetLocale = (name, id, force=false) => 
   (dispatch, getStore) => {
     const catalog = getStore().catalog;
 	
-    if (catalog[name] !== id || catalog.isRefetching) {
+    if (force || (catalog[name] !== id || catalog.isRefetching)) {
       dispatch(tryRetrieveCatalogEntity(name, id));
       return false;
     } 
@@ -232,7 +232,8 @@ const getFoundEntities = (
   signification
 ) => ({
   name: signification,
-  items: filterEntities(array, 
+  items: filterEntities(
+    array, 
     entity => getMatchedEntity(
       entity.name,
       value,
@@ -245,33 +246,51 @@ const getFoundEntities = (
 
 
 export const dumpEntitiesForSearch = (catalog) => {	
-  const brands = getArray(catalog.brands);
-  const categories = getArray(catalog.categories);
+  const brands = getArray(catalog.brands)
+    .filter(brand => brand.is_shown);
+  const categories = getArray(catalog.categories)
+    .filter(category => category.is_shown);
+
   let products = [];
+
   const collections = brands.reduce((collections, brand) => (
     // Concat collections with needed properties of a collection.
     collections.concat(
-      brand.collections.map(
-        collection => {
-          // Compose url to a collection.
-          const collectionUrl = `/catalog/brand/${brand.slug}/${collection.slug}/`;
-          // Get and compose products of a collection.
-          const collectionProducts = collection.collection_items
-            .map(product => ({
-              name: product.name,
-              url: `${collectionUrl}${product.slug}/`
-            }));
+      brand.collections.reduce(
+        (resultCollections,
+          collection) => {
+          // Check for showing product when user researchs it..
+          if (collection.is_shown) {
+            // Compose url to a collection.
+            const collectionUrl = `/catalog/brand/${brand.slug}/${collection.slug}/`;
 
-          // Concat the bunch of products.
-          products = products.concat(collectionProducts);
+            // Get and compose products of a collection.
+            const collectionProducts = collection
+              .collection_items
+              .map(product => {
+                
+                return {
+                  name: product.name,
+                  url: `${collectionUrl}${product.slug}/`
+                };
+                
+              });
 
-          // Return for the array collection data.
-          return {
-            name: collection.name,
-            url: collectionUrl
-          };
-        }
-      )// end brand.collections.map
+            // Concat the bunch of products.
+            products = products.concat(collectionProducts);
+
+            // Return for the array collection data.
+            return [
+              ...resultCollections,
+              {
+                name: collection.name,
+                url: collectionUrl
+              }];
+            
+          } // end if
+          
+          return resultCollections;
+        }, []) // end brand.collections.reduce
     ) // end collections.concat
   ), // end callback of brands.reduce
   []); // end brands.reduce

@@ -63,7 +63,7 @@ const AddProductForm = ({
         {...rest.buttonOptions}
         className="parent row h-around v-centered">
         <Figure url={starIcon} 
-          maxWidth="25" 
+          maxWidth={25} 
           name="addToCart"
         />
       </Button>

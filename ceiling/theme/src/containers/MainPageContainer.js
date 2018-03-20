@@ -54,7 +54,7 @@ class MainPageContainer extends Component {
 		  catalogStore.getItem(
 		  	CATALOG, 
 		  	(err, catalog) => {
-			  console.log('catalog', catalog);
+			  
 			  if (catalog !== null && 'brands' in catalog) {
 			    // brands = getArray(catalog.brands);
 				  this.setState({ 
@@ -66,7 +66,7 @@ class MainPageContainer extends Component {
 				  });
 			  }
 	  });
-	  console.log(isRequesting);
+	  
 	  return (
 	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
 	      	<CatalogSection name="Основные бренды" titleShown={false}>
@@ -89,10 +89,11 @@ class MainPageContainer extends Component {
 	        <Paragraph text="Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ." 
 	          block="aboutSection" />
 	        <OrderButtonContainer 
-	          cartPosition={cartPositions.bag}
-              			cartModifier="hover_up"
-              			modifier="stretch"
-              		/>
+	          	cartPosition={cartPositions.bag}
+              	cartModifier="hover_up"
+              	classNmae="marginTop_base-xxs"
+              	modifier="stretch"
+	        />
 	        <Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!" 
 	          block="aboutSection" />
 	      </AboutSection>

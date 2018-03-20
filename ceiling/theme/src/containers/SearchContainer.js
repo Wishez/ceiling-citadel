@@ -75,11 +75,10 @@ class SearchContainer extends Component {
                 })}>{section.name}</h2>
                 <ul>
                   {section.items.map((item, index) => (
-                    <li className="" key={index}>
+                    <li key={index}>
                       <Link to={item.url} 
-                        className={getClass({
-                          b: 'resultRefer'
-                        })}>
+                        className='resultRefer'
+                      >
                         {item.name}
                       </Link>
                     </li>

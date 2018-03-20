@@ -24,6 +24,7 @@ const CallbackForm = ({
       minLength: 10,
       name: 'full_name',
       type: 'text',
+      autoComplete: 'name',
       validate: [required, fullNameLength, full_name],
       placeholder: 'Иванов Иван Иванович',
       label: 'ФИО',
@@ -36,6 +37,7 @@ const CallbackForm = ({
     {
       type: 'tel',
       maxLength: 26,
+      autoComplete: 'tel',
       minLength: 11,
       name: 'phone_number',
       validate: [required, phone, phoneLength],

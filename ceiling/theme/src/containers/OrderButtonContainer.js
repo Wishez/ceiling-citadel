@@ -29,7 +29,8 @@ class OrderButtonContainer extends Component {
 	    helpText: PropTypes.string.isRequired,
 	    cartPosition: PropTypes.string.isRequired,
 	    cartModifier: PropTypes.string.isRequired,
-	    modifier: PropTypes.string
+	    modifier: PropTypes.string,
+	    className: PropTypes.string,
   	}
 	
 	onSubmitQuantityProduct = index => e => {
@@ -68,7 +69,8 @@ class OrderButtonContainer extends Component {
 	render() {
 	  const { 
 	    cartPosition, 
-	    isCartOpened 
+	    isCartOpened ,
+	    className
 	  } = this.props;
 	  const products = localData.get(PRODUCTION_STORE);
 
@@ -77,6 +79,7 @@ class OrderButtonContainer extends Component {
 		     	products={products || []}
 	            isCartOpened={isCartOpened === cartPosition}
 	            openCart={this.showCart} 
+	            className={className}
 	            closeCart={this.hideCart}
 	            openOrder={this.openOrderForm}
 	            onSubmitQuantityProduct={this.onSubmitQuantityProduct}

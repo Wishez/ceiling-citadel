@@ -19,7 +19,7 @@ class BaseCatalogContainer extends Component {
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     CATEGORY: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     name: PropTypes.string.isRequired,
-    slogan: PropTypes.string.isRequired,
+    slogan: PropTypes.string,
     routes: PropTypes.object.isRequired,
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     isProduct: PropTypes.bool,

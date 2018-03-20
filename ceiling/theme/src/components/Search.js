@@ -28,6 +28,14 @@ const Search = ({
       className="baseChild"
       modifier="search"
       onChange={onChange}
+      onFocus={(event) => {
+        const element = event.target;
+        element.focus();
+        element.select();
+      }}
+      onBlur={(event) => {
+        event.target.value = '';
+      }}
       autoComplete="off"
     />
     <svg className={getClass({

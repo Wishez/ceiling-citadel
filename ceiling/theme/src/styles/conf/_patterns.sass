@@ -600,18 +600,24 @@ input[type=number]:hover::-webkit-inner-spin-button
 		width: 100%
 		left: 0
 		z-index: 4
-		// -webkit-filter: blur(3px)
-  		// mask: url('#mask-linear')
-  		// filter: url('#filtre2')
-		// background: url('./../dist/background-black.png')
 	&:after
-		opacity: .4
+		opacity: .6
 		content: ""
 		@extend %absolute
-		background: rgba(51, 51, 51, 0.5)
-		backdrop-filter: blur(4px)
+		background: rgba(51, 51, 51, 1)
+		filter: blur(4px)
 
-
+.marginTop_base
+	&-xs
+		@include breakpoint($xs) 
+			margin-top: 1.5em
+	&-xxs
+		@include breakpoint($xxs) 
+			margin-top: 1.5em $i
+.textCentered_xxs
+	@include breakpoint($xxs) 
+		text-align: center
+		
 .popupFormContainer
 	font-size: em(18)
 	width: em(320, 18)

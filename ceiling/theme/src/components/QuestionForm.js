@@ -22,6 +22,7 @@ const QuestionForm = ({
       maxLength: 150,
       minLength: 10,
       name: 'full_name',
+      autoComplete: 'name',
       type: 'text',
       validate: [required, fullNameLength, full_name],
       placeholder: 'Иванова Мария Ивановна',
@@ -36,6 +37,7 @@ const QuestionForm = ({
     {
       type: 'email',
       maxLength: 150,
+      autoComplete: 'email',
       minLength: 3,
       name: 'email',
       validate: [required, email],

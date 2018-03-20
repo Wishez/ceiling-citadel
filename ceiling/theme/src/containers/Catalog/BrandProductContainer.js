@@ -54,7 +54,38 @@ class BrandProductContainer extends Component {
     slides: []
   }
 
-   requestProduct = () => {
+  getIdFromCatalog = (callback=false) => {
+    const {dispatch, match} = this.props;
+
+    const {
+      brandSlug,
+      collectionSlug, 
+      productSlug
+    } = match.params;
+
+    catalogStore.getItem(CATALOG, (error, catalog) => {
+      if (catalog !== null && brandSlug in catalog.brands) {
+        const category = catalog.brands[brandSlug];
+        const productData = getProductData(
+          category.collections, 
+          collectionSlug, 
+          productSlug
+        );
+
+
+        this.setState({
+          brandName: category.name,
+          ...productData
+        });
+        
+        if (callback) {
+          callback();
+        }
+      }
+    });
+  }
+
+   requestProduct = (force=false) => {
      const {id} = this.state;
      const {dispatch} = this.props;
      // fetchCatalogEntityOrGetLocale can return false.  
@@ -62,7 +93,7 @@ class BrandProductContainer extends Component {
      if (id) {
 
        const request = dispatch(
-         fetchCatalogEntityOrGetLocale(PRODUCT, id)
+         fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
        );
 
        // Check Promise. It can be empty, because  
@@ -83,6 +114,13 @@ class BrandProductContainer extends Component {
                      preview: <Figure {...image} key={`${index}${index + 1002}`} url={image.image} name="productSlidePreview" />
                    })
                  );
+                 console.log('update state of the product', {
+                   productName: transformName(product.name),
+                   slogan: product.slogan,
+                   product,
+                   album,
+                   slides
+                 });
 
                  this.setState({
                    productName: transformName(product.name),
@@ -94,36 +132,23 @@ class BrandProductContainer extends Component {
                }); // end getting LAST_ALBUM
            }
          });
-       }
+       } 
      }
    } 
 
-
-   componentDidMount() {
-    
-     const {dispatch, match} = this.props;
+   componentWillUpdate(nextProps, nextState) {
      const {
-       brandSlug,
-       collectionSlug, 
        productSlug
-     } = match.params;
+     } = this.props.match.params;
 
-     catalogStore.getItem(CATALOG, (error, catalog) => {
-       if (catalog !== null && brandSlug in catalog.brands) {
-         const category = catalog.brands[brandSlug];
-         const productData = getProductData(
-           category.collections, 
-           collectionSlug, 
-           productSlug
-         );
-
-
-         this.setState({
-           brandName: category.name,
-           ...productData
-         });
-       }
-     });
+      
+     if (nextProps.match.params.productSlug !== productSlug) {
+       console.log('will update');
+       this.getIdFromCatalog(() => { this.requestProduct(true); });
+     }
+   }
+   componentDidMount() {
+     this.getIdFromCatalog();
    }
 
    render() {        
@@ -161,7 +186,7 @@ class BrandProductContainer extends Component {
          isProduct={true}
          CONSTANT={PRODUCT}
        >
-         {product ? 
+         {!isRequesting && product ? 
            <div className="productContainer fullWidth lowCascadingShadow">
              <AddProductFormContainer 
                image={product.preview.image}

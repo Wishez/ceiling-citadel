@@ -5,6 +5,7 @@ import RenderController from './RenderController';
 import ReactTooltip from 'react-tooltip';
 import Characteristics from './Catalog/Characteristics';
 import Characteristic from './Catalog/Characteristic';
+import {Link} from 'react-router-dom';
 
 const CartProduct = ({
   modifier='',
@@ -47,11 +48,11 @@ const CartProduct = ({
 
       </Characteristics>
     </ReactTooltip>
-    <a href={url} className={getClass({
+    <Link to={url} className={getClass({
       b: 'moreRefer',
       m: 'product',
       add: 'parent row centered zeroVerticalMargin'
-    })}>Подробнее</a>
+    })}>Подробнее</Link>
     <input 
       type="number" 
       max="10000" 

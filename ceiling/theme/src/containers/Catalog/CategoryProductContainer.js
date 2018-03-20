@@ -30,7 +30,7 @@ import {
 
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
-// import Loader from './../../components/Loader';
+
 import Slider from './../../components/Slider/Slider';
 
 class CategoryProductContainer extends Component {
@@ -53,7 +53,7 @@ class CategoryProductContainer extends Component {
     slides: []
   }
 
-  requestProduct = () => {
+  requestProduct = (force=false) => {
     const {id} = this.state;
     const {dispatch} = this.props;
     // fetchCatalogEntityOrGetLocale can return false.  
@@ -61,7 +61,7 @@ class CategoryProductContainer extends Component {
     if (id) {
 
       const request = dispatch(
-        fetchCatalogEntityOrGetLocale(PRODUCT, id)
+        fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
       );
 
       // Check Promise. It can be empty, because  
@@ -83,6 +83,7 @@ class CategoryProductContainer extends Component {
                 );
 
                 // After receiving, we can show it updating the view.
+
                 this.setState({
                   productName: transformName(product.name),
                   slogan: product.slogan,
@@ -96,10 +97,21 @@ class CategoryProductContainer extends Component {
       }
     }
   } 
-
-  componentDidMount() {
+  componentWillUpdate(nextProps, nextState) {
+    const {
+      productSlug
+    } = this.props.match.params;
     
+    
+    if (nextProps.match.params.productSlug !== productSlug) {
+      console.log('will update');
+      this.getIdFromCatalog(() => { this.requestProduct(true); });
+    }
+  }
+
+  getIdFromCatalog = (callback=false) => {
     const {dispatch, match} = this.props;
+
     const {
       categorySlug,
       collectionSlug, 
@@ -122,8 +134,15 @@ class CategoryProductContainer extends Component {
           categoryName: category.name,
           ...productData
         });
+        if (callback) {
+          callback();
+        }
       }
     });
+  }
+
+  componentDidMount() {
+    this.getIdFromCatalog();
   }
 
   render() {        

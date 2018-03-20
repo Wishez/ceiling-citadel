@@ -34,6 +34,7 @@ const OrderForm = ({
       validate: [required, fullNameLength, full_name],
       placeholder: 'Иванов Иван Иванович',
       label: 'ФИО',
+      autoComplete: 'name',
       iconOptions: {
         url: user,
         maxWidth: 35
@@ -44,6 +45,7 @@ const OrderForm = ({
       type: 'tel',
       maxLength: 26,
       minLength: 11,
+      autoComplete: 'tel',
       name: 'phone_number',
       validate: [required, phone, phoneLength],
       placeholder: '+7 (985) 905-02-51',
@@ -56,6 +58,7 @@ const OrderForm = ({
     },
     {
       type: 'email',
+      autoComplete: 'email',
       maxLength: 150,
       minLength: 1,
       name: 'email',
