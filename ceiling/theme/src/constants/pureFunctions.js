@@ -43,34 +43,16 @@ export const getDeleteProductArguments = (index, name, quantityOrderedProducts) 
 // var scrollToElement = require('scroll-to-element');
 
 export const slideTo = ({
-  selector, 
-  easing='easeInOutQuad',
-  position=false,
-  offset=0
+  selector
 }) => {
   const element = document.querySelector(selector);
-  // console.log('start sliding to', selector);
+
   if (element) {
     element.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     });
   }
-  // scrollToElement(selector, {
-  // offset: 0,
-  // ease: 'out-bounce',
-  // duration: 1500
-  // });
-  // if (element) { 
-  //   anime({
-  //     targets: document.documentElement || document.body,
-  //     scrollTop: position || element.getBoundingClientRect().y - 49 + offset,
-  //     duration: 1500,
-  //     elasticity: 100,
-  //     easing
-  //   });
-  // }
-
 };
 export const cookiesHandler = {
   setUsernameAndPasswordToCookies: ({

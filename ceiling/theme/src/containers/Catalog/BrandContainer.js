@@ -22,39 +22,71 @@ class BrandContainer extends Component {
     isRequesting: PropTypes.bool.isRequired,
 
   }
-  
-  requestBrand = () => {
-    const {id} = this.state;
+  state = {
+    id: '',
+    brandName: '',
+    slogan: '',
+    brand:  false
+  }
+
+  requestBrand = (force=false) => {
+    const {id, brandName} = this.state;
     const {dispatch} = this.props;
     // fetchCatalogEntityOrGetLocale can return false.  
-
     if (id) {
 
       const request = dispatch(
-        fetchCatalogEntityOrGetLocale(BRAND, id)
+        fetchCatalogEntityOrGetLocale(BRAND, id, force)
       );
 
       // Check Promise. It can be empty, because  
       // there is a condition for requesting the
       // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
+      
       if (request) {
-        request.then(requestedBrand => {
-          if (requestedBrand) {
-            this.setState({
-              brandName: transformName(requestedBrand.name),
-              slogan: requestedBrand.slogan,
-              brand: requestedBrand,
-            });
+        request.then(brand => {
+          if (brand) {
+            const transformedName = transformName(brand.name);
+          
+            if (transformedName !== brandName) {
+              this.setState({
+                brandName: transformedName,
+                slogan: brand.slogan,
+                brand
+              });
+            }
           }
-
         });
       }
     }
   } 
+  componentWillUpdate(nextProps, nextState) {
+    const {
+      brandSlug
+    } = this.props.match.params;
+    const {BRAND} = this.props;
 
-  componentDidMount() {   
+    
+    if (BRAND !== nextProps.BRAND) {
+      this.setState({
+        brand: false
+      });
+    }
+
+    const newRoute = nextProps.match.params.brandSlug;
+    if (newRoute !== brandSlug) {
+      this.getIdFromCatalog(
+        () => { this.requestBrand(true); },
+        newRoute  
+      );
+    }
+  }
+
+  getIdFromCatalog = (callback=false, newSlug=false) => {
     const {match} = this.props;
-    const {brandSlug} = match.params;
+    let {brandSlug} = match.params;
+    brandSlug = newSlug ? newSlug : brandSlug;
+    
     // Get catalog
     catalogStore.getItem(CATALOG, (error, catalog) => {
       // Check for existance.
@@ -64,18 +96,19 @@ class BrandContainer extends Component {
         // in view will be request for the current entity,
         // if the user have already not seen it.
         this.setState({id});
+
+        if (callback) {
+          callback();
+        }
       }
     });
-    
   }
 
-  state = {
-    id: '',
-    brandName: '',
-    slogan: '',
-    brand:  false
+  componentDidMount() {   
+    this.getIdFromCatalog();
   }
 
+  
   render() {      
     const {
       isRequesting
@@ -121,7 +154,7 @@ const mapStateToProps = state => {
   } = catalog;
 
   return {
-    BRAND: catalog.BRNAD,
+    BRAND: catalog.BRAND,
     isRequesting
   };
 };

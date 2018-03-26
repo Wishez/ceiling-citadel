@@ -32,33 +32,58 @@ class CategoryContainer extends Component {
     slogan: ''
   }
 
-  requestCategory = () => {
-    const {id} = this.state;
+  requestCategory = (force=false) => {
+    const {id, categoryName} = this.state;
     const {dispatch} = this.props;
 
     if (id) {
       const request = dispatch(
-        fetchCatalogEntityOrGetLocale(CATEGORY, id)
+        fetchCatalogEntityOrGetLocale(CATEGORY, id, force)
       );
         
       if (request) {
-        request.then(requestedCategory => {
-          console.log(requestedCategory);
-          if (requestedCategory) {
-            this.setState({
-              categoryName: transformName(requestedCategory.name),
-              slogan: requestedCategory.slogan,
-              category: requestedCategory,
-              id
-            });
+        request.then(category => {
+          if (category) {
+            const transformedName = transformName(category.name);
+
+            if (transformName !== categoryName) {
+              this.setState({
+                categoryName: transformedName,
+                slogan: category.slogan,
+                category: category,
+                id
+              });
+            }
           }
         });
       }
       
     }
   }
+  componentWillUpdate(nextProps, nextState) {
+    const {
+      categorySlug
+    } = this.props.match.params;
+    const {CATEGORY} = this.props;
+    
+    if (CATEGORY !== nextProps.CATEGORY) {
+      this.setState({
+        category: false
+      });
+    }
 
-  componentDidMount() {
+    const newRoute = nextProps.match.params.categorySlug;
+
+    if (newRoute !== categorySlug) {
+      this.getIdFromCatalog(
+        () => { this.requestCategory(true); },
+        newRoute  
+      );
+    }
+  }
+
+
+  getIdFromCatalog = (callback=false, newSlug=false) => {
     const {match} = this.props;
     const {categorySlug} = match.params;
 
@@ -67,13 +92,18 @@ class CategoryContainer extends Component {
 
       if (catalog !== null && categorySlug in catalog.categories) {        
         const id = catalog.categories[categorySlug].uuid;
-          
+            
         this.setState({id});
 
+        if (callback) {
+          callback();
+        }
       }
     });
+  }
 
-    
+  componentDidMount() {
+    this.getIdFromCatalog();    
   }
 
   render() {        

@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 // importLoader:1 from https://blog.madewithenvy.com/webpack-2-postcss-cssnext-fdcd2fd7d0bd
 const extractSass = new ExtractTextPlugin('styles/app.[contenthash].css');
@@ -53,11 +54,11 @@ module.exports = {
                         loader: 'postcss-loader',
                         options: { 
                             sourceMap: true,
-                            // ident: 'postcss',
-                            // plugins: [
-                            //     require('postcss-import')(),
-                            //     require('stylelint')()
-                            // ]   
+                            ident: 'postcss',
+                            plugins: [
+                                // require('postcss-import')(),
+                                // require('cc')
+                            ]   
                         },  
                     },
                     {
@@ -74,11 +75,17 @@ module.exports = {
     plugins: [
         extractFonts,
         extractSass,
+        // new OptimizeCSSPlugin({
+        //   cssProcessorOptions: {
+        //     safe: true
+        //   }
+        // }),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
-            }
+            },
+            sourceMap: true
         })
     ]
 };

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import OrderButtonContainer from './OrderButtonContainer';
 
 import CatalogSection from './../components/Catalog/CatalogSection';
@@ -13,7 +13,7 @@ import Fading from './../components/Animation/Fading';
 
 import getClass from './../constants/classes';
 
-import {localData, getArray} from './../constants/pureFunctions';
+import {localData, getArray, slideTo, timeout } from './../constants/pureFunctions';
 import { catalogSectionCombiner } from './../constants/filter';
 import {catalogBrandUrl} from './../constants/conf';
 import { aboutSections } from './../constants/conf';
@@ -24,6 +24,7 @@ import { initNavigationState } from './../reducers/navigation';
 import { selectNavigationItem } from './../actions/navigationActions';
 import { tryFetchCatalog, fetchCatalogEntityOrGetLocale } from './../actions/catalog';
 
+import exhibition from './../images/about/exhebition1.png';
 import boxes from './../images/about/boxes.png';
 import {cartPositions} from './../constants/cart';
 
@@ -46,7 +47,17 @@ class MainPageContainer extends Component {
 	  
 	}
 
-	render() {
+	 gogo = (selector) => {
+	    return (event) => {
+	      timeout(() => {
+	        slideTo({
+	          selector
+	        });
+	      }, 1200);
+	    };
+	  };
+
+	 render() {
 	  const {isRequesting} = this.props;
 	  const {isBrandsGotten, brands} = this.state;
 
@@ -66,6 +77,8 @@ class MainPageContainer extends Component {
 				  });
 			  }
 	  });
+
+	 
 	  
 	  return (
 	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
@@ -79,6 +92,21 @@ class MainPageContainer extends Component {
 	        	<AboutSection key={index} {...section} />
 	        </Fading>
 	      ))}
+	     <AboutSection text={false}
+	        title="Локальный Эрмитаж"
+	        image={exhibition} 
+	        sources={[]}
+	        modifier="exhibition"
+	        maxWidth={215}
+	      >
+	        <Paragraph  
+	          block="aboutSection">
+	          Наша галерея хранит отборные дизайнерские работы. 
+	          Она делится на несколько залов, которые, вероятно, заинтересуют вас: 
+	          <Link to='/catalog#brands' onClick={this.gogo('#brands')}> зал с брэндами</Link> и <Link onClick={this.gogo('#categories')} to='/catalog#categories'> зал с разнообразым типами потолков</Link>.
+	         </Paragraph>
+	        
+	      </AboutSection>
 	      <AboutSection text={false}
 	        title="просторная сумка"
 	        image={boxes} 
@@ -101,7 +129,7 @@ class MainPageContainer extends Component {
 	  );
 		
 		
-	}
+	 }
 }
 
 const mapStateToProps = state => {

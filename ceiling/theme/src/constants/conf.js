@@ -19,12 +19,11 @@ export const catalogBrandUrl = '/catalog/brand/';
 export const catalogCategoryUrl = '/catalog/category/';
 
 // About section constants
-import OrderButton from './../components/OrderButton';
 import nice_to_meet_you from './../images/about/sharp_first.png';
 import products from './../images/about/sharp.png';
 import design from './../images/about/square.png';
-import exhibition from './../images/about/exhebition1.png';
-import boxes from './../images/about/boxes.png';
+// import exhibition from './../images/about/exhebition1.png';
+// import boxes from './../images/about/boxes.png';
 
 
 export const aboutSections = [{
@@ -54,15 +53,15 @@ export const aboutSections = [{
   maxWidth: 190,
   modifier: 'design',
 },
-{
-  title: 'Локальный Эрмитаж',
-  text: 'Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас: <a href="/catalog#brands">зал с брэндами</a> и <a href="/catalog#categories">зал с разнообразым типами потолков</a>.',
-  image: exhibition,
-  sources: [],
-  children: '',
-  maxWidth: 215,
-  modifier: 'exhibition',
-},
+// {
+//   title: 'Локальный Эрмитаж',
+//   text: 'Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас: <a href="/catalog#brands">зал с брэндами</a> и <a href="/catalog#categories">зал с разнообразым типами потолков</a>.',
+//   image: exhibition,
+//   sources: [],
+//   children: '',
+//   maxWidth: 215,
+//   modifier: 'exhibition',
+// },
 // {
 // 	title: "просторная сумка",
 // 	text: `Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ. `,

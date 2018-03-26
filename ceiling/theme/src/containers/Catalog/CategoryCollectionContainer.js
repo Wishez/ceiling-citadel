@@ -37,38 +37,77 @@ class BrandCategoryContainer extends Component {
     collectionName: ''
   }
 
-  requestCollection = () => {
-    const {id} = this.state;
+  requestCollection = (force=false) => {
+    const {id, collectionName} = this.state;
     const {dispatch} = this.props;
     // fetchCatalogEntityOrGetLocale can return false.  
 
     if (id) {
-
       const request = dispatch(
-        fetchCatalogEntityOrGetLocale(COLLECTION, id)
+        fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
       );
 
         // Check Promise. It can be empty, because  
         // there is a condition for requesting the
         // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
       if (request) {
-        request.then(requestedCollection => {
-          if (requestedCollection) {
-            this.setState({
-              collectionName: transformName(requestedCollection.name),
-              slogan: requestedCollection.slogan,
-              collection: requestedCollection,
-            });
+
+        request.then(collection => {
+          if (collection) {
+            const transformedName = transformName(collection.name);
+
+            if (transformedName !== collectionName) {
+              this.setState({
+                collectionName: transformedName,
+                slogan: collection.slogan,
+                collection: collection,
+              });
+            }
           }
         });
       }
     }
   } 
 
-  componentDidMount() {
+  componentWillUpdate(nextProps, nextState) {
+    const {
+      collectionSlug,
+      categorySlug
+    } = this.props.match.params;
+
+    const {COLLECTION} = this.props;
     
-    const {dispatch, match} = this.props;
-    const {collectionSlug, categorySlug} = match.params;
+    if (COLLECTION !== nextProps.COLLECTION) {
+      this.setState({
+        collection: false
+      });
+    }
+
+    const newCollectionSlug = nextProps.match.params.collectionSlug;
+    const newCategorySlug = nextProps.match.params.collectionSlug;
+
+    if (newCollectionSlug !== collectionSlug) {
+      this.getIdFromCatalog(
+        () => { this.requestCollection(true); },
+        newCollectionSlug,
+        newCategorySlug
+      );
+    }
+  }
+
+  getIdFromCatalog = (
+    callback=false, 
+    newCollectionSlug=false,
+    newCategorySlug=false
+  ) => {
+    const {match} = this.props;
+    let {collectionSlug, categorySlug} = match.params;
+
+    // Update
+    if (newCollectionSlug) {
+      collectionSlug = newCollectionSlug;
+      categorySlug = newCategorySlug;
+    }
 
     catalogStore.getItem(CATALOG, (error, catalog) => {
     
@@ -76,14 +115,22 @@ class BrandCategoryContainer extends Component {
         const category = catalog.categories[categorySlug];
 
         const id = findUUID(category.collections, collectionSlug);
-      
+        
         this.setState({
           categoryName: transformName(category.name),
           id
         });
+
+        if (callback) {
+          callback();
+        }
       }
       
     });
+  }
+
+  componentDidMount() {
+    this.getIdFromCatalog();
   }
 
   render() {        

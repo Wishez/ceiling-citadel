@@ -62,17 +62,13 @@ class SearchContainer extends Component {
           onChange={this.searchEntity}
         />
         {searchEntities.length ? 
-          <section className={getClass({
-            b: 'result',
-          })}>
+          <section className="result opacity_9">
             {searchEntities.map((section, key) => (
-              <article className={getClass({
-                b: 'resultSection',
-              })} key={key}>
-                <h2 className={getClass({
-                  b: 'resultSection',
-                  el: 'title'
-                })}>{section.name}</h2>
+              <article className="resultSection"
+                key={key}>
+                <h2 className="resultSection__title">
+                  {section.name}
+                </h2>
                 <ul>
                   {section.items.map((item, index) => (
                     <li key={index}>

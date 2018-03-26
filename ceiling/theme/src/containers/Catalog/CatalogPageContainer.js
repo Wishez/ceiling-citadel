@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import Scroll from 'react-scroll-to-element';
 import Loader from './../../components/Loader';
 
 import catalogStore, {CATALOG} from './../../constants/catalog';
@@ -13,7 +12,7 @@ import {catalogBrandUrl, catalogCategoryUrl} from './../../constants/conf';
 
 import picture from './../../images/icons/picture.png';
 
-// import { slideTo } from './../../constants/pureFunctions';
+import { slideTo } from './../../constants/pureFunctions';
 import CatalogSection from './../../components/catalog/CatalogSection';
 import Figure from './../../components/Figure';
 
@@ -30,7 +29,16 @@ class CatalogPageContainer extends Component {
     categories: [],
     brands: [] 
   }
+  gogo = selector => {
+    return event => {
+      event.preventDefault();
+      slideTo({
+        selector
+      });
 
+      return false;
+    };
+  }
   render() {  
     const { isRequesting } = this.props;
     const {
@@ -63,6 +71,7 @@ class CatalogPageContainer extends Component {
           }
         });
     }
+   
     
     return (
       <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
@@ -71,16 +80,12 @@ class CatalogPageContainer extends Component {
               Выставочный зал
             <Figure name="picture" url={picture} maxWidth={68} />
           </h1>
-          <ul className={getClass({b: 'catalogRefersList', add: 'parent row h-around baseChild'})}>
-            <li className={getClass({b: 'catalogRefer'})}>
-              <Scroll type="id" element="brands">
-                <a href="" className={getClass({b: 'catalogRefer', el: 'refer'})}>Бренды</a>
-              </Scroll>
+          <ul className='catalogRefersList parent row h-around baseChild'>
+            <li className='catalogRefer'>
+              <a href="#brands" onClick={this.gogo('#brands')} className={getClass({b: 'catalogRefer', el: 'refer'})}>Бренды</a>
             </li>
             <li className={getClass({b: 'catalogRefer'})}>
-              <Scroll type="id" element="categories">
-                <a href="" className={getClass({b: 'catalogRefer', el: 'refer'})}>Категория</a>
-              </Scroll>
+              <a href="#categories" onClick={this.gogo('#categories')} className={getClass({b: 'catalogRefer', el: 'refer'})}>Категории</a>
             </li>
 
           </ul>

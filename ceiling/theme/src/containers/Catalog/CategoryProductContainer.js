@@ -82,15 +82,18 @@ class CategoryProductContainer extends Component {
                   })
                 );
 
-                // After receiving, we can show it updating the view.
+                const transformedProductName =  transformName(product.name);
 
-                this.setState({
-                  productName: transformName(product.name),
-                  slogan: product.slogan,
-                  product,
-                  album,
-                  slides
-                });
+                if (productName !== transformedProductName) {
+                  // After receiving, we can show it updating the view.
+                  this.setState({
+                    productName: transformName(product.name),
+                    slogan: product.slogan,
+                    product,
+                    album,
+                    slides
+                  });
+                }
               });
           }
         });
@@ -101,10 +104,16 @@ class CategoryProductContainer extends Component {
     const {
       productSlug
     } = this.props.match.params;
-    
+    const {PRODUCT} = this.props;
+
+     
+    if (PRODUCT !== nextProps.PRODUCT) {
+      this.setState({
+        product: false
+      });
+    }
     
     if (nextProps.match.params.productSlug !== productSlug) {
-      console.log('will update');
       this.getIdFromCatalog(() => { this.requestProduct(true); });
     }
   }

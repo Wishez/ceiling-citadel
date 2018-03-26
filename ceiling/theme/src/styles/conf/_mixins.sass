@@ -187,7 +187,7 @@ $i: !important
 // Font Face
 // =============================================================================
 
-@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff ttf svg) 
+@mixin font-face($name, $path, $weight: null, $style: null, $exts: eot woff2 woff) 
   $src: null
 
   $extmods: ( eot: "?", svg: "#" + str-replace($name, " ", "_"))
@@ -206,4 +206,4 @@ $i: !important
     font-style: $style
     font-weight: $weight
     src: $src
-    font-display: fallback
+    font-display: swap

@@ -88,16 +88,15 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
     isSettingAccept: false,
     success: response => {
     	const entity = response.body;
-
       // localData.set(name, entity);
-      catalogStore.setItem(name, entity, function() {
+      return catalogStore.setItem(name, entity, function() {
         // Check for an album.
         const slug = 'album' in entity && entity.album;
 
         if (slug) {
           // If it is in entity, then we'd like to have another one.
           getAlbum(slug, () => {
-            dispatch(retrieveEntity(type, id));	
+            dispatch(retrieveEntity(type, id)); 
           });
         } else {
           // Just saying that we got an entity.

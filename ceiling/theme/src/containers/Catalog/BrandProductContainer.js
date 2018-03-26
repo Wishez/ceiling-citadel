@@ -51,7 +51,8 @@ class BrandProductContainer extends Component {
     slogan: '',
     productName: '',
     album: false,
-    slides: []
+    slides: [],
+    inited: true
   }
 
   getIdFromCatalog = (callback=false) => {
@@ -86,7 +87,7 @@ class BrandProductContainer extends Component {
   }
 
    requestProduct = (force=false) => {
-     const {id} = this.state;
+     const {id, productName} = this.state;
      const {dispatch} = this.props;
      // fetchCatalogEntityOrGetLocale can return false.  
 
@@ -95,13 +96,11 @@ class BrandProductContainer extends Component {
        const request = dispatch(
          fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
        );
-
+       
        // Check Promise. It can be empty, because  
        // there is a condition for requesting the
        // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
        if (request) {
-            
-          
          request.then(product => {
            if (product) {
              // I and product need an album.
@@ -114,25 +113,22 @@ class BrandProductContainer extends Component {
                      preview: <Figure {...image} key={`${index}${index + 1002}`} url={image.image} name="productSlidePreview" />
                    })
                  );
-                 console.log('update state of the product', {
-                   productName: transformName(product.name),
-                   slogan: product.slogan,
-                   product,
-                   album,
-                   slides
-                 });
+                 const transformedProductName =  transformName(product.name);
 
-                 this.setState({
-                   productName: transformName(product.name),
-                   slogan: product.slogan,
-                   product,
-                   album,
-                   slides
-                 }); // end setState
+                 if (productName !== transformedProductName) {
+                   this.setState({
+                     productName: transformedProductName,
+                     slogan: product.slogan,
+                     product,
+                     album,
+                     slides,
+                     inited: true
+                   }); // end setState
+                 }
                }); // end getting LAST_ALBUM
            }
          });
-       } 
+       }
      }
    } 
 
@@ -140,10 +136,16 @@ class BrandProductContainer extends Component {
      const {
        productSlug
      } = this.props.match.params;
+     const {PRODUCT} = this.props;
 
-      
+     
+     if (PRODUCT !== nextProps.PRODUCT) {
+       this.setState({
+         product: false
+       });
+     }
+     
      if (nextProps.match.params.productSlug !== productSlug) {
-       console.log('will update');
        this.getIdFromCatalog(() => { this.requestProduct(true); });
      }
    }
@@ -166,7 +168,7 @@ class BrandProductContainer extends Component {
        productName,
        slides
      } = this.state;
-
+     
      if (!product) {
        // fetchCatalogEntityOrGetLocale can return false.
        this.requestProduct();

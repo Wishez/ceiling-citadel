@@ -33,52 +33,104 @@ class BrandCollectionContainer extends Component {
     collectionName: ''
   }
 
-   requestCollection = () => {
-     const {id} = this.state;
+   requestCollection = (force=false) => {
+     const {id, collectionName} = this.state;
      const {dispatch} = this.props;
      // fetchCatalogEntityOrGetLocale can return false.  
      const {url} = this.props.match;
      if (id) {
 
        const request = dispatch(
-         fetchCatalogEntityOrGetLocale(COLLECTION, id)
+         fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
        );
 
        // Check Promise. It can be empty, because  
        // there is a condition for requesting the
        // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
        if (request) {
-         request.then(requestedCollection => {
-           if (requestedCollection) {
-             this.setState({
-               collectionName: transformName(requestedCollection.name),
-               slogan: requestedCollection.slogan,
-               collection: requestedCollection,
-             });
+         request.then(collection => {
+           
+           if (collection) {
+             const transformedName = transformName(collection.name);
+
+             if (transformedName !== collectionName) {
+               this.setState({
+                 collectionName: transformedName,
+                 slogan: collection.slogan,
+                 collection: collection,
+               });
+             }
            }
          });
        }
      }
    } 
 
-   componentDidMount() {
-    
+   getIdFromCatalog = (
+     callback=false, 
+     newCollectionSlug,
+     newBrandSlug
+   ) => {
      const {match} = this.props;
-     const {collectionSlug, brandSlug} = match.params;
+     let {collectionSlug, brandSlug} = match.params;
     
+     // Update
+     if (newCollectionSlug) {
+       collectionSlug = newCollectionSlug;
+       brandSlug = newBrandSlug;
+     }
 
      catalogStore.getItem(CATALOG, (error, catalog) => {
+    
        if (catalog !== null && brandSlug in catalog.brands) {
          const brand = catalog.brands[brandSlug];
+
          const id = findUUID(brand.collections, collectionSlug);
-          
+        
          this.setState({
-           brandName: brand.name,
+           categoryName: transformName(brand.name),
            id
          });
+
+         if (callback) {
+           callback();
+         }
        }
+      
      });
+   }
+
+   componentDidMount() {
+     this.getIdFromCatalog();
+   }
+   componentWillUpdate(nextProps, nextState) {
+     const {
+       collectionSlug,
+       brandSlug
+     } = this.props.match.params;
+
+     const {COLLECTION} = this.props;
     
+     if (COLLECTION !== nextProps.COLLECTION) {
+       this.setState({
+         collection: false
+       });
+     }
+
+     const newCollectionSlug = nextProps.match.params.collectionSlug;
+     const newBrandSlug = nextProps.match.params.brandSlug;
+
+     if (newCollectionSlug !== collectionSlug) {
+       this.getIdFromCatalog(
+         () => { 
+           this.requestCollection(
+             true
+           ); 
+         },
+         newCollectionSlug,
+         newBrandSlug
+       );
+     }
    }
 
    render() {        
