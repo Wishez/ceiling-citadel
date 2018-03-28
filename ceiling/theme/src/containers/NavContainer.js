@@ -7,6 +7,7 @@ import Navigation from './../components/Navigation';
 import MenuButton from './../components/MenuButton';
 import { selectNavigationItem, openMenu as open, closeMenu as close } from './../actions/navigationActions.js';
 import getClass from './../constants/classes';
+import {timeout, slideTo } from './../constants/pureFunctions';
 
 class NavContainer extends Component {
   static propTypes = { 
@@ -30,6 +31,13 @@ class NavContainer extends Component {
   changeActiveNavigationItem = navigationItem => () => {
     this.props.dispatch(selectNavigationItem(navigationItem));
     this.closeMenu();
+
+    timeout(() => {
+      slideTo({
+        selector: '.header'
+      });
+    }, 500);
+    
   }
 
 

@@ -28,14 +28,14 @@ const PopupFormContainer = ({
   signification,
   opacity=0,
   in: inProp,
-  duration=300,
+  duration=150,
   ...rest
 }) => (
   <Transition in={inProp} timeout={duration}>
     {state => (
       <div style={{
         ...defaultStyle,
-        transition: `opacity ${duration}ms ease-in-out, z-index ${duration}ms ease-in-out`,
+        transition: `opacity ${duration}ms cubic-bazier(0.0,0.0,0.2,1), z-index ${duration}ms ease-in-out`,
         ...transitionStyles[state]
       }} 
       className={getClass({b: 'popupBackground', add: `${!inProp ? 'visible-hidden' : ''} parent row centered`})}>

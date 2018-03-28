@@ -7,7 +7,8 @@ import {
   HIDE_HELP_TEXT,
   SHOW_HELP_TEXT,
   SHOW_ACTION,
-  PRODUCTION_STORE
+  PRODUCTION_STORE,
+  RESET_ADD_TO_CART_FORM
 } from './../constants/cart';
 
 
@@ -62,6 +63,9 @@ export const closeCart = () => ({
 export const openCart = id => ({
   type: OPEN_CART,
   id
+});
+export const resetAddToCartForm = () => ({
+  type: RESET_ADD_TO_CART_FORM
 });
 
 export const changeProductQuantity = (id, quantity, store=PRODUCTION_STORE) => ({

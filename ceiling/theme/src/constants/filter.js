@@ -1,6 +1,9 @@
 import React from 'react';
 import CatalogItem from './../components/Catalog/CatalogItem';
-import Fading from './../components/Animation/Fading';
+// import Fading from './../components/Animation/Fading';
+// import Circle from './../components/Animation/Circle';
+import {CSSTransition} from 'react-transition-group';
+
 import {catalogBrandUrl, catalogCategoryUrl} from './conf';
 import {getArray} from './pureFunctions';
 import  CatalogSubsection from './../components/Catalog/CatalogSubsection';
@@ -49,11 +52,13 @@ export const getProductData = (array, collectionSlug, productSlug) => {
   return false;
 };
 
+// <Fading key={props.key}>
+// <Circle>
+// </Circle>
+// </Fading>
 const combineCatalogSimpleItem = props => ( 
   props.item.is_shown ? 
-    <Fading key={props.key}>
-      <CatalogItem {...props}/> 
-    </Fading>
+    <CatalogItem key={props.key} {...props}/> 
     : ''
 );
   

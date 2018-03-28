@@ -7,10 +7,12 @@ import {
   SHOW_HELP_TEXT,
   HIDE_HELP_TEXT,
   SHOW_ACTION,
-  PRODUCTION_STORE
+  PRODUCTION_STORE,
+  RESET_ADD_TO_CART_FORM
 } from './../constants/cart';
-import {localData} from './../constants/pureFunctions';
-
+import {
+  localData
+} from './../constants/pureFunctions';
 export const initState = {
   isCartOpened: false,
   quantityOrderedProducts: 0,
@@ -19,40 +21,34 @@ export const initState = {
   isProductAdded: false,
   isRequesting: false
 };
-
-const cart = (
-  state=initState,
-  action
-) => {
+const cart = (state = initState, action) => {
   let products, index, storeName;
-	
   switch (action.type) {
-	    case SHOW_ACTION:
+    case RESET_ADD_TO_CART_FORM:
       return {
         ...state,
+        isProductAdded: false,
+        helpText: ''
+      };
+    case SHOW_ACTION:
+      return { ...state,
         isRequesting: true
       };
-	    case OPEN_CART:
-      return {
-        ...state,
+    case OPEN_CART:
+      return { ...state,
         isCartOpened: action.id
       };
     case CLOSE_CART:
-      return {
-        ...state,
+      return { ...state,
         isCartOpened: false
       };
     case PUT_PRODUCT:
       storeName = action.store;
       products = localData.get(storeName) || [];
-
-      localData.set(storeName, [
-			    ...products,
-			    action.product
+      localData.set(storeName, [...products,
+        action.product
       ]);
-
-      return {
-        ...state,
+      return { ...state,
         isProductAdded: true,
         isRequesting: false,
         helpText: 'Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.',
@@ -62,51 +58,33 @@ const cart = (
       storeName = action.store;
       index = action.id;
       products = localData.get(storeName) || [];
-
-      localData.set(storeName, [
-			  ...products.slice(0, index),
-			  ...products.slice(index + 1)
-      ]);
-
-			
-      return {
-        ...state,
+      localData.set(storeName, [...products.slice(0, index), ...products.slice(index + 1)]);
+      return { ...state,
         quantityOrderedProducts: state.quantityOrderedProducts - 1
       };
     case CHANGE_PRODUCT_QUANTITY:
       storeName = action.store;
       products = localData.get(storeName);
       index = action.id;
-
-      localData.set(storeName, [
-			  ...products.slice(0, index),
-			  {
-			    ...products[index],
-			    quantity: action.quantity
-			  },          
-			  ...products.slice(index + 1)
-      ]);
-
+      localData.set(storeName, [...products.slice(0, index), { ...products[index],
+        quantity: action.quantity
+      }, ...products.slice(index + 1)]);
       return state;
     case SHOW_HELP_TEXT:
-      return {
-        ...state,
+      return { ...state,
         helpText: action.helpText,
         isShownHelpText: true
       };
     case HIDE_HELP_TEXT:
-      return {
-        ...state,
+      return { ...state,
         helpText: '',
-        isShownHelpText: false	
+        isShownHelpText: false
       };
     default:
-      		products = localData.get(PRODUCTION_STORE) || [];
-      return {
-        ...state,
+      products = localData.get(PRODUCTION_STORE) || [];
+      return { ...state,
         quantityOrderedProducts: products.length
       };
   }
 };
-
 export default cart;

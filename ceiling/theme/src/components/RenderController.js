@@ -18,6 +18,7 @@ const RenderController = ({
   className,
   asideText=false,
   isShown,
+  showBorder=true,
   ...rest
 }) => (
   <div style={style ? style : {}} 
@@ -26,7 +27,7 @@ const RenderController = ({
       m: modifier,
       add: className
     })}>
-    {label ? 
+    {label && !warning ? 
       <label className={getClass({
         b: block,
         el: 'label',
@@ -35,7 +36,7 @@ const RenderController = ({
       })}>
         {label}
       </label> : ''}
-    {iconOptions ? 
+    {iconOptions && !warning ? 
       <Figure 
         block="controllerIcon" 
         className="baseChild"
@@ -73,8 +74,8 @@ const RenderController = ({
           })} 
         />
       }
-      <span className="input-border"></span>
-      <span className="input-border"></span>
+      {showBorder ? <span className="input-border"></span> : ''}
+      {showBorder ? <span className="input-border"></span> : ''}
     </div>
 		 {asideText ? 
 		 	<Paragraph block="controller" text={`: ${asideText}`}/> : 

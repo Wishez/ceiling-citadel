@@ -88,7 +88,7 @@ class BrandCollectionContainer extends Component {
          const id = findUUID(brand.collections, collectionSlug);
         
          this.setState({
-           categoryName: transformName(brand.name),
+           brandName: transformName(brand.name),
            id
          });
 
@@ -160,7 +160,7 @@ class BrandCollectionContainer extends Component {
            '/catalog': 'Каталог',
            '/catalog/brand': false,
            '/catalog/brand/:brandSlug': brandName,
-           '/catalog/brand/:brandSlug/:collectionSlug': collectionName
+           '/catalog/brand/:brandSlug/:collectionSlug': false //collectionName
          }}
          CONSTANT={COLLECTION}
        >

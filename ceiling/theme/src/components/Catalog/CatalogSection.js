@@ -1,6 +1,7 @@
 import React  from 'react';
 import getClass from './../../constants/classes';
 import {TransitionGroup } from 'react-transition-group';
+
 import Loader from './../Loader';
 
 

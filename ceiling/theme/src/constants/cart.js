@@ -6,6 +6,7 @@ export const CHANGE_PRODUCT_QUANTITY = 'CHANGE_PRODUCT_QUANTITY';
 export const HIDE_HELP_TEXT = 'HIDE_HELP_TEXT';
 export const SHOW_HELP_TEXT = 'SHOW_HELP_TEXT';
 export const SHOW_ACTION = 'SHOW_ACTION';
+export const RESET_ADD_TO_CART_FORM = 'RESET_ADD_TO_CART_FORM';
 // Stores of orderedProduct
 export const PRODUCTION_STORE = 'ORDERED_PRODUCTS';
 export const TEST_STORE = 'TEST_ORDERED_PRODUCTS';

@@ -54,10 +54,8 @@
 	box-shadow: inset 0 0 12px rgba(0,0,0, .15)
 	transition: transform .5s ease
 	min-width: 	span(12)
-	// @extend %absolute
 	margin-top: 0 $i
-	padding:  0 1.5rem em(29.39)
-	// width: span(12)
+	padding:  0 1.25rem em(29.39) 1.5rem
 	min-height: em(245.7, 16)
 	transform: translateY(100%)
 	background-color: $white
@@ -149,6 +147,8 @@
 		min-width: span(12)
 .catalogRefer, .breadcrumb
 	margin: 0	
+	padding-left: .5rem
+	padding-right: .5rem
 .catalogRefer
 	margin-right: .1em
 .breadcrumb, .catalogHeader__title_active
@@ -173,11 +173,11 @@
 	border-bottom: 	1px solid $gray
 	padding-bottom: .5rem
 
-
+.controller__input button > div > div
+	height: 0px $i
+	weight: 0px $i
 .table
-	// min-height: span(3)
 	height: em(65)
-	// padding: 1em 0 
 	margin-top: 0
 	margin-bottom: 0
 	font-size: em(21)
@@ -217,8 +217,18 @@
 	
 	margin-top: 3rem
 	border-radius: 3px
-	background-color: #fff
-	padding: 1.5rem 1.5rem 2.5rem
+	padding: 1.5rem 1rem 2.5rem 1.5rem
+	&::after
+		background: #fff
+		content: ""
+		position: absolute
+		top: 0
+		left: 0
+		width: 100%
+		height: 100%
+		z-index: -1
+		filter: blur(6px)
+		opacity: .6
 	&:even
 		border-color: $cian
 	&:odd
@@ -229,6 +239,7 @@
 		margin: 3rem auto 0
 	&__title
 		align-self: flex-start
+		margin-right: -4px
 		
 	@extend %relative
 	&_niceToMeetYou
@@ -307,6 +318,7 @@
 		& .sampleCharacteristic_colors
 			// margin-top: 0
 			transform: none
+
 			& .sampleCharacteristic__characteristic
 				transform: translateY(-100%)
 		& .moreRefer
@@ -326,6 +338,7 @@
 	&_colors
 		transform: translateY(35%)
 		min-width: span(4)
+		order: -1
 		align-self: flex-end
 		flex-flow: column wrap
 		align-items: flex-end
@@ -403,10 +416,13 @@
 	@include breakpoint($xs)
 		// transform: translateX(-5em)
 		align-items: flex-start
-		width: em(305)
+		// width: em(305)
 		margin-top: 1.5rem
-		min-width: fit-content;
+		min-width: fit-content
 		order: -1
+		min-width: 18.5em
+	@include breakpoint($xxs)
+		min-width: 100%
 .proportionFields, .formButton_product
 	@include breakpoint($xs)
 .formButton_product

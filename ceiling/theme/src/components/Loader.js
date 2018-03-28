@@ -5,7 +5,7 @@ import Figure from './../components/Figure';
 const Loader = ({
   ...rest
 }) => (
-  <Figure name="loader" url={loader} maxWidth={65} {...rest} />
+  <Figure name="loader" aria-live="assertive" role="alert" url={loader} maxWidth={65} {...rest} />
 );
 
 

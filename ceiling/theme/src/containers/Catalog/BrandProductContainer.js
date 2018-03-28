@@ -11,22 +11,18 @@ import catalogStore, {
   LAST_ALBUM
 } from './../../constants/catalog';
 
-import { 
-  transformName
-} from './../../constants/pureFunctions';
+import {transformName} from './../../constants/pureFunctions';
 
-import { 
-  getProductData, 
-  findUUID
-} from './../../constants/filter';
+import {getProductData, 
+  findUUID} from './../../constants/filter';
 import {catalogCollectionUrl} from './../../constants/conf';
 
 import BreadcrumbsContainer from './../BreadcrumbsContainer';
 import BaseCatalogContainer from './BaseCatalogContainer';
 import AddProductFormContainer from './../AddProductFormContainer';
-import {
-  fetchCatalogEntityOrGetLocale
-} from './../../actions/catalog';
+
+import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {resetAddToCartForm} from './../../actions/cart';
 
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
@@ -133,16 +129,16 @@ class BrandProductContainer extends Component {
    } 
 
    componentWillUpdate(nextProps, nextState) {
-     const {
-       productSlug
-     } = this.props.match.params;
-     const {PRODUCT} = this.props;
+     const {productSlug} = this.props.match.params;
+     const {PRODUCT, dispatch} = this.props;
 
      
      if (PRODUCT !== nextProps.PRODUCT) {
        this.setState({
          product: false
        });
+
+       dispatch(resetAddToCartForm());
      }
      
      if (nextProps.match.params.productSlug !== productSlug) {
@@ -150,6 +146,9 @@ class BrandProductContainer extends Component {
      }
    }
    componentDidMount() {
+     const {dispatch} = this.props;
+    
+     dispatch(resetAddToCartForm());
      this.getIdFromCatalog();
    }
 

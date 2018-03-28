@@ -37,10 +37,10 @@ class FooterContainer extends Component {
     } = this.props;
 
     return (
-      <footer className={getClass({b: 'footer'})}>
+      <footer className='footer'>
         <QuestionFormContainer />
-        <div className={getClass({b: 'container', m: 'footer', add: 'parent row v-centered h-around'})}>
-      			<div className={getClass({b: 'firstFooterBlock', add: 'parent column h-around baseChild'})}>
+        <div className='container container_footer parent row v-centered h-around'>
+      			<div className='firstFooterBlock padding-bottom_1 parent column h-around baseChild'>
       				 <SearchContainer searchName="footerSearch" modifier="footer" />
       				 <ButtonsGroup className="baseChild" modifier="footer">
       				   <CallbackButtonContainer />
@@ -51,8 +51,8 @@ class FooterContainer extends Component {
       				 </ButtonsGroup>
       			</div>
 
-          <NavContainer isFooter={true} modifier="footer" className="baseChild" />
-          <div className={getClass({b: 'thirdFooterBlock', add: 'parent column v-centered h-around baseChild'})}>
+          <NavContainer isFooter={true} modifier="footer" className="padding-bottom_1 baseChild" />
+          <div className='padding-bottom_1 thirdFooterBlock parent column v-centered h-around baseChild'>
 		            <Logo maxWidth={65} modifier="footer"/>
 		            <Contacts 
 		                {...this.props}
@@ -60,11 +60,11 @@ class FooterContainer extends Component {
 		            />
 			       </div>
         </div>
-        <div className={getClass({b: 'copyright', add: 'parent column centered'})}> 
-          <p className={getClass({b: 'copyright', el: 'paragraph', add: 'centeredText'})}>&copy;2018&nbsp;ArtCeil<br/> 
+        <div className='copyright parent column centered padding-bottom_1'> 
+          <p className='copyright__paragraph centeredText'>&copy;2018&nbsp;ArtCeil<br/> 
 Созданно&nbsp;с&nbsp;поддержкой&nbsp;потолочных&nbsp;систем</p>
-          <p className={getClass({b: 'copyright', el: 'paragraph', add: 'centeredText'})}>
-                  Дизайн и разработка: <a onClick={notFollow} className={getClass({b: 'copyright', el: 'paragraph', m: 'refer', add:'reverse'})} href="https://shining-present.ru">Филипп Журавлёв</a>
+          <p className='copyright__paragraph centeredText'>
+                  Дизайн и разработка: <a onClick={notFollow} className={getClass({b: 'copyright', el: 'paragraph', m: 'refer', add:'reverse'})} href="https://shining-present.ru">&#10086;&nbsp;Филипп Журавлёв</a>
           </p>
         </div>
       </footer>

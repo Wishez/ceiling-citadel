@@ -18,6 +18,7 @@
 	letter-spacing: .12em
 .menuButton
 	min-width: auto
+	margin: auto
 	position: relative	
 	padding: .5rem
 	box-sizing: content-box
@@ -100,18 +101,24 @@
 .contactsItem
 	// &:not(:first-child)
 	margin-top: .5rem
+	white-space: nowrap
+	flex-wrap: nowrap
 	&__label
 		color: $gray
 .header
 	// position: sticky
 	// top: 0
 	background-color: $white
-	padding: 1em 0 1.5em
+	padding: 1em 0 3em
 	z-index: 100000
 	@include breakpoint($xs)
 			padding-bottom: 0 $i
 	& > .container
 		max-width: em(1050)
+		@include breakpoint($sm)
+			display: grid
+			grid-template-columns: 100px 1fr 1fr 335px
+			grid-column-gap: 1rem
 		@include breakpoint($sm-less)
 			margin: 0
 			padding: 0	

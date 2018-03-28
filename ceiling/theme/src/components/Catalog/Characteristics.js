@@ -35,7 +35,7 @@ const Characteristics = ({
     {(typeof colors === 'object' && colors.length) ? 
       <Characteristic name="colors" label="Цвета">
         <div className={getClass({b: 'colors', add: 'zeroVerticalMargin parent row h-between'})}>
-          {colors.map((color, index) => (
+          {colors.reverse().slice(0, 9).map((color, index) => (
             <div key={index} className={getClass({b: 'colorContainer', add: 'parent column zeroVerticalMargin'})}>
               <span style={{backgroundColor: color.color}} className={getClass({b: 'colorContainer', el: 'color', add: 'zeroVerticalMargin'})}></span>
               <span className={getClass({b: 'colorContainer', el: 'name', add: 'visible-hidden'})}>{color.name}</span>
@@ -44,13 +44,13 @@ const Characteristics = ({
         </div>
       </Characteristic> : ''}
     {typeof colors === 'string' ? 
-      <Characteristic name="colors" label="Цвет" value={colors} /> : ''}
+      <Characteristic name="" label="Цвет" value={colors} /> : ''}
     {children}
-    <Link to={url} className={getClass({
+    {url ? <Link to={url} className={getClass({
       b: 'moreRefer',
       m: modifier,
       add: 'parent row centered zeroVerticalMargin'
-    })}>Подробнее</Link>
+    })}>Подробнее</Link> : ''}
   </article>
 	
 );

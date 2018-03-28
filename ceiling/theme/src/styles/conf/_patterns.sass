@@ -31,7 +31,10 @@
 		position: absolute
 	  
 
-
+.padding
+	&-bottom
+		&_1
+			padding-bottom: 1em
 .registrationButton 
 	&_red 
 		background-color: $red
@@ -662,25 +665,42 @@ input[type=number]:hover::-webkit-inner-spin-button
 	&_addProductForm
 		transform: translateY(2em)
 
+$acceleration: cubic-bazier(0.4, 0.0, 1, 1)
+$curve: cubic-bazier(0.4, 0.0, 0.6, 1)
+$decelleration: cubic-bazier(0.0, 0.0, 0.2, 1)
+$standart: cubic-bazier(0.4, 0.0, 0.2, 1)
+
+.unwrap
+	&-appear, &-enter 
+		clip-path: circle(0)
+		will-change: clip-path
+	&-appear-active, &-enter-active, 
+		clip-path: circle(30em)
+		transition: clip-path .7s $decelleration
+	&-leave
+		will-change: clip-path
+	&-leave-active
+		transition: clip-path .5s $acceleration
+		clip-path: circle(0)
 
 .fading
 	&-appear
 		opacity: 0.1
 		will-change: opacity
 		&.fading-appear-active
-			transition: opacity 1s ease-in
+			transition: opacity .8s $decelleration
 			opacity: 1
 	&-enter
 		opacity: 0.1
 		will-change: opacity
 		&.fading-enter-active
-			transition: opacity .5s ease-in
+			transition: opacity .5s $decelleration
 			opacity: 1
 	&-leave
 		opacity: 1
 		will-change: opacity
 		&.fading-leave-active
-			transition: opacity .3s ease-in
+			transition: opacity .3s $acceleration
 			opacity: 0.1
 .main
 	position: relative

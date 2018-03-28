@@ -24,9 +24,8 @@ import {catalogCollectionUrl} from './../../constants/conf';
 import BreadcrumbsContainer from './../BreadcrumbsContainer';
 import BaseCatalogContainer from './BaseCatalogContainer';
 import AddProductFormContainer from './../AddProductFormContainer';
-import {
-  fetchCatalogEntityOrGetLocale
-} from './../../actions/catalog';
+import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {resetAddToCartForm} from './../../actions/cart';
 
 import Figure from './../../components/Figure';
 import CatalogSection from './../../components/Catalog/CatalogSection';
@@ -54,12 +53,11 @@ class CategoryProductContainer extends Component {
   }
 
   requestProduct = (force=false) => {
-    const {id} = this.state;
+    const {id, productName} = this.state;
     const {dispatch} = this.props;
     // fetchCatalogEntityOrGetLocale can return false.  
 
     if (id) {
-
       const request = dispatch(
         fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
       );
@@ -87,7 +85,7 @@ class CategoryProductContainer extends Component {
                 if (productName !== transformedProductName) {
                   // After receiving, we can show it updating the view.
                   this.setState({
-                    productName: transformName(product.name),
+                    productName: transformedProductName,
                     slogan: product.slogan,
                     product,
                     album,
@@ -102,15 +100,17 @@ class CategoryProductContainer extends Component {
   } 
   componentWillUpdate(nextProps, nextState) {
     const {
-      productSlug
+      productSlug,
+
     } = this.props.match.params;
-    const {PRODUCT} = this.props;
+    const {PRODUCT, dispatch} = this.props;
 
      
     if (PRODUCT !== nextProps.PRODUCT) {
       this.setState({
         product: false
       });
+      dispatch(resetAddToCartForm());
     }
     
     if (nextProps.match.params.productSlug !== productSlug) {
@@ -151,6 +151,9 @@ class CategoryProductContainer extends Component {
   }
 
   componentDidMount() {
+    const {dispatch} = this.props;
+
+    dispatch(resetAddToCartForm());
     this.getIdFromCatalog();
   }
 

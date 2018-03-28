@@ -129,7 +129,7 @@ class CategoryContainer extends Component {
         routes={{
           '/catalog': 'Каталог',
           '/catalog/category': false,
-          '/catalog/category/:categorySlug': categoryName,
+          // '/catalog/category/:categorySlug': categoryName,
         }}
         CONSTANT={CATEGORY}
       >

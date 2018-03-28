@@ -52,7 +52,7 @@ const CartProduct = ({
       b: 'moreRefer',
       m: 'product',
       add: 'parent row centered zeroVerticalMargin'
-    })}>Подробнее</Link>
+    })}>К продукту</Link>
     <input 
       type="number" 
       max="10000" 
