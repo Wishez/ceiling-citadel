@@ -9,18 +9,18 @@ const defaultStyle = {
 };
 
 const transitionStyles = {
-  entering: { 
-    opacity: 0, 
+  entering: {
+    opacity: 0,
     zIndex: 1000
   },
-  entered: { 
+  entered: {
     opacity: 1,
-    zIndex: 1000 
+    zIndex: 1000
   },
 };
 
 const PopupFormContainer = ({
-  block='popupFormContainer', 
+  block='popupFormContainer',
   modifier='',
   children,
   className,
@@ -37,8 +37,8 @@ const PopupFormContainer = ({
         ...defaultStyle,
         transition: `opacity ${duration}ms cubic-bazier(0.0,0.0,0.2,1), z-index ${duration}ms ease-in-out`,
         ...transitionStyles[state]
-      }} 
-      className={getClass({b: 'popupBackground', add: `${!inProp ? 'visible-hidden' : ''} parent row centered`})}>
+      }}
+      className={getClass({b: 'popupBackground', add: `${!inProp ? 'visible-hidden' : ''} parent row h-centered`})}>
         <section className={getClass(composeClasses(block, '', modifier, `popupFormContainer ${className}`))}>
           <h2 className={getClass({b: block, el: 'title', add: 'popupFormContainer__titleupper '})}>{signification}</h2>
           <CloseButton {...closeButton} label="Закрыть всплывающую форму" />

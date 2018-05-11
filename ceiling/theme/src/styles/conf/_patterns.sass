@@ -1,4 +1,4 @@
-.visible-hidden 
+.visible-hidden
 	white-space: nowrap
 	overflow: hidden
 	clip: rect(1px, 1px, 1px, 1px)
@@ -11,49 +11,49 @@
 .lowCascadingShadow
 	box-shadow: 2px 2px 6px 0 $shadow
 
-.visible-hidden-smLess 
-	@include breakpoint($sm-less) 
+.visible-hidden-smLess
+	@include breakpoint($sm-less)
 		white-space: nowrap
 		overflow: hidden
 		clip: rect(1px, 1px, 1px, 1px)
 		width: 1px
 		height: 1px
 		position: absolute
-	  
 
-.visible-hidden-xs 
-	@include breakpoint($xs) 
+
+.visible-hidden-xs
+	@include breakpoint($xs)
 		white-space: nowrap
 		overflow: hidden
 		clip: rect(1px, 1px, 1px, 1px)
 		width: 1px
 		height: 1px
 		position: absolute
-	  
+
 
 .padding
 	&-bottom
 		&_1
 			padding-bottom: 1em
-.registrationButton 
-	&_red 
+.registrationButton
+	&_red
 		background-color: $red
-	
-	&_purple 
+
+	&_purple
 		background-color: $purple
-	
-	&:disabled 
+
+	&:disabled
 		background-color: $gray
-		&__refer 
-			&:hover 
+		&__refer
+			&:hover
 				color: $darkGray $i
-			
-		
-		&:hover 
+
+
+		&:hover
 			color: $darkGray $i
 			box-shadow: none
-		
-	
+
+
 	text-align: center
 	min-width: em(235, 21)
 	max-width: em(235, 21)
@@ -61,48 +61,48 @@
 	display: inline-block
 	position: relative
 	@include round(em(2, 21))
-	&_centered 
+	&_centered
 		margin: auto
 		display: block
-	
+
 	// @include flyShadow()
-	&_active 
+	&_active
 		background-color: $purple
-	
-	&__refer 
+
+	&__refer
 		color: $white $i
 		padding: 1em 0
 		display: block
 		background-image: none $i
-		&:hover 
+		&:hover
 			color: $white $i
-			background-image: none $i 
-		
-	
+			background-image: none $i
+
+
 	@extend %all-transition-3
-	&:hover, &:focus, &:active 
+	&:hover, &:focus, &:active
 		@extend %flyShadow
 		z-index: 3
-	
 
 
-.imageContainer 
+
+.imageContainer
 	display: inline-block
-	&, &__image 
+	&, &__image
 		transition: .3s ease-in-out
 		width: span(12)
-	
-	&__image 
+
+	&__image
 		background: center no-repeat
 		background-size: cover
-	
 
-.closeButton 
+
+.closeButton
 	background-color: $darkGray
-	&, &::after 
+	&, &::after
 		@extend %round
 	@extend %absolute
-	border: 0 
+	border: 0
 	z-index: 1
 	width: em(18)
 	height: em(18)
@@ -129,7 +129,7 @@
 		&_left
 			transform: rotate(45deg)
 
-	&::after 
+	&::after
 		content: ""
 		@extend %absolute
 		z-index: 2
@@ -139,29 +139,29 @@
 		left: em(6.2, 28)
 		@extend %shadow
 		background-color: $contrastOrange
-	
-	
 
-.opacity 
+
+
+.opacity
 	&_0
 		opacity: 0
 	&_9
 		opacity: .9
-.description 
+.description
 	position: absolute
 	box-shadow: 0 10px 35px -1px $shadow
-	font: 
+	font:
 		size: 18px $i
 		family: $mainFont
-	
+
 	text-align: left
 	text-transform: initial
-	&_purple 
+	&_purple
 		background-color: $purple
-	
-	&_black 
-		background-color: $darkGray	
-	
+
+	&_black
+		background-color: $darkGray
+
 	opacity: 0
 	z-index: -1
 	@include round(em(2, 21))
@@ -170,79 +170,79 @@
 	color: $white
 	padding:  em(21, 21) em(21, 21) em(32, 21)
 	transition: opacity .3s ease
-	&__title 
+	&__title
 		border-bottom: 1px solid #adadad
 		font-size: em(24)
 		padding-right: 1em
 		padding-bottom: .3em
 		justify-content: space-between
-		@include breakpoint($xxs)  
+		@include breakpoint($xxs)
 			font-size: em(21)
-		
-		& .closeButton 
+
+		& .closeButton
 			text-align: right
-			
-		
-	
-	&_inline 
+
+
+
+	&_inline
 		top: 0 $i
 		bottom: auto $i
-	
-	&_beneath 
+
+	&_beneath
 		top: 100% $i
 		bottom: auto $i
 		// top: calc(100% + 1em)
-	
-	&_right 
+
+	&_right
 		right: 0 $i
 		left: auto $i
 		// right: calc(0 - 1em)
 
-	
-	&_left 
+
+	&_left
 		left: 0 $i
 		right: auto $i
 		// left: calc(0 - 1em)
-	
-	&_upstair 
+
+	&_upstair
 		bottom: 100% $i
 		top: auto $i
 		// bottom: calc(100% - 1em)
-	
-	@include breakpoint($xxs) 
+
+	@include breakpoint($xxs)
 		min-width: 100vw$i
 		left: 0 $i
 		position: fixed
-	
 
-.descriptionContent 
+
+.descriptionContent
 	margin-top: 1em
-	& a 
+	& a
 		color: $white $i
 		background-image: linear-gradient(to right, $white 0%, $white 100%) $i
-	
 
-.shown_element 
+
+.shown_element
 	opacity: 1 $i
 	z-index: 2 $i
 
-	
+
 
 div[role="presentation"]
 	@extend %flyShadow
 	border: 1px solid $darkBlue $i
 	min-width: 	span(12)
 
-.controller 
+.controller
 	max-width: em(300)
 	min-width: none
 	width: 100%
 	@extend %relative
-	&:not(:first-child) 
+	&:not(:first-child)
 		margin-top: em(12.35)
-	&_required 
+	&_required
 		color: $red
-	&__icon 
+	&__icon
 		margin-bottom: .15em
 		z-index: 11
 	&_small
@@ -258,7 +258,7 @@ div[role="presentation"]
 		overflow: hidden
 		text-overflow: ellipsis
 
-	&__input 
+	&__input
 		border-radius: 3px
 		min-width: span(12)
 		max-width: span(12)
@@ -267,7 +267,7 @@ div[role="presentation"]
 		font-size: em(18, 21)
 		padding: em(16) em(12.5)
 		background-color: #C4C4C4
-		// border-width: 2px 
+		// border-width: 2px
 		// border-style: solid
 		@extend .lowCascadingShadow
 		// transition: border .3s ease, box-shadow .3s ease-in
@@ -276,9 +276,9 @@ div[role="presentation"]
 		&_textarea
 			min-height: em(100)
 
-		&_red 
+		&_red
 			border-color:  $red
-		&:focus 
+		&:focus
 			outline: none
 			box-shadow: 0 4px 16px -1px $shadow
 			background-color: transparent
@@ -287,16 +287,16 @@ div[role="presentation"]
 				background-color: $white
 
 				&:before,
-				&:after 
-			// &:invalid 
-			// 	border-color: #5C1D31	
-			
-			// &:valid 
-			// 	border-color: #437A67	
-				
-			
-	
-		&_select 
+				&:after
+			// &:invalid
+			// 	border-color: #5C1D31
+
+			// &:valid
+			// 	border-color: #437A67
+
+
+
+		&_select
 			padding: 0 em(9)
 			& hr
 				display: none
@@ -306,8 +306,8 @@ div[role="presentation"]
 	// 	padding: .5em
 	// 	margin-top: .5em
 	// 	max-height: em(200)
-		
-	
+
+
 
 	&__option
 		// background-color: #C4C4C4 $i
@@ -322,7 +322,7 @@ div[role="presentation"]
 			background-color: #4F4F4F $i
 			color: #F2F2F2 $i
 
-	&Icon 
+	&Icon
 		margin-bottom: 5.5px
 	&__error
 		color: $red
@@ -331,11 +331,11 @@ div[role="presentation"]
 		text-align: left
 		padding: .25rem 0.5rem
 		font-weight: bold
-	&__label 
+	&__label
 		align-self: flex-end
 		font-size: em(18)
-	
-	&__checkbox 
+
+	&__checkbox
 		-webkit-appearance: none
 		align-self: center
 		cursor: pointer
@@ -349,33 +349,33 @@ div[role="presentation"]
 		display: inline-block
 		position: relative
 		@include round(em(2))
-		&:checked:active 
+		&:checked:active
 
-		
-		&:checked:after 
+
+		&:checked:after
 			content: '\2714'
 			// font-size: em(15)
 			position: absolute
 			top: em(1)
 			left: em(3)
 			color: $darkGray
-		
-	
-	&__checkboxLabel 
+
+
+	&__checkboxLabel
 		color: $white
-		padding: .5em 0 .8em 1em 
+		padding: .5em 0 .8em 1em
 		max-width: span(10)
 		background-color: $red
 		@include round(em(2))
-	
 
 
-.restrictBlock 
+
+.restrictBlock
 	margin: auto
 	max-width: em(1350)
 
 
-.button 
+.button
 	width: 100%
 	max-width: em(152)
 
@@ -387,19 +387,19 @@ div[role="presentation"]
 	background-color: transparent
 	min-width: em(95, 10)
 	@include round(em(2))
-	&_cian 
+	&_cian
 		background-color: $cian
-	
+
 	&_black
 		background-color: $darkGray
-	&_black, &_darkBlue, &_cian 
+	&_black, &_darkBlue, &_cian
 		color: $white
 	&_darkBlue
 		background-color: $darkBlue
 	&_orange
 		background-color: $orange
 	@include flyShadow
-	
+
 .orderButtons
 	@extend %relative
 .shown_element
@@ -422,7 +422,7 @@ div[role="presentation"]
 		margin-top: em(21, 24)
 		& .cart__hint
 			width: 98%
-			border-right: 0 
+			border-right: 0
 	&_hover
 		&_up, &_bottom
 			@extend %absolute
@@ -480,20 +480,20 @@ div[role="presentation"]
 	border: 5px solid rgba(0, 0, 0, 0)
 	// width: 5px
 	height: 75px
-	
+
 	margin: 0 auto
 	// border-radius: 10px
 
 	background-color: $contrastOrange
-::-webkit-scrollbar-button 
+::-webkit-scrollbar-button
     width: 0
     height: 0
     display: none
 
-::-webkit-scrollbar-corner 
+::-webkit-scrollbar-corner
     background-color: transparent
 .centeredText
-	text-align: center	
+	text-align: center
 .orderedProducts
 	background-repeat: no-repeat
 	background-size: cover
@@ -509,7 +509,7 @@ div[role="presentation"]
 		z-index: 101
 		@extend %relative
 		margin: 1em auto
-.deleteProductButton	
+.deleteProductButton
 	font-size: em(18)
 .cartProduct
 	background: #f7f7f7 no-repeat top right
@@ -523,7 +523,7 @@ div[role="presentation"]
 	&__name
 		max-width: span(7)
 		-webkit-box: block
-		-webkit-box-orient: vertical 
+		-webkit-box-orient: vertical
 		-webkit-line-clamp: 2
 		overflow: hidden
 		text-overflow: ellipsis
@@ -534,9 +534,9 @@ div[role="presentation"]
 .productController, .cartProduct__name
 	color: $white
 	padding: .5em
-	
+
 	font-size: em(14, 24)
-	height: em((24 * 1.5) * 2 + (16 / 2 * 2), 24) 
+	height: em((24 * 1.5) * 2 + (16 / 2 * 2), 24)
 
 	background-color: $contrastOrange
 	@extend %absolute
@@ -546,10 +546,10 @@ div[role="presentation"]
 	text-indent: 0.1em
 	max-width: span(4)
 
-.image, .container 
+.image, .container
   	width: span(12)
 
-.container 
+.container
 	padding-right: em(15)
 	padding-left: em(15)
 	margin-right: auto
@@ -557,29 +557,29 @@ div[role="presentation"]
 	@include breakpoint($xxs)
 		padding: 0
 
-@media (min-width: em(576)) 
-	.container 
+@media (min-width: em(576))
+	.container
 		max-width: em(650)
-  
 
 
-@media (min-width: em(778)) 
-	.container 
+
+@media (min-width: em(778))
+	.container
    		max-width: em(778)
-  
 
 
-@media (min-width: em(992)) 
-  	.container 
+
+@media (min-width: em(992))
+  	.container
     	max-width: em(950)
-  
-input[type=number]::-webkit-inner-spin-button 
+
+input[type=number]::-webkit-inner-spin-button
 	-webkit-appearance: none
 	display:blocks
 	color: $darkGray
 	text-align:center
 	position:relative
-	background: transparent url('./../src/images/icons/arrows.png') no-repeat 50% 50%  
+	background: transparent url('./../src/images/icons/arrows.png') no-repeat 50% 50%
 	width: em(14)
 	height: em(14)
 	padding: em(4)
@@ -591,44 +591,42 @@ input[type=number]::-webkit-inner-spin-button
 	will-change: opacity
 	cursor:pointer
 	z-index: 2
-div[data-id="tooltip"]	
+div[data-id="tooltip"]
 	font-size: 1rem
 	z-index: 100
-input[type=number]:hover::-webkit-inner-spin-button 
+input[type=number]:hover::-webkit-inner-spin-button
 	opacity: 1
 	cursor:pointer
+
 .popupBackground
-	@extend %absolute
-	min-height: em(980)
+	position: fixed
+	height: 100vh
 	overflow-y: auto
-	&:after, &
-		top: 0
-		height: 100%
-		width: 100%
-		left: 0
-		z-index: 4
-	&:after
-		opacity: .6
-		content: ""
-		@extend %absolute
-		background: rgba(51, 51, 51, 1)
-		filter: blur(4px)
+	background-color: rgba(51, 51, 51, .6)
+	top: 0
+	left: 0
+	width: 100%
+
+		// filter: blur(4px)
 
 .marginTop_base
 	&-xs
-		@include breakpoint($xs) 
+		@include breakpoint($xs)
 			margin-top: 1.5em
 	&-xxs
-		@include breakpoint($xxs) 
+		@include breakpoint($xxs)
 			margin-top: 1.5em $i
 .textCentered_xxs
-	@include breakpoint($xxs) 
+	@include breakpoint($xxs)
 		text-align: center
-		
+
 .popupFormContainer
 	font-size: em(18)
 	width: em(320, 18)
 	border-radius: 0 0 3px 3px
+	margin: 7em 0
+	height: fit-content
+
 	@extend %flyShadow
 	z-index: 5
 	@extend %relative
@@ -671,10 +669,10 @@ $decelleration: cubic-bazier(0.0, 0.0, 0.2, 1)
 $standart: cubic-bazier(0.4, 0.0, 0.2, 1)
 
 .unwrap
-	&-appear, &-enter 
+	&-appear, &-enter
 		clip-path: circle(0)
 		will-change: clip-path
-	&-appear-active, &-enter-active, 
+	&-appear-active, &-enter-active,
 		clip-path: circle(30em)
 		transition: clip-path .7s $decelleration
 	&-leave
@@ -718,10 +716,10 @@ $standart: cubic-bazier(0.4, 0.0, 0.2, 1)
 			transition: transform .7s ease-in
 			transform: translateX(0)
 	&-exit
-		
-		// margin-top: 4.6875em 
+
+		// margin-top: 4.6875em
 		// position: absolute
-		
+
 		will-change: opacity
 		opacity: 1
 		&.translate-exit-active
