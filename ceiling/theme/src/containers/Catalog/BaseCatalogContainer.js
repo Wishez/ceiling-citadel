@@ -25,18 +25,18 @@ class BaseCatalogContainer extends Component {
     isProduct: PropTypes.bool,
     modifier: PropTypes.string
   }
-  
+
 
   componentWillReceiveProps(nextProps) {
     const {CONSTANT} = this.props;
-    // Will be accuracy. 
+    // Will be accuracy.
     // There is CONSTANT constant in catalog's constants.
     if (!this.props[CONSTANT] && nextProps[CONSTANT]) {
       this.forceUpdate();
     }
   }
-  render() {        
-  
+  render() {
+
     const {
       name,
       slogan,
@@ -48,7 +48,7 @@ class BaseCatalogContainer extends Component {
 
     return (
       <div className={getClass({b: 'catalog', m: modifier, add:'container parent column centered'})}>
-        <div className={getClass({b: 'catalogHeader', add: 'parent row v-start h-centered'})}> 
+        <div className={getClass({b: 'catalogHeader', add: 'parent row v-centered h-centered'})}> 
           <h1 className={getClass({b: 'catalogHeader', el: 'title', m: isProduct ? 'active' : '', add: 'parent row centered baseChild'})}>
             {name}
           </h1>

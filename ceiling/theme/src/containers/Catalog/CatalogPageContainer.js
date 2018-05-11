@@ -27,7 +27,7 @@ class CatalogPageContainer extends Component {
   state = {
     isCatalogGotten: false,
     categories: [],
-    brands: [] 
+    brands: []
   }
   gogo = selector => {
     return event => {
@@ -39,7 +39,7 @@ class CatalogPageContainer extends Component {
       return false;
     };
   }
-  render() {  
+  render() {
     const { isRequesting } = this.props;
     const {
       isCatalogGotten,
@@ -48,22 +48,22 @@ class CatalogPageContainer extends Component {
     } = this.state;
 
 
-    // const catalog = localData.get(CATALOG); 
-    
+    // const catalog = localData.get(CATALOG);
+
     if (!isCatalogGotten) {
       catalogStore.getItem(
-        CATALOG, 
+        CATALOG,
         (err, catalog) => {
           if (catalog !== null) {
-          
-            this.setState({ 
+
+            this.setState({
               brands: catalogSectionCombiner(
-                getArray(catalog.brands), 
+                getArray(catalog.brands),
                 catalogBrandUrl
               ),
               categories: catalogSubsectionsCombiner(
-                getArray(catalog.categories), 
-                catalogCategoryUrl, 
+                getArray(catalog.categories),
+                catalogCategoryUrl,
                 'section'
               ),
               isCatalogGotten: true
@@ -71,11 +71,11 @@ class CatalogPageContainer extends Component {
           }
         });
     }
-   
-    
+
+
     return (
       <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
-        <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-start h-centered'})}> 
+        <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-centered h-centered'})}> 
           <h1 className={getClass({b: 'catalogHeader', el: 'title', m: 'catalog', add: 'parent row centered baseChild'})}>
               Выставочный зал
             <Figure name="picture" url={picture} maxWidth={68} />
@@ -95,7 +95,7 @@ class CatalogPageContainer extends Component {
         </div>
 
         <CatalogSection name="Бренды" headerId="brands">
-          {!isRequesting && 
+          {!isRequesting &&
           brands.length ?
             brands
             : ''
@@ -103,9 +103,9 @@ class CatalogPageContainer extends Component {
           {/*<Loader />*/}
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
-          {!isRequesting && 
+          {!isRequesting &&
             categories.length ?
-            categories : '' 
+            categories : ''
           }
         </CatalogSection>
       </div>
