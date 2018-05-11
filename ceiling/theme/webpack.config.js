@@ -46,7 +46,7 @@ const common = {
     // hotUpdateChunkFilename: 'hot/hot-update.js',
     // hotUpdateMainFilename: 'hot/hot-update.json'
   },
-  // 'react-hot-loader/patch', 
+  // 'react-hot-loader/patch',
 
   output: {
       path: PATHS.build,
@@ -146,8 +146,8 @@ const common = {
           ignorePattern: __dirname + '/src/js/lib/'
         }
       },
-      { 
-        test: /\.js?$/, 
+      {
+        test: /\.js?$/,
         exclude: path.resolve(__dirname, 'node_modules'),
         use: {
             loader: 'babel-loader',
@@ -160,19 +160,19 @@ const common = {
               ],
               presets: [
                 [
-                  "env", 
+                  "env",
                   {
                     "loose": true
                   }
-                ], 
-                "react", 
+                ],
+                "react",
                 "stage-0"
               ]
             }
         }
       },
 
-  
+
       {
           test: /\.woff(\?.*)?$/,
           loader: 'url-loader?name=/fonts/[name].[ext]&limit=10000&mimetype=application/font-woff'
@@ -202,7 +202,7 @@ const common = {
           test: /\.json(\?.*)?$/,
           loader: 'file-loader?name=/files/[name].[ext]'
       },
-    
+
       {
         test: /\.(gif|png|jpe?g|svg)$/,
         exclude: path.resolve(__dirname, 'src', 'fonts'),
@@ -249,6 +249,7 @@ const common = {
       path.join(__dirname, 'node_modules'),
     ],
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       TweenLite: path.resolve('node_modules', 'gsap/src/uncompressed/TweenLite.js'),
       TweenMax: path.resolve('node_modules', 'gsap/src/uncompressed/TweenMax.js'),
       TimelineLite: path.resolve('node_modules', 'gsap/src/uncompressed/TimelineLite.js'),
