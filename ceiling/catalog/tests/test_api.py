@@ -41,6 +41,7 @@ class CatalogAPITest(TestCase):
         self.brands_list_read_url = reverse('brands_list')
         self.categories_list_read_url = reverse('categories_list')
         self.collections_list_read_url = reverse('collections_list')
+
     def security_test(self):
         response = self.client.get(self.categories_list_read_url)
 
@@ -65,11 +66,13 @@ class CatalogAPITest(TestCase):
         response = self.client.get(self.category_read_url)
 
         self.assertEquals(response.status_code, 200)
+
     def get_brand_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.brand_read_url)
 
         self.assertEquals(response.status_code, 200)
+        
     def get_collection_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.collection_read_url)

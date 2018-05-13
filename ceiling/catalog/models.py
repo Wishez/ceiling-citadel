@@ -70,11 +70,20 @@ class Brand(BaseDescriptionModel):
         help_text=_("Выбирете категории, которые будут отображаться на странице выбранного пользователем бренда."),
         blank=True
     )
+
     collections = models.ManyToManyField(
         "catalog.collection",
         verbose_name=_("Коллекции бренда"),
         related_name="collections_of_brand",
         help_text=_("Выбирете колекции, которые будут отображаться на странице выбранного пользователем бренда."),
+        blank = True
+    )
+
+    products = models.ManyToManyField(
+        "catalog.product",
+        verbose_name=_("Образцы бренда"),
+        related_name="products_of_brand",
+        help_text=_("Выбирете образцы, которые будут отображаться на странице выбранного пользователем бренда."),
         blank = True
     )
 
@@ -378,4 +387,3 @@ class Product(BaseProductModel):
             db_table = 'collection_products'
             verbose_name = _('Продукт')
             verbose_name_plural = _('Продукт')
-

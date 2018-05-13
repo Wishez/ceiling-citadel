@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from ..models import *
 from model_mommy import mommy
 from django.utils.timezone import now
 from django.urls import reverse
-from ..views import make_order
+from forms.models import *
+from forms.views import make_order
 from home.models import Settings
+
 class Request:
     def __init__(self, data, method='POST'):
         setattr(self, method.upper(), data)

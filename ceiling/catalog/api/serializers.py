@@ -34,16 +34,7 @@ class ImageSerializer(serializers.ModelSerializer):
             'alt'
         ]
 
-# class AlbumSerializer(serializers.ModelSerializer):
-#     albumimage = ImageSerializer(
-#         read_only=True,
-#         many=True
-#     )
-#     class Meta:
-#         model = Album
-#         fields = [
-#             'albumimage'
-#         ]
+
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Color
@@ -51,10 +42,6 @@ class ColorSerializer(serializers.ModelSerializer):
             'name',
             'color'
         ]
-
-# class ProductBrandSlugRelatedField(serializers.slug):
-#     def display_value(self, instance):
-#         return 'Track: %s' % (instance.collection.brand.name)
 # Product
 class ProductsListSerializer(serializers.ModelSerializer):
     colors = ColorSerializer(
@@ -98,46 +85,52 @@ class ProductSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
         read_only=True
     )
+
     combustibility = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
     )
+
     acoustics = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
     )
+
     lightning = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
     )
+
     edges = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
     )
+
     visualisation = ImageSerializer(
         read_only=True
     )
+
     material = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
     )
+
     proportions = serializers.SlugRelatedField(
         many=True,
         read_only=True,
         slug_field='name'
     )
+
     colors = ColorSerializer(
         many=True,
         read_only=True,
     )
-    # album = AlbumSerializer(
-    #     read_only=True
-    # )
+
     album = serializers.SlugRelatedField(
         read_only=True,
         slug_field="slug"
@@ -184,7 +177,7 @@ class InfoProductSerializer(serializers.ModelSerializer):
             'uuid',
             'slug',
         ]
-# !Collection
+
 class BrandOrCategoryCollectionSerializer(serializers.ModelSerializer):
     collection_items = InfoProductSerializer(
         many=True,
@@ -195,7 +188,6 @@ class BrandOrCategoryCollectionSerializer(serializers.ModelSerializer):
         fields = ['name', 'uuid', 'slug', 'collection_items', 'is_shown',]
 
 
-# Category
 class CategoryListSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
         read_only=True
@@ -208,13 +200,14 @@ class CategoryListSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
+
     class Meta:
         model = Category
         fields = base_list_fields + ['section', 'collections']
 
 
 
-# !Brand
+
 class BrandListSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
         read_only=True
@@ -227,20 +220,20 @@ class BrandListSerializer(serializers.ModelSerializer):
         model = Brand
         fields = base_list_fields + ['collections']
 
-
-# !Collection
 class CollectionListSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
         read_only=True
     )
+
     brand = serializers.SlugRelatedField(
         read_only=True,
         slug_field="name"
     )
+
     class Meta:
         model = Collection
         fields = base_list_fields + ['brand']
-# !Category
+
 class CategorySerializer(serializers.ModelSerializer):
     section = serializers.SlugRelatedField(
         read_only=True,
@@ -258,6 +251,7 @@ class CategorySerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
+
     class Meta:
         model = Category
         fields = base_fields + ['section', 'brands', 'collections', 'products']
@@ -272,9 +266,14 @@ class BrandSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
+    products = ProductsListSerializer(
+        many=True,
+        read_only=True
+    )
+
     class Meta:
         model = Brand
-        fields = base_fields + ['categories', 'collections']
+        fields = base_fields + ['categories', 'collections', 'products']
 
 # !Collection
 class CollectionSerializer(serializers.ModelSerializer):
@@ -288,4 +287,3 @@ class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = base_fields + ['slogan', 'collection_items', 'brand']
-

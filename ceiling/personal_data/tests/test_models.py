@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from ..models import *
+from personal_data.models import *
 from model_mommy import mommy
 from django.utils.timezone import now
 
@@ -184,4 +184,3 @@ class OrderedProductTestModel(TestCase):
 
     def delete_ordered_product_test(self):
         self.product.delete()
-

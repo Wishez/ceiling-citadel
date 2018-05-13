@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from ..models import *
+from home.models import *
 from model_mommy import mommy
 from django.utils.timezone import now
 from home.models import Settings
@@ -49,5 +49,3 @@ class OrderTestModel(TestCase):
         self.material.delete()
         self.color.delete()
         self.settings.delete()
-
-

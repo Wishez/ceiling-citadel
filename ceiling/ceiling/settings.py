@@ -35,11 +35,11 @@ PROJECT_APPS = [
     'pages.apps.PagesConfig',
     'home.apps.HomeConfig',
     'catalog.apps.CatalogConfig',
-    'myadmin',
     'forms.apps.FormsConfig',
     'album.apps.AlbumConfig',
     'marks.apps.MarksConfig',
     'personal_data.apps.PersonalDataConfig',
+    'myadmin.apps.MyadminConfig',
 ]
 
 
