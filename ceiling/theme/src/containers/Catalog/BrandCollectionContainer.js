@@ -36,7 +36,7 @@ class BrandCollectionContainer extends Component {
    requestCollection = (force=false) => {
      const {id, collectionName} = this.state;
      const {dispatch} = this.props;
-     // fetchCatalogEntityOrGetLocale can return false.  
+     // fetchCatalogEntityOrGetLocale can return false.
      const {url} = this.props.match;
      if (id) {
 
@@ -44,12 +44,12 @@ class BrandCollectionContainer extends Component {
          fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
        );
 
-       // Check Promise. It can be empty, because  
+       // Check Promise. It can be empty, because
        // there is a condition for requesting the
        // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
        if (request) {
          request.then(collection => {
-           
+
            if (collection) {
              const transformedName = transformName(collection.name);
 
@@ -64,16 +64,16 @@ class BrandCollectionContainer extends Component {
          });
        }
      }
-   } 
+   }
 
    getIdFromCatalog = (
-     callback=false, 
+     callback=false,
      newCollectionSlug,
      newBrandSlug
    ) => {
      const {match} = this.props;
      let {collectionSlug, brandSlug} = match.params;
-    
+
      // Update
      if (newCollectionSlug) {
        collectionSlug = newCollectionSlug;
@@ -81,12 +81,12 @@ class BrandCollectionContainer extends Component {
      }
 
      catalogStore.getItem(CATALOG, (error, catalog) => {
-    
+
        if (catalog !== null && brandSlug in catalog.brands) {
          const brand = catalog.brands[brandSlug];
 
          const id = findUUID(brand.collections, collectionSlug);
-        
+
          this.setState({
            brandName: transformName(brand.name),
            id
@@ -96,7 +96,7 @@ class BrandCollectionContainer extends Component {
            callback();
          }
        }
-      
+
      });
    }
 
@@ -110,7 +110,7 @@ class BrandCollectionContainer extends Component {
      } = this.props.match.params;
 
      const {COLLECTION} = this.props;
-    
+
      if (COLLECTION !== nextProps.COLLECTION) {
        this.setState({
          collection: false
@@ -122,10 +122,10 @@ class BrandCollectionContainer extends Component {
 
      if (newCollectionSlug !== collectionSlug) {
        this.getIdFromCatalog(
-         () => { 
+         () => {
            this.requestCollection(
              true
-           ); 
+           );
          },
          newCollectionSlug,
          newBrandSlug
@@ -133,7 +133,7 @@ class BrandCollectionContainer extends Component {
      }
    }
 
-   render() {        
+   render() {
      const {
        isRequesting
      } = this.props;
@@ -141,7 +141,7 @@ class BrandCollectionContainer extends Component {
      const {url} = this.props.match;
 
      const {
-       id, 
+       id,
        brandName,
        collection,
        collectionName,
@@ -151,7 +151,7 @@ class BrandCollectionContainer extends Component {
      if (!collection) {
        // fetchCatalogEntityOrGetLocale can return false.
        this.requestCollection();
-     }     
+     }
 
      return (
        <BaseCatalogContainer name={collectionName}
@@ -160,12 +160,12 @@ class BrandCollectionContainer extends Component {
            '/catalog': 'Каталог',
            '/catalog/brand': false,
            '/catalog/brand/:brandSlug': brandName,
-           '/catalog/brand/:brandSlug/:collectionSlug': false //collectionName
+           '/catalog/brand/category': false
          }}
          CONSTANT={COLLECTION}
        >
          <CatalogSection name="Образцы" headerId="samples">
-           {!isRequesting && 
+           {!isRequesting &&
             collection ?
              catalogSectionCombiner(collection.collection_items, url, true) : ''
            }
@@ -177,7 +177,7 @@ class BrandCollectionContainer extends Component {
 
 const mapStateToProps = state => {
   const { catalog } = state;
-  const { 
+  const {
     isRequesting
   } = catalog;
 

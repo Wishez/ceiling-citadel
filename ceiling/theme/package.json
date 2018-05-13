@@ -9,7 +9,8 @@
     "p-watch": "parcel watch src/index.html",
     "dev": "webpack --config webpack.config.js --progress --colors",
     "prod": "webpack --config webpack.config.js --progress --colors",
-    "watch": "node server.js"
+    "watch": "node server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Filipp Zhuravlev",
@@ -45,11 +46,12 @@
     "js-cookie": "^2.2.0",
     "localforage": "^1.6.0",
     "lodash.debounce": "^4.0.8",
-    "lozad": "^1.2.0",
+    "lozad": "^1.4.0",
     "material-ui": "^0.20.0",
     "moment": "^2.20.1",
     "parcel-bundler": "^1.5.1",
     "parcel-plugin-imagemin": "^1.0.2",
+    "pimg": "^1.0.0",
     "postcss-loader": "^2.1.0",
     "postcss-modules": "^1.1.0",
     "preact": "^8.2.7",

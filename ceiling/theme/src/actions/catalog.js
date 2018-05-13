@@ -24,9 +24,9 @@ import catalogStore, {
 import customAjaxRequest from './../constants/ajax';
 
 import {
-  categoryUrl, 
-  productUrl, 
-  collectionUrl, 
+  categoryUrl,
+  productUrl,
+  collectionUrl,
   brandUrl,
   catalogUrl,
   productAlbumUrl,
@@ -34,7 +34,7 @@ import {
   catalogCategoryUrl,
   catalogCollectionUrl,
 } from './../constants/conf';
-import { localData, getArray } from './../constants/pureFunctions';
+import { getArray } from './../constants/pureFunctions';
 
 export const retrieveEntity = (type , id) => ({
   type: type,
@@ -57,6 +57,7 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
   name = name.toUpperCase();
   dispatch(requestCatalog());
 
+  
   switch (name) {
     case BRAND:
       url = brandUrl;
@@ -76,7 +77,7 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
       break;
     default:
       return false;
-  } 
+  }
 
 
   return customAjaxRequest({
@@ -88,23 +89,21 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
     isSettingAccept: false,
     success: response => {
     	const entity = response.body;
-      // localData.set(name, entity);
+
       return catalogStore.setItem(name, entity, function() {
-        // Check for an album.
+
         const slug = 'album' in entity && entity.album;
 
         if (slug) {
-          // If it is in entity, then we'd like to have another one.
           getAlbum(slug, () => {
-            dispatch(retrieveEntity(type, id)); 
+            dispatch(retrieveEntity(type, id));
           });
         } else {
-          // Just saying that we got an entity.
           dispatch(retrieveEntity(type, id));
         }
-        
+
       });
-	    },
+	  },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
     }
@@ -117,7 +116,7 @@ function getAlbum(slug, callback) {
     cache: true,
     data: {},
     success: response => {
-      
+
       // localData.set(LAST_ALBUM, {
       //   slug: slug,
       //   images: response.body.images
@@ -156,7 +155,7 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
   // Update catalog.
   dispatch(requestCatalog());
   // if (silentUpdate) {
-    
+
   // }
 
   return customAjaxRequest({
@@ -167,7 +166,7 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
       const newData = extractData(response.body);
 
       // localData.set(CATALOG, newData);
-      
+
       catalogStore.setItem(CATALOG, newData, function(catalog) {
         // if (silentUpdate) {
         dispatch(retriveCatalog());
@@ -175,7 +174,7 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
         if (callback)
           callback();
       });
-    
+
 	   },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
@@ -183,19 +182,19 @@ export const tryFetchCatalog = (callback=false, silentUpdate=false) => dispatch 
   });
 };
 
-export const fetchCatalogEntityOrGetLocale = (name, id, force=false) => 
+export const fetchCatalogEntityOrGetLocale = (name, id, force=false) =>
   (dispatch, getStore) => {
     const catalog = getStore().catalog;
-	
+
     if (force || (catalog[name] !== id || catalog.isRefetching)) {
       dispatch(tryRetrieveCatalogEntity(name, id));
       return false;
-    } 
+    }
 
     const request = catalogStore.getItem(name);
-    
+
     return request;
-  
+
   };
 
 export const setFoundEntities = foundEntities => ({
@@ -210,8 +209,8 @@ const filterEntities = (array, callback) => (
 );
 
 const getMatchedEntity = (
-  string, 
-  searchedValue, 
+  string,
+  searchedValue,
   callback
 ) => {
   const isThereEntity  = new RegExp(searchedValue, 'ig').test(string);
@@ -232,7 +231,7 @@ const getFoundEntities = (
 ) => ({
   name: signification,
   items: filterEntities(
-    array, 
+    array,
     entity => getMatchedEntity(
       entity.name,
       value,
@@ -244,7 +243,7 @@ const getFoundEntities = (
 });
 
 
-export const dumpEntitiesForSearch = (catalog) => {	
+export const dumpEntitiesForSearch = (catalog) => {
   const brands = getArray(catalog.brands)
     .filter(brand => brand.is_shown);
   const categories = getArray(catalog.categories)
@@ -267,12 +266,12 @@ export const dumpEntitiesForSearch = (catalog) => {
             const collectionProducts = collection
               .collection_items
               .map(product => {
-                
+
                 return {
                   name: product.name,
                   url: `${collectionUrl}${product.slug}/`
                 };
-                
+
               });
 
             // Concat the bunch of products.
@@ -285,9 +284,9 @@ export const dumpEntitiesForSearch = (catalog) => {
                 name: collection.name,
                 url: collectionUrl
               }];
-            
+
           } // end if
-          
+
           return resultCollections;
         }, []) // end brand.collections.reduce
     ) // end collections.concat
@@ -295,27 +294,27 @@ export const dumpEntitiesForSearch = (catalog) => {
   []); // end brands.reduce
 
   catalogStore.setItem(
-    SEARCH_BRANDS_STORE, 
+    SEARCH_BRANDS_STORE,
     brands
   );
   // localData.set(
-  //   SEARCH_BRANDS_STORE, 
+  //   SEARCH_BRANDS_STORE,
   //   brands
   // );
   catalogStore.setItem(
-    SEARCH_CATEGORIES_STORE, 
+    SEARCH_CATEGORIES_STORE,
     categories
   );
   // localData.set(
-  //   SEARCH_CATEGORIES_STORE, 
+  //   SEARCH_CATEGORIES_STORE,
   //   categories
   // );
   catalogStore.setItem(
-    SEARCH_COLLECTION_STORE, 
+    SEARCH_COLLECTION_STORE,
     collections
   ); // end
   // localData.set(
-  //   SEARCH_COLLECTION_STORE, 
+  //   SEARCH_COLLECTION_STORE,
   //   collections
   // ); // end localData.set
 
@@ -338,15 +337,15 @@ export const findEntitiesAndShowResults = value => dispatch => {
           dispatch(
             setFoundEntities([
               getFoundEntities(
-                brands, 
-                value, 
+                brands,
+                value,
                 catalogBrandUrl,
                 'Бренды'
               ),
               {
                 name: 'Категории',
                 items: filterEntities(
-                  categories, 
+                  categories,
                   category => getMatchedEntity(
                     category.name,
                     value,
@@ -360,7 +359,7 @@ export const findEntitiesAndShowResults = value => dispatch => {
               {
                 name: 'Коллекции',
                 items: filterEntities(
-                  collections, 
+                  collections,
                   collection => getMatchedEntity(
                     collection.name,
                     value,
@@ -371,7 +370,7 @@ export const findEntitiesAndShowResults = value => dispatch => {
               {
                 name: 'Образцы',
                 items: filterEntities(
-                  products, 
+                  products,
                   product => getMatchedEntity(
                     product.name,
                     value,
@@ -402,17 +401,17 @@ export const fetchCatalogIfNeededAndDumpEntities = () => (dispatch, getStore) =>
         catalogStore.getItem(CATALOG, function(err, catalog) {
 
           dumpEntitiesForSearch(catalog);
-        
+
         });
-      
+
       }));
     } else {
       dispatch(tryFetchCatalog(() => {
         catalogStore.getItem(CATALOG, function(err, catalog) {
-          dumpEntitiesForSearch(catalog);      
+          dumpEntitiesForSearch(catalog);
         });
       }, true));
     }
-  
+
   });
 };

@@ -11,6 +11,14 @@
 .lowCascadingShadow
 	box-shadow: 2px 2px 6px 0 $shadow
 
+.lazy
+    opacity: 0
+    transition: opacity 270ms $acceleration
+    will-change: opacity
+
+.fadeIn
+    opacity: 1
+
 .visible-hidden-smLess
 	@include breakpoint($sm-less)
 		white-space: nowrap

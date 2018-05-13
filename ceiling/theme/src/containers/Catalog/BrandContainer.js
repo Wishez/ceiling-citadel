@@ -32,22 +32,17 @@ class BrandContainer extends Component {
   requestBrand = (force=false) => {
     const {id, brandName} = this.state;
     const {dispatch} = this.props;
-    // fetchCatalogEntityOrGetLocale can return false.  
-    if (id) {
 
+    if (id) {
       const request = dispatch(
         fetchCatalogEntityOrGetLocale(BRAND, id, force)
       );
 
-      // Check Promise. It can be empty, because  
-      // there is a condition for requesting the
-      // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
-      
       if (request) {
         request.then(brand => {
           if (brand) {
             const transformedName = transformName(brand.name);
-          
+
             if (transformedName !== brandName) {
               this.setState({
                 brandName: transformedName,
@@ -59,14 +54,15 @@ class BrandContainer extends Component {
         });
       }
     }
-  } 
+  }
   componentWillUpdate(nextProps, nextState) {
+
     const {
       brandSlug
     } = this.props.match.params;
     const {BRAND} = this.props;
 
-    
+
     if (BRAND !== nextProps.BRAND) {
       this.setState({
         brand: false
@@ -77,7 +73,7 @@ class BrandContainer extends Component {
     if (newRoute !== brandSlug) {
       this.getIdFromCatalog(
         () => { this.requestBrand(true); },
-        newRoute  
+        newRoute
       );
     }
   }
@@ -86,15 +82,12 @@ class BrandContainer extends Component {
     const {match} = this.props;
     let {brandSlug} = match.params;
     brandSlug = newSlug ? newSlug : brandSlug;
-    
-    // Get catalog
+
     catalogStore.getItem(CATALOG, (error, catalog) => {
-      // Check for existance.
+
       if (catalog !== null && brandSlug in catalog.brands) {
         const id = catalog.brands[brandSlug].uuid;
-        // I need it for updating component, Then, 
-        // in view will be request for the current entity,
-        // if the user have already not seen it.
+        
         this.setState({id});
 
         if (callback) {
@@ -104,12 +97,12 @@ class BrandContainer extends Component {
     });
   }
 
-  componentDidMount() {   
+  componentDidMount() {
     this.getIdFromCatalog();
   }
 
-  
-  render() {      
+
+  render() {
     const {
       isRequesting
     } = this.props;
@@ -124,22 +117,28 @@ class BrandContainer extends Component {
     if (!brand) {
       this.requestBrand();
     }
-      
+
     return (
-      
+
       <BaseCatalogContainer name={brandName}
         slogan={slogan}
         routes={{
           '/catalog': 'Каталог',
           '/catalog/brand': false,
-          '/catalog/brand/:brandSlug': brandName,
+          // '/catalog/brand/:brandSlug': false
         }}
         CONSTANT={BRAND}
       >
         <CatalogSection name="Коллекции" headerId="collections">
-          {!isRequesting && 
+          {!isRequesting &&
             brand ?
             catalogSectionCombiner(brand.collections, url) : ''
+          }
+        </CatalogSection>
+        <CatalogSection name="Категории" headerId="categories">
+          {!isRequesting &&
+            brand ?
+            catalogSectionCombiner(brand.categories, '/catalog/category') : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>
@@ -149,7 +148,7 @@ class BrandContainer extends Component {
 
 const mapStateToProps = state => {
   const { catalog } = state;
-  const { 
+  const {
     isRequesting
   } = catalog;
 

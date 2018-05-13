@@ -11,39 +11,42 @@ import getClass from './classes';
 
 
 export const makeSelectOptions = options => (
-  options ? 
+  options ?
     options.map(option => ({
       text: option,
-      value: option 
-    })) : 
+      value: option
+    })) :
     []
 );
 
 export const makeSelectColorOptions = colors => (
-  colors ? 
+  colors ?
     colors.map(color => ({
       color: color.color,
       value: color.name ,
       showIcon: true,
       text: color.name
-    })) : 
+    })) :
     []
 );
-export const findUUID = (array, slug) => {
-  const item = array.filter(item => (item.slug === slug));
+export const findUUID = (items, slug) => {
+  const item = items.filter(item => (item.slug === slug));
+  const areItemsExist = item.length;
+  let firstItemUuid = false;
 
-  if (item.length)
-    return item[0].uuid;
-  return false;
+  if (areItemsExist)
+    firstItemUuid = item[0].uuid;
+
+  return firstItemUuid;
 };
 
 export const getProductData = (array, collectionSlug, productSlug) => {
   const data = {};
   let collection = array.filter(item => (item.slug === collectionSlug));
-	
+
   if (collection.length) {
     collection = collection[0];
-		
+
     return {
       collectionName: collection.name,
       id: findUUID(collection.collection_items, productSlug)
@@ -52,19 +55,11 @@ export const getProductData = (array, collectionSlug, productSlug) => {
   return false;
 };
 
-// <Fading key={props.key}>
-// <Circle>
-// </Circle>
-// </Fading>
-const combineCatalogSimpleItem = props => ( 
-  props.item.is_shown ? 
-    <CatalogItem key={props.key} {...props}/> 
-    : ''
-);
-  
+
+
 
 export const catalogSectionCombiner = (
-  items, 
+  items,
   url,
   isSample=false
 ) => (
@@ -81,27 +76,25 @@ export const catalogSectionCombiner = (
       isSample,
       item
     })
-		
+
   ))
 );
 
 
 export const catalogSubsectionsCombiner = (
-  items, 
-  url, 
+  items,
+  url,
   sectionPropertyName,
   isSample=false
 ) => {
   const subsections = {};
 
-  // Generate subsections of section.
   items
     .forEach((item, index) => {
       const subsection = item[sectionPropertyName];
       const slug = item.slug;
       const name = item.name;
-      // Create object or go next
-			
+
       if (!(subsection in subsections)) {
         subsections[subsection] = {
           name: subsection,
@@ -109,11 +102,9 @@ export const catalogSubsectionsCombiner = (
           headerId: slug
         };
       }
-      // Cache
+
       const newSubsection = subsections[subsection];
 
-      // Will push to newSection's items;
-      // Combine items.
       newSubsection.items = [
         ...newSubsection.items,
         combineCatalogSimpleItem({
@@ -130,9 +121,9 @@ export const catalogSubsectionsCombiner = (
         })
       ];
     });
-  
 
-  return getArray(subsections).map((subsection, index) => 
+
+  return getArray(subsections).map((subsection, index) =>
     <CatalogSubsection key={index} {...subsection}>
       {subsection.items}
     </CatalogSubsection>
@@ -141,4 +132,10 @@ export const catalogSubsectionsCombiner = (
 
 function fixUrl(url) {
   return url.lastIndexOf('/') !== url.length - 1 ? `${url}/` : url;
+}
+
+function combineCatalogSimpleItem(props) {
+  return props.item.is_shown ?
+    <CatalogItem key={props.key} {...props}/>
+    : '';
 }

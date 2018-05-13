@@ -11,7 +11,7 @@ import getClass from './../constants/classes';
 import {
   fetchCatalogIfNeededAndDumpEntities
 } from './../actions/catalog';
-import {localData} from './../constants/pureFunctions';
+
 
 // import './../tests/cart';
 // import './../tests/app';
@@ -31,13 +31,12 @@ class App extends Component {
     const { dispatch } = this.props;
 
     dispatch(fetchCatalogIfNeededAndDumpEntities());
-    this.forceUpdate(); 
-    
+    this.forceUpdate();
   }
 
   render() {
-    const { 
-      isCallbackOpened, 
+    const {
+      isCallbackOpened,
       isOrderOpened,
       phone, email,
       address, addressHref } = this.props;
@@ -61,7 +60,7 @@ const mapStateToProps = state => {
   const { isCallbackOpened } = callback;
   const { isOrderOpened } = order;
   const { phone, email, address, addressHref } = app;
-  
+
   return {
     isCallbackOpened,
     isOrderOpened,

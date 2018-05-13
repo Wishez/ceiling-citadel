@@ -5,8 +5,8 @@ import { withRouter } from 'react-router-dom';
 
 import getClass from './../../constants/classes';
 import catalogStore, {
-  CATALOG, 
-  COLLECTION, 
+  CATALOG,
+  COLLECTION,
   CATEGORY
 } from './../../constants/catalog';
 import {transformName} from './../../constants/pureFunctions';
@@ -18,7 +18,7 @@ import BaseCatalogContainer from './BaseCatalogContainer';
 import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
 
 import CatalogSection from './../../components/Catalog/CatalogSection';
-// import Loader from './../../components/Loader';
+
 
 class BrandCategoryContainer extends Component {
   static propTypes = {
@@ -40,14 +40,14 @@ class BrandCategoryContainer extends Component {
   requestCollection = (force=false) => {
     const {id, collectionName} = this.state;
     const {dispatch} = this.props;
-    // fetchCatalogEntityOrGetLocale can return false.  
+    // fetchCatalogEntityOrGetLocale can return false.
 
     if (id) {
       const request = dispatch(
         fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
       );
 
-        // Check Promise. It can be empty, because  
+        // Check Promise. It can be empty, because
         // there is a condition for requesting the
         // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
       if (request) {
@@ -67,7 +67,7 @@ class BrandCategoryContainer extends Component {
         });
       }
     }
-  } 
+  }
 
   componentWillUpdate(nextProps, nextState) {
     const {
@@ -76,7 +76,7 @@ class BrandCategoryContainer extends Component {
     } = this.props.match.params;
 
     const {COLLECTION} = this.props;
-    
+
     if (COLLECTION !== nextProps.COLLECTION) {
       this.setState({
         collection: false
@@ -96,7 +96,7 @@ class BrandCategoryContainer extends Component {
   }
 
   getIdFromCatalog = (
-    callback=false, 
+    callback=false,
     newCollectionSlug=false,
     newCategorySlug=false
   ) => {
@@ -110,12 +110,12 @@ class BrandCategoryContainer extends Component {
     }
 
     catalogStore.getItem(CATALOG, (error, catalog) => {
-    
+
       if (catalog !== null && categorySlug in catalog.categories) {
         const category = catalog.categories[categorySlug];
 
         const id = findUUID(category.collections, collectionSlug);
-        
+
         this.setState({
           categoryName: transformName(category.name),
           id
@@ -125,7 +125,7 @@ class BrandCategoryContainer extends Component {
           callback();
         }
       }
-      
+
     });
   }
 
@@ -133,7 +133,7 @@ class BrandCategoryContainer extends Component {
     this.getIdFromCatalog();
   }
 
-  render() {        
+  render() {
     const {
       isRequesting
     } = this.props;
@@ -141,18 +141,18 @@ class BrandCategoryContainer extends Component {
     const {url} = this.props.match;
 
     const {
-      id, 
+      id,
       categoryName,
       collection,
       collectionName,
       slogan
     } = this.state;
-    if (!collection) {
-      // fetchCatalogEntityOrGetLocale can return false.
-      this.requestCollection();
-    } 
 
-   
+    if (!collection) {
+      this.requestCollection();
+    }
+
+
     return (
       <BaseCatalogContainer name={collectionName}
         slogan={slogan}
@@ -160,14 +160,14 @@ class BrandCategoryContainer extends Component {
           '/catalog': 'Каталог',
           '/catalog/category': false,
           '/catalog/category/:categorySlug': categoryName,
-          '/catalog/category/:categorySlug/:collectionSlug': collectionName
+          '/catalog/category/collection': false
         }}
         CONSTANT={COLLECTION}
       >
         <CatalogSection name="Образцы" headerId="collections">
-          {!isRequesting && 
+          {!isRequesting &&
             collection ?
-            catalogSectionCombiner(collection.collection_items, url, true) : '' 
+            catalogSectionCombiner(collection.collection_items, url, true) : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>
@@ -177,7 +177,7 @@ class BrandCategoryContainer extends Component {
 
 const mapStateToProps = state => {
   const { catalog } = state;
-  const { 
+  const {
     isRequesting
   } = catalog;
 

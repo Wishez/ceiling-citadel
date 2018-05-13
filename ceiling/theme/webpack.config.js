@@ -124,6 +124,9 @@ const common = {
         optimizationLevel: 9
       }
     }),
+    new webpack.ProvidePlugin({
+        localData: 'localforage'
+    }),
 
     // new CopyWebpackPlugin([
     //     'images/'

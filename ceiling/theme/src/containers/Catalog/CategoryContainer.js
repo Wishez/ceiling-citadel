@@ -40,7 +40,7 @@ class CategoryContainer extends Component {
       const request = dispatch(
         fetchCatalogEntityOrGetLocale(CATEGORY, id, force)
       );
-        
+
       if (request) {
         request.then(category => {
           if (category) {
@@ -57,7 +57,7 @@ class CategoryContainer extends Component {
           }
         });
       }
-      
+
     }
   }
   componentWillUpdate(nextProps, nextState) {
@@ -65,7 +65,7 @@ class CategoryContainer extends Component {
       categorySlug
     } = this.props.match.params;
     const {CATEGORY} = this.props;
-    
+
     if (CATEGORY !== nextProps.CATEGORY) {
       this.setState({
         category: false
@@ -77,7 +77,7 @@ class CategoryContainer extends Component {
     if (newRoute !== categorySlug) {
       this.getIdFromCatalog(
         () => { this.requestCategory(true); },
-        newRoute  
+        newRoute
       );
     }
   }
@@ -90,9 +90,9 @@ class CategoryContainer extends Component {
     catalogStore.getItem(CATALOG, (error, catalog) => {
 
 
-      if (catalog !== null && categorySlug in catalog.categories) {        
+      if (catalog !== null && categorySlug in catalog.categories) {
         const id = catalog.categories[categorySlug].uuid;
-            
+
         this.setState({id});
 
         if (callback) {
@@ -103,10 +103,10 @@ class CategoryContainer extends Component {
   }
 
   componentDidMount() {
-    this.getIdFromCatalog();    
+    this.getIdFromCatalog();
   }
 
-  render() {        
+  render() {
     const {
       isRequesting
     } = this.props;
@@ -121,22 +121,34 @@ class CategoryContainer extends Component {
     if (!category) {
       this.requestCategory();
     }
-      
-    
+
+    console.log(category, isRequesting);
+    const categoryProductsLength =  category && category.products.length;
+
     return (
       <BaseCatalogContainer name={categoryName}
         slogan={slogan}
         routes={{
           '/catalog': 'Каталог',
           '/catalog/category': false,
-          // '/catalog/category/:categorySlug': categoryName,
+          '/catalog/category/:categorySlug': false,
         }}
         CONSTANT={CATEGORY}
       >
         <CatalogSection name="Коллекции" headerId="collections">
-          {!isRequesting && 
+          {!isRequesting &&
             category ?
             catalogSubsectionsCombiner(category.collections, url, 'brand') : ''
+          }
+        </CatalogSection>
+
+        <CatalogSection name="Образцы" headerId="samples">
+          {
+            !isRequesting &&
+            categoryProductsLength ?
+              catalogSectionCombiner(category.products, url) :
+              !isRequesting ?
+                <p className="catalogSection__title">Нет отдельных образцов.</p> : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>
@@ -144,9 +156,16 @@ class CategoryContainer extends Component {
   }
 }
 
+// <CatalogSection name="Бренды" headerId="brands">
+//   {!isRequesting &&
+//     category ?
+//     catalogSubsectionsCombiner(category.brands, url, 'brand') : ''
+//   }
+// </CatalogSection>
+
 const mapStateToProps = state => {
   const { catalog } = state;
-  const { 
+  const {
     isRequesting
   } = catalog;
 
