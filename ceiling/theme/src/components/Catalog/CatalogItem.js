@@ -27,6 +27,24 @@ const CatalogItem = ({
 }) => (
   <article
     className={getClass({b: 'catalogItem', m: modifier, add: `${className}${style ? ` catalogItem_${style}`: ''} parent zeroVerticalMargin row h-start v-end` })}>
+    <span role="presentation" className="catalogItemContent fullWidth index_big margin-bottom_zero">
+      <Table url={url}
+        slug={slug}
+        content={name}
+        modifier={tablePosition}
+        isNotRoute={isSample}
+        onClick={() => {
+          timeout(() => {
+            slideTo({
+              selector: '#main'
+            });
+          }, 500);
+        }}
+      />
+      {isSample ?
+		  <Characteristics url={`${url}${slug}/`} {...item} /> :
+		  <Description url={`${url}${slug}/`} content={description} />}
+    </span>
     <Image
       fetchOnDemand
       src={image}
@@ -39,23 +57,6 @@ const CatalogItem = ({
         event.target.classList.add('fadeIn');
       }}
     />
-
-    <Table url={url}
-      slug={slug}
-      content={name}
-      modifier={tablePosition}
-      isNotRoute={isSample}
-      onClick={() => {
-        timeout(() => {
-          slideTo({
-            selector: '#main'
-          });
-        }, 500);
-      }}
-    />
-    {isSample ?
-		  <Characteristics url={`${url}${slug}/`} {...item} /> :
-		  <Description url={`${url}${slug}/`} content={description} />}
   </article>
 );
   // </Circle>

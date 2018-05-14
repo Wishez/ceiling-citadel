@@ -1,5 +1,5 @@
 {
-  "name": "React-Redux-Parcel-Template",
+  "name": "Art-Ceiling-Front-End",
   "version": "1.0.0",
   "description": "Good parts for start a new project with react, redux, and parcel.",
   "main": "index.js",
@@ -111,7 +111,7 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^2.30.1",
     "image-webpack-loader": "^4.1.0",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.9.0",
     "optimize-css-assets-webpack-plugin": "^4.0.0",
     "postcss-import": "^11.1.0",
     "react": "^16.2.0",

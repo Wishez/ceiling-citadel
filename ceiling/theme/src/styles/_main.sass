@@ -16,9 +16,10 @@
 	background-size: cover
 	overflow: hidden
 	@extend %relative
-	cursor: pointer
-	transition: box-shadow .3s ease
+	transition: box-shadow 350ms $standart
 
+	@include breakpoint($xs)
+		min-width: span(12)
 
 
 	&__image
@@ -32,25 +33,26 @@
 			height: 100%
 			min-width: 100%
 
+	&Content
+		will-change: transform
+		transform: translateY(275px)
+		transition: transform 250ms $sharp
 
-	@include breakpoint($xs)
-		min-width: span(12)
 
 	&:hover
-		// @extend %flyShadow
 		z-index: 2
-		& .table, & .catalogDescription, & .characteristics
-			transform: translateY(0);
-		// & .catalogDescription, & .characteristics
-			// transform: translateY(0)
-.catalogDescription, .table, .characteristics
-	will-change: transform
+
+		& .catalogItemContent
+			transform: translateY(0)
+
+
 .cropedText
 	overflow: hidden
 	text-overflow: ellipsis
 	display: flex
 	display: -webkit-box
 	-webkit-box-orient: vertical
+
 	&_5
 		-webkit-line-clamp: 5
 		height: (6px * 1.5 * 18)
@@ -59,12 +61,11 @@
 
 .catalogDescription, .characteristics
 	box-shadow: inset 0 0 12px rgba(0,0,0, .15)
-	transition: transform .5s ease
+
 	min-width: 	span(12)
 	margin-top: 0 $i
 	padding:  0 1.25rem em(29.39) 1.5rem
 	min-height: em(245.7, 16)
-	transform: translateY(100%)
 	background-color: $white
 
 .catalog
@@ -82,7 +83,8 @@
 .catalogSection
 	margin-top: 3rem
 	margin-bottom: 3rem
-	border-raidus: 3px
+	border-radius: 3px
+
 	&__title
 		border-top-color: $orange
 
@@ -207,10 +209,9 @@
 	margin-top: 0
 	margin-bottom: 0
 	font-size: em(21)
-	transition: transform .5s ease, box-shadow .3s ease, color .4s linear
+	// transition: box-shadow 2 ease, color .4s linear
 	background-color: rgba(255,255,255,.8)
-	transform: translateY(324%)
-	z-index: 3
+
 
 	&:hover, &:focus
 		@extend %flyShadow
@@ -328,8 +329,12 @@
 		height: span(12)
 
 
-.catalogSection:first-of-type
-	// margin-top: 0
+
+.colors
+		display: grid
+	  grid-template-columns: repeat(auto-fit, 22px)
+	  min-width: 100%
+	  grid-gap: 10px
 
 .characteristics
 	height: em(275)
@@ -339,14 +344,14 @@
 		height: auto
 		padding: 0 0 1.5rem 0
 		min-height: auto
+
 		&, &:hover, &:focus
 			transform: none
+
 		& .sampleCharacteristic_colors
-			// margin-top: 0
 			transform: none
 
-			& .sampleCharacteristic__characteristic
-				transform: translateY(-100%)
+
 		& .moreRefer
 			display: none
 
@@ -375,8 +380,7 @@
 		color: $gray
 	&__characteristic
 		font-weight: bold
-.colors
-	// transform: translateY(-75%)
+
 .colorContainer
 	margin-left: em(10.12)
 	&__color
@@ -414,24 +418,14 @@
 			display: none
 		& button
 		&_small
-			// align-self: flex-end
-			@include breakpoint($xs)
-				// order: -1
-				// transform: translateX(80%)
-				// align-self: flex-start
+
 			@include breakpoint($xxs)
 				max-width: em(112)
-			@include breakpoint($md-up)
-				// transform: translate(-75%, -138%)
-				// transform: translate(-14em, -.75em) // 145%,
-			@include breakpoint($sm)
-				// transform: translate(-6em, 13.5em)
-			&:last-of-type
-				@include breakpoint($sm)
-					// transform: translate(-37%, 146%)
+
 		&__input
 			background-color: #BDBDBD $i
 			border-color: $darkBlue
+
 .proportionFields, .selectFields
 	flex-wrap: nowrap
 	@include breakpoint($xs)
@@ -440,34 +434,42 @@
 .proportionFields
 	order: 2
 	@include breakpoint($xs)
-		// transform: translateX(-5em)
 		align-items: flex-start
-		// width: em(305)
 		margin-top: 1.5rem
 		min-width: fit-content
 		order: -1
 		min-width: 18.5em
+
 	@include breakpoint($xxs)
 		min-width: 100%
-.proportionFields, .formButton_product
-	@include breakpoint($xs)
+
+
 .formButton_product
 	@include breakpoint($xs)
 		transform: translateX(-5.75em)
 		left: auto
+
 	@include breakpoint($xxs)
 		transform: none
+
 .selectFields
+
 	& .controller
+
 		&:first-of-type
+
 			margin-top: 1rem
+
 	@include breakpoint($xs-up)
 		margin-right: em(41.886784)
+
 .productContent
 	margin-top: 3rem
 	padding-bottom: 4rem
+
 	& * + *
 		margin-top:  1.5rem
+
 		&:not(p):not(img)
 			margin-top:  3rem
 			margin-bottom: 3rem

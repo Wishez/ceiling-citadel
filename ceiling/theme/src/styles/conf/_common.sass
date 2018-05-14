@@ -1,21 +1,21 @@
-html, body 
+html, body
   min-height: 100%
   overflow-x: hidden
   -webkit-overflow-scrolling: touch
   -ms-overflow-style: scrollbar
   height: 100%
-body 
-  & * 
+body
+  & *
     margin: 0
     padding: 0
     border: 0
     text-decoration: none
-  
+
   position: relative
-  font: 
+  font:
     family: $mainFont
     size: 16px
-  
+
   line-height: 1.5
   word-break: break-word
   hyphens: auto
@@ -26,63 +26,61 @@ body
   color: $darkGray
 
 
-main * + *:not(.catalogForm *)
-  margin-top:  1.5rem
-  &:not(p):not(img):not(picture)
-    margin-top:  3rem
-    margin-bottom: 3rem
+// main * + *:not(.catalog *)
+//   margin-top:  1.5rem
+// main * + *&:not(p):not(img):not(picture)
+//     margin-top:  3rem
+//     margin-bottom: 3rem
 
 li, dt, th, td, tr
   margin-top:  0
 
 
-h1 
+h1
   font-size: em(28)
 
-h2 
-  font-size: em(24) 
+h2
+  font-size: em(24)
 
-h1, h2, h3, h4, h5, h6  
+h1, h2, h3, h4, h5, h6
   font-family: $decorativeFont
   line-height: 1.5
   text-transform: uppercase
   letter-spacing: .12em
   font-weight: normal
   word-break: break-word
-  // @include breakpoint($xxs)     
-    // padding-left: 1.5rem
-    // padding-right: 1.5rem
 
-button 
+
+button
   cursor: pointer
 
-p, li 
+p, li
   max-width: 60rem
 
-p:not(:first-child) 
+p:not(:first-child)
   margin-top: em(21)
 ul
   list-style: none
-a 
+a
   transition: .2s ease
   color: $darkGray
-  &, &:hover 
+  &, &:hover
     text-decoration: none
     background-image: linear-gradient(to right, $darkGray  0%, $darkGray 100%)
     background-repeat: repeat-x
     background-position: bottom
     background-size: 1px 1px
-  
 
-  &:hover, &:focus, &:active 
-    // text-decoration: none  
-    // $$darkGray: darken($darkGray, 25%)
+
+  &:hover, &:focus, &:active
     color: $darkBlue
     background-image: linear-gradient(to right, $darkBlue 0%, $darkBlue 100%)
+
   &.reverse
     $darkenWhite: draken($white, 15%)
     color: $white
     background-image: linear-gradient(to right, $white  0%, $white 100%)
+
     &:hover
         color: $darkenWhite
         background-image: linear-gradient(to right, $darkenWhite  0%, $darkenWhite 100%)
@@ -98,4 +96,3 @@ button
   background-color: transparent
 input, textarea
   @include placehodler-color($gray)
-

@@ -94,6 +94,17 @@
 
 
 
+.index
+
+	&_big
+		z-index: 10
+
+	&_negative
+		z-index: -1
+
+	&_positive
+		z-index: 1
+
 .imageContainer
 	display: inline-block
 	&, &__image
@@ -624,6 +635,13 @@ input[type=number]:hover::-webkit-inner-spin-button
 	&-xxs
 		@include breakpoint($xxs)
 			margin-top: 1.5em $i
+
+.margin
+	
+	&-bottom
+
+		&_zero
+			margin-bottom: 0
 .textCentered_xxs
 	@include breakpoint($xxs)
 		text-align: center
