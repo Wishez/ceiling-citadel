@@ -1,6 +1,7 @@
 certifi==2018.1.18
 chardet==3.0.4
 coverage==4.4.2
+dj-database-url==0.5.0
 Django==1.11.4
 django-appconf==1.0.2
 django-colorfield==0.1.14
@@ -12,6 +13,7 @@ django-material==1.2.2
 django-model-utils==3.0.0
 django-nose==1.4.5
 django-sendsms==0.2.3
+django-webpack-loader==0.6.0
 djangorestframework==3.7.7
 djangorestframework-queryfields==1.0.0
 google-api-python-client==1.4.1
@@ -29,6 +31,7 @@ pyasn1==0.4.2
 pyasn1-modules==0.2.1
 PyJWT==1.5.3
 PySocks==1.6.8
+python-decouple==3.1
 pytz==2017.2
 raven==6.5.0
 requests==2.18.4
