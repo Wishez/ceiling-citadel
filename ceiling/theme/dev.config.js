@@ -13,7 +13,6 @@ module.exports = {
         test: /index\.css$/,
         exclude: [
           path.resolve(__dirname, "images")
-          // path.resolve(__dirname, 'fonts.sass'),
         ],
         use: extractSass.extract({
           use: [
@@ -72,12 +71,6 @@ module.exports = {
               loader: "css-loader",
               options: {
                 importLoaders: 1,
-                sourceMap: true
-              }
-            },
-            {
-              loader: "postcss-loader",
-              options: {
                 sourceMap: true
               }
             },

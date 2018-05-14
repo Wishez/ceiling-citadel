@@ -43,11 +43,8 @@ const common = {
   entry: {
     app: "./index.js",
     vendor: VENDOR
-    // hotUpdateChunkFilename: 'hot/hot-update.js',
-    // hotUpdateMainFilename: 'hot/hot-update.json'
-  },
-  // 'react-hot-loader/patch',
 
+  },
   output: {
     path: PATHS.build,
     filename: `[name]${withHash}.js`,
@@ -125,7 +122,7 @@ const common = {
       }
     }),
     new webpack.ProvidePlugin({
-      localData: "localforage"
+      localforage: "localforage"
     })
   ],
 

@@ -10,3 +10,8 @@ module.exports = {
     }
   }
 }
+
+// "css-mqpacker": {},
+// "postcss-import": {},
+// "css-declaration-sorter": {order: 'smacss'},
+// "cssnano": {},
