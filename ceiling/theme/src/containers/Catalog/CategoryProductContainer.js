@@ -71,61 +71,63 @@ class CategoryProductContainer extends Component {
     } = match.params;
 
     localforage.getItem(CATALOG, (error, catalog) => {
-
-      if (catalog !== null && categorySlug in catalog.categories) {
-        const category = catalog.categories[categorySlug];
-
-        const productData = getProductData(
-          category.collections,
-          collectionSlug,
-          productSlug
-        );
-
-
-        this.setState({
-          categoryName: category.name,
-          ...productData
-        });
-
-        if (callback) {
-          callback();
-        }
-      }
+      this.findAndSaveProductData({
+        categorySlug,
+        collectionSlug,
+        productSlug,
+        catalog,
+        callback
+      });
     });
   }
 
+  findAndSaveProductData = ({
+    catalog,
+    categorySlug,
+    callback,
+    collectionSlug,
+    productSlug
+  }) => {
+    if (catalog !== null && categorySlug in catalog.categories) {
+      const category = catalog.categories[categorySlug];
 
-  requestProduct = (force=false) => {
-    const {id, productName} = this.state;
-    const {dispatch} = this.props;
-
-    if (id) {
-      const request = dispatch(
-        fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
+      const productData = getProductData(
+        category.collections,
+        collectionSlug,
+        productSlug
       );
 
-      if (request) {
-        request.then(product => {
-          if (product) {
+      this.setState({
+        categoryName: category.name,
+        ...productData
+      });
 
-            localforage.getItem(LAST_ALBUM)
-              .then(album => {
-                const slides = album.images.map(makeSlides);
-                const transformedProductName =  transformName(product.name);
+      if (callback) {
+        callback();
+      }
+    }
+  }
 
-                if (productName !== transformedProductName) {
-                  this.setState({
-                    productName: transformedProductName,
-                    slogan: product.slogan,
-                    product,
-                    album,
-                    slides
-                  });
-                }
-              });
+  transformAndRenderProductIfNeeded = ({
+    product,
+    oldProductName
+  }) => {
+    if (product) {
+      localforage.getItem(LAST_ALBUM)
+        .then(album => {
+          const slides = album.images.map(makeSlides);
+          const transformedProductName =  transformName(product.name);
+
+          if (oldProductName !== transformedProductName) {
+            this.setState({
+              productName: transformedProductName,
+              slogan: product.slogan,
+              product,
+              album,
+              slides
+            });
           }
         });
-      }
     }
   }
 
@@ -161,7 +163,26 @@ class CategoryProductContainer extends Component {
 
     this.requestProduct(isForceRequest);
   }
+  
+  requestProduct = (force=false) => {
+    const {id, productName} = this.state;
+    const {dispatch} = this.props;
 
+    if (id) {
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
+      );
+
+      if (request) {
+        request.then(product => {
+          this.transformAndRenderProductIfNeeded({
+            oldProductName: productName,
+            product
+          });
+        });
+      }
+    }
+  }
 
   render() {
     const {

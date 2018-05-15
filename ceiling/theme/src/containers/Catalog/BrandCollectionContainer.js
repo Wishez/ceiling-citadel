@@ -15,13 +15,12 @@ import CatalogSection from '@/components/Catalog/CatalogSection';
 import Loader from '@/components/Loader';
 
 class BrandCollectionContainer extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    isRequesting: PropTypes.bool.isRequired,
-
-  }
+    static propTypes = {
+      dispatch: PropTypes.func.isRequired,
+      match: PropTypes.object.isRequired,
+      COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+      isRequesting: PropTypes.bool.isRequired
+    }
 
     state = {
       id: '',
@@ -31,19 +30,16 @@ class BrandCollectionContainer extends Component {
       collectionName: ''
     }
 
-
-
-
-
-    componentDidMount() {
+    componentWillMount() {
       this.getIdFromCatalog();
     }
 
-   getIdFromCatalog = ({
+   getIdFromCatalog = (
      callback=false,
      newCollectionSlug,
      newBrandSlug
-   }) => {
+   ) => {
+     
      const {match} = this.props;
      let {collectionSlug, brandSlug} = match.params;
 
@@ -89,11 +85,12 @@ class BrandCollectionContainer extends Component {
      const newBrandSlug = nextProps.match.params.brandSlug;
 
      if (newCollectionSlug !== collectionSlug) {
-       this.getIdFromCatalog({
-         callback: this.makeForceRequestCollectionAfterFindingId,
+       // TODO: I can make destructor, but there is some error with undefined destructor's properties.
+       this.getIdFromCatalog(
+         this.makeForceRequestCollectionAfterFindingId,
          newCollectionSlug,
          newBrandSlug
-       });
+       );
      }
    }
 

@@ -4,29 +4,29 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import OrderButtonContainer from './OrderButtonContainer';
 
-import CatalogSection from './../components/Catalog/CatalogSection';
-import CatalogItem from './../components/Catalog/CatalogItem';
-import Loader from './../components/Loader';
-import AboutSection from './../components/AboutSection';
-import Paragraph from './../components/Paragraph';
-import Fading from './../components/Animation/Fading';
+import CatalogSection from '@/components/Catalog/CatalogSection';
+import CatalogItem from '@/components/Catalog/CatalogItem';
+import Loader from '@/components/Loader';
+import AboutSection from '@/components/AboutSection';
+import Paragraph from '@/components/Paragraph';
+import Fading from '@/components/Animation/Fading';
 
-import getClass from './../constants/classes';
+import getClass from '@/constants/classes';
 
-import {localData, getArray, slideTo, timeout } from './../constants/pureFunctions';
-import { catalogSectionCombiner } from './../constants/filter';
-import {catalogBrandUrl} from './../constants/conf';
-import { aboutSections } from './../constants/conf';
-import catalogStore, { CATALOG } from './../constants/catalog';
+import {getArray, slideTo, timeout } from '@/constants/pureFunctions';
+import { catalogSectionCombiner } from '@/constants/filter';
+import {catalogBrandUrl} from '@/constants/conf';
+import { aboutSections } from '@/constants/conf';
+import { CATALOG } from '@/constants/catalog';
 
-import { initNavigationState } from './../reducers/navigation';
+import { initNavigationState } from '@/reducers/navigation';
 
-import { selectNavigationItem } from './../actions/navigationActions';
-import { tryFetchCatalog, fetchCatalogEntityOrGetLocale } from './../actions/catalog';
+import { selectNavigationItem } from '@/actions/navigationActions';
 
-import exhibition from './../images/about/exhebition1.png';
-import boxes from './../images/about/boxes.png';
-import {cartPositions} from './../constants/cart';
+
+import exhibition from '@/images/about/exhebition1.png';
+import boxes from '@/images/about/boxes.png';
+import {cartPositions} from '@/constants/cart';
 
 class MainPageContainer extends Component {
 	static propTypes = {
@@ -38,13 +38,12 @@ class MainPageContainer extends Component {
 	state = {
 	  isBrandsGotten: false,
 	  brands: []
-	}	
+	}
 	componentDidMount() {
 	  const { dispatch } = this.props;
-		
-	  // dispatch(tryFetchCatalog());
+
 	  dispatch(selectNavigationItem(initNavigationState.firstNavItem.index));
-	  
+
 	}
 
 	 gogo = (selector) => {
@@ -62,15 +61,14 @@ class MainPageContainer extends Component {
 	  const {isBrandsGotten, brands} = this.state;
 
 	  if (!isBrandsGotten)
-		  catalogStore.getItem(
-		  	CATALOG, 
+		  localforage.getItem(
+		  	CATALOG,
 		  	(err, catalog) => {
-			  
+
 			  if (catalog !== null && 'brands' in catalog) {
-			    // brands = getArray(catalog.brands);
-				  this.setState({ 
+				  this.setState({
 				  	brands: catalogSectionCombiner(
-				  		getArray(catalog.brands), 
+				  		getArray(catalog.brands),
 				  		catalogBrandUrl
 				  	),
 				  	isBrandsGotten: true
@@ -78,64 +76,64 @@ class MainPageContainer extends Component {
 			  }
 	  });
 
-	 
-	  
+
+
 	  return (
 	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
 	      	<CatalogSection name="Основные бренды" titleShown={false}>
 	    	{!isRequesting && brands.length ?
           		brands :
-          		''}	
+          		''}
 	      	</CatalogSection>
 	      {aboutSections.map((section, index) => (
-	        <Fading key={index}>      	
+	        <Fading key={index}>
 	        	<AboutSection key={index} {...section} />
 	        </Fading>
 	      ))}
 	     <AboutSection text={false}
 	        title="Локальный Эрмитаж"
-	        image={exhibition} 
+	        image={exhibition}
 	        sources={[]}
 	        modifier="exhibition"
 	        maxWidth={215}
 	      >
-	        <Paragraph  
+	        <Paragraph
 	          block="aboutSection">
-	          Наша галерея хранит отборные дизайнерские работы. 
-	          Она делится на несколько залов, которые, вероятно, заинтересуют вас: 
+	          Наша галерея хранит отборные дизайнерские работы.
+	          Она делится на несколько залов, которые, вероятно, заинтересуют вас:
 	          <Link to='/catalog#brands' onClick={this.gogo('#brands')}> зал с брэндами</Link> и <Link onClick={this.gogo('#categories')} to='/catalog#categories'> зал с разнообразым типами потолков</Link>.
 	         </Paragraph>
-	        
+
 	      </AboutSection>
 	      <AboutSection text={false}
 	        title="просторная сумка"
-	        image={boxes} 
-	        sources={[]} 
+	        image={boxes}
+	        sources={[]}
 	        modifier="bag"
 	        maxWidth={404}
 	      >
-	        <Paragraph text="Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ." 
+	        <Paragraph text="Понравившийся потолок, или декоративную его часть, вы можете добавить в избранное, а после окончания просмотра оформить заказ."
 	          block="aboutSection" />
-	        <OrderButtonContainer 
+	        <OrderButtonContainer
 	          	cartPosition={cartPositions.bag}
               	cartModifier="hover_up"
               	classNmae="marginTop_base-xxs"
               	modifier="stretch"
 	        />
-	        <Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!" 
+	        <Paragraph text="Заказ придёт к нам на почту, а после мы оперативно обработаем его!"
 	          block="aboutSection" />
 	      </AboutSection>
 	    </div>
 	  );
-		
-		
+
+
 	 }
 }
 
 const mapStateToProps = state => {
   const { catalog } = state;
   const { isRequesting } = catalog;
-	
+
   return {
     isRequesting
   };

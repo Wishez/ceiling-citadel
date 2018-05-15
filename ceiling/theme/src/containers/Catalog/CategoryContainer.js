@@ -30,7 +30,26 @@ class CategoryContainer extends Component {
     slogan: ''
   }
 
+  componentWillMount() {
+    this.getIdFromCatalog();
+  }
 
+  getIdFromCatalog = (callback=false) => {
+    const {match} = this.props;
+    const {categorySlug} = match.params;
+
+    localforage.getItem(CATALOG, (error, catalog) => {
+      if (catalog !== null && categorySlug in catalog.categories) {
+        const id = catalog.categories[categorySlug].uuid;
+
+        this.setState({id});
+
+        if (callback) {
+          callback();
+        }
+      }
+    });
+  }
 
   componentWillUpdate(nextProps) {
     const {
@@ -103,26 +122,9 @@ class CategoryContainer extends Component {
     }
   }
 
-  getIdFromCatalog = (callback=false) => {
-    const {match} = this.props;
-    const {categorySlug} = match.params;
 
-    localforage.getItem(CATALOG, (error, catalog) => {
-      if (catalog !== null && categorySlug in catalog.categories) {
-        const id = catalog.categories[categorySlug].uuid;
 
-        this.setState({id});
 
-        if (callback) {
-          callback();
-        }
-      }
-    });
-  }
-
-  componentDidMount() {
-    this.getIdFromCatalog();
-  }
 
   render() {
     const {
@@ -139,7 +141,7 @@ class CategoryContainer extends Component {
     if (!category) {
       this.requestCategory();
     }
-    
+
     const categoryProductsLength =  category && category.products.length;
     const categoryCollectionsLength =  category && category.collections.length;
 

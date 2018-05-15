@@ -135,12 +135,18 @@ class BrandProductContainer extends Component {
        this.getIdFromCatalog(() => { this.requestProduct(true); });
      }
    }
-   componentDidMount() {
+   componentWillMount() {
+     this.showAddToCartForm();
+
+     this.getIdFromCatalog();
+   }
+
+   showAddToCartForm = () => {
      const {dispatch} = this.props;
 
      dispatch(resetAddToCartForm());
-     this.getIdFromCatalog();
    }
+
 
    render() {
      const {
@@ -159,9 +165,9 @@ class BrandProductContainer extends Component {
      } = this.state;
 
      if (!product) {
-       // fetchCatalogEntityOrGetLocale can return false.
        this.requestProduct();
      }
+     
      return (
 
        <BaseCatalogContainer name={productName}

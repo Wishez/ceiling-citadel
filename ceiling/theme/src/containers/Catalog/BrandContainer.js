@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import {CATALOG, BRAND} from '@/constants/catalog';
-import getClass from '@/constants/classes';
-import {transformName} from './../../constants/pureFunctions';
+import {transformName} from '@/constants/pureFunctions';
 import {catalogSectionCombiner, catalogSubsectionsCombiner} from '@/constants/filter';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
@@ -28,7 +27,6 @@ class BrandContainer extends Component {
     slogan: '',
     brand:  false
   }
-
 
   componentWillUpdate(nextProps) {
     const {
@@ -64,7 +62,10 @@ class BrandContainer extends Component {
 
       if (request) {
         request.then(brand => {
-          this.renderNewBrand();
+          this.renderNewBrand({
+            oldBrandName: brandName,
+            brand
+          });
         });
       }
     }
@@ -87,7 +88,7 @@ class BrandContainer extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getIdFromCatalog();
   }
 
@@ -95,8 +96,9 @@ class BrandContainer extends Component {
     const {match} = this.props;
     let {brandSlug} = match.params;
     brandSlug = newSlug ? newSlug : brandSlug;
-    
+
     localforage.getItem(CATALOG, (error, catalog) => {
+
       this.setBrandIdAndMakeCallbackIfNeeded({
         catalog,
         brandSlug,
@@ -114,13 +116,11 @@ class BrandContainer extends Component {
       const id = catalog.brands[brandSlug].uuid;
 
       this.setState({id});
-
       if (callback) {
         callback();
       }
     }
   }
-
 
   render() {
     const {
@@ -128,7 +128,6 @@ class BrandContainer extends Component {
     } = this.props;
     const {url} = this.props.match;
     const {
-      id,
       brand,
       slogan,
       brandName

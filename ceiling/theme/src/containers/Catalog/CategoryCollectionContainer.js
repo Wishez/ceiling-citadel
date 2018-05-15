@@ -15,16 +15,12 @@ import CatalogSection from '@/components/Catalog/CatalogSection';
 
 import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 
-
-
-
 class BrandCategoryContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
-
   }
 
   state = {
@@ -35,58 +31,12 @@ class BrandCategoryContainer extends Component {
     collectionName: ''
   }
 
-  requestCollection = (force=false) => {
-    const {id, collectionName} = this.state;
-    const {dispatch} = this.props;
 
-    if (id) {
-      const request = dispatch(
-        fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
-      );
 
-      if (request) {
 
-        request.then(collection => {
-          if (collection) {
-            const transformedName = transformName(collection.name);
 
-            if (transformedName !== collectionName) {
-              this.setState({
-                collectionName: transformedName,
-                slogan: collection.slogan,
-                collection: collection,
-              });
-            }
-          }
-        });
-      }
-    }
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    const {
-      collectionSlug,
-      categorySlug
-    } = this.props.match.params;
-
-    const {COLLECTION} = this.props;
-
-    if (COLLECTION !== nextProps.COLLECTION) {
-      this.setState({
-        collection: false
-      });
-    }
-
-    const newCollectionSlug = nextProps.match.params.collectionSlug;
-    const newCategorySlug = nextProps.match.params.collectionSlug;
-
-    if (newCollectionSlug !== collectionSlug) {
-      this.getIdFromCatalog(
-        () => { this.requestCollection(true); },
-        newCollectionSlug,
-        newCategorySlug
-      );
-    }
+  componentDidMount() {
+    this.getIdFromCatalog();
   }
 
   getIdFromCatalog = (
@@ -122,8 +72,73 @@ class BrandCategoryContainer extends Component {
     });
   }
 
-  componentDidMount() {
-    this.getIdFromCatalog();
+  componentWillUpdate(nextProps) {
+    const {
+      collectionSlug
+    } = this.props.match.params;
+
+    const {COLLECTION} = this.props;
+
+    if (COLLECTION !== nextProps.COLLECTION) {
+      this.setState({
+        collection: false
+      });
+    }
+
+    const newCollectionSlug = nextProps.match.params.collectionSlug;
+    const newCategorySlug = nextProps.match.params.collectionSlug;
+
+    if (newCollectionSlug !== collectionSlug) {
+      this.getIdFromCatalog(
+        this.makeForceRequestForCollection,
+        newCollectionSlug,
+        newCategorySlug
+      );
+    }
+  }
+
+  makeForceRequestForCollection = () => {
+    const isForceRequest = true;
+
+    this.requestCollection(isForceRequest);
+  }
+
+
+  requestCollection = (force=false) => {
+    const {id, collectionName} = this.state;
+    const {dispatch} = this.props;
+
+    if (id) {
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
+      );
+
+      if (request) {
+        request.then(collection => {
+          this.transformAndRenderCollectionIfNeeded({
+            oldCollectionName: collectionName,
+            collection
+          });
+        });
+      }
+    }
+  }
+
+  transformAndRenderCollectionIfNeeded = ({
+    oldCollectionName,
+    collection
+  }) => {
+    if (collection) {
+      const transformedName = transformName(collection.name);
+
+      if (transformedName !== oldCollectionName) {
+        this.setState({
+          collectionName: transformedName,
+          slogan: collection.slogan,
+          collection: collection,
+        });
+      }
+    }
   }
 
   render() {
@@ -134,7 +149,6 @@ class BrandCategoryContainer extends Component {
     const {url} = this.props.match;
 
     const {
-      id,
       categoryName,
       collection,
       collectionName,

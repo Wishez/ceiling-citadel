@@ -16,8 +16,6 @@ import { slideTo } from './../../constants/pureFunctions';
 import CatalogSection from './../../components/catalog/CatalogSection';
 import Figure from './../../components/Figure';
 
-
-
 class CatalogPageContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -51,6 +49,8 @@ class CatalogPageContainer extends Component {
       localforage.getItem(
         CATALOG,
         (err, catalog) => {
+          
+
           if (catalog !== null) {
 
             this.setState({

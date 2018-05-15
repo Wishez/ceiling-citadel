@@ -1,7 +1,6 @@
 import {
   REQUEST_CATALOG,
   RETRIEVE_CATEGORY,
-  RETRIEVE_PRODUCTS,
   RETRIEVE_PRODUCT,
   RETRIEVE_COLLECTION,
   RETRIEVE_BRAND,
@@ -19,9 +18,9 @@ import {
   SEARCH_CATEGORIES_STORE,
   SEARCH_BRANDS_STORE,
   CLEAN_SEARCH_ENTITIES
-} from './../constants/catalog';
+} from '@/constants/catalog';
 
-import customAjaxRequest from './../constants/ajax';
+import customAjaxRequest from '@/constants/ajax';
 
 import {
   categoryUrl,
@@ -32,13 +31,14 @@ import {
   productAlbumUrl,
   catalogBrandUrl,
   catalogCategoryUrl
-} from './../constants/conf';
-import { getArray } from './../constants/pureFunctions';
+} from '@/constants/conf';
+import { getArray } from '@/constants/pureFunctions';
 
 export const retrieveEntity = (type, id) => ({
   type: type,
   id
 });
+
 export const retriveCatalog = () => ({
   type: RETRIEVE_CATALOG
 });
@@ -50,32 +50,32 @@ export const requestCatalog = () => ({
   type: REQUEST_CATALOG
 });
 
+const catalogRequests = {
+  [BRAND]: {
+    url: brandUrl,
+    type: RETRIEVE_BRAND
+  },
+  [COLLECTION]: {
+    url: collectionUrl,
+    type: RETRIEVE_COLLECTION
+  },
+  [CATEGORY]: {
+    url: categoryUrl,
+    type: RETRIEVE_CATEGORY
+  },
+  [PRODUCT]: {
+    url: productUrl,
+    type: RETRIEVE_PRODUCT
+  },
+};
+
 export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
-  let url = '',
-    type = '';
-  name = name.toUpperCase();
   dispatch(requestCatalog());
 
-  switch (name) {
-    case BRAND:
-      url = brandUrl;
-      type = RETRIEVE_BRAND;
-      break;
-    case COLLECTION:
-      url = collectionUrl;
-      type = RETRIEVE_COLLECTION;
-      break;
-    case CATEGORY:
-      url = categoryUrl;
-      type = RETRIEVE_CATEGORY;
-      break;
-    case PRODUCT:
-      url = productUrl;
-      type = RETRIEVE_PRODUCT;
-      break;
-    default:
-      return false;
-  }
+  const entityName = name.toUpperCase();
+  const entityRequestInfo = getEntityRequestInfo(entityName);
+  const url = entityRequestInfo.url;
+  const type = entityRequestInfo.type;
 
   return customAjaxRequest({
     url: `${url}${id}/`,
@@ -87,14 +87,19 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
     success: response => {
       const entity = response.body;
 
-      return localforage.setItem(name, entity, function() {
+      return localforage.setItem(entityName, entity, function() {
         const slug = 'album' in entity && entity.album;
 
         if (slug) {
-          getAlbum(slug, () => {
-            dispatch(retrieveEntity(type, id));
+          getAlbum({
+            onLoad: saveEntityInfoInStore,
+            slug
           });
         } else {
+          saveEntityInfoInStore();
+        }
+
+        function saveEntityInfoInStore() {
           dispatch(retrieveEntity(type, id));
         }
       });
@@ -105,7 +110,21 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
   });
 };
 
-function getAlbum(slug, callback) {
+function getEntityRequestInfo(entityName) {
+  let entityRequestInfo = null;
+
+  try {
+    entityRequestInfo = catalogRequests[entityName];
+  } catch (e) {
+    throw new Error('There is not such entities in the catalog.');
+  }
+
+  return entityRequestInfo;
+}
+
+function getAlbum({
+  slug, onLoad
+}) {
   return customAjaxRequest({
     url: `${productAlbumUrl}${slug}/`,
     cache: true,
@@ -116,7 +135,7 @@ function getAlbum(slug, callback) {
         images: response.body.images
       });
 
-      callback();
+      onLoad();
     },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
@@ -142,8 +161,7 @@ function extractData(data) {
 }
 
 export const tryFetchCatalog = (
-  callback = false,
-  silentUpdate = false
+  callback = false
 ) => dispatch => {
 
   dispatch(requestCatalog());
@@ -155,11 +173,13 @@ export const tryFetchCatalog = (
     success: response => {
       const newData = extractData(response.body);
 
-      localforage.setItem(CATALOG, newData, function(catalog) {
+      localforage.setItem(CATALOG, newData, retriveCatalogAndMakeCallbackIfNeeded);
+
+      function retriveCatalogAndMakeCallbackIfNeeded() {
         dispatch(retriveCatalog());
 
         if (callback) callback();
-      });
+      }
     },
     failure: error => {
       throw new Error(`Somethin going wrong ${error.message}`);
@@ -194,11 +214,7 @@ const filterEntities = (array, callback) =>
 const getMatchedEntity = (string, searchedValue, callback) => {
   const isThereEntity = new RegExp(searchedValue, 'ig').test(string);
 
-  if (isThereEntity) {
-    return callback();
-  }
-
-  return false;
+  return isThereEntity && callback();
 };
 
 const getFoundEntities = (array, value, pathTo, signification) => ({
@@ -226,10 +242,7 @@ export const dumpEntitiesForSearch = catalog => {
 
     function makeCollections(accumulatedBrandCollections, collection) {
       if (collection.is_shown) {
-        const collectionUrl = `/catalog/brand/${brand.slug}/${
-          collection.slug
-        }/`;
-
+        const collectionUrl = `/catalog/brand/${brand.slug}/${collection.slug}/`;
         const collectionProducts = collection.collection_items.map(makeProduct);
 
         function makeProduct(product) {
@@ -257,11 +270,8 @@ export const dumpEntitiesForSearch = catalog => {
   }
 
   localforage.setItem(SEARCH_BRANDS_STORE, brands);
-
   localforage.setItem(SEARCH_CATEGORIES_STORE, categories);
-
   localforage.setItem(SEARCH_COLLECTION_STORE, collections);
-
   localforage.setItem(SEARCH_PRODUCTS_STORE, products);
 };
 

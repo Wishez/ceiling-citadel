@@ -21,8 +21,3 @@ export const PRODUCT = 'PRODUCT';
 export const COLLECTION = 'COLLECTION';
 export const BRAND = 'BRAND';
 export const CATALOG = 'CATALOG';
-
-import * as localForage from 'localforage';
-
-const catalogStore = localForage;
-export default catalogStore;

@@ -1,4 +1,5 @@
 import anime from 'animejs';
+import React from 'react';
 import Figure from '@/components/Figure';
 
 export const focusHeader = () => {
@@ -47,7 +48,6 @@ export const getDeleteProductArguments = (index, name, quantityOrderedProducts) 
     quantityOrderedProducts - 1
   ];
 };
-// var scrollToElement = require('scroll-to-element');
 
 export const slideTo = ({
   selector
@@ -83,8 +83,8 @@ export const cookiesHandler = {
 
 };
 export function timeout(callback, timeout) {
-  // stuff for animating goes here
   let pastTime = 0;
+
   function animate(time) {
     if(!pastTime) {
       pastTime = time;
@@ -126,12 +126,6 @@ export const convertDate = date => {
     second: 'numeric'
   });
 };
-
-// export const slideTo = () => {
-//   $('html, body').animate({
-//     scrollTop: $($(this).attr('href')).offset().top
-//   }, 600, Linear.ease);
-// };
 
 export const notFollow = event => {
   event.preventDefault();
