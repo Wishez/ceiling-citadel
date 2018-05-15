@@ -183,9 +183,26 @@ class BrandOrCategoryCollectionSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
+    category = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="name"
+    )
+    brand = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="name"
+    )
+
     class Meta:
         model = Collection
-        fields = ['name', 'uuid', 'slug', 'collection_items', 'is_shown',]
+        fields = [
+            'name',
+            'uuid',
+            'slug',
+            'collection_items',
+            'is_shown',
+            'category',
+            'brand'
+        ]
 
 
 class CategoryListSerializer(serializers.ModelSerializer):

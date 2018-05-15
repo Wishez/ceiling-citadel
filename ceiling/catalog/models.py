@@ -158,6 +158,15 @@ class Collection(BaseDescriptionModel):
         null=True
     )
 
+    category = models.ForeignKey(
+        Category,
+        verbose_name=_("Категория коллекции"),
+        related_name="category_of_collection",
+        help_text=_("Выбирете категорию, к который относится эта коллекция."),
+        blank=True,
+        null=True
+    )
+
     class Meta:
         db_table = 'collections_of_brand'
         verbose_name = _('Коллекция')
