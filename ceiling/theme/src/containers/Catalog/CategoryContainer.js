@@ -144,7 +144,7 @@ class CategoryContainer extends Component {
 
     const categoryProductsLength =  category && category.products.length;
     const categoryCollectionsLength =  category && category.collections.length;
-
+    
     return (
       <BaseCatalogContainer name={categoryName}
         slogan={slogan}
@@ -157,7 +157,7 @@ class CategoryContainer extends Component {
       >
         <CatalogSection name="Коллекции" headerId="collections" fallback={
           !isRequesting && !categoryCollectionsLength ?
-            <p className="catalogSection__title">Нет отдельных коллекций.</p> : ''}>
+            <p className="paragraph_container">Нет отдельных коллекций.</p> : ''}>
           {
             !isRequesting &&
             categoryCollectionsLength ?
@@ -168,7 +168,7 @@ class CategoryContainer extends Component {
 
         <CatalogSection name="Образцы" headerId="samples" fallback={
           !isRequesting && !categoryProductsLength ?
-            <p className="catalogSection__title">Нет отдельных образцов.</p> : ''}>
+            <p className="paragraph_container">Нет отдельных образцов.</p> : ''}>
           {
             !isRequesting &&
             categoryProductsLength ?

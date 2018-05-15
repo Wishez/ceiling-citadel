@@ -137,6 +137,10 @@ class BrandContainer extends Component {
       this.requestBrand();
     }
 
+
+    const collectionsLength = brand && brand.collections.length;
+    const categoriesLength = brand && brand.categories.length;
+
     return (
 
       <BaseCatalogContainer name={brandName}
@@ -148,16 +152,16 @@ class BrandContainer extends Component {
         }}
         CONSTANT={BRAND}
       >
-        <CatalogSection name="Коллекции" headerId="collections">
+        <CatalogSection
+          name="Коллекции"
+          headerId="collections"
+          fallback={
+            !isRequesting &&
+              !collectionsLength ? <p className="paragraph_container">Нет отельных коллекций.</p> : ''
+          }>
           {!isRequesting &&
-            brand ?
-            catalogSectionCombiner(brand.collections, url) : ''
-          }
-        </CatalogSection>
-        <CatalogSection name="Категории" headerId="categories">
-          {!isRequesting &&
-            brand ?
-            catalogSubsectionsCombiner(brand.categories, '/catalog/category', 'brand') : ''
+            collectionsLength ?
+            catalogSubsectionsCombiner(brand.collections, url, 'category') : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

@@ -39,7 +39,7 @@ class BrandCollectionContainer extends Component {
      newCollectionSlug,
      newBrandSlug
    ) => {
-     
+
      const {match} = this.props;
      let {collectionSlug, brandSlug} = match.params;
 
@@ -156,6 +156,8 @@ class BrandCollectionContainer extends Component {
        this.requestCollection();
      }
 
+     const samplesLength =  collection && collection.collection_items.length;
+
      return (
        <BaseCatalogContainer name={collectionName}
          slogan={slogan}
@@ -167,9 +169,16 @@ class BrandCollectionContainer extends Component {
          }}
          CONSTANT={COLLECTION}
        >
-         <CatalogSection name="Образцы" headerId="samples">
+         <CatalogSection
+           name="Образцы"
+           headerId="samples"
+           fallback={
+             !isRequesting &&
+               !samplesLength ? <p className="paragraph_container">У этой коллекции нет образцов.</p> : ''
+           }
+         >
            {!isRequesting &&
-            collection ?
+            samplesLength ?
              catalogSectionCombiner(collection.collection_items, url, true) : ''
            }
          </CatalogSection>

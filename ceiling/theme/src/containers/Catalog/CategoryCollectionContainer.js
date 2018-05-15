@@ -158,7 +158,7 @@ class BrandCategoryContainer extends Component {
     if (!collection) {
       this.requestCollection();
     }
-
+    const samplesLength =  collection && collection.collection_items.length;
 
     return (
       <BaseCatalogContainer name={collectionName}
@@ -171,9 +171,13 @@ class BrandCategoryContainer extends Component {
         }}
         CONSTANT={COLLECTION}
       >
-        <CatalogSection name="Образцы" headerId="collections">
+        <CatalogSection name="Образцы" headerId="collections"
+          fallback={
+            !isRequesting &&
+            !samplesLength ? <p className="paragraph_container">У этой коллекции нет образцов.</p> : ''
+          }>
           {!isRequesting &&
-            collection ?
+            samplesLength ?
             catalogSectionCombiner(collection.collection_items, url, true) : ''
           }
         </CatalogSection>
