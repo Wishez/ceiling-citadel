@@ -5,15 +5,15 @@ import { withRouter } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 
 import getClass from './../../constants/classes';
-import catalogStore, {
-  CATALOG, 
-  PRODUCT, 
+import {
+  CATALOG,
+  PRODUCT,
   LAST_ALBUM
 } from './../../constants/catalog';
 
-import {transformName} from './../../constants/pureFunctions';
+import {transformName, makeSlides} from './../../constants/pureFunctions';
 
-import {getProductData, 
+import {getProductData,
   findUUID} from './../../constants/filter';
 import {catalogCollectionUrl} from './../../constants/conf';
 
@@ -56,16 +56,16 @@ class BrandProductContainer extends Component {
 
     const {
       brandSlug,
-      collectionSlug, 
+      collectionSlug,
       productSlug
     } = match.params;
 
-    catalogStore.getItem(CATALOG, (error, catalog) => {
+    localforage.getItem(CATALOG, (error, catalog) => {
       if (catalog !== null && brandSlug in catalog.brands) {
         const category = catalog.brands[brandSlug];
         const productData = getProductData(
-          category.collections, 
-          collectionSlug, 
+          category.collections,
+          collectionSlug,
           productSlug
         );
 
@@ -74,7 +74,7 @@ class BrandProductContainer extends Component {
           brandName: category.name,
           ...productData
         });
-        
+
         if (callback) {
           callback();
         }
@@ -85,30 +85,19 @@ class BrandProductContainer extends Component {
    requestProduct = (force=false) => {
      const {id, productName} = this.state;
      const {dispatch} = this.props;
-     // fetchCatalogEntityOrGetLocale can return false.  
 
      if (id) {
-
        const request = dispatch(
          fetchCatalogEntityOrGetLocale(PRODUCT, id, force)
        );
-       
-       // Check Promise. It can be empty, because  
-       // there is a condition for requesting the
-       // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
+
        if (request) {
          request.then(product => {
+
            if (product) {
-             // I and product need an album.
-             catalogStore.getItem(LAST_ALBUM)
+             localforage.getItem(LAST_ALBUM)
                .then(album => {
-                 // After receiving, we can show it updating the view.
-                 const slides = album.images.map(
-                   (image, index) => ({
-                     content: <Figure {...image} key={`${index}${index + 1001}`} url={image.image} name="productSlide" />,
-                     preview: <Figure {...image} key={`${index}${index + 1002}`} url={image.image} name="productSlidePreview" />
-                   })
-                 );
+                 const slides = album.images.map(makeSlides);
                  const transformedProductName =  transformName(product.name);
 
                  if (productName !== transformedProductName) {
@@ -119,20 +108,21 @@ class BrandProductContainer extends Component {
                      album,
                      slides,
                      inited: true
-                   }); // end setState
+                   });
                  }
-               }); // end getting LAST_ALBUM
+
+               });
            }
          });
        }
      }
-   } 
+   }
 
    componentWillUpdate(nextProps, nextState) {
      const {productSlug} = this.props.match.params;
      const {PRODUCT, dispatch} = this.props;
 
-     
+
      if (PRODUCT !== nextProps.PRODUCT) {
        this.setState({
          product: false
@@ -140,25 +130,25 @@ class BrandProductContainer extends Component {
 
        dispatch(resetAddToCartForm());
      }
-     
+
      if (nextProps.match.params.productSlug !== productSlug) {
        this.getIdFromCatalog(() => { this.requestProduct(true); });
      }
    }
    componentDidMount() {
      const {dispatch} = this.props;
-    
+
      dispatch(resetAddToCartForm());
      this.getIdFromCatalog();
    }
 
-   render() {        
+   render() {
      const {
        isRequesting
      } = this.props;
      const {url} = this.props.match;
      const {
-       id, 
+       id,
        collectionName,
        brandName,
        product,
@@ -167,13 +157,13 @@ class BrandProductContainer extends Component {
        productName,
        slides
      } = this.state;
-     
+
      if (!product) {
        // fetchCatalogEntityOrGetLocale can return false.
        this.requestProduct();
-     } 
+     }
      return (
-      
+
        <BaseCatalogContainer name={productName}
          slogan={slogan}
          modifier="product"
@@ -187,25 +177,25 @@ class BrandProductContainer extends Component {
          isProduct={true}
          CONSTANT={PRODUCT}
        >
-         {!isRequesting && product ? 
+         {!isRequesting && product ?
            <div className="productContainer fullWidth lowCascadingShadow">
-             <AddProductFormContainer 
+             <AddProductFormContainer
                image={product.preview.image}
                {...product}
                url={url}
-             /> 
-             {product.visualisation !== null ? 
-               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> : 
+             />
+             {product.visualisation !== null ?
+               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> :
                ''}
-             {(album && album.slug === product.album) ? 
+             {(album && album.slug === product.album) ?
                <Slider slides={slides}
                  animSettings={{animDuration: 500, animElasticity: 200}}
                  dotSettings={{size: 12, gap: 6}} />
                : ''}
-             {product.content ? 
+             {product.content ?
                <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
            </div>
-           : 
+           :
            <Loader />}
        </BaseCatalogContainer>
      );
@@ -214,11 +204,11 @@ class BrandProductContainer extends Component {
 
 const mapStateToProps = state => {
   const { catalog } = state;
-  const { 
+  const {
     isRequesting
   } = catalog;
 
-  return { 
+  return {
     PRODUCT: catalog.PRODUCT,
     isRequesting
   };

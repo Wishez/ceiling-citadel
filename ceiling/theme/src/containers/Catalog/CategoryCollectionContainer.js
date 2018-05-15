@@ -3,21 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import getClass from './../../constants/classes';
-import catalogStore, {
+import {
   CATALOG,
-  COLLECTION,
-  CATEGORY
-} from './../../constants/catalog';
-import {transformName} from './../../constants/pureFunctions';
+  COLLECTION
+} from '@/constants/catalog';
+import {transformName} from '@/constants/pureFunctions';
 import {catalogSectionCombiner, findUUID} from './../../constants/filter';
-import {catalogCollectionUrl} from './../../constants/conf';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
+import CatalogSection from '@/components/Catalog/CatalogSection';
 
-import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 
-import CatalogSection from './../../components/Catalog/CatalogSection';
+
 
 
 class BrandCategoryContainer extends Component {
@@ -40,16 +38,12 @@ class BrandCategoryContainer extends Component {
   requestCollection = (force=false) => {
     const {id, collectionName} = this.state;
     const {dispatch} = this.props;
-    // fetchCatalogEntityOrGetLocale can return false.
 
     if (id) {
       const request = dispatch(
         fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
       );
 
-        // Check Promise. It can be empty, because
-        // there is a condition for requesting the
-        // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
       if (request) {
 
         request.then(collection => {
@@ -103,13 +97,12 @@ class BrandCategoryContainer extends Component {
     const {match} = this.props;
     let {collectionSlug, categorySlug} = match.params;
 
-    // Update
     if (newCollectionSlug) {
       collectionSlug = newCollectionSlug;
       categorySlug = newCategorySlug;
     }
 
-    catalogStore.getItem(CATALOG, (error, catalog) => {
+    localforage.getItem(CATALOG, (error, catalog) => {
 
       if (catalog !== null && categorySlug in catalog.categories) {
         const category = catalog.categories[categorySlug];

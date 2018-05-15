@@ -1,9 +1,16 @@
 import anime from 'animejs';
-// import {Linear} from 'gsap';
-// 
+import Figure from '@/components/Figure';
+
 export const focusHeader = () => {
   document.querySelector('.catalogHeader__title').focus();
 };
+
+export function makeSlides(image, index) {
+  return {
+    content: <Figure {...image} key={`${index}${index + 1001}`} url={image.image} name="productSlide" />,
+    preview: <Figure {...image} key={`${index}${index + 1002}`} url={image.image} name="productSlidePreview" />
+  };
+}
 
 export const stopAnimation = animations => {
   /*
@@ -35,7 +42,7 @@ export const getDeleteProductArguments = (index, name, quantityOrderedProducts) 
   const removedProductMessage = `Вы удалили из корзины "${name}" ಠ_ಠ!`;
 
   return [
-    	index, 
+    	index,
     quantityOrderedProducts - 1 === 0 ? lastProudctRemovedMessage : removedProductMessage,
     quantityOrderedProducts - 1
   ];
@@ -86,7 +93,7 @@ export function timeout(callback, timeout) {
 
     if (delta >= timeout) {
       callback();
-      return false;      
+      return false;
     }
 
     requestAnimationFrame(animate);
@@ -108,7 +115,7 @@ export const localData = {
     localStorage.setItem(key, JSON.stringify(value));
   },
   delete: (key) => {
-    localStorage.removeItem(key);	
+    localStorage.removeItem(key);
   }
 };
 
@@ -117,7 +124,7 @@ export const convertDate = date => {
     hour: 'numeric',
     minute: 'numeric',
     second: 'numeric'
-  });	
+  });
 };
 
 // export const slideTo = () => {
@@ -128,11 +135,11 @@ export const convertDate = date => {
 
 export const notFollow = event => {
   event.preventDefault();
-	
+
   const url = event.target.href;
-	  
+
   	window.open(url);
-	  
+
 };
 
 export function getArray(object) {

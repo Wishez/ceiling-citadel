@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import catalogStore, {CATALOG, BRAND} from './../../constants/catalog';
-import getClass from './../../constants/classes';
+import {CATALOG, BRAND} from '@/constants/catalog';
+import getClass from '@/constants/classes';
 import {transformName} from './../../constants/pureFunctions';
-import {catalogSectionCombiner} from './../../constants/filter';
+import {catalogSectionCombiner, catalogSubsectionsCombiner} from '@/constants/filter';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
-import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 
-import CatalogSection from './../../components/Catalog/CatalogSection';
-import Loader from './../../components/Loader';
+import CatalogSection from '@/components/Catalog/CatalogSection';
+import Loader from '@/components/Loader';
 
 class BrandContainer extends Component {
   static propTypes = {
@@ -29,34 +29,8 @@ class BrandContainer extends Component {
     brand:  false
   }
 
-  requestBrand = (force=false) => {
-    const {id, brandName} = this.state;
-    const {dispatch} = this.props;
 
-    if (id) {
-      const request = dispatch(
-        fetchCatalogEntityOrGetLocale(BRAND, id, force)
-      );
-
-      if (request) {
-        request.then(brand => {
-          if (brand) {
-            const transformedName = transformName(brand.name);
-
-            if (transformedName !== brandName) {
-              this.setState({
-                brandName: transformedName,
-                slogan: brand.slogan,
-                brand
-              });
-            }
-          }
-        });
-      }
-    }
-  }
-  componentWillUpdate(nextProps, nextState) {
-
+  componentWillUpdate(nextProps) {
     const {
       brandSlug
     } = this.props.match.params;
@@ -70,6 +44,7 @@ class BrandContainer extends Component {
     }
 
     const newRoute = nextProps.match.params.brandSlug;
+
     if (newRoute !== brandSlug) {
       this.getIdFromCatalog(
         () => { this.requestBrand(true); },
@@ -78,27 +53,72 @@ class BrandContainer extends Component {
     }
   }
 
-  getIdFromCatalog = (callback=false, newSlug=false) => {
-    const {match} = this.props;
-    let {brandSlug} = match.params;
-    brandSlug = newSlug ? newSlug : brandSlug;
+  requestBrand = (force=false) => {
+    const {id, brandName} = this.state;
+    const {dispatch} = this.props;
 
-    catalogStore.getItem(CATALOG, (error, catalog) => {
+    if (id) {
+      const request = dispatch(
+        fetchCatalogEntityOrGetLocale(BRAND, id, force)
+      );
 
-      if (catalog !== null && brandSlug in catalog.brands) {
-        const id = catalog.brands[brandSlug].uuid;
-        
-        this.setState({id});
-
-        if (callback) {
-          callback();
-        }
+      if (request) {
+        request.then(brand => {
+          this.renderNewBrand();
+        });
       }
-    });
+    }
+  }
+
+  renderNewBrand = ({
+    brand,
+    oldBrandName
+  }) => {
+    if (brand) {
+      const transformedName = transformName(brand.name);
+
+      if (transformedName !== oldBrandName) {
+        this.setState({
+          brandName: transformedName,
+          slogan: brand.slogan,
+          brand
+        });
+      }
+    }
   }
 
   componentDidMount() {
     this.getIdFromCatalog();
+  }
+
+  getIdFromCatalog = (callback=false, newSlug=false) => {
+    const {match} = this.props;
+    let {brandSlug} = match.params;
+    brandSlug = newSlug ? newSlug : brandSlug;
+    
+    localforage.getItem(CATALOG, (error, catalog) => {
+      this.setBrandIdAndMakeCallbackIfNeeded({
+        catalog,
+        brandSlug,
+        callback
+      });
+    });
+  }
+
+  setBrandIdAndMakeCallbackIfNeeded = ({
+    catalog,
+    brandSlug,
+    callback
+  }) => {
+    if (catalog !== null && brandSlug in catalog.brands) {
+      const id = catalog.brands[brandSlug].uuid;
+
+      this.setState({id});
+
+      if (callback) {
+        callback();
+      }
+    }
   }
 
 
@@ -125,7 +145,7 @@ class BrandContainer extends Component {
         routes={{
           '/catalog': 'Каталог',
           '/catalog/brand': false,
-          // '/catalog/brand/:brandSlug': false
+          '/catalog/brand/:brandSlug': false
         }}
         CONSTANT={BRAND}
       >
@@ -138,7 +158,7 @@ class BrandContainer extends Component {
         <CatalogSection name="Категории" headerId="categories">
           {!isRequesting &&
             brand ?
-            catalogSectionCombiner(brand.categories, '/catalog/category') : ''
+            catalogSubsectionsCombiner(brand.categories, '/catalog/category', 'brand') : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

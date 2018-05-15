@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import getClass from './../../constants/classes';
-import catalogStore, {CATALOG, COLLECTION, BRAND} from './../../constants/catalog';
-import {transformName} from './../../constants/pureFunctions';
-import {catalogSectionCombiner, findUUID} from './../../constants/filter';
-import {catalogCollectionUrl} from './../../constants/conf';
+import {CATALOG, COLLECTION} from '@/constants/catalog';
+import {transformName} from '@/constants/pureFunctions';
+import {catalogSectionCombiner, findUUID} from '@/constants/filter';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
 
-import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 
-import CatalogSection from './../../components/Catalog/CatalogSection';
-import Loader from './../../components/Loader';
+import CatalogSection from '@/components/Catalog/CatalogSection';
+import Loader from '@/components/Loader';
 
 class BrandCollectionContainer extends Component {
   static propTypes = {
@@ -25,62 +23,36 @@ class BrandCollectionContainer extends Component {
 
   }
 
-  state = {
-    id: '',
-    brandName: '',
-    collection: false,
-    slogan: '',
-    collectionName: ''
-  }
+    state = {
+      id: '',
+      brandName: '',
+      collection: false,
+      slogan: '',
+      collectionName: ''
+    }
 
-   requestCollection = (force=false) => {
-     const {id, collectionName} = this.state;
-     const {dispatch} = this.props;
-     // fetchCatalogEntityOrGetLocale can return false.
-     const {url} = this.props.match;
-     if (id) {
 
-       const request = dispatch(
-         fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
-       );
 
-       // Check Promise. It can be empty, because
-       // there is a condition for requesting the
-       // local entity in 'fetchCatalogEntityOrGetLocale()'( •̀ω•́ )σ
-       if (request) {
-         request.then(collection => {
 
-           if (collection) {
-             const transformedName = transformName(collection.name);
 
-             if (transformedName !== collectionName) {
-               this.setState({
-                 collectionName: transformedName,
-                 slogan: collection.slogan,
-                 collection: collection,
-               });
-             }
-           }
-         });
-       }
-     }
-   }
+    componentDidMount() {
+      this.getIdFromCatalog();
+    }
 
-   getIdFromCatalog = (
+   getIdFromCatalog = ({
      callback=false,
      newCollectionSlug,
      newBrandSlug
-   ) => {
+   }) => {
      const {match} = this.props;
      let {collectionSlug, brandSlug} = match.params;
 
-     // Update
      if (newCollectionSlug) {
        collectionSlug = newCollectionSlug;
        brandSlug = newBrandSlug;
      }
 
-     catalogStore.getItem(CATALOG, (error, catalog) => {
+     localforage.getItem(CATALOG, (error, catalog) => {
 
        if (catalog !== null && brandSlug in catalog.brands) {
          const brand = catalog.brands[brandSlug];
@@ -100,13 +72,9 @@ class BrandCollectionContainer extends Component {
      });
    }
 
-   componentDidMount() {
-     this.getIdFromCatalog();
-   }
-   componentWillUpdate(nextProps, nextState) {
+   componentWillUpdate(nextProps) {
      const {
-       collectionSlug,
-       brandSlug
+       collectionSlug
      } = this.props.match.params;
 
      const {COLLECTION} = this.props;
@@ -121,15 +89,55 @@ class BrandCollectionContainer extends Component {
      const newBrandSlug = nextProps.match.params.brandSlug;
 
      if (newCollectionSlug !== collectionSlug) {
-       this.getIdFromCatalog(
-         () => {
-           this.requestCollection(
-             true
-           );
-         },
+       this.getIdFromCatalog({
+         callback: this.makeForceRequestCollectionAfterFindingId,
          newCollectionSlug,
          newBrandSlug
+       });
+     }
+   }
+
+   makeForceRequestCollectionAfterFindingId = () => {
+     const isForceRequest = true;
+
+     this.requestCollection(isForceRequest);
+   }
+
+   requestCollection = (force=false) => {
+     const {id, collectionName} = this.state;
+     const {dispatch} = this.props;
+
+     if (id) {
+
+       const request = dispatch(
+         fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
        );
+
+       if (request) {
+         request.then(collection => {
+           this.renderNewCollection({
+             previousCollectionName: collectionName,
+             collection
+           });
+         });
+       }
+     }
+   }
+
+   renderNewCollection = ({
+     collection,
+     previousCollectionName
+   }) => {
+     if (collection) {
+       const transformedName = transformName(collection.name);
+
+       if (transformedName !== previousCollectionName) {
+         this.setState({
+           collectionName: transformedName,
+           slogan: collection.slogan,
+           collection: collection,
+         });
+       }
      }
    }
 
@@ -141,7 +149,6 @@ class BrandCollectionContainer extends Component {
      const {url} = this.props.match;
 
      const {
-       id,
        brandName,
        collection,
        collectionName,
@@ -149,7 +156,6 @@ class BrandCollectionContainer extends Component {
      } = this.state;
 
      if (!collection) {
-       // fetchCatalogEntityOrGetLocale can return false.
        this.requestCollection();
      }
 

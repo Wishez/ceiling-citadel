@@ -5,10 +5,6 @@ import { withRouter } from 'react-router-dom';
 
 import getClass from './../../constants/classes';
 import BreadcrumbsContainer from './../BreadcrumbsContainer';
-import {CATALOG} from './../../constants/catalog';
-import {localData} from './../../constants/pureFunctions';
-
-import Loader from './../../components/Loader';
 
 class BaseCatalogContainer extends Component {
   static propTypes = {
@@ -48,7 +44,7 @@ class BaseCatalogContainer extends Component {
 
     return (
       <div className={getClass({b: 'catalog', m: modifier, add:'container parent column centered'})}>
-        <div className={getClass({b: 'catalogHeader', add: 'parent row v-centered h-centered'})}> 
+        <div className='catalogHeader parent row v-centered h-centered'>
           <h1 className={getClass({b: 'catalogHeader', el: 'title', m: isProduct ? 'active' : '', add: 'parent row centered baseChild'})}>
             {name}
           </h1>
@@ -62,7 +58,7 @@ class BaseCatalogContainer extends Component {
     );
   }
 }
-// ? children : <Loader />}
+
 
 const mapStateToProps = state => {
   const {catalog} = state;

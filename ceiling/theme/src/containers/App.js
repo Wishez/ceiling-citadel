@@ -7,10 +7,8 @@ import CallbackFormContainer from './CallbackFormContainer';
 import OrderFormContainer from './OrderFormContainer';
 import FooterContainer from './FooterContainer';
 import MainRoutes from './MainRoutes';
-import getClass from './../constants/classes';
-import {
-  fetchCatalogIfNeededAndDumpEntities
-} from './../actions/catalog';
+
+import {fetchCatalogIfNeededAndDumpEntities} from '@/actions/catalog';
 
 
 // import './../tests/cart';
@@ -31,6 +29,7 @@ class App extends Component {
     const { dispatch } = this.props;
 
     dispatch(fetchCatalogIfNeededAndDumpEntities());
+
     this.forceUpdate();
   }
 

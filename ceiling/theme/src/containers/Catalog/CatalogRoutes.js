@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import {Route, Switch} from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import getClass from './../../constants/classes';
+
 
 import CatalogPageContainer from './CatalogPageContainer';
 import BrandContainer from './BrandContainer';
@@ -15,15 +15,11 @@ import CategoryCollectionContainer from './CategoryCollectionContainer';
 import BrandProductContainer from './BrandProductContainer';
 import CategoryProductContainer from './CategoryProductContainer';
 
-import {
-  fetchCatalogEntityOrGetLocale
-} from './../../actions/catalog';
-import MyRoute from './../../components/MyRoute';
+import MyRoute from '@/components/MyRoute';
 
-import { selectNavigationItem } from './../../actions/navigationActions.js';
-import { initNavigationState } from './../../reducers/navigation.js';
-
-import {localData} from './../../constants/pureFunctions';
+import getClass from '@/constants/classes';
+import { selectNavigationItem } from '@/actions/navigationActions.js';
+import { initNavigationState } from '@/reducers/navigation.js';
 
 class CatalogRoutes extends Component {
   static propTypes = {
@@ -34,11 +30,10 @@ class CatalogRoutes extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-
-    // dispatch(tryFetchCatalog());
     dispatch(selectNavigationItem(initNavigationState.secondNavItem.index));
 
     this.forceUpdate();
+    
     if (!document.title)
       document.title = 'Каталог | ArtCeil';
   }

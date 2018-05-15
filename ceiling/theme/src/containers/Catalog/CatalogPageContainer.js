@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Loader from './../../components/Loader';
 
-import catalogStore, {CATALOG} from './../../constants/catalog';
+import {CATALOG} from './../../constants/catalog';
 import getClass from './../../constants/classes';
 import {localData, getArray} from './../../constants/pureFunctions.js';
 import {catalogSectionCombiner, catalogSubsectionsCombiner} from './../../constants/filter';
@@ -47,11 +47,8 @@ class CatalogPageContainer extends Component {
       brands
     } = this.state;
 
-
-    // const catalog = localData.get(CATALOG);
-
     if (!isCatalogGotten) {
-      catalogStore.getItem(
+      localforage.getItem(
         CATALOG,
         (err, catalog) => {
           if (catalog !== null) {
@@ -75,7 +72,7 @@ class CatalogPageContainer extends Component {
 
     return (
       <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
-        <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-centered h-centered'})}> 
+        <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-centered h-centered'})}>
           <h1 className={getClass({b: 'catalogHeader', el: 'title', m: 'catalog', add: 'parent row centered baseChild'})}>
               Выставочный зал
             <Figure name="picture" url={picture} maxWidth={68} />

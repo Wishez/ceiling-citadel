@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import getClass from './../../constants/classes';
-import catalogStore, {CATALOG, CATEGORY} from './../../constants/catalog';
-import {transformName} from './../../constants/pureFunctions';
-import {catalogSubsectionsCombiner} from './../../constants/filter';
-import {catalogCollectionUrl} from './../../constants/conf';
-
 import BaseCatalogContainer from './BaseCatalogContainer';
 
-import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
+import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 
-import CatalogSection from './../../components/Catalog/CatalogSection';
-// import Loader from './../../components/Loader';
+import {CATALOG, CATEGORY} from '@/constants/catalog';
+import {transformName} from '@/constants/pureFunctions';
+import {catalogSubsectionsCombiner, catalogSectionCombiner} from '@/constants/filter';
+
+import CatalogSection from '@/components/Catalog/CatalogSection';
+
 
 class CategoryContainer extends Component {
   static propTypes = {
@@ -32,6 +30,38 @@ class CategoryContainer extends Component {
     slogan: ''
   }
 
+
+
+  componentWillUpdate(nextProps) {
+    const {
+      categorySlug
+    } = this.props.match.params;
+    const {CATEGORY} = this.props;
+    const isCategoryUpdated = CATEGORY !== nextProps.CATEGORY;
+    if (isCategoryUpdated) {
+      this.cleanCurrentCategory();
+    }
+
+    const newCategorySlug = nextProps.match.params.categorySlug;
+
+    if (newCategorySlug !== categorySlug) {
+      this.getIdFromCatalog(this.makeForceRequestForCategoryAfterFindingId);
+    }
+  }
+
+  cleanCurrentCategory = () => {
+    this.setState({
+      category: false
+    });
+  }
+
+
+
+  makeForceRequestForCategoryAfterFindingId = () => {
+    const isForceRequest = true;
+    this.requestCategory(isForceRequest);
+  }
+
   requestCategory = (force=false) => {
     const {id, categoryName} = this.state;
     const {dispatch} = this.props;
@@ -43,53 +73,41 @@ class CategoryContainer extends Component {
 
       if (request) {
         request.then(category => {
-          if (category) {
-            const transformedName = transformName(category.name);
-
-            if (transformName !== categoryName) {
-              this.setState({
-                categoryName: transformedName,
-                slogan: category.slogan,
-                category: category,
-                id
-              });
-            }
-          }
+          this.renderNewCategoryIfNeeded({
+            oldCategoryName: categoryName,
+            category,
+            id
+          });
         });
       }
 
     }
   }
-  componentWillUpdate(nextProps, nextState) {
-    const {
-      categorySlug
-    } = this.props.match.params;
-    const {CATEGORY} = this.props;
 
-    if (CATEGORY !== nextProps.CATEGORY) {
-      this.setState({
-        category: false
-      });
-    }
+  renderNewCategoryIfNeeded = ({
+    category,
+    oldCategoryName,
+    id
+  }) => {
+    if (category) {
+      const transformedName = transformName(category.name);
 
-    const newRoute = nextProps.match.params.categorySlug;
-
-    if (newRoute !== categorySlug) {
-      this.getIdFromCatalog(
-        () => { this.requestCategory(true); },
-        newRoute
-      );
+      if (transformName !== oldCategoryName) {
+        this.setState({
+          categoryName: transformedName,
+          slogan: category.slogan,
+          category: category,
+          id
+        });
+      }
     }
   }
 
-
-  getIdFromCatalog = (callback=false, newSlug=false) => {
+  getIdFromCatalog = (callback=false) => {
     const {match} = this.props;
     const {categorySlug} = match.params;
 
-    catalogStore.getItem(CATALOG, (error, catalog) => {
-
-
+    localforage.getItem(CATALOG, (error, catalog) => {
       if (catalog !== null && categorySlug in catalog.categories) {
         const id = catalog.categories[categorySlug].uuid;
 
@@ -121,9 +139,9 @@ class CategoryContainer extends Component {
     if (!category) {
       this.requestCategory();
     }
-
-    console.log(category, isRequesting);
+    
     const categoryProductsLength =  category && category.products.length;
+    const categoryCollectionsLength =  category && category.collections.length;
 
     return (
       <BaseCatalogContainer name={categoryName}
@@ -135,20 +153,25 @@ class CategoryContainer extends Component {
         }}
         CONSTANT={CATEGORY}
       >
-        <CatalogSection name="Коллекции" headerId="collections">
-          {!isRequesting &&
-            category ?
-            catalogSubsectionsCombiner(category.collections, url, 'brand') : ''
+        <CatalogSection name="Коллекции" headerId="collections" fallback={
+          !isRequesting && !categoryCollectionsLength ?
+            <p className="catalogSection__title">Нет отдельных коллекций.</p> : ''}>
+          {
+            !isRequesting &&
+            categoryCollectionsLength ?
+              catalogSubsectionsCombiner(category.collections, url, 'brand')
+              : ''
           }
         </CatalogSection>
 
-        <CatalogSection name="Образцы" headerId="samples">
+        <CatalogSection name="Образцы" headerId="samples" fallback={
+          !isRequesting && !categoryProductsLength ?
+            <p className="catalogSection__title">Нет отдельных образцов.</p> : ''}>
           {
             !isRequesting &&
             categoryProductsLength ?
               catalogSectionCombiner(category.products, url) :
-              !isRequesting ?
-                <p className="catalogSection__title">Нет отдельных образцов.</p> : ''
+              ''
           }
         </CatalogSection>
       </BaseCatalogContainer>
