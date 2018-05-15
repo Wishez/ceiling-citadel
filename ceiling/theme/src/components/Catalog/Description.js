@@ -2,7 +2,7 @@ import React  from 'react';
 import getClass from './../../constants/classes';
 import {Link} from 'react-router-dom';
 
-const Description = ({ 
+const Description = ({
   block,
   element,
   elementModifier,
@@ -13,8 +13,8 @@ const Description = ({
   url,
   ...rest
 }) => (
-  <p className={`${getClass({b: 'catalogDescription', m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row centered zeroVerticalMargin'})}`}>
-    <span className="cropedText cropedText_5">
+  <p className={`${getClass({b: 'catalogDescription', m: modifier, add: className })} ${getClass({b: block, el: element, m: elementModifier, add: 'parent row h-centered paragraph_container itemPresentation'})}`}>
+    <span className="cropedText cropedText_5 max-width_paragraph padding-top_base">
       {content}
     </span>
 	 	{children}

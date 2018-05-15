@@ -14,14 +14,14 @@ const Characteristics = ({
   ceil_size,
   brand,
   colors,
-  modifier,
+  modifier='',
   className,
   name,
   url,
   children,
   ...rest
 }) => (
-  <article className={getClass({b: 'characteristics', m: modifier, add: `${className} parent column h-start v-start zeroVerticalMargin` })}>
+  <article className={getClass({b: 'characteristics', m: modifier, add: `${className} parent column h-start v-start paragraph_container itemPresentation` })}>
     <h4 className={getClass({b: 'visible-hidden'})}>{`Характеристики ${name}`}</h4>
     {brand ? <Characteristic name="brand" value={brand} label="Производитель" /> : ''}
     {width ? <Characteristic name="width" value={width} label="Ширина" /> : ''}
@@ -34,10 +34,10 @@ const Characteristics = ({
     {angle_of_bend ? <Characteristic name="angle_of_bend" value={`${angle_of_bend}°`} label="Мин. угол загиба" /> : ''}
     {(typeof colors === 'object' && colors.length) ?
       <Characteristic name="colors" label="Цвета">
-        <div className={getClass({b: 'colors', add: 'zeroVerticalMargin parent row h-end'})}>
+        <div className={getClass({b: 'colors', add: ' parent row h-end'})}>
           {colors.reverse().slice(0, 9).map((color, index) => (
-            <div key={index} className={getClass({b: 'colorContainer', add: 'parent column zeroVerticalMargin'})}>
-              <span style={{backgroundColor: color.color}} className={getClass({b: 'colorContainer', el: 'color', add: 'zeroVerticalMargin'})}></span>
+            <div key={index} className={getClass({b: 'colorContainer', add: 'parent column '})}>
+              <span style={{backgroundColor: color.color}} className='colorContainer__color'></span>
               <span className={getClass({b: 'colorContainer', el: 'name', add: 'visible-hidden'})}>{color.name}</span>
             </div>
           ))}

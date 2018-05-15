@@ -17,7 +17,7 @@ const CatalogSection = ({
   ...rest
 }) => (
   <section className={getClass({b: 'catalogSection', m: modifier, add: `${className} lowCascadingShadow` })}>
-    <h2 key="heading" id={headerId} className={getClass({b: 'catalogSection', el: 'title', m: modifier, add: titleShown ? '' : 'visible-hidden' })}>
+    <h2 key="heading" id={headerId} className={getClass({b: 'catalogSection', el: 'title', m: modifier, add: `text_centered${titleShown ? '' : ' visible-hidden'}` })}>
       {name}
     </h2>
     <TransitionGroup className="fullWidth parent row centered">
@@ -32,6 +32,4 @@ const CatalogSection = ({
   </section>
 );
 
-// </TransitionGroup>
-// <TransitionGroup>
 export default CatalogSection;

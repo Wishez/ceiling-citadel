@@ -1,12 +1,7 @@
-// $figures: ('shopping-bag', 'shopping_bag.png', 512, 512, em(56, 21), true), ('callback', 'callback.png', 512, 512, em(101, 21), true),  ('contacts', 'contacts.png', 512, 512, em(87, 21), true), ('callback_name', 'white_user.png', 512, 512, em(33, 21), true), ('callback_phone', 'white-phone.png', 512, 512, em(35, 21), true), ('full_name', 'user.png', 512, 512, em(35, 21), true), ('email', 'envelope.png', 512, 512, em(35, 21), true);
+// button .imageContainer_loader
+// 	margin-top: 0 $i
+// 	margin-bottom: 0 $i
 
-
-// @each $name, $url, $height, $width, $max-width, $isIcon in $figures 
-	
-// 	@include adaptiveImage($name, $max-width, adaptive($width, $height), $url, $isIcon)
-button .imageContainer_loader
-	margin-top: 0 $i
-	margin-bottom: 0 $i
 .imageContainer
 	z-index: 1
 	&_email
@@ -14,8 +9,8 @@ button .imageContainer_loader
 	&__image
 		&_sample
 			margin-top: 0
-			height: 100% $i	
-	&_sample		
+			height: 100% $i
+	&_sample
 		height: 100%
 	&_loader
 		margin-top: 3rem
@@ -33,7 +28,7 @@ button .imageContainer_loader
 		align-self: flex-end
 		margin-right: span(1)
 		margin-bottom: 	0
-		@include breakpoint($xs) 
+		@include breakpoint($xs)
 			align-self: center
 			max-width: em(171) $i
 			margin-right: 0
@@ -93,12 +88,14 @@ button .imageContainer_loader
 		margin-right: em(16, 28)
 .imageContainer__image_exhibition
 	@extend .lowCascadingShadow
-	// @include round(2px)
+
 	@include breakpoint($md-up)
 		transform: translate(40%, -123%)
-	@include breakpoint($sm-less) 
+
+	@include breakpoint($sm-less)
 		box-shadow: none
 
 .successfull
+	
 	& .orderButtons
 		margin-top: em(24)

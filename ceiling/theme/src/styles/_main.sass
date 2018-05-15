@@ -6,7 +6,8 @@
 	margin-top: 2.125em
 
 .slides
-	position: relative
+	@extend %relative
+
 .catalogItem
 	height: em(360)
 	flex: 1 0 span(6)
@@ -20,7 +21,6 @@
 
 	@include breakpoint($xs)
 		min-width: span(12)
-
 
 	&__image
 		top: 0
@@ -59,14 +59,13 @@
 
 
 
-.catalogDescription, .characteristics
+.itemPresentation
 	box-shadow: inset 0 0 12px rgba(0,0,0, .15)
-
 	min-width: 	span(12)
-	margin-top: 0 $i
-	padding:  0 1.25rem em(29.39) 1.5rem
 	min-height: em(245.7, 16)
 	background-color: $white
+
+
 
 .catalog
 	position: relative
@@ -76,10 +75,11 @@
 			padding: 0 1.5rem
 
 
-// Catalog
+
 .catalogSection, .catalogSubsection
 	max-width: em(960)
 	width: span(12)
+
 .catalogSection
 	margin-top: 3rem
 	margin-bottom: 3rem
@@ -91,13 +91,15 @@
 
 .catalogSubsection
 	margin:	0
+
 	&__title
 		font-weight: 200
 		border-top-color: $darkBlue
 		padding-top: 4rem
+
 .catalogSection, .catalogSubsection
+
 	&__title
-		// margin-bottom: 	1.5rem
 		padding: 1.5rem
 		border-top-width: em(4.74074074074074074074, 24)
 		border-top-style: solid
@@ -209,27 +211,31 @@
 	margin-top: 0
 	margin-bottom: 0
 	font-size: em(21)
-	// transition: box-shadow 2 ease, color .4s linear
+	transition: 259ms $standart
 	background-color: rgba(255,255,255,.8)
+	max-width: span(6)
 
+	// &:hover, &:focus
+	@extend %flyShadow
 
-	&:hover, &:focus
-		@extend %flyShadow
 	&__refer
-		// display: block
 		height: 100%
+
 		&, &:hover, &:focus
 			background-image: none
 
 	&_stretch, &__refer
 		min-width: span(12)
-	max-width: span(6)
+
+
 	&_left
 		justify-self: flex-start
 		border-top-right-radius: 2px
+
 	&_right
 		justify-self: flex-end
 		border-top-left-radius: 2px
+
 	&_center
 		border-radius: 2px 2px 0 0
 		justify-self: center
@@ -331,13 +337,15 @@
 
 
 .colors
+	@supports (display: grid)
 		display: grid
-	  grid-template-columns: repeat(auto-fit, 22px)
-	  min-width: 100%
-	  grid-gap: 10px
+		grid-template-columns: repeat(auto-fit, 22px)
+		min-width: 100%
+		grid-gap: 10px
 
 .characteristics
 	height: em(275)
+
 	&_static
 		position: static
 		background: $darkGray
@@ -359,34 +367,30 @@
 .zeroVerticalMargin
 	margin-top: 0
 	margin-bottom: 0
+
 .sampleCharacteristic, .colorContainer, .characteristics, .sampleCharacteristic__characteristic
 .sampleCharacteristic
 	margin-top: em(9.11)
-	&:not(&_colors)
-		// transform: translateY(-240%)
-	&_brand
-		margin-top: em(29.777)
+
 	&_colors
-		transform: translateY(35%)
 		min-width: span(4)
-		order: -1
-		align-self: flex-end
+		order: 100
 		flex-flow: column wrap
-		align-items: flex-end
-		position: absolute
-		max-width: 33%
+
 	&__label
 		text-align: right
 		color: $gray
+
 	&__characteristic
 		font-weight: bold
 
 .colorContainer
-	margin-left: em(10.12)
+
 	&__color
 		$squareSize: em(22.26)
 		width: $squareSize
 		height: $squareSize
+
 	&__name
 		opacity: 0
 
@@ -396,14 +400,12 @@
 	@include breakpoint($xs)
 		flex-direction: column
 .catalogForm
-	// margin-top: 3rem
 	background-color: #F2F2F2
 	border-radius: 3px
 	min-width: span(12)
 	padding: em(34) em(37) em(150)
 	@extend %relative
 	@include breakpoint($xs)
-		// padding-bottom: em(152)
 
 
 	@include breakpoint($xxs)

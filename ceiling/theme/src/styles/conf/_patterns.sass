@@ -38,11 +38,22 @@
 		height: 1px
 		position: absolute
 
+.max-width
+	&_paragraph
+		max-width: 60ch
 
 .padding
+
 	&-bottom
+
 		&_1
 			padding-bottom: 1em
+
+	&-top
+
+		&_base
+			padding-top: 1em
+
 .registrationButton
 	&_red
 		background-color: $red
@@ -626,8 +637,6 @@ input[type=number]:hover::-webkit-inner-spin-button
 	left: 0
 	width: 100%
 
-		// filter: blur(4px)
-
 .marginTop_base
 	&-xs
 		@include breakpoint($xs)
@@ -637,14 +646,23 @@ input[type=number]:hover::-webkit-inner-spin-button
 			margin-top: 1.5em $i
 
 .margin
-	
+
 	&-bottom
 
 		&_zero
 			margin-bottom: 0
-.textCentered_xxs
-	@include breakpoint($xxs)
+.text
+	&_centered
 		text-align: center
+	&Centered_xxs
+		@include breakpoint($xxs)
+			text-align: center
+
+.paragraph
+
+	&_container
+		margin-top: 0 $i
+		padding:  1rem 1.5rem 2rem 2.25rem
 
 .popupFormContainer
 	font-size: em(18)
@@ -657,8 +675,10 @@ input[type=number]:hover::-webkit-inner-spin-button
 	z-index: 5
 	@extend %relative
 	padding: em(40, 18) em(25, 18) em(45, 18)
+
 	&, &__title
 		background: $white
+
 	&__title
 		padding: em(7, 24) em(10, 24)
 		border-radius: 3px 3px 0 0
@@ -667,6 +687,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 		left: 0
 		min-width: span(6)
 		text-align: center
+
 	&__button
 		margin-top: 1em
 
@@ -675,6 +696,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 	background-color: $darkBlue
 	color: $white
 	margin-top: em(35)
+
 	&_product
 		@extend %absolute
 		bottom: em(150 / 2 - 25)
@@ -682,17 +704,14 @@ input[type=number]:hover::-webkit-inner-spin-button
 
 .serverError
 	color: $red
+
 .serverError, .successfull
 	font-weight: bold
+
 .successfull
 	color: $darkBlue
 	&_addProductForm
 		transform: translateY(2em)
-
-$acceleration: cubic-bazier(0.4, 0.0, 1, 1)
-$curve: cubic-bazier(0.4, 0.0, 0.6, 1)
-$decelleration: cubic-bazier(0.0, 0.0, 0.2, 1)
-$standart: cubic-bazier(0.4, 0.0, 0.2, 1)
 
 .unwrap
 	&-appear, &-enter
