@@ -26,7 +26,7 @@ const CatalogItem = ({
   ...rest
 }) => (
   <article
-    className={getClass({b: 'catalogItem', m: modifier, add: `${className}${style ? ` catalogItem_${style}`: ''} parent zeroVerticalMargin row h-start v-end` })}>
+    className={getClass({b: 'catalogItem', m: modifier ? modifier : '', add: `${className}${style ? ` catalogItem_${style}`: ''} parent row h-start v-end` })}>
     <span role="presentation" className="catalogItemContent fullWidth index_big margin-bottom_zero">
       <Table url={url}
         slug={slug}

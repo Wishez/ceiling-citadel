@@ -3,7 +3,7 @@ import getClass from './../../constants/classes';
 import {Link} from 'react-router-dom';
 import Characteristic from './Characteristic';
 
-const Characteristics = ({ 
+const Characteristics = ({
   width,
   height,
   thickness,
@@ -32,9 +32,9 @@ const Characteristics = ({
     {thickness ? <Characteristic name="thickness" value={thickness} label="Толщина" /> : ''}
     {step_between_panels ? <Characteristic name="step_between_panels" value={step_between_panels} label="Шаг между панелями" /> : ''}
     {angle_of_bend ? <Characteristic name="angle_of_bend" value={`${angle_of_bend}°`} label="Мин. угол загиба" /> : ''}
-    {(typeof colors === 'object' && colors.length) ? 
+    {(typeof colors === 'object' && colors.length) ?
       <Characteristic name="colors" label="Цвета">
-        <div className={getClass({b: 'colors', add: 'zeroVerticalMargin parent row h-between'})}>
+        <div className={getClass({b: 'colors', add: 'zeroVerticalMargin parent row h-end'})}>
           {colors.reverse().slice(0, 9).map((color, index) => (
             <div key={index} className={getClass({b: 'colorContainer', add: 'parent column zeroVerticalMargin'})}>
               <span style={{backgroundColor: color.color}} className={getClass({b: 'colorContainer', el: 'color', add: 'zeroVerticalMargin'})}></span>
@@ -43,7 +43,7 @@ const Characteristics = ({
           ))}
         </div>
       </Characteristic> : ''}
-    {typeof colors === 'string' ? 
+    {typeof colors === 'string' ?
       <Characteristic name="" label="Цвет" value={colors} /> : ''}
     {children}
     {url ? <Link to={url} className={getClass({
@@ -52,7 +52,7 @@ const Characteristics = ({
       add: 'parent row centered zeroVerticalMargin'
     })}>Подробнее</Link> : ''}
   </article>
-	
+
 );
 
 export default Characteristics;

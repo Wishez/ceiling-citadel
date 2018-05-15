@@ -5,7 +5,7 @@ import {TransitionGroup } from 'react-transition-group';
 import Loader from './../Loader';
 
 
-const CatalogSection = ({ 
+const CatalogSection = ({
   block,
   modifier='',
   children,
@@ -13,6 +13,7 @@ const CatalogSection = ({
   titleShown=true,
   className,
   headerId,
+  fallback='',
   ...rest
 }) => (
   <section className={getClass({b: 'catalogSection', m: modifier, add: `${className} lowCascadingShadow` })}>
@@ -22,10 +23,12 @@ const CatalogSection = ({
     <TransitionGroup className="fullWidth parent row centered">
       {children}
     </TransitionGroup>
-    {children ? '' : 
-      <div className="fullWidth parent row centered">
-        <Loader />
-      </div>}
+    {children ? '' :
+      fallback ?
+        fallback :
+        <div className="fullWidth parent row centered">
+          <Loader />
+        </div>}
   </section>
 );
 
