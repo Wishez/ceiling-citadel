@@ -18,8 +18,7 @@ const Characteristics = ({
   className,
   name,
   url,
-  children,
-  ...rest
+  children
 }) => (
   <article className={getClass({b: 'characteristics', m: modifier, add: `${className} parent column h-start v-start paragraph_container itemPresentation` })}>
     <h4 className={getClass({b: 'visible-hidden'})}>{`Характеристики ${name}`}</h4>
