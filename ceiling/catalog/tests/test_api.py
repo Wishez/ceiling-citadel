@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 import json
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from catalog.models import *
 from model_mommy import mommy
 from django.utils.timezone import now
@@ -29,18 +29,21 @@ class CatalogAPITest(TestCase):
                 created=now(),
                 modified=now()
             )
+
             setattr(self, key, model)
             setattr(
                 self,
                 key + '_read_url',
-                reverse(key, kwargs={
+                reverse_lazy(key, kwargs={
                     'uuid': model.uuid
                 })
             )
 
-        self.brands_list_read_url = reverse('brands_list')
-        self.categories_list_read_url = reverse('categories_list')
-        self.collections_list_read_url = reverse('collections_list')
+        self.brands_list_read_url = reverse_lazy('brands_list')
+        self.categories_list_read_url = reverse_lazy('categories_list')
+        self.collections_list_read_url = reverse_lazy('collections_list')
+
+        # self.assertEquals()
 
     def security_test(self):
         response = self.client.get(self.categories_list_read_url)
@@ -72,12 +75,13 @@ class CatalogAPITest(TestCase):
         response = self.client.get(self.brand_read_url)
 
         self.assertEquals(response.status_code, 200)
-        
+
     def get_collection_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.collection_read_url)
 
         self.assertEquals(response.status_code, 200)
+
     def get_product_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.product_read_url)

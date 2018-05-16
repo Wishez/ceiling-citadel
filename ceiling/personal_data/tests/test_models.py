@@ -72,7 +72,7 @@ class ConsumerTestModel(TestCase):
         for key in consumers.keys():
             new_consumer = Consumer.objects.create()
             tested_consumer = consumers[key]
-            tested_consumer["instance"] = Consumer.objects.fill_name_by_fields_and_save(
+            tested_consumer["instance"] = Consumer.objects.fill_name_by_fields(
                 new_consumer,
                 tested_consumer["full_name"]
             )
@@ -120,6 +120,7 @@ class OrderedProductTestModel(TestCase):
         ordered_product.save()
 
         self.assertEquals(ordered_product.quantity, 3)
+        self.assertEquals(product.price, 200)
         self.assertEquals(ordered_product.full_price, product.price * ordered_product.quantity)
 
     def ordered_product_characteristics_test(self):

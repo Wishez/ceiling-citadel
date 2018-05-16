@@ -2,7 +2,7 @@
 from django.test import TestCase
 from model_mommy import mommy
 from django.utils.timezone import now
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from forms.models import *
 from forms.views import make_order
 from home.models import Settings
@@ -14,9 +14,9 @@ class Request:
 
 class FormsViewsTestModel(TestCase):
     def setUp(self):
-        self.order_callback_url = reverse('callback')
-        self.make_order_url = reverse('order')
-        self.ask_question_url = reverse('question')
+        self.order_callback_url = reverse_lazy('callback')
+        self.make_order_url = reverse_lazy('order')
+        self.ask_question_url = reverse_lazy('question')
         self.settings = Settings.objects.create()
 
         self.settings.save()

@@ -4,6 +4,8 @@ import uuid as uuid_lib
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Product, BaseProductModel
+from django.dispatch  import receiver
+from django.db.models.signals  import pre_save
 
 class ConsumerManager(models.Manager):
     use_for_related_fields = True
@@ -146,14 +148,19 @@ class OrderedProduct(BaseProductModel):
 
     def __str__(self):
         return self.product.name
+
     class Meta:
         db_table = 'consumers_ordered_products'
         verbose_name = _('Оформленный продукт')
         verbose_name_plural = _('Оформленные продукты')
 
-# @receiver(pre_save, sender=OrderedProduct)
+
+@receiver(pre_save, sender=OrderedProduct)
 def count_whole_price_of_ordered_product(sender, instance, **kwargs):
-    price = getattr(instance, 'price', None)
+    price = getattr(instance.product, 'price', None)
+
     if price:
         instance.full_price = price * instance.quantity
+
+
     return True
