@@ -64,6 +64,7 @@ class BrandAdmin(CategoryBaseAdminModel):
             'fields': (
                 ('categories',),
                 ('collections',),
+                ('products',),
             ),
         })
     ]
@@ -97,7 +98,7 @@ class CollectionAdmin(CategoryBaseAdminModel):
          ('Предметы и бренд коллекции', {
              'fields': (
                  ('collection_items',),
-                 ('brand',),
+                 ('brand', 'category',),
              ),
          })
      ]
@@ -134,4 +135,3 @@ class ProductAdmin(CategoryBaseAdminModel):
             ),
         })
      ]
-
