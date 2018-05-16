@@ -157,6 +157,7 @@ class BrandCollectionContainer extends Component {
      }
 
      const samplesLength =  collection && collection.collection_items.length;
+     const isSample = true;
 
      return (
        <BaseCatalogContainer name={collectionName}
@@ -179,7 +180,7 @@ class BrandCollectionContainer extends Component {
          >
            {!isRequesting &&
             samplesLength ?
-             catalogSectionCombiner(collection.collection_items, url, true) : ''
+             catalogSectionCombiner(collection.collection_items, url, isSample) : ''
            }
          </CatalogSection>
        </BaseCatalogContainer>
