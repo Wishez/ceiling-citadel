@@ -50,4 +50,9 @@ urlpatterns = [
         ProductView.as_view(),
         name='product'
     ),
-]# + router.urls
+    url(
+        r'^api/next/product/(?P<slug>[-\w]+)/$',
+        ProductViewBySlug.as_view(),
+        name='next_product'
+    ),
+]

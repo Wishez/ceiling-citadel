@@ -43,3 +43,8 @@ class ProductView(RetrieveAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     lookup_field = 'uuid'
 
+class ProductViewBySlug(RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    lookup_field = 'slug'
