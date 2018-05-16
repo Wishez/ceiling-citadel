@@ -24,13 +24,14 @@
 	&:focus, &
 		border-color: #aaa
 		box-shadow: none
-	
+
 
 
 
 .upper
 	text-transform: uppercase
 	letter-spacing: .12em
+
 .menuButton
 	min-width: auto
 	margin: auto
@@ -40,7 +41,7 @@
 	background-color: $white
 	border-radius: 3px;
 	z-index: 102
-	transition: transform .4s
+	transition: transform 250ms $standart
 	will-change: transform
 
 	&__text
@@ -53,40 +54,52 @@
 		width: em(55)
 		margin: em(2.99) 0
 		min-height: em(7)
-		transition: .2s ease
+		transition: 320ms $standart
+
 		&_darkBlue
 			max-width: span(8)
 			background-color: $darkBlue
+
 		&_cian
 			max-width: span(9.5)
 			background-color: $cian
+
 		&_orange
 			max-width: span(12)
 			background-color: $orange
+
 		&_cross
 			&_right, &_left
 				border-radius: 2px
 				max-width: span(10)
 				margin: .5em 0
+
 			&_right
 				transform: rotate(-45deg) translate(-.5em, .5em)
+
 			&_left
 				transform: rotate(45deg) translate(-.5em, -.5em)
 
+
 		&_floor
 			max-width: span(12)
+
 	@include breakpoint($xs)
 		transform: translate(300%, -90%)
+
 	@include breakpoint($xxs)
 		transform: translateY(0)
+
 	&_close
 		position: fixed
 		background-color: #f7f7f7
 		@include breakpoint($sm)
 			transform: translateX(50%)
+
 		@include breakpoint($xs)
 			top: 10%
 			transform: translate(0%, -25%)
+
 			right: 10%
 .searchForm
 	margin-top: 1.5rem
@@ -114,15 +127,14 @@
 		transform: translateY(.25rem)
 
 .contactsItem
-	// &:not(:first-child)
 	margin-top: .5rem
 	white-space: nowrap
 	flex-wrap: nowrap
+
 	&__label
 		color: $gray
+
 .header
-	// position: sticky
-	// top: 0
 	background-color: $white
 	padding: 1em 0 3em
 	z-index: 100000
@@ -144,10 +156,12 @@
 
 .navigation
 	position: fixed
-	transition: transform .7s ease-in-out
+	transition: transform 250ms
+	transition-timing-function: $acceleration
 	padding-bottom: 1em
 	padding-top: 2em
 	top: 0
+	will-change: transform
 	left: 0
 	height: 100%
 	width: 	100%
@@ -158,11 +172,13 @@
 	color: $gray
 	background-color: #F2F2F2
 	border-top: 1px solid $darkGray
+
 	&_opened
+		transition-timing-function: $decelleration
 		transform: translateY(0)
 
 .navigationContainer
-	// max-width: span(2)
+
 	@include breakpoint($xs)
 		max-height: em(50)
 		order: 2
@@ -241,22 +257,22 @@
 	@extend .lowCascadingShadow
 
 .resultSection
-	// font-size: em(18)
 	&:not(:first-of-type)
 		margin-top: 1rem
 
-.resultRefer
-	// color: $cian $i
-	// background-image: url()
 .brand
 	max-width: em(260)
+
 	&, &:hover, &:focus
 		background-image: none
+
 	&_header
+
 		@include breakpoint($md-less)
 			max-width: em(265)
 			order: 4
 			margin-left: 3rem
+
 		@include breakpoint($xs)
 			order: 1
 			transform: translateX(-25%)
@@ -264,6 +280,7 @@
 			align-self: flex-start
 			margin: 0 auto
 			max-height: em(70)
+
 	@include breakpoint($xxs)
 		transform: translateX(0)
 
@@ -271,16 +288,20 @@
 		font-size: em(28)
 		text-shadow: 0 2px 6px $shadow
 		font-style: italic
+
 		@include breakpoint($md-less)
 			font-size: 	em(36)
+
 	&__slogan
 		font-weight: 200
 		letter-spaceing: .1rem
 		font-size: 	em(9)
 		transform: translateY(-5%)
+
 	&__name, &__slogan
 		font-weight: bold
 		text-transform: none
+
 .controller_search
 	min-width: auto
 	max-width: span(12)
@@ -334,10 +355,12 @@
 		border-right: 1px solid $gray
 	@include breakpoint($xxs)
 		border-right: 0
+
 .callbackFigureButton, .quantityOrderedProductsButton
 	background: transparent
 	will-change: transform
-	transition: transform .3s ease-in-out
+	transition: transform 250ms $sharp
+
 .callbackFigureButton
 	@include breakpoint($xs)
 		order: -1
