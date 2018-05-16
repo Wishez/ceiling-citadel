@@ -246,10 +246,14 @@ class CollectionListSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field="name"
     )
+    category = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="name"
+    )
 
     class Meta:
         model = Collection
-        fields = base_list_fields + ['brand']
+        fields = base_list_fields + ['brand', 'category']
 
 class CategorySerializer(serializers.ModelSerializer):
     section = serializers.SlugRelatedField(
@@ -301,6 +305,12 @@ class CollectionSerializer(serializers.ModelSerializer):
     brand = BrandListSerializer(
         read_only=True
     )
+
+    category = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field="name"
+    )
+
     class Meta:
         model = Collection
-        fields = base_fields + ['slogan', 'collection_items', 'brand']
+        fields = base_fields + ['slogan', 'collection_items', 'brand', 'category']
