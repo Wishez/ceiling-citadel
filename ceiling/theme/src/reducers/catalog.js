@@ -8,7 +8,8 @@ import {
   RETRIEVE_CATALOG,
   SET_FOUND_ENTITIES,
   FIND_ENTITIES,
-  CLEAN_SEARCH_ENTITIES
+  CLEAN_SEARCH_ENTITIES,
+  SET_LAST_SHOWN_VIEW
 } from './../constants/catalog';
 
 /*
@@ -30,6 +31,10 @@ export const initState = {
   CATALOG: false,
   searchEntities: [],
   isFinding: false,
+  lastShownView: {
+    name: '',
+    type: ''
+  },
   ...fetchState
 };
 
@@ -37,8 +42,15 @@ const catalog = (
   state=initState,
   action
 ) => {
-	
+
   switch (action.type) {
+    case SET_LAST_SHOWN_VIEW:
+      return {
+        ...state,
+        lastShownView: {
+          ...action.lastShownView
+        }
+      };
     case CLEAN_SEARCH_ENTITIES:
       return {
         ...state,

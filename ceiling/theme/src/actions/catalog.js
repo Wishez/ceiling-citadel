@@ -17,11 +17,11 @@ import {
   SEARCH_PRODUCTS_STORE,
   SEARCH_CATEGORIES_STORE,
   SEARCH_BRANDS_STORE,
-  CLEAN_SEARCH_ENTITIES
+  CLEAN_SEARCH_ENTITIES,
+  PRODUCT_SLUG,
+  SET_LAST_SHOWN_VIEW
 } from '@/constants/catalog';
-
 import customAjaxRequest from '@/constants/ajax';
-
 import {
   categoryUrl,
   productUrl,
@@ -30,49 +30,29 @@ import {
   catalogUrl,
   productAlbumUrl,
   catalogBrandUrl,
-  catalogCategoryUrl
+  catalogCategoryUrl,
+  productSlugUrl
 } from '@/constants/conf';
 import { getArray } from '@/constants/pureFunctions';
 
-export const retrieveEntity = (type, id) => ({
-  type: type,
-  id
+export const setLastShownView = ({
+  name,
+  type
+}) => ({
+  type: SET_LAST_SHOWN_VIEW,
+  lastShownView: {
+    name,
+    type
+  }
 });
 
-export const retriveCatalog = () => ({
-  type: RETRIEVE_CATALOG
-});
 
-export const findEntities = () => ({
-  type: FIND_ENTITIES
-});
-export const requestCatalog = () => ({
-  type: REQUEST_CATALOG
-});
-
-const catalogRequests = {
-  [BRAND]: {
-    url: brandUrl,
-    type: RETRIEVE_BRAND
-  },
-  [COLLECTION]: {
-    url: collectionUrl,
-    type: RETRIEVE_COLLECTION
-  },
-  [CATEGORY]: {
-    url: categoryUrl,
-    type: RETRIEVE_CATEGORY
-  },
-  [PRODUCT]: {
-    url: productUrl,
-    type: RETRIEVE_PRODUCT
-  },
-};
 
 export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
   dispatch(requestCatalog());
 
   const entityName = name.toUpperCase();
+
   const entityRequestInfo = getEntityRequestInfo(entityName);
   const url = entityRequestInfo.url;
   const type = entityRequestInfo.type;
@@ -110,7 +90,36 @@ export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
   });
 };
 
-function getEntityRequestInfo(entityName) {
+export const retrieveEntity = (type, id) => ({
+  type: type,
+  id
+});
+
+
+export const catalogRequests = {
+  [BRAND]: {
+    url: brandUrl,
+    type: RETRIEVE_BRAND
+  },
+  [COLLECTION]: {
+    url: collectionUrl,
+    type: RETRIEVE_COLLECTION
+  },
+  [CATEGORY]: {
+    url: categoryUrl,
+    type: RETRIEVE_CATEGORY
+  },
+  [PRODUCT]: {
+    url: productUrl,
+    type: RETRIEVE_PRODUCT
+  },
+  [PRODUCT_SLUG]: {
+    url: productSlugUrl,
+    type: RETRIEVE_PRODUCT
+  }
+};
+
+export function getEntityRequestInfo(entityName) {
   let entityRequestInfo = null;
 
   try {
@@ -122,9 +131,7 @@ function getEntityRequestInfo(entityName) {
   return entityRequestInfo;
 }
 
-function getAlbum({
-  slug, onLoad
-}) {
+function getAlbum({ slug, onLoad }) {
   return customAjaxRequest({
     url: `${productAlbumUrl}${slug}/`,
     cache: true,
@@ -142,6 +149,7 @@ function getAlbum({
     }
   });
 }
+
 function extractData(data) {
   const newData = {};
 
@@ -160,10 +168,23 @@ function extractData(data) {
   return newData;
 }
 
-export const tryFetchCatalog = (
-  callback = false
-) => dispatch => {
+export const fetchCatalogIfNeededAndDumpEntities = () => (
+  dispatch,
+  getStore
+) => {
+  localforage.getItem(CATALOG, function(err, catalog) {
+    const isRequesting = getStore().catalog.isRequesting;
+    let isSilentRequest = false;
 
+    if (catalog && isRequesting) {
+      isSilentRequest = true;
+    }
+
+    dispatch(tryFetchCatalog(dumpEntitiesAfterFetching, isSilentRequest));
+  });
+};
+
+export const tryFetchCatalog = (callback = false) => dispatch => {
   dispatch(requestCatalog());
 
   return customAjaxRequest({
@@ -173,7 +194,11 @@ export const tryFetchCatalog = (
     success: response => {
       const newData = extractData(response.body);
 
-      localforage.setItem(CATALOG, newData, retriveCatalogAndMakeCallbackIfNeeded);
+      localforage.setItem(
+        CATALOG,
+        newData,
+        retriveCatalogAndMakeCallbackIfNeeded
+      );
 
       function retriveCatalogAndMakeCallbackIfNeeded() {
         dispatch(retriveCatalog());
@@ -186,6 +211,20 @@ export const tryFetchCatalog = (
     }
   });
 };
+
+function dumpEntitiesAfterFetching() {
+  localforage.getItem(CATALOG, function(err, catalog) {
+    dumpEntitiesForSearch(catalog);
+  });
+}
+
+export const requestCatalog = () => ({
+  type: REQUEST_CATALOG
+});
+
+export const retriveCatalog = () => ({
+  type: RETRIEVE_CATALOG
+});
 
 export const fetchCatalogEntityOrGetLocale = (name, id, force = false) => (
   dispatch,
@@ -203,30 +242,6 @@ export const fetchCatalogEntityOrGetLocale = (name, id, force = false) => (
   return request;
 };
 
-export const setFoundEntities = foundEntities => ({
-  type: SET_FOUND_ENTITIES,
-  foundEntities
-});
-
-const filterEntities = (array, callback) =>
-  array.map(callback).filter(entity => entity);
-
-const getMatchedEntity = (string, searchedValue, callback) => {
-  const isThereEntity = new RegExp(searchedValue, 'ig').test(string);
-
-  return isThereEntity && callback();
-};
-
-const getFoundEntities = (array, value, pathTo, signification) => ({
-  name: signification,
-  items: filterEntities(array, entity =>
-    getMatchedEntity(entity.name, value, () => ({
-      name: entity.name,
-      url: `${pathTo}${entity.slug}/`
-    }))
-  )
-});
-
 export const dumpEntitiesForSearch = catalog => {
   const brands = getArray(catalog.brands).filter(brand => brand.is_shown);
   const categories = getArray(catalog.categories).filter(
@@ -242,7 +257,9 @@ export const dumpEntitiesForSearch = catalog => {
 
     function makeCollections(accumulatedBrandCollections, collection) {
       if (collection.is_shown) {
-        const collectionUrl = `/catalog/brand/${brand.slug}/${collection.slug}/`;
+        const collectionUrl = `/catalog/brand/${brand.slug}/${
+          collection.slug
+        }/`;
         const collectionProducts = collection.collection_items.map(makeProduct);
 
         function makeProduct(product) {
@@ -282,7 +299,6 @@ export const findEntitiesAndShowResults = value => dispatch => {
     localforage.getItem(SEARCH_CATEGORIES_STORE).then(categories => {
       localforage.getItem(SEARCH_PRODUCTS_STORE).then(products => {
         localforage.getItem(SEARCH_COLLECTION_STORE).then(collections => {
-
           dispatch(
             setFoundEntities(
               [
@@ -317,31 +333,34 @@ export const findEntitiesAndShowResults = value => dispatch => {
   }); // end SEARCH_BRANDS_STORE
 };
 
+export const findEntities = () => ({
+  type: FIND_ENTITIES
+});
+
+export const setFoundEntities = foundEntities => ({
+  type: SET_FOUND_ENTITIES,
+  foundEntities
+});
+
+const filterEntities = (array, callback) =>
+  array.map(callback).filter(entity => entity);
+
+const getMatchedEntity = (string, searchedValue, callback) => {
+  const isThereEntity = new RegExp(searchedValue, 'ig').test(string);
+
+  return isThereEntity && callback();
+};
+
+const getFoundEntities = (array, value, pathTo, signification) => ({
+  name: signification,
+  items: filterEntities(array, entity =>
+    getMatchedEntity(entity.name, value, () => ({
+      name: entity.name,
+      url: `${pathTo}${entity.slug}/`
+    }))
+  )
+});
+
 export const cleanSearchEntities = () => ({
   type: CLEAN_SEARCH_ENTITIES
 });
-
-export const fetchCatalogIfNeededAndDumpEntities = () => (
-  dispatch,
-  getStore
-) => {
-  localforage.getItem(CATALOG, function(err, catalog) {
-    const isRequesting = getStore().catalog.isRequesting;
-    let isSilentRequest = false;
-
-    if (catalog && isRequesting) {
-      isSilentRequest = true;
-    }
-
-    dispatch(
-      tryFetchCatalog(dumpEntitiesAfterFetching, isSilentRequest)
-    );
-
-  });
-};
-
-function dumpEntitiesAfterFetching() {
-  localforage.getItem(CATALOG, function(err, catalog) {
-    dumpEntitiesForSearch(catalog);
-  });
-}

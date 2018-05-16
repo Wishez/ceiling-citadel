@@ -7,7 +7,9 @@ export const questionUrl = `${siteApi}/make_form/question/`;
 
 const catalogApi = '/catalog/api/current';
 
+
 export const productUrl = `${siteApi}${catalogApi}/product/`;
+export const productSlugUrl = `${siteApi}/catalog/api/next/product/`;
 export const collectionUrl = `${siteApi}${catalogApi}/collection/`;
 export const categoryUrl = `${siteApi}${catalogApi}/category/`;
 export const brandUrl = `${siteApi}${catalogApi}/brand/`;
@@ -18,12 +20,12 @@ export const catalogCollectionUrl = '/catalog/collection/';
 export const catalogBrandUrl = '/catalog/brand/';
 export const catalogCategoryUrl = '/catalog/category/';
 
+
 // About section constants
 import nice_to_meet_you from './../images/about/sharp_first.png';
 import products from './../images/about/sharp.png';
 import design from './../images/about/square.png';
-// import exhibition from './../images/about/exhebition1.png';
-// import boxes from './../images/about/boxes.png';
+
 
 
 export const aboutSections = [{

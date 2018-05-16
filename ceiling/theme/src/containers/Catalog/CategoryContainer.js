@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import BaseCatalogContainer from './BaseCatalogContainer';
 
-import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
+import {fetchCatalogEntityOrGetLocale, setLastShownView} from '@/actions/catalog';
 
 import {CATALOG, CATEGORY} from '@/constants/catalog';
 import {transformName} from '@/constants/pureFunctions';
@@ -28,6 +28,16 @@ class CategoryContainer extends Component {
     category: false,
     categoryName: '',
     slogan: ''
+  }
+
+  componentWillUnmount() {
+    const {dispatch} = this.props;
+    const {categoryName} = this.state;
+    const lastShownView  = {
+      name: categoryName,
+      type: CATEGORY
+    };
+    dispatch(setLastShownView(lastShownView));
   }
 
   componentWillMount() {
@@ -144,7 +154,7 @@ class CategoryContainer extends Component {
 
     const categoryProductsLength =  category && category.products.length;
     const categoryCollectionsLength =  category && category.collections.length;
-    
+
     return (
       <BaseCatalogContainer name={categoryName}
         slogan={slogan}

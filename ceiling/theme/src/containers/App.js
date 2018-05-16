@@ -11,12 +11,7 @@ import MainRoutes from './MainRoutes';
 import {fetchCatalogIfNeededAndDumpEntities} from '@/actions/catalog';
 
 
-// import './../tests/cart';
-// import './../tests/app';
-// import './../tests/callback';
-// import './../tests/catalog';
-// import './../tests/search';
-// import './../tests/order';
+import '@/tests';
 
 
 

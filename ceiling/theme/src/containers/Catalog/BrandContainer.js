@@ -7,8 +7,9 @@ import {CATALOG, BRAND} from '@/constants/catalog';
 import {transformName} from '@/constants/pureFunctions';
 import {catalogSectionCombiner, catalogSubsectionsCombiner} from '@/constants/filter';
 
+import {fetchCatalogEntityOrGetLocale, setLastShownView} from '@/actions/catalog';
+
 import BaseCatalogContainer from './BaseCatalogContainer';
-import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 
 import CatalogSection from '@/components/Catalog/CatalogSection';
 import Loader from '@/components/Loader';
@@ -26,6 +27,17 @@ class BrandContainer extends Component {
     brandName: '',
     slogan: '',
     brand:  false
+  }
+
+  componentWillUnmount() {
+    const {dispatch} = this.props;
+    const {brandName} = this.state;
+    const lastShownView  = {
+      name: brandName,
+      type: BRAND
+    };
+
+    dispatch(setLastShownView(lastShownView));
   }
 
   componentWillUpdate(nextProps) {
@@ -137,9 +149,8 @@ class BrandContainer extends Component {
       this.requestBrand();
     }
 
-
     const collectionsLength = brand && brand.collections.length;
-    const categoriesLength = brand && brand.categories.length;
+    const samplesLength = brand && brand.products.length;
 
     return (
 
@@ -162,6 +173,18 @@ class BrandContainer extends Component {
           {!isRequesting &&
             collectionsLength ?
             catalogSubsectionsCombiner(brand.collections, url, 'category') : ''
+          }
+        </CatalogSection>
+        <CatalogSection
+          name="Образцы"
+          headerId="samples"
+          fallback={
+            !isRequesting &&
+              !samplesLength ? <p className="paragraph_container">Нет отельных образцов.</p> : ''
+          }>
+          {!isRequesting &&
+            samplesLength ?
+            catalogSubsectionsCombiner(brand.products, url, 'section') : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>
