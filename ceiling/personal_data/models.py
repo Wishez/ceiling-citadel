@@ -13,7 +13,7 @@ class ConsumerManager(models.Manager):
     def fill_name_by_fields(self, instance, full_name):
         shared_name = full_name.split(' ')
         length = len(shared_name)
-        if length  < 2:
+        if length < 2:
             return False
 
         setattr(instance, 'last_name', shared_name[0])

@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
-import json
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy, reverse
 from catalog.models import *
 from model_mommy import mommy
 from django.utils.timezone import now
@@ -34,7 +33,7 @@ class CatalogAPITest(TestCase):
             setattr(
                 self,
                 key + '_read_url',
-                reverse_lazy(key, kwargs={
+                reverse(key, kwargs={
                     'uuid': model.uuid
                 })
             )
@@ -49,6 +48,7 @@ class CatalogAPITest(TestCase):
         response = self.client.get(self.categories_list_read_url)
 
         self.assertEquals(response.status_code, 403)
+
     def get_categories_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.categories_list_read_url)
@@ -59,22 +59,26 @@ class CatalogAPITest(TestCase):
         response = self.client.get(self.brands_list_read_url)
 
         self.assertEquals(response.status_code, 200)
+
     def get_collections_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.collections_list_read_url)
 
         self.assertEquals(response.status_code, 200)
+
     def get_category_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.category_read_url)
 
         self.assertEquals(response.status_code, 200)
 
+
     def get_brand_test(self):
         self.client.login(username='username', password='demonstration')
         response = self.client.get(self.brand_read_url)
 
         self.assertEquals(response.status_code, 200)
+
 
     def get_collection_test(self):
         self.client.login(username='username', password='demonstration')

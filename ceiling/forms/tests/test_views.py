@@ -2,10 +2,11 @@
 from django.test import TestCase
 from model_mommy import mommy
 from django.utils.timezone import now
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from forms.models import *
 from forms.views import make_order
 from home.models import Settings
+import uuid
 
 class Request:
     def __init__(self, data, method='POST'):
@@ -20,6 +21,7 @@ class FormsViewsTestModel(TestCase):
         self.settings = Settings.objects.create()
 
         self.settings.save()
+
     def order_view_test(self):
         products = []
         slug_fields = ['one', 'two', 'three', 'four']
@@ -27,7 +29,7 @@ class FormsViewsTestModel(TestCase):
             product = mommy.make(
                 "catalog.Product",
                 _fill_optional=True,
-                slug=slug_fields[i],
+                slug=uuid.uuid4(),
                 created=now(),
                 modified=now()
             )
@@ -66,6 +68,7 @@ class FormsViewsTestModel(TestCase):
             "phone_number": '+7 (985) 905-12-51',
             "isTest": True
         })
+
     def question_view_test(self):
         self.client.post(self.ask_question_url, {
             'full_name': "Zhuravlev Filipp",

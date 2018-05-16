@@ -9,12 +9,11 @@ if getattr(settings, 'IS_PRODUCTION', False):
 from model_utils.models import TimeStampedModel
 import uuid as uuid_lib
 from django.db import models
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from personal_data.models import Consumer, OrderedProduct
 from home.help_parts import simple_hint, question_hint
 from django.db.models.signals import pre_save, post_save, m2m_changed
 from django.dispatch import receiver
-from django.utils import timezone
 from catalog.models import Product
 from home.models import \
     Combustibility, \

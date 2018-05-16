@@ -1,12 +1,12 @@
-from django.http import JsonResponse, HttpResponse
-
-from django.views.decorators.csrf import csrf_exempt
-from django.urls import reverse
 import requests
-from django.contrib.sites.models import Site
-from album.models import *
-import json
 from decouple import config
+
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.urls import reverse_lazy
+
+from album.models import *
+
 def extract_entities(m2m):
     array = m2m.all()
     return [entity for entity in array if entity in array]
@@ -18,12 +18,12 @@ def retrieve_catalog(request):
     if request.method == "GET":
 
         current_site = 'https://%s' % current_domain
-        brands_response = requests.get("%s%s" % (current_site, reverse('brands_list')))
-        categories_response = requests.get("%s%s" % (current_site, reverse('categories_list')))
+        brands_response = requests.get("%s%s" % (current_site, reverse_lazy('brands_list')))
+        categories_response = requests.get("%s%s" % (current_site, reverse_lazy('categories_list')))
 
         data = {
-            "brands": brands_response.json(), #extract_entities(catalog.brands),
-            "categories": categories_response.json()#extract_entities(catalog.categories)
+            "brands": brands_response.json(),
+            "categories": categories_response.json()
         }
         
         return JsonResponse(data)
