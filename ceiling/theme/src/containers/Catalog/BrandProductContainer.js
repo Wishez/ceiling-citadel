@@ -9,26 +9,23 @@ import {
   CATALOG,
   PRODUCT,
   LAST_ALBUM
-} from './../../constants/catalog';
+} from '@/constants/catalog';
 
-import {transformName, makeSlides} from './../../constants/pureFunctions';
+import {transformName, makeSlides} from '@/constants/pureFunctions';
 
-import {getProductData,
-  findUUID} from './../../constants/filter';
-import {catalogCollectionUrl} from './../../constants/conf';
+import {getProductData} from '@/constants/filter';
 
-import BreadcrumbsContainer from './../BreadcrumbsContainer';
+
 import BaseCatalogContainer from './BaseCatalogContainer';
 import AddProductFormContainer from './../AddProductFormContainer';
 
-import {fetchCatalogEntityOrGetLocale} from './../../actions/catalog';
-import {resetAddToCartForm} from './../../actions/cart';
+import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
+import {resetAddToCartForm} from '@/actions/cart';
 
-import Figure from './../../components/Figure';
-import CatalogSection from './../../components/Catalog/CatalogSection';
-import Loader from './../../components/Loader';
+import Figure from '@/components/Figure';
+import Loader from '@/components/Loader';
 
-import Slider from './../../components/Slider/Slider';
+import Slider from '@/components/Slider/Slider';
 
 class BrandProductContainer extends Component {
   static propTypes = {
@@ -118,7 +115,7 @@ class BrandProductContainer extends Component {
      }
    }
 
-   componentWillUpdate(nextProps, nextState) {
+   componentWillUpdate(nextProps) {
      const {productSlug} = this.props.match.params;
      const {PRODUCT, dispatch} = this.props;
 
@@ -132,9 +129,16 @@ class BrandProductContainer extends Component {
      }
 
      if (nextProps.match.params.productSlug !== productSlug) {
-       this.getIdFromCatalog(() => { this.requestProduct(true); });
+       this.getIdFromCatalog(this.makeForcerequestForProduct);
      }
    }
+
+   makeForcerequestForProduct = () => {
+     const isForceRequest = true;
+
+     this.requestProduct(isForceRequest);
+   }
+
    componentWillMount() {
      this.showAddToCartForm();
 
@@ -154,7 +158,6 @@ class BrandProductContainer extends Component {
      } = this.props;
      const {url} = this.props.match;
      const {
-       id,
        collectionName,
        brandName,
        product,
@@ -167,7 +170,7 @@ class BrandProductContainer extends Component {
      if (!product) {
        this.requestProduct();
      }
-     
+     console.log(product);
      return (
 
        <BaseCatalogContainer name={productName}
