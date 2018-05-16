@@ -49,7 +49,7 @@ class BaseDescriptionModel(TimeStampedModel):
         max_length=150,
         validators=[validate_slug_field],
         unique=True,
-        default=""
+        default=uuid_lib.uuid1
     )
 
     is_shown = models.BooleanField(
@@ -309,7 +309,7 @@ class Product(BaseProductModel):
         max_length=150,
         validators=[validate_slug_field],
         unique=True,
-        default=""
+        default=uuid_lib.uuid1
     )
     combustibility = models.ManyToManyField(
         Combustibility,
