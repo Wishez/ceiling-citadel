@@ -1,13 +1,8 @@
 import React from 'react';
-import CatalogItem from './../components/Catalog/CatalogItem';
-// import Fading from './../components/Animation/Fading';
-// import Circle from './../components/Animation/Circle';
-import {CSSTransition} from 'react-transition-group';
+import CatalogItem from '@/components/Catalog/CatalogItem';
+import {getArray, fixUrl} from './pureFunctions';
+import  CatalogSubsection from '@/components/Catalog/CatalogSubsection';
 
-import {catalogBrandUrl, catalogCategoryUrl} from './conf';
-import {getArray} from './pureFunctions';
-import  CatalogSubsection from './../components/Catalog/CatalogSubsection';
-import getClass from './classes';
 
 
 export const makeSelectOptions = options => (
@@ -130,9 +125,6 @@ export const catalogSubsectionsCombiner = (
   );
 };
 
-function fixUrl(url) {
-  return url.lastIndexOf('/') !== url.length - 1 ? `${url}/` : url;
-}
 
 function combineCatalogSimpleItem(props) {
   return props.item.is_shown ?

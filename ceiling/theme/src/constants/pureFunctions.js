@@ -6,6 +6,13 @@ export const focusHeader = () => {
   document.querySelector('.catalogHeader__title').focus();
 };
 
+export function fixUrl(url) {
+  const lastLetterIndex = url.length - 1;
+  const lastSlashPosition =  url.lastIndexOf('/');
+
+  return lastSlashPosition !== lastLetterIndex ? `${url}/` : url;
+}
+
 export function makeSlides(image, index) {
   return {
     content: <Figure {...image} key={`${index}${index + 1001}`} url={image.image} name="productSlide" />,
