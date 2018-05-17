@@ -15,7 +15,7 @@ const CallbackButton = ({
   <div className={getClass({
     b: 'callbackButtons',
     m: modifier,
-    add: 'parent row h-between v-centered'
+    add: 'parent parent_nowrap row h-between v-centered'
   })}>
   	<Button
       id='menuButton'
@@ -26,7 +26,7 @@ const CallbackButton = ({
         add: 'button_cian baseChild'
       })}
       onClick={isCallbackOpened ? closeCallback :openCallback}
-      content="Обратный вызов" 
+      content="Обратный вызов"
       label="Открывает форму отбратного вызова"
     />
     <button aria-pressed={false}
@@ -36,7 +36,7 @@ const CallbackButton = ({
         add: 'parent row h-between v-centered'
       })}
       aria-label={!isCallbackOpened ? 'Открывает форму обратного вызова' : 'Закрывает форму обратного вызова'}
-      onClick={isCallbackOpened ? closeCallback : openCallback} 
+      onClick={isCallbackOpened ? closeCallback : openCallback}
       title="Открывает форму для заказа консультации">
       <Figure name="callback"
         maxWidth={`${45 / 16}em`}
@@ -47,7 +47,7 @@ const CallbackButton = ({
       />
     </button>
   </div>
-    
+
 );
 
 

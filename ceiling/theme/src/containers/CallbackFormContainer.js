@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import getClass from './../constants/classes';
-import CallbackForm from './../components/CallbackForm';
-import PopupFormContainer from './../components/PopupFormContainer';
-import { 
-  tryOrderCallback, 
-  closeCallback 
-} from './../actions/callback';
-
-import Loader from './../components/Loader';
 import ReactHtmlParser from 'react-html-parser';
 
+import {
+  tryOrderCallback,
+  closeCallback
+} from '@/actions/callback';
+
+import Loader from '@/components/Loader';
+import CallbackForm from '@/components/CallbackForm';
+import PopupFormContainer from '@/components/PopupFormContainer';
+
+
 class CallbackFormContainer extends Component {
-  static propTypes = { 
+  static propTypes = {
     dispatch: PropTypes.func.isRequired,
     isCallbackOpened: PropTypes.bool.isRequired,
     helpText: PropTypes.string.isRequired,
@@ -37,26 +38,30 @@ class CallbackFormContainer extends Component {
     const { helpText, isOrderedCallback, isRequesting } = this.props;
 
     return (
-      
-      <PopupFormContainer  
+
+      <PopupFormContainer
         closeButton={{
           onClick: this.onClickCloseButton
-        }} 
+        }}
         signification="Консультация"
         {...this.props}>
-        {!isOrderedCallback ? 
-          <CallbackForm buttonOptions={{ 
-            content: !isRequesting ? 'Заказать' : <Loader />,
-          }}
-          id="callbackForm"
-          onSubmit={this.submitCallback} 
-          helpText={helpText.toString()}
-          /> :
-          <p className={getClass({b: 'successfull'})}>{ReactHtmlParser(helpText)}</p>
+        {!isOrderedCallback ?
+          <CallbackForm
+            buttonOptions={{
+              content: !isRequesting ?
+                'Заказать'
+                : <Loader />,
+            }}
+            id="callbackForm"
+            onSubmit={this.submitCallback}
+            helpText={helpText.toString()}
+          />
+          : <p className='successfull'>
+            {ReactHtmlParser(helpText)}
+          </p>
         }
-
       </PopupFormContainer>
-      
+
     );
   }
 }
@@ -64,7 +69,7 @@ class CallbackFormContainer extends Component {
 
 const mapStateToProps = state => {
   const { callback } = state;
-  
+
   return {
     ...callback
   };
