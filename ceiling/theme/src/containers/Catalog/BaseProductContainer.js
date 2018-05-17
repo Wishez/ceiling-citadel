@@ -4,23 +4,19 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 
-import getClass from '@/constants/classes';
 import {
-  CATALOG,
   PRODUCT,
   LAST_ALBUM,
-  PRODUCT_SLUG,
   BRAND,
   CATEGORY
 } from '@/constants/catalog';
-import { transformName, makeSlides } from '@/constants/pureFunctions';
-import { getProductData } from '@/constants/filter';
-
-import BaseCatalogContainer from './BaseCatalogContainer';
-import AddProductFormContainer from './../AddProductFormContainer';
+import { transformName, makeSlides, timeout } from '@/constants/pureFunctions';
 
 import { fetchCatalogEntityOrGetLocale } from '@/actions/catalog';
 import { resetAddToCartForm } from '@/actions/cart';
+
+import BaseCatalogContainer from './BaseCatalogContainer';
+import AddProductFormContainer from './../AddProductFormContainer';
 
 import Figure from '@/components/Figure';
 import Loader from '@/components/Loader';
@@ -32,9 +28,9 @@ class BaseProductContainer extends Component {
     match: PropTypes.object.isRequired,
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
-    productBreadcrumbsType: PropTypes.string.isRequired,
     lastShownView: PropTypes.object.isRequired
   };
+
   constructor(props) {
     super(props);
 
@@ -44,7 +40,8 @@ class BaseProductContainer extends Component {
       productName: '',
       album: false,
       slides: [],
-      inited: true
+      inited: true,
+      breadcrumbsRoutes: {}
     };
   }
 
@@ -71,9 +68,8 @@ class BaseProductContainer extends Component {
     this.requestProduct(isForceRequest);
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.showAddToCartForm();
-    this.makeAndSaveBreadcrumbsRoutes();
   }
 
   showAddToCartForm = () => {
@@ -82,18 +78,24 @@ class BaseProductContainer extends Component {
     dispatch(resetAddToCartForm());
   };
 
+  componentDidMount() {
+    timeout(() => {
+      this.makeAndSaveBreadcrumbsRoutes();
+    }, 250);
+  }
+
   makeAndSaveBreadcrumbsRoutes = () => {
-    const {lastShownView} = this.props;
+    const { lastShownView } = this.props;
     const lastStepName = lastShownView.name;
     let breadcrumbsRoutes = {};
 
-    switch(lastShownView.type) {
+    switch (lastShownView.type) {
       case CATEGORY:
         breadcrumbsRoutes = {
           '/catalog': 'Каталог',
           '/catalog/category': false,
           '/catalog/category/:categorySlug': lastStepName,
-          '/catalog/category/:categorySlug/sample/': false,
+          '/catalog/category/:categorySlug/sample': false,
           '/catalog/category/:categorySlug/sample/:productSlug/': false
         };
         break;
@@ -102,62 +104,78 @@ class BaseProductContainer extends Component {
           '/catalog': 'Каталог',
           '/catalog/brand': false,
           '/catalog/brand/:brandSlug': lastStepName,
-          '/catalog/brand/:brandSlug/sample/': false,
+          '/catalog/brand/:brandSlug/sample': false,
           '/catalog/brand/:brandSlug/sample/:productSlug/': false
         };
         break;
       default:
     }
 
-
     this.setState({
       breadcrumbsRoutes
     });
-  }
+  };
 
   requestProduct = (force = false) => {
     const { productName } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, isRequesting } = this.props;
     const { productSlug } = this.props.match.params;
+    const isRequestinBySlug = true;
+    let request = null;
 
-    if (productSlug) {
-      const request = dispatch(
-        fetchCatalogEntityOrGetLocale(PRODUCT_SLUG, productSlug, force)
+    if (!isRequesting) {
+      request = dispatch(
+        fetchCatalogEntityOrGetLocale(PRODUCT, productSlug, force, isRequestinBySlug)
       );
-
-      if (request) {
-        request.then(product => {
-          if (product) {
-            localforage.getItem(LAST_ALBUM).then(album => {
-              const slides = album.images.map(makeSlides);
-              const transformedProductName = transformName(product.name);
-
-              if (productName !== transformedProductName) {
-                this.setState({
-                  productName: transformedProductName,
-                  slogan: product.slogan,
-                  product,
-                  album,
-                  slides,
-                  inited: true
-                });
-
-              }
-            });
-          }
-        });
-      }
     }
+
+    if (request) {
+      request.then(product => {
+        this.transformAndRenderProductIfNeeded({
+          product,
+          lastProductName: productName
+        });
+      });
+    }
+
   };
 
+  transformAndRenderProductIfNeeded = ({
+    product,
+    lastProductName
+  }) => {
+    if (product) {
+      localforage.getItem(LAST_ALBUM).then(album => {
+        const slides = album.images.map(makeSlides);
+        const transformedProductName = transformName(product.name);
 
+        if (lastProductName !== transformedProductName) {
+          this.setState({
+            productName: transformedProductName,
+            slogan: product.slogan,
+            product,
+            album,
+            slides,
+            inited: true
+          });
+        }
+      });
+    }
+  }
 
   render() {
-    const { breadcrumbsRoutes, isRequesting, match } = this.props;
+    const { isRequesting, match } = this.props;
 
     const { url } = match;
 
-    const { product, slogan, album, slides, productName } = this.state;
+    const {
+      breadcrumbsRoutes,
+      product,
+      slogan,
+      album,
+      slides,
+      productName
+    } = this.state;
 
     if (!product) {
       this.requestProduct();
@@ -172,47 +190,40 @@ class BaseProductContainer extends Component {
         isProduct={true}
         CONSTANT={PRODUCT}
       >
-        {!isRequesting && product ? (
+        {!isRequesting && product ? 
           <div className="productContainer fullWidth lowCascadingShadow">
             <AddProductFormContainer
               image={product.preview.image}
               {...product}
               url={url}
             />
-            {product.visualisation !== null ? (
+
+            {product.visualisation !== null ?
               <Figure
                 url={product.visualisation.image}
                 name="visualisation"
                 maxWidth="100%"
               />
-            ) : (
-              ''
-            )}
-            {album && album.slug === product.album ? (
+              : ''
+            }
+
+            {album && album.slug === product.album ?
               <Slider
                 slides={slides}
                 animSettings={{ animDuration: 500, animElasticity: 200 }}
                 dotSettings={{ size: 12, gap: 6 }}
               />
-            ) : (
-              ''
-            )}
-            {product.content ? (
-              <section
-                className={getClass({
-                  b: 'productContent',
-                  add: 'parent column centered'
-                })}
-              >
-                {ReactHtmlParser(product.content)}
+              : ''}
+
+            {product.content ?
+              <section className='productContent parent centered'>
+                <div className="productDescriptionContainer parent column">
+                  {ReactHtmlParser(product.content)}
+                </div>
               </section>
-            ) : (
-              ''
-            )}
+              : ''}
           </div>
-        ) : (
-          <Loader />
-        )}
+          : <Loader />}
       </BaseCatalogContainer>
     );
   }
@@ -220,7 +231,6 @@ class BaseProductContainer extends Component {
 
 const mapStateToProps = state => {
   const { catalog } = state;
-
   const { isRequesting, lastShownView } = catalog;
 
   return {

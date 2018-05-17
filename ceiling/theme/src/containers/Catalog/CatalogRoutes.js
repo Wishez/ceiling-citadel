@@ -48,14 +48,16 @@ class CatalogRoutes extends Component {
     return (
       <div className={getClass({b: 'catalog'})}>
         <Switch location={location}>
-          <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
           <MyRoute path={`${url}/brand/:brandSlug/sample/:productSlug`} component={BaseProductContainer} />
+          <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
           <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug`} component={BrandCollectionContainer} />
           <MyRoute path={`${url}/brand/:brandSlug`} component={BrandContainer} />
-          <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
+
           <MyRoute path={`${url}/category/:categorySlug/sample/:productSlug`} component={BaseProductContainer} />
+          <MyRoute path={`${url}/category/:categorySlug/:collectionSlug/:productSlug`} component={CategoryProductContainer} />
           <MyRoute path={`${url}/category/:categorySlug/:collectionSlug`} component={CategoryCollectionContainer} />
           <MyRoute path={`${url}/category/:categorySlug`} component={CategoryContainer} />
+
           <MyRoute path={`${url}`} component={CatalogPageContainer} />
         </Switch>
       </div>

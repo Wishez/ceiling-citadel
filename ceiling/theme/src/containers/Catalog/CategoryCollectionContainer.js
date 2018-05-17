@@ -169,18 +169,22 @@ class BrandCategoryContainer extends Component {
           '/catalog': 'Каталог',
           '/catalog/category': false,
           '/catalog/category/:categorySlug': categoryName,
-          '/catalog/category/collection': false
+          '/catalog/category/:categorySlug/:collectionSlug/': false
         }}
         CONSTANT={COLLECTION}
       >
         <CatalogSection name="Образцы" headerId="collections"
           fallback={
             !isRequesting &&
-            !samplesLength ? <p className="paragraph_container">У этой коллекции нет образцов.</p> : ''
+            !samplesLength ?
+              <p className="paragraph_container">У этой коллекции нет образцов.</p>
+              : ''
           }>
-          {!isRequesting &&
+          {
+            !isRequesting &&
             samplesLength ?
-            catalogSectionCombiner(collection.collection_items, url, isSample) : ''
+              catalogSectionCombiner(collection.collection_items, url, isSample)
+              : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

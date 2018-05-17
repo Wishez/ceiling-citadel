@@ -25,14 +25,12 @@ class BaseCatalogContainer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {CONSTANT} = this.props;
-    // Will be accuracy.
-    // There is CONSTANT constant in catalog's constants.
+
     if (!this.props[CONSTANT] && nextProps[CONSTANT]) {
       this.forceUpdate();
     }
   }
   render() {
-
     const {
       name,
       slogan,

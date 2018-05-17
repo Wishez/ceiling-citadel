@@ -8,7 +8,7 @@ import BaseCatalogContainer from './BaseCatalogContainer';
 import {fetchCatalogEntityOrGetLocale, setLastShownView} from '@/actions/catalog';
 
 import {CATALOG, CATEGORY} from '@/constants/catalog';
-import {transformName} from '@/constants/pureFunctions';
+import {transformName, fixUrl} from '@/constants/pureFunctions';
 import {catalogSubsectionsCombiner, catalogSectionCombiner} from '@/constants/filter';
 
 import CatalogSection from '@/components/Catalog/CatalogSection';
@@ -27,7 +27,8 @@ class CategoryContainer extends Component {
     id: '',
     category: false,
     categoryName: '',
-    slogan: ''
+    slogan: '',
+    sampleUrl: ''
   }
 
   componentWillUnmount() {
@@ -37,11 +38,21 @@ class CategoryContainer extends Component {
       name: categoryName,
       type: CATEGORY
     };
+
     dispatch(setLastShownView(lastShownView));
   }
 
   componentWillMount() {
     this.getIdFromCatalog();
+    this.combineSampleUrl();
+  }
+
+  combineSampleUrl = () => {
+    const {url: categoryUrl} = this.props.match;
+    const fixedCategoryUrl = fixUrl(categoryUrl);
+    const sampleUrl = fixedCategoryUrl + 'sample/';
+
+    this.setState({sampleUrl});
   }
 
   getIdFromCatalog = (callback=false) => {
@@ -75,6 +86,7 @@ class CategoryContainer extends Component {
 
     if (newCategorySlug !== categorySlug) {
       this.getIdFromCatalog(this.makeForceRequestForCategoryAfterFindingId);
+      this.combineSampleUrl();
     }
   }
 
@@ -132,28 +144,25 @@ class CategoryContainer extends Component {
     }
   }
 
-
-
-
-
   render() {
     const {
       isRequesting
     } = this.props;
     const {url} = this.props.match;
     const {
-      id,
       category,
       slogan,
-      categoryName
+      categoryName,
+      sampleUrl
     } = this.state;
+    let categoryProductsLength, categoryCollectionsLength;
 
     if (!category) {
       this.requestCategory();
+    } else {
+      categoryProductsLength = category.products.length;
+      categoryCollectionsLength = category.collections.length;
     }
-
-    const categoryProductsLength =  category && category.products.length;
-    const categoryCollectionsLength =  category && category.collections.length;
 
     return (
       <BaseCatalogContainer name={categoryName}
@@ -161,7 +170,7 @@ class CategoryContainer extends Component {
         routes={{
           '/catalog': 'Каталог',
           '/catalog/category': false,
-          '/catalog/category/:categorySlug': false,
+          '/catalog/category/:categorySlug/': false,
         }}
         CONSTANT={CATEGORY}
       >
@@ -182,7 +191,7 @@ class CategoryContainer extends Component {
           {
             !isRequesting &&
             categoryProductsLength ?
-              catalogSectionCombiner(category.products, url) :
+              catalogSubsectionsCombiner(category.products, sampleUrl, 'brand') :
               ''
           }
         </CatalogSection>
@@ -190,13 +199,6 @@ class CategoryContainer extends Component {
     );
   }
 }
-
-// <CatalogSection name="Бренды" headerId="brands">
-//   {!isRequesting &&
-//     category ?
-//     catalogSubsectionsCombiner(category.brands, url, 'brand') : ''
-//   }
-// </CatalogSection>
 
 const mapStateToProps = state => {
   const { catalog } = state;

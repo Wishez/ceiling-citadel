@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import {CATALOG, BRAND} from '@/constants/catalog';
-import {transformName} from '@/constants/pureFunctions';
+import {transformName, fixUrl} from '@/constants/pureFunctions';
 import {catalogSectionCombiner, catalogSubsectionsCombiner} from '@/constants/filter';
 
 import {fetchCatalogEntityOrGetLocale, setLastShownView} from '@/actions/catalog';
@@ -13,6 +13,7 @@ import BaseCatalogContainer from './BaseCatalogContainer';
 
 import CatalogSection from '@/components/Catalog/CatalogSection';
 import Loader from '@/components/Loader';
+
 
 class BrandContainer extends Component {
   static propTypes = {
@@ -26,7 +27,8 @@ class BrandContainer extends Component {
     id: '',
     brandName: '',
     slogan: '',
-    brand:  false
+    brand:  false,
+    sampleUrl: ''
   }
 
   componentWillUnmount() {
@@ -40,28 +42,9 @@ class BrandContainer extends Component {
     dispatch(setLastShownView(lastShownView));
   }
 
-  componentWillUpdate(nextProps) {
-    const {
-      brandSlug
-    } = this.props.match.params;
-    const {BRAND} = this.props;
 
 
-    if (BRAND !== nextProps.BRAND) {
-      this.setState({
-        brand: false
-      });
-    }
 
-    const newRoute = nextProps.match.params.brandSlug;
-
-    if (newRoute !== brandSlug) {
-      this.getIdFromCatalog(
-        () => { this.requestBrand(true); },
-        newRoute
-      );
-    }
-  }
 
   requestBrand = (force=false) => {
     const {id, brandName} = this.state;
@@ -78,6 +61,7 @@ class BrandContainer extends Component {
             oldBrandName: brandName,
             brand
           });
+
         });
       }
     }
@@ -102,6 +86,7 @@ class BrandContainer extends Component {
 
   componentWillMount() {
     this.getIdFromCatalog();
+    this.combineSampleUrl();
   }
 
   getIdFromCatalog = (callback=false, newSlug=false) => {
@@ -119,6 +104,14 @@ class BrandContainer extends Component {
     });
   }
 
+  combineSampleUrl = () => {
+    const {url: categoryUrl} = this.props.match;
+    const fixedCategoryUrl = fixUrl(categoryUrl);
+    const sampleUrl = fixedCategoryUrl + 'sample/';
+
+    this.setState({sampleUrl});
+  }
+
   setBrandIdAndMakeCallbackIfNeeded = ({
     catalog,
     brandSlug,
@@ -134,23 +127,56 @@ class BrandContainer extends Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    const {
+      brandSlug
+    } = this.props.match.params;
+    const {BRAND} = this.props;
+
+    if (BRAND !== nextProps.BRAND) {
+      this.setState({
+        brand: false
+      });
+    }
+
+    const newRoute = nextProps.match.params.brandSlug;
+
+    if (newRoute !== brandSlug) {
+      this.getIdFromCatalog(
+        this.makeForceRequestForBrand,
+        newRoute
+      );
+      this.combineSampleUrl();
+    }
+  }
+
+  makeForceRequestForBrand = () => {
+    const isForceRequest = true;
+
+    this.requestBrand(isForceRequest);
+  }
+
   render() {
     const {
-      isRequesting
+      isRequesting,
+      match
     } = this.props;
-    const {url} = this.props.match;
+    const {url} = match;
+
     const {
       brand,
       slogan,
-      brandName
+      brandName,
+      sampleUrl
     } = this.state;
+    let collectionsLength, samplesLength;
 
     if (!brand) {
       this.requestBrand();
+    } else {
+      collectionsLength = brand.collections.length;
+      samplesLength = brand.products.length;
     }
-
-    const collectionsLength = brand && brand.collections.length;
-    const samplesLength = brand && brand.products.length;
 
     return (
 
@@ -159,7 +185,7 @@ class BrandContainer extends Component {
         routes={{
           '/catalog': 'Каталог',
           '/catalog/brand': false,
-          '/catalog/brand/:brandSlug': false
+          '/catalog/brand/:brandSlug/': false
         }}
         CONSTANT={BRAND}
       >
@@ -184,7 +210,7 @@ class BrandContainer extends Component {
           }>
           {!isRequesting &&
             samplesLength ?
-            catalogSubsectionsCombiner(brand.products, url, 'section') : ''
+            catalogSubsectionsCombiner(brand.products, sampleUrl, 'section') : ''
           }
         </CatalogSection>
       </BaseCatalogContainer>

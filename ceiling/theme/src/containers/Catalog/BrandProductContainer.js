@@ -170,9 +170,8 @@ class BrandProductContainer extends Component {
      if (!product) {
        this.requestProduct();
      }
-     console.log(product);
-     return (
 
+     return (
        <BaseCatalogContainer name={productName}
          slogan={slogan}
          modifier="product"
@@ -193,19 +192,33 @@ class BrandProductContainer extends Component {
                {...product}
                url={url}
              />
+
              {product.visualisation !== null ?
-               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> :
-               ''}
-             {(album && album.slug === product.album) ?
-               <Slider slides={slides}
-                 animSettings={{animDuration: 500, animElasticity: 200}}
-                 dotSettings={{size: 12, gap: 6}} />
+               <Figure
+                 url={product.visualisation.image}
+                 name="visualisation"
+                 maxWidth="100%"
+               />
+               : ''
+             }
+
+             {album && album.slug === product.album ?
+               <Slider
+                 slides={slides}
+                 animSettings={{ animDuration: 500, animElasticity: 200 }}
+                 dotSettings={{ size: 12, gap: 6 }}
+               />
                : ''}
+
              {product.content ?
-               <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
+               <section className='productContent parent centered'>
+                 <div className="productDescriptionContainer parent column">
+                   {ReactHtmlParser(product.content)}
+                 </div>
+               </section>
+               : ''}
            </div>
-           :
-           <Loader />}
+           : <Loader />}
        </BaseCatalogContainer>
      );
    }

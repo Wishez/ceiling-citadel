@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 
-import getClass from '@/constants/classes';
 import {
   CATALOG,
   PRODUCT,
@@ -26,8 +25,8 @@ import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
 import {resetAddToCartForm} from '@/actions/cart';
 
 import Figure from '@/components/Figure';
+import Loader from '@/components/Loader';
 import CatalogSection from '@/components/Catalog/CatalogSection';
-
 import Slider from '@/components/Slider/Slider';
 
 class CategoryProductContainer extends Component {
@@ -163,7 +162,7 @@ class CategoryProductContainer extends Component {
 
     this.requestProduct(isForceRequest);
   }
-  
+
   requestProduct = (force=false) => {
     const {id, productName} = this.state;
     const {dispatch} = this.props;
@@ -201,7 +200,6 @@ class CategoryProductContainer extends Component {
     }
 
     return (
-
       <BaseCatalogContainer name={productName}
         slogan={slogan}
         modifier="product"
@@ -222,19 +220,26 @@ class CategoryProductContainer extends Component {
               {...product}
               url={url}
             />
+
             {product.visualisation !== null ?
-              <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" /> :
-              ''}
+              <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" />
+              : ''}
+
             {(album && album.slug === product.album) ?
               <Slider slides={slides}
                 animSettings={{animDuration: 500, animElasticity: 200}}
                 dotSettings={{size: 12, gap: 6}} />
               : ''}
+
             {product.content ?
-              <section className={getClass({b: 'productContent', add:'parent column centered'})}>{ReactHtmlParser(product.content)}</section> : ''}
+              <section className='productContent parent centered'>
+                <div className="productDescriptionContainer parent column">
+                  {ReactHtmlParser(product.content)}
+                </div>
+              </section>
+              : ''}
           </div>
-          :
-          <Loader />}
+          : <Loader />}
       </BaseCatalogContainer>
     );
   }

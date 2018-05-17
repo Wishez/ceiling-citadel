@@ -142,22 +142,21 @@ class BrandCollectionContainer extends Component {
      const {
        isRequesting
      } = this.props;
-
      const {url} = this.props.match;
-
      const {
        brandName,
        collection,
        collectionName,
        slogan
      } = this.state;
+     let samplesLength;
+     const isSample = true;
 
      if (!collection) {
        this.requestCollection();
+     } else {
+       samplesLength = collection && collection.collection_items.length;
      }
-
-     const samplesLength =  collection && collection.collection_items.length;
-     const isSample = true;
 
      return (
        <BaseCatalogContainer name={collectionName}
@@ -166,7 +165,7 @@ class BrandCollectionContainer extends Component {
            '/catalog': 'Каталог',
            '/catalog/brand': false,
            '/catalog/brand/:brandSlug': brandName,
-           '/catalog/brand/category': false
+           '/catalog/brand/:brandSlug/:collectionSlug/': false
          }}
          CONSTANT={COLLECTION}
        >
@@ -180,7 +179,8 @@ class BrandCollectionContainer extends Component {
          >
            {!isRequesting &&
             samplesLength ?
-             catalogSectionCombiner(collection.collection_items, url, isSample) : ''
+             catalogSectionCombiner(collection.collection_items, url, isSample) :
+             ''
            }
          </CatalogSection>
        </BaseCatalogContainer>

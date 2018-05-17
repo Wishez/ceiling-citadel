@@ -57,6 +57,19 @@ class BaseProductView(BaseView):
     def get_page(self, productSlug):
         self.page = self.page_model.objects.get(slug=productSlug)
 
+
+class CategorySampleView(BaseProductView):
+
+    def get(
+        self,
+        request,
+        categorySlug,
+        productSlug
+    ):
+        self.get_page(productSlug)
+
+        return super(CategorySampleView, self).get(request)
+
 class CategoryProductView(BaseProductView):
 
     def get(
@@ -69,6 +82,19 @@ class CategoryProductView(BaseProductView):
         self.get_page(productSlug)
 
         return super(CategoryProductView, self).get(request)
+
+
+class BrandSampleView(BaseProductView):
+
+    def get(
+        self,
+        request,
+        brandSlug,
+        productSlug
+    ):
+        self.get_page(productSlug)
+
+        return super(BrandSampleView, self).get(request)
 
 class BrandProductView(BaseProductView):
 

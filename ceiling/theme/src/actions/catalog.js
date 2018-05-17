@@ -48,12 +48,11 @@ export const setLastShownView = ({
 
 
 
-export const tryRetrieveCatalogEntity = (name, id) => dispatch => {
+export const tryRetrieveCatalogEntity = (name, id, isRequestinBySlug) => dispatch => {
   dispatch(requestCatalog());
 
   const entityName = name.toUpperCase();
-
-  const entityRequestInfo = getEntityRequestInfo(entityName);
+  const entityRequestInfo = getEntityRequestInfo(isRequestinBySlug ? PRODUCT_SLUG : entityName);
   const url = entityRequestInfo.url;
   const type = entityRequestInfo.type;
 
@@ -226,14 +225,14 @@ export const retriveCatalog = () => ({
   type: RETRIEVE_CATALOG
 });
 
-export const fetchCatalogEntityOrGetLocale = (name, id, force = false) => (
+export const fetchCatalogEntityOrGetLocale = (name, id, force = false, isRequestinBySlug=false) => (
   dispatch,
   getStore
 ) => {
   const catalog = getStore().catalog;
 
   if (force || (catalog[name] !== id || catalog.isRefetching)) {
-    dispatch(tryRetrieveCatalogEntity(name, id));
+    dispatch(tryRetrieveCatalogEntity(name, id, isRequestinBySlug));
     return false;
   }
 
