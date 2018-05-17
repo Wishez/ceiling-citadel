@@ -2,9 +2,7 @@ import React from 'react';
 import getClass from './../../constants/classes';
 import {reduxForm} from 'redux-form';
 import Form from './../Form';
-import envelope from './../../images/icons/envelope.png';
-import user from './../../images/icons/user.png';
-import message from './../../images/icons/message.png';
+
 
 import combustibilityIcon from './../../images/icons/fire.png';
 import acousticsIcon from './../../images/icons/sound.png';
@@ -56,24 +54,21 @@ const AddProductForm = ({
   proportionsValue,
   ...rest
 }) => (
-  <Form 
+  <Form
     button={
-      <Button type="submit" 
-        block="formButton" 
+      <Button type="submit"
+        block="formButton"
         {...rest.buttonOptions}
         className="parent row h-around v-centered">
-        <Figure url={starIcon} 
-          maxWidth={25} 
+        <Figure url={starIcon}
+          maxWidth={25}
           name="addToCart"
         />
       </Button>
     }
     serverError={helpText}
     {...rest}>
-    <div className={getClass({
-      b: 'proportionFields',
-      add: 'parent column centered'
-    })}>
+    <div className='proportionFields parent column centered parent_nowrap'>
       {[{
         type: 'text',
         maxLength: 10,
@@ -82,7 +77,7 @@ const AddProductForm = ({
         modifier: 'small',
         validate: [required, number],
         placeholder: '20мм',
-        label: 'Ширина', 
+        label: 'Ширина',
         iconOptions: {
           url: widthIcon,
           maxWidth: 35,
@@ -233,10 +228,7 @@ const AddProductForm = ({
             component={RenderController} /> : ''
       ))}
     </div>
-    <div className={getClass({
-      b: 'selectFields',
-      add: 'parent column centered'
-    })}>
+    <div className='selectFields parent parent_nowrap column centered'>
       {[{
         name: 'combustibility',
         placeholder: 'Горючесть',
@@ -249,7 +241,7 @@ const AddProductForm = ({
         },
         options: combustibility,
         className:'parent row h-around',
-				
+
         isShown: combustibility.length,
         value: combustibilityValue,
         hintText: 'Огнеупорная',
@@ -268,7 +260,7 @@ const AddProductForm = ({
         // },
         options: proportions,
         className:'parent row h-around',
-        
+
         isShown: proportions.length,
         value: proportionsValue,
         hintText: '600x600x20',
@@ -288,7 +280,7 @@ const AddProductForm = ({
         },
         options: lightning,
         className:'parent row h-around',
-				
+
         isShown: lightning.length,
         value: lightningValue,
         onChangeSelect,
@@ -307,7 +299,7 @@ const AddProductForm = ({
         },
         options: acoustics,
         className:'parent row h-around',
-				
+
         isShown: acoustics.length,
         value: acousticsValue,
         onChangeSelect,
@@ -326,7 +318,7 @@ const AddProductForm = ({
         },
         options: edges,
         className:'parent row h-around',
-				
+
         isShown: edges.length,
         value: edgesValue,
         hintText: 'Криволинейные',
@@ -345,7 +337,7 @@ const AddProductForm = ({
         },
         options: material,
         className:'parent row h-around',
-				
+
         isShown: material.length,
         value: materialValue,
         onChangeSelect,
@@ -364,7 +356,7 @@ const AddProductForm = ({
         },
         options: colors,
         className:'parent row h-around',
-				
+
         isShown: colors.length,
         value: colorsValue,
         onChangeSelect,

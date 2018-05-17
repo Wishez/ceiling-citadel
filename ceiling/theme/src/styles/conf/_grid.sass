@@ -4,14 +4,20 @@ $susy: (use-custom: (em: true), columns: 12, gutters: 0, gutter-position: split,
 $border-box-sizing : true
 $gutters: 0
 
-.parent 
-	display: flex
+
 .row
 	flex-flow: row wrap
 .column
 	flex-flow: column wrap
 
-.baseChild 
+.parent
+	display: flex
+
+	&_nowrap
+		flex-wrap: nowrap
+
+
+.baseChild
 	flex: 1 0 20%
 .h-around
 	justify-content: space-around
@@ -30,6 +36,6 @@ $gutters: 0
 	align-items: flex-start
 .v-end
 	align-items: flex-end
-.centered 
+.centered
 	justify-content: center
 	align-items: center

@@ -1,5 +1,5 @@
 import React  from 'react';
-import getClass from './../../constants/classes';
+import getClass from '@/constants/classes';
 import {Link} from 'react-router-dom';
 import Characteristic from './Characteristic';
 
@@ -20,36 +20,81 @@ const Characteristics = ({
   url,
   children
 }) => (
-  <article className={getClass({b: 'characteristics', m: modifier, add: `${className} parent column h-start v-start paragraph_container itemPresentation` })}>
-    <h4 className={getClass({b: 'visible-hidden'})}>{`Характеристики ${name}`}</h4>
-    {brand ? <Characteristic name="brand" value={brand} label="Производитель" /> : ''}
-    {width ? <Characteristic name="width" value={width} label="Ширина" /> : ''}
-    {length ? <Characteristic name="length" value={length} label="Длина" /> : ''}
-    {diameter ? <Characteristic name="diameter" value={diameter} label="Диаметр окружности" /> : ''}
-    {ceil_size ? <Characteristic name="ceil_size" value={ceil_size} label="Размер ячеек" /> : ''}
-    {height ? <Characteristic name="height" value={height} label="Высота" /> : ''}
-    {thickness ? <Characteristic name="thickness" value={thickness} label="Толщина" /> : ''}
-    {step_between_panels ? <Characteristic name="step_between_panels" value={step_between_panels} label="Шаг между панелями" /> : ''}
-    {angle_of_bend ? <Characteristic name="angle_of_bend" value={`${angle_of_bend}°`} label="Мин. угол загиба" /> : ''}
+  <article className={
+    getClass({
+      b: 'characteristics',
+      m: modifier,
+      add: `${className} parent column h-start v-start paragraph_container itemPresentation`
+    })
+  }>
+    <h4 className={getClass({b: 'visible-hidden'})}>
+      {`Характеристики ${name}`}
+    </h4>
+
+    {brand ?
+      <Characteristic name="brand" value={brand} label="Производитель" />
+      : ''}
+
+    {width ?
+      <Characteristic name="width" value={width} label="Ширина" />
+      : ''}
+
+    {length ?
+      <Characteristic name="length" value={length} label="Длина" />
+      : ''}
+
+    {diameter ?
+      <Characteristic name="diameter" value={diameter} label="Диаметр окружности" />
+      : ''}
+
+    {ceil_size ?
+      <Characteristic name="ceil_size" value={ceil_size} label="Размер ячеек" />
+      : ''}
+
+    {height ?
+      <Characteristic name="height" value={height} label="Высота" />
+      : ''}
+
+    {thickness ?
+      <Characteristic name="thickness" value={thickness} label="Толщина" />
+      : ''}
+
+    {step_between_panels ?
+      <Characteristic name="step_between_panels" value={step_between_panels} label="Шаг между панелями" />
+      : ''}
+
+    {angle_of_bend ?
+      <Characteristic name="angle_of_bend" value={`${angle_of_bend}°`} label="Мин. угол загиба" />
+      : ''}
+
     {(typeof colors === 'object' && colors.length) ?
       <Characteristic name="colors" label="Цвета">
-        <div className={getClass({b: 'colors', add: ' parent row h-end'})}>
+        <div className='colors parent row h-end'>
           {colors.reverse().slice(0, 9).map((color, index) => (
-            <div key={index} className={getClass({b: 'colorContainer', add: 'parent column '})}>
+            <div key={index} className='colorContainer parent column'>
               <span style={{backgroundColor: color.color}} className='colorContainer__color'></span>
-              <span className={getClass({b: 'colorContainer', el: 'name', add: 'visible-hidden'})}>{color.name}</span>
+              <span className='colorContainer__name visible-hidden'>{color.name}</span>
             </div>
           ))}
         </div>
-      </Characteristic> : ''}
+      </Characteristic>
+      : ''}
+
     {typeof colors === 'string' ?
-      <Characteristic name="" label="Цвет" value={colors} /> : ''}
+      <Characteristic name="" label="Цвет" value={colors} />
+      : ''}
+
     {children}
-    {url ? <Link to={url} className={getClass({
-      b: 'moreRefer',
-      m: modifier,
-      add: 'parent row centered zeroVerticalMargin'
-    })}>Подробнее</Link> : ''}
+
+    {url ?
+      <Link to={url} className={getClass({
+        b: 'moreRefer',
+        m: modifier,
+        add: 'parent row centered zeroVerticalMargin'
+      })}>
+        Подробнее
+      </Link>
+      : ''}
   </article>
 
 );

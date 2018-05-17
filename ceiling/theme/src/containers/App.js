@@ -10,10 +10,7 @@ import MainRoutes from './MainRoutes';
 
 import {fetchCatalogIfNeededAndDumpEntities} from '@/actions/catalog';
 
-
 import '@/tests';
-
-
 
 class App extends Component {
   static propTypes = {

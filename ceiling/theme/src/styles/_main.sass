@@ -8,6 +8,9 @@
 .slides
 	@extend %relative
 
+.productDescriptionContainer
+	max-width: 60ch
+
 .catalogItem
 	height: em(360)
 	flex: 1 0 span(6)
@@ -69,10 +72,11 @@
 
 .catalog
 	position: relative
+
 	&  > .container
 		padding: 0
 		@include breakpoint($xxs)
-			padding: 0 1.5rem
+			padding:  0 .5rem 0 1rem
 
 
 
@@ -108,9 +112,9 @@
 
 .catalogHeader
 	width: 	span(12)
-	padding-bottom: 1.5rem
 
 	@include breakpoint($xs-up)
+		padding-bottom: 1.5rem
 		margin-top: 2rem
 
 	@supports (display: grid)
@@ -137,10 +141,8 @@
 		white-space: nowrap
 		text-overflow: ellipsis
 		overflow: hidden
-		// display: block
 		text-align: right
-		// padding-right: 1rem
-		// padding-left: 1rem
+
 		@include breakpoint($xs-up)
 			grid-area: 2 / 2 / 2 / 2
 
@@ -335,9 +337,11 @@
 
 
 .colors
+	margin-top: -.5rem
+
 	@supports (display: grid)
 		display: grid
-		grid-template-columns: repeat(auto-fit, 22px)
+		grid-template-columns: repeat(auto-fit, 16.69px)
 		min-width: 100%
 		grid-gap: 10px
 
@@ -366,14 +370,24 @@
 	margin-top: 0
 	margin-bottom: 0
 
-.sampleCharacteristic, .colorContainer, .characteristics, .sampleCharacteristic__characteristic
+// .sampleCharacteristic, .colorContainer, .characteristics, .sampleCharacteristic__characteristic
 .sampleCharacteristic
+	font-size: em(12)
 	margin-top: em(9.11)
+	will-change: transform
+	transition-duration: 370ms
+	transition-property: transform
+	transition-timing-function: $acceleration
+
+	&:hover
+		transition-timing-function: $decelleration
+		transform: scale(1.2)
 
 	&_colors
 		min-width: span(4)
 		order: 100
 		flex-flow: column wrap
+		margin-left: auto
 
 	&__label
 		text-align: right
@@ -408,6 +422,7 @@
 
 	@include breakpoint($xxs)
 		padding: em(34) em(18) em(150)
+
 	.controller
 
 		@include breakpoint($md-up)
@@ -417,6 +432,7 @@
 		& hr
 			display: none
 		& button
+
 		&_small
 
 			@include breakpoint($xxs)
@@ -427,12 +443,12 @@
 			border-color: $darkBlue
 
 .proportionFields, .selectFields
-	flex-wrap: nowrap
 	@include breakpoint($xs)
 		min-width: span(12)
 
 .proportionFields
 	order: 2
+
 	@include breakpoint($xs)
 		align-items: flex-start
 		margin-top: 1.5rem
@@ -445,27 +461,30 @@
 
 
 .formButton_product
+	@extend %absolute
+	bottom: em(150 / 2)
+	left: em(37)
+
 	@include breakpoint($xs)
-		transform: translateX(-5.75em)
 		left: auto
 
-	@include breakpoint($xxs)
-		transform: none
+
 
 .selectFields
+	@include breakpoint($xs-up)
+		margin-right: em(41.886784)
+
+	@include breakpoint($xxs)
+		align-items: flex-start
 
 	& .controller
 
 		&:first-of-type
-
 			margin-top: 1rem
-
-	@include breakpoint($xs-up)
-		margin-right: em(41.886784)
 
 .productContent
 	margin-top: 3rem
-	padding-bottom: 4rem
+	padding: 0 1rem 0 1.5rem
 
 	& * + *
 		margin-top:  1.5rem

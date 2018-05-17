@@ -297,10 +297,8 @@ div[role="presentation"]
 		font-size: em(18, 21)
 		padding: em(16) em(12.5)
 		background-color: #C4C4C4
-		// border-width: 2px
-		// border-style: solid
 		@extend .lowCascadingShadow
-		// transition: border .3s ease, box-shadow .3s ease-in
+
 		&_whiteBg, &_textarea
 			background-color: $white
 		&_textarea
@@ -318,13 +316,6 @@ div[role="presentation"]
 
 				&:before,
 				&:after
-			// &:invalid
-			// 	border-color: #5C1D31
-
-			// &:valid
-			// 	border-color: #437A67
-
-
 
 		&_select
 			padding: 0 em(9)
@@ -333,14 +324,7 @@ div[role="presentation"]
 			& button
 				right: -9px $i
 
-	// 	padding: .5em
-	// 	margin-top: .5em
-	// 	max-height: em(200)
-
-
-
 	&__option
-		// background-color: #C4C4C4 $i
 		color: #4F4F4F $i
 		& .colorContainer
 			margin-left: 0
@@ -354,13 +338,16 @@ div[role="presentation"]
 
 	&Icon
 		margin-bottom: 5.5px
+
 	&__error
 		color: $red
 		margin-top: em(6, 16)
 		font-size: em(16, 18)
 		text-align: left
-		padding: .25rem 0.5rem
+		padding: .25rem 0 .4rem .25rem
 		font-weight: bold
+		margin-right: auto
+
 	&__label
 		align-self: flex-end
 		font-size: em(18)
@@ -408,27 +395,30 @@ div[role="presentation"]
 .button
 	width: 100%
 	max-width: em(152)
-
-	// box-shadow: 0 0 15px $shadow
 	color: $darkGray
-	// border: 2px solid $darkGray
 	border-radius: em(2)
 	padding: .75em .5em
 	background-color: transparent
 	min-width: em(95, 10)
 	@include round(em(2))
+	@include flyShadow
+
 	&_cian
 		background-color: $cian
 
 	&_black
 		background-color: $darkGray
+
 	&_black, &_darkBlue, &_cian
 		color: $white
+
 	&_darkBlue
 		background-color: $darkBlue
+
 	&_orange
 		background-color: $orange
-	@include flyShadow
+
+
 
 .orderButtons
 	@extend %relative
@@ -662,7 +652,12 @@ input[type=number]:hover::-webkit-inner-spin-button
 
 	&_container
 		margin-top: 0 $i
-		padding:  1rem 1.5rem 2rem 2.25rem
+
+		@include breakpoint($xxs-up)
+			padding:  1rem 1.5rem 2rem 2.25rem
+
+		@include breakpoint($xxs)
+			padding: 1rem 1rem 1.5rem  1.75rem
 
 .popupFormContainer
 	font-size: em(18)
@@ -697,10 +692,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 	color: $white
 	margin-top: em(35)
 
-	&_product
-		@extend %absolute
-		bottom: em(150 / 2 - 25)
-		left: em(37)
+
 
 .serverError
 	color: $red
