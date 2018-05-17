@@ -38,8 +38,8 @@ const VENDOR = [
 const basePath = path.resolve(__dirname, "src");
 
 const common = {
+  // node: false,
   context: basePath,
-
   entry: {
     app: "./index.js",
     vendor: VENDOR

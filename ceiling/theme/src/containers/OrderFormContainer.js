@@ -1,48 +1,74 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import getClass from './../constants/classes';
-import OrderForm from './../components/OrderForm';
-import PopupFormContainer from './../components/PopupFormContainer';
-import { 
-  tryMakeOrder, 
-  closeOrder
-} from './../actions/order';
-import Loader from './../components/Loader';
 import ReactHtmlParser from 'react-html-parser';
 
-import { 
-  changeProductQuantity, 
-  deleteProductAndNotifyAbout 
-} from './../actions/cart';
+import { tryMakeOrder, closeOrder } from '@/actions/order';
+import {
+  changeProductQuantity,
+  deleteProductAndNotifyAbout
+} from '@/actions/cart';
 
-import {PRODUCTION_STORE} from './../constants/cart';
+import { PRODUCTION_STORE } from '@/constants/cart';
 
-import {getDeleteProductArguments, localData} from './../constants/pureFunctions';
+import OrderForm from '@/components/OrderForm';
+import PopupFormContainer from '@/components/PopupFormContainer';
+import Loader from '@/components/Loader';
+
+import { getDeleteProductArguments } from '@/constants/pureFunctions';
 
 class OrderFormContainer extends Component {
-  static propTypes = { 
+  static propTypes = {
     dispatch: PropTypes.func.isRequired,
     isOrderOpened: PropTypes.bool.isRequired,
     helpText: PropTypes.string.isRequired,
     isShownHelpText: PropTypes.bool.isRequired,
     isOrderedOrder: PropTypes.bool.isRequired,
     isRequesting: PropTypes.bool.isRequired,
-    quantityOrderedProducts: PropTypes.number.isRequired,
+    quantityOrderedProducts: PropTypes.number.isRequired
+  };
+
+  state = {
+    cartProducts: []
+  };
+
+  componentWillMount() {
+    this.renderOrderedProducts();
+  }
+
+  renderOrderedProducts() {
+    localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
+      cartProducts = cartProducts || [];
+
+      this.setState({ cartProducts });
+
+      return cartProducts;
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {quantityOrderedProducts} = this.props;
+    const currentOrdredProductQuantity = prevState.cartProducts.length;
+
+    if (currentOrdredProductQuantity !== quantityOrderedProducts) {
+      this.renderOrderedProducts();
+    }
   }
 
   submitOrder = (values, dispatch) => {
-    values.products = localData.get(PRODUCTION_STORE);
-    
-    if (!values.products.length)
-      return false;
-    dispatch(tryMakeOrder(values));
-  }
+    this.renderOrderedProducts().then((cartProducts) => {
+      if (!cartProducts.length) {
+        return false;
+      }
+
+      dispatch(tryMakeOrder(values));
+    });
+  };
 
   onClickCloseButton = () => {
     const { dispatch } = this.props;
     dispatch(closeOrder());
-  }
+  };
 
   deleteProduct = (index, name, quantityOrderedProducts) => () => {
     const { dispatch } = this.props;
@@ -52,52 +78,57 @@ class OrderFormContainer extends Component {
         ...getDeleteProductArguments(index, name, quantityOrderedProducts)
       )
     );
-  }
+  };
 
   onSubmitQuantityProduct = index => e => {
     const { dispatch } = this.props;
 
     dispatch(changeProductQuantity(index, e.target.value));
     this.forceUpdate();
-  }
+  };
 
   render() {
     const { helpText, isOrderedOrder, isRequesting } = this.props;
-    
-    const products = localData.get(PRODUCTION_STORE) || [];
+    const {cartProducts} = this.state;
+
+    // TODO there is not products when open cart by click on star. Fix it.
 
     return (
-      <PopupFormContainer  
+      <PopupFormContainer
         closeButton={{
           onClick: this.onClickCloseButton
-        }} 
+        }}
         signification="Заказ"
-        {...this.props}>
-        {!isOrderedOrder ? 
-          <OrderForm buttonOptions={{ 
-            content: !isRequesting ? 'Заказать' : <Loader />,
-          }}
-          id="orderForm"
-          onSubmit={this.submitOrder} 
-          {...this.props}
-          products={products}
-          helpText={helpText.toString()}
-          deleteProduct={this.deleteProduct}
-          onSubmitQuantityProduct={this.onSubmitQuantityProduct}
-          /> :
-          <p className={getClass({b: 'successfull'})}>{ReactHtmlParser(helpText)}</p>
-        }
+        {...this.props}
+      >
 
+        {!isOrderedOrder ? (
+          <OrderForm
+            buttonOptions={{
+              content: !isRequesting ?
+                'Заказать'
+                : <Loader />
+            }}
+            id="orderForm"
+            onSubmit={this.submitOrder}
+            {...this.props}
+            cartProducts={cartProducts}
+            helpText={helpText.toString()}
+            deleteProduct={this.deleteProduct}
+            onSubmitQuantityProduct={this.onSubmitQuantityProduct}
+          />
+        ) : (
+          <p className="successfull">{ReactHtmlParser(helpText)}</p>
+        )}
       </PopupFormContainer>
     );
   }
 }
 
-
 const mapStateToProps = state => {
   const { order, cart } = state;
   const { quantityOrderedProducts } = cart;
-  
+
   return {
     ...order,
     quantityOrderedProducts

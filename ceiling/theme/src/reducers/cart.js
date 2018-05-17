@@ -10,9 +10,7 @@ import {
   PRODUCTION_STORE,
   RESET_ADD_TO_CART_FORM
 } from './../constants/cart';
-import {
-  localData
-} from './../constants/pureFunctions';
+
 export const initState = {
   isCartOpened: false,
   quantityOrderedProducts: 0,
@@ -21,8 +19,13 @@ export const initState = {
   isProductAdded: false,
   isRequesting: false
 };
-const cart = (state = initState, action) => {
-  let products, index, storeName;
+
+let isSetLastProductLength = false;
+
+const cart = (state = initState, action, isNotTest=true) => {
+  let quantityOrderedProducts, index, storeName;
+  isSetLastProductLength = isNotTest;
+
   switch (action.type) {
     case RESET_ADD_TO_CART_FORM:
       return {
@@ -30,61 +33,120 @@ const cart = (state = initState, action) => {
         isProductAdded: false,
         helpText: ''
       };
+
     case SHOW_ACTION:
       return { ...state,
         isRequesting: true
       };
+
     case OPEN_CART:
       return { ...state,
         isCartOpened: action.id
       };
     case CLOSE_CART:
-      return { ...state,
+      return {
+        ...state,
         isCartOpened: false
       };
+
     case PUT_PRODUCT:
       storeName = action.store;
-      products = localData.get(storeName) || [];
-      localData.set(storeName, [...products,
-        action.product
-      ]);
-      return { ...state,
+
+      getProducts(storeName).then((cartProducts) => {
+
+        cartProducts = cartProducts ? cartProducts : [];
+        const updatedCartProducts = [...cartProducts, action.product];
+
+        localforage.setItem(storeName, updatedCartProducts);
+      });
+
+      quantityOrderedProducts = state.quantityOrderedProducts+1;
+
+      setLastProductLength(quantityOrderedProducts);
+
+      return {
+        ...state,
         isProductAdded: true,
         isRequesting: false,
         helpText: 'Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.',
-        quantityOrderedProducts: state.quantityOrderedProducts + 1
+        quantityOrderedProducts
       };
+
     case DELETE_PRODUCT:
       storeName = action.store;
       index = action.id;
-      products = localData.get(storeName) || [];
-      localData.set(storeName, [...products.slice(0, index), ...products.slice(index + 1)]);
-      return { ...state,
-        quantityOrderedProducts: state.quantityOrderedProducts - 1
+
+      getProducts(storeName).then((cartProducts) => {
+        cartProducts = cartProducts ? cartProducts : [];
+
+        const updatedCartProducts = [...cartProducts.slice(0, index), ...cartProducts.slice(index+1)];
+
+        localforage.setItem(storeName, updatedCartProducts);
+      });
+
+      quantityOrderedProducts = state.quantityOrderedProducts-1;
+
+      setLastProductLength(quantityOrderedProducts);
+
+      return {
+        ...state,
+        quantityOrderedProducts
       };
+
     case CHANGE_PRODUCT_QUANTITY:
       storeName = action.store;
-      products = localData.get(storeName);
       index = action.id;
-      localData.set(storeName, [...products.slice(0, index), { ...products[index],
-        quantity: action.quantity
-      }, ...products.slice(index + 1)]);
+
+      getProducts(storeName).then((cartProducts) => {
+        cartProducts = cartProducts ? cartProducts : [];
+
+        const updatedCartProducts = [
+          ...cartProducts.slice(0, index),
+          {
+            ...cartProducts[index],
+            quantity: action.quantity
+          },
+          ...cartProducts.slice(index + 1)
+        ];
+
+        localforage.setItem(storeName, updatedCartProducts);
+        setLastProductLength(updatedCartProducts.length);
+
+      });
+
       return state;
+
     case SHOW_HELP_TEXT:
-      return { ...state,
+      return {
+        ...state,
         helpText: action.helpText,
         isShownHelpText: true
       };
+
     case HIDE_HELP_TEXT:
-      return { ...state,
+      return {
+        ...state,
         helpText: '',
         isShownHelpText: false
       };
+
     default:
-      products = localData.get(PRODUCTION_STORE) || [];
-      return { ...state,
-        quantityOrderedProducts: products.length
+
+      return {
+        ...state,
+        quantityOrderedProducts: Number(localStorage.lastProductsLength) || 0
       };
   }
 };
+
+function getProducts(storeName) {
+  return localforage.getItem(storeName);
+}
+
+function setLastProductLength(cartProductsLength) {
+  if (isSetLastProductLength) {
+    localStorage.lastProductsLength = cartProductsLength;
+  }
+}
+
 export default cart;

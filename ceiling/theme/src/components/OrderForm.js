@@ -8,9 +8,9 @@ import user from './../images/icons/user.png';
 import envelope from './../images/icons/envelope.png';
 
 import {
-  required, 
-  phone, 
-  fullNameLength, 
+  required,
+  phone,
+  fullNameLength,
   full_name,
   phoneLength,
   email
@@ -18,12 +18,10 @@ import {
 
 const OrderForm = ({
   helpText,
-  products,
-  closeOrder,
-  cartModifier,
+  cartProducts,
   quantityOrderedProducts,
   ...rest,
-	
+
 }) => (
   <Form fields={[
     {
@@ -71,13 +69,13 @@ const OrderForm = ({
       },
       className:'parent row h-around'
     }
-  ]}  
+  ]}
   serverError={helpText}
   {...rest}>
     <Cart {...rest}
      	 	quantityOrderedProducts={quantityOrderedProducts}
-          	modifier="order" 
-          	cartProducts={products} />
+          	modifier="order"
+          	cartProducts={cartProducts} />
   </Form>
 );
 

@@ -1,20 +1,20 @@
 import {
-  openCart, 
-  closeCart, 
-  putProduct, 
+  openCart,
+  closeCart,
+  putProduct,
   deleteProduct,
   changeProductQuantity,
   showHelpText,
   hideHelpText
-} from './../actions/cart';
-import {
-  TEST_STORE,
-  EMPTY_ORDERED_PRODUCT
-} from './../constants/cart';
+} from '@/actions/cart';
+import { TEST_STORE, EMPTY_ORDERED_PRODUCT } from '@/constants/cart';
+import { timeout } from '@/constants/pureFunctions';
+
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
-import cart, {initState} from './../reducers/cart';
+import cart, { initState } from '@/reducers/cart';
 
+const isNotTest = false;
 
 const testOpenCart = () => {
   const cartBefore = initState;
@@ -26,9 +26,7 @@ const testOpenCart = () => {
 
   deepFreeze(cartBefore);
 
-  expect(
-    cart(cartBefore, openCart(name))
-  ).toEqual(cartAfter);
+  expect(cart(cartBefore, openCart(name), isNotTest)).toEqual(cartAfter);
 };
 
 const testCloseCart = () => {
@@ -38,137 +36,152 @@ const testCloseCart = () => {
   };
   const cartAfter = initState;
 
-
   deepFreeze(cartBefore);
 
-  expect(
-    cart(cartBefore, closeCart())
-  ).toEqual(cartAfter);
+  expect(cart(cartBefore, closeCart(), isNotTest)).toEqual(cartAfter);
 };
+
 
 const getProductToTheCartTest = () => {
-  localData.set(TEST_STORE, EMPTY_ORDERED_PRODUCT);
+  const STORE_NAME = 'getProductToTheCartTestStore';
 
-  const products = localData.get(TEST_STORE);
+  setTestProducts(STORE_NAME).then((products) => {
+    const cartBefore = {
+      ...initState,
+      quantityOrderedProducts: products.length
+    };
 
-  const cartBefore = {
-    ...initState,
-    quantityOrderedProducts: products.length
-  };
+    const newProduct = {
+      name: 'Some Name of the product',
+      uuid: '12345',
+      quantity: 1,
+      combustibility: '',
+      acoustics: '',
+      lightning: '',
+      edges: '',
+      material: '',
+      colors: '',
+      width: '',
+      height: '',
+      length: '',
+      thickness: ''
+    };
 
-  const newProduct = {
-     	name: 'Some Name of the product',
-      	uuid: '12345',
-      	quantity: 1,
-      	combustibility: '',
-    acoustics: '',
-    lightning: '',
-    edges: '',
-    material: '',
-    colors: '',
-    width: '',
-    height: '',
-    length: '',
-    thickness: '',
-  };
+    const cartAfter = {
+      ...initState,
+      isProductAdded: true,
+      helpText: 'Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.',
+      quantityOrderedProducts: cartBefore.quantityOrderedProducts + 1
+    };
 
-  const cartAfter = {
-    ...initState,
-    isProductAdded: true,
-    helpText: 'Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.',
-    quantityOrderedProducts: cartBefore.quantityOrderedProducts + 1
-  };
-  const storeAfter = [
-    ...products,
-    newProduct
-  	];
+    deepFreeze(cartBefore);
 
-  deepFreeze(cartBefore);
+    expect(
+      cart(
+        cartBefore,
+        putProduct(newProduct, STORE_NAME),
+        isNotTest
+      )
+    ).toEqual(cartAfter);
 
-  expect(
-    cart(cartBefore, putProduct(newProduct, TEST_STORE))
-  ).toEqual(cartAfter);
+    const expectedProducts = [...products, newProduct];
 
-  const updatedStore = localData.get(TEST_STORE);
+    checkDifferanceBetweetProductsInStore({
+      storeName: STORE_NAME,
+      expectedProducts
+    });
+  });
 
-  expect(
-    updatedStore
-  ).toEqual(storeAfter);
 };
 
-const throwProductFormCartTest = () => {
-  localData.set(TEST_STORE, EMPTY_ORDERED_PRODUCT);
+function setTestProducts(storeName=TEST_STORE) {
+  return localforage.setItem(storeName, EMPTY_ORDERED_PRODUCT);
+}
 
-  const products = localData.get(TEST_STORE);
-  const cartBefore = {
-    ...initState,
-    quantityOrderedProducts: products.length
-  };
+function getTestProducts(storeName=TEST_STORE) {
+  return localforage.getItem(storeName);
+}
 
-  const index = 2;
+const throwProductFromCartTest = () => {
+  const STORE_NAME = 'throwProductFromCartTestStore';
 
-  const cartAfter = {
-    ...initState,
-    quantityOrderedProducts: cartBefore.quantityOrderedProducts - 1
-  };
-  const storeAfter = [
-    ...products.slice(0, index),
-    ...products.slice(index + 1)
-  ];
+  setTestProducts(STORE_NAME).then((products) => {
+    const cartBefore = {
+      ...initState,
+      quantityOrderedProducts: products.length
+    };
 
-  deepFreeze(cartBefore);
-	
-  expect(
-    cart(cartBefore, deleteProduct(index, TEST_STORE))
-  ).toEqual(cartAfter);
+    const productIndex = 2;
 
-  const updatedStore = localData.get(TEST_STORE);
+    const cartAfter = {
+      ...initState,
+      quantityOrderedProducts: cartBefore.quantityOrderedProducts - 1
+    };
 
-  expect(
-    updatedStore
-  ).toEqual(storeAfter);
+    deepFreeze(cartBefore);
+
+    expect(
+      cart(
+        cartBefore, deleteProduct(productIndex, STORE_NAME), isNotTest
+      )
+    ).toEqual(cartAfter);
+
+    const expectedProducts = [
+      ...products.slice(0, productIndex),
+      ...products.slice(productIndex + 1)
+    ];
+
+    checkDifferanceBetweetProductsInStore({
+      storeName: STORE_NAME,
+      expectedProducts
+    });
+  });
 };
-import {localData} from './../constants/pureFunctions';
+
+function checkDifferanceBetweetProductsInStore({
+  expectedProducts,
+  storeName=TEST_STORE
+}) {
+  timeout(() => {
+    getTestProducts(storeName).then((updatedProducts) => {
+      expect(updatedProducts).toEqual(expectedProducts);
+    });
+  }, 500);
+}
 
 const changeProductQuantityTest = () => {
+  const STORE_NAME = 'changeProductQuantityTestStore';
 
-  localData.set(TEST_STORE, EMPTY_ORDERED_PRODUCT);
+  setTestProducts(STORE_NAME).then((products) => {
+    const cartBefore = {
+      ...initState
+    };
+    const cartAfter = cartBefore;
 
-  const products = localData.get(TEST_STORE);
+    deepFreeze(cartBefore);
 
-  const cartBefore = {
-    ...initState,
-    quantityOrderedProducts: products.length
-  };
-				
+    const productIndex = 3;
+    const quantity = 6;
 
-  const index = 3;
-  const quantity = 6;
-	
-  const cartAfter = cartBefore;
-  const storeAfter =[
-	      ...products.slice(0, index),
-	      {
-	        ...products[index],
-	        quantity
-	      },          
-	      ...products.slice(index + 1)
-	  ];
 
-  deepFreeze(cartBefore);
+    expect(
+      cart(cartBefore, changeProductQuantity(productIndex, quantity, STORE_NAME), isNotTest)
+    ).toEqual(cartAfter);
 
-  expect(
-    cart(
-      cartBefore, 
-      changeProductQuantity(index, quantity, TEST_STORE)
-    )
-  ).toEqual(cartAfter);
+    const expectedProducts = [
+      ...products.slice(0, productIndex),
+      {
+        ...products[productIndex],
+        quantity
+      },
+      ...products.slice(productIndex + 1)
+    ];
 
-  const updatedStore = localData.get(TEST_STORE);
-
-  expect(
-    updatedStore
-  ).toEqual(storeAfter);
+    checkDifferanceBetweetProductsInStore({
+      storeName: STORE_NAME,
+      expectedProducts
+    });
+  });
 };
 
 const showHelpTextTest = () => {
@@ -182,14 +195,11 @@ const showHelpTextTest = () => {
 
   deepFreeze(cartBefore);
 
-  expect(
-    cart(cartBefore, showHelpText(helpText))
-  ).toEqual(cartAfter);
+  expect(cart(cartBefore, showHelpText(helpText), isNotTest)).toEqual(cartAfter);
 };
 
 const hideHelpTextTest = () => {
   const cartBefore = initState;
-  const helpText = 'You will see it!';
   const cartAfter = {
     ...cartBefore,
     helpText: '',
@@ -198,16 +208,15 @@ const hideHelpTextTest = () => {
 
   deepFreeze(cartBefore);
 
-  expect(
-    cart(cartBefore, hideHelpText())
-  ).toEqual(cartAfter);
+  expect(cart(cartBefore, hideHelpText(), isNotTest)).toEqual(cartAfter);
 };
+
 
 
 hideHelpTextTest();
 showHelpTextTest();
 changeProductQuantityTest();
-throwProductFormCartTest();
+throwProductFromCartTest();
 getProductToTheCartTest();
 testOpenCart();
 testCloseCart();
