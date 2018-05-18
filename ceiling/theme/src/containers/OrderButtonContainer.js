@@ -28,6 +28,10 @@ class OrderButtonContainer extends Component {
     className: PropTypes.string
   };
 
+  state = {
+    cartProducts: []
+  }
+
   onSubmitQuantityProduct = index => e => {
     const { dispatch } = this.props;
 
@@ -45,6 +49,30 @@ class OrderButtonContainer extends Component {
 
     dispatch(closeCart());
   };
+
+  componentWillMount() {
+    this.renderOrderedProducts();
+  }
+
+  renderOrderedProducts() {
+    localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
+      cartProducts = cartProducts || [];
+
+      this.setState({ cartProducts });
+
+      return cartProducts;
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {quantityOrderedProducts} = this.props;
+    const currentOrdredProductQuantity = prevState.cartProducts.length;
+
+    if (currentOrdredProductQuantity !== quantityOrderedProducts) {
+      this.renderOrderedProducts();
+    }
+  }
+
 
   openOrderForm = () => {
     const { dispatch } = this.props;
@@ -64,13 +92,13 @@ class OrderButtonContainer extends Component {
 
   render() {
     const { cartPosition, isCartOpened, className } = this.props;
-
-    const products = localforage.getItem(PRODUCTION_STORE);
+    const {cartProducts} = this.state;
+    // const products = localforage.getItem(PRODUCTION_STORE);
 
     return (
       <OrderButton
         {...this.props}
-        products={products || []}
+        cartProducts={cartProducts}
         isCartOpened={isCartOpened === cartPosition}
         openCart={this.showCart}
         className={className}
