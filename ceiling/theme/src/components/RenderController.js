@@ -16,6 +16,7 @@ const RenderController = ({
   style,
   iconOptions,
   className,
+  isShown,
   asideText=false,
   ...rest
 }) => (

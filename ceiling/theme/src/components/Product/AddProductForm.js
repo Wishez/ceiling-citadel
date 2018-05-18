@@ -83,7 +83,6 @@ const AddProductForm = ({
           maxWidth: 35,
           name: 'width'
         },
-        showBorder: false,
         className:'parent row h-around',
         asideText: width,
         isShown: width
@@ -102,7 +101,7 @@ const AddProductForm = ({
           maxWidth: 35,
           name: 'height'
         },
-        showBorder: false,
+
         className:'parent row h-around',
         asideText: height,
         isShown: height
@@ -115,7 +114,6 @@ const AddProductForm = ({
         modifier: 'small',
         validate: [required, number],
         placeholder: '55мм',
-        showBorder: false,
         label: 'Диаметр окружности',
         // iconOptions: {
         //   url: heightIcon,
@@ -129,14 +127,14 @@ const AddProductForm = ({
       {
         type: 'text',
         maxLength: 10,
-        showBorder: false,
+
         minLength: 1,
         name: 'thickness',
         modifier: 'small',
         validate: [required, number],
         placeholder: '1.49мм',
         label: 'Толщина',
-        showBorder: false,
+
         iconOptions: {
           url: thicknessIcon,
           maxWidth: 35,
@@ -152,7 +150,6 @@ const AddProductForm = ({
         minLength: 1,
         name: 'angle_of_bend',
         modifier: 'small',
-        showBorder: false,
         validate: [required, number],
         placeholder: '500мм',
         label: 'Мин. угол загиба',
@@ -169,7 +166,6 @@ const AddProductForm = ({
         type: 'text',
         maxLength: 10,
         minLength: 1,
-        showBorder: false,
         name: 'ceil_size',
         modifier: 'small',
         validate: [required, number],
@@ -193,7 +189,6 @@ const AddProductForm = ({
         placeholder: '5м',
         label: 'Длина',
         modifier: 'small',
-        showBorder: false,
         iconOptions: {
           url: lengthIcon,
           maxWidth: 35,
@@ -209,7 +204,6 @@ const AddProductForm = ({
         minLength: 1,
         name: 'step_between_panels',
         modifier: 'small',
-        showBorder: false,
         validate: [required, number],
         placeholder: '500мм',
         label: 'Шаг между панелями',

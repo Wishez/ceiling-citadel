@@ -20,28 +20,42 @@ const Form = ({
   centered=true,
   id=''
 }) => (
-  <form className={getClass(composeClasses(block, '', modifier, `${className} parent${column ? ' column' : ''}${centered ? ' centered' : ''}`))}
+  <form
+    className={
+      getClass(
+        composeClasses(
+          block,
+          '',
+          modifier,
+          `${className ? className : ''} parent${column ? ' column' : ''}${centered ? ' centered' : ''}`
+        )
+      )
+    }
     onSubmit={handleSubmit(onSubmit.bind(this))}
     id={id}
   >
     {fields.map((field, index) => (
-      ('isShown' in field && field.isShown) || !('isShown' in field) ?
+      ('isShown' in field && field.isShown) ||
+       !('isShown' in field) ?
         <Field key={index} {...field}
           component={'component' in field ?
-            field.component :
-            RenderController
-          } /> : ''
+            field.component
+            : RenderController
+          } />
+        : ''
     ))}
     {children}
     {serverError ?
-      <p className={getClass({b: 'serverError'})}>{serverError.toString()}</p> :
-      ''
+      <p className='serverError'>
+        {serverError.toString()}
+      </p>
+      : ''
     }
     {button ?
-      button :
-      showButton ?
-        <Button type="submit" block="formButton" {...buttonOptions} /> :
-        ''
+      button
+      : showButton ?
+        <Button type="submit" block="formButton" {...buttonOptions} />
+        : ''
     }
   </form>
 );
