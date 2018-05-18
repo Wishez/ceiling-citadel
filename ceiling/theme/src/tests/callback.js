@@ -1,6 +1,6 @@
 import {
-  openCallback, 
-  closeCallback, 
+  openCallback,
+  closeCallback,
   orderCallback,
   requestCallback
 } from './../actions/callback';
@@ -29,7 +29,6 @@ const testCloseCallback = () => {
   };
   const callbackAfter = initState;
 
-
   deepFreeze(callbackBefore);
 
   expect(
@@ -42,6 +41,8 @@ const testSuccessOrderedCallback = () => {
     ...initState,
     isRequesting: true
   };
+
+  const isOrdered = true;
   const helpText = "It's a response from server about success ordered callback.";
   const callbackAfter = {
     ...callbackBefore,
@@ -54,21 +55,18 @@ const testSuccessOrderedCallback = () => {
   deepFreeze(callbackBefore);
 
   expect(
-    callback(callbackBefore, orderCallback(true, helpText))
+    callback(callbackBefore, orderCallback(isOrdered, helpText))
   ).toEqual(callbackAfter);
 };
 
 
 const testShowingRequestForCallback = () => {
-  const callbackBefore = {
-    ...initState
-  };
+  const callbackBefore = initState;
 
   const callbackAfter = {
     ...callbackBefore,
     isRequesting: true
   };
-
 
   deepFreeze(callbackBefore);
 
@@ -81,4 +79,3 @@ testShowingRequestForCallback();
 testSuccessOrderedCallback();
 testOpenCallback();
 testCloseCallback();
-

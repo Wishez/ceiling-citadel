@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import RenderController from './RenderController';
 
 const Form = ({
-  block, 
+  block,
   modifier='',
   children,
   handleSubmit,
@@ -18,8 +18,7 @@ const Form = ({
   serverError,
   showButton=true,
   centered=true,
-  id='',
-  ...rest
+  id=''
 }) => (
   <form className={getClass(composeClasses(block, '', modifier, `${className} parent${column ? ' column' : ''}${centered ? ' centered' : ''}`))}
     onSubmit={handleSubmit(onSubmit.bind(this))}
@@ -28,20 +27,20 @@ const Form = ({
     {fields.map((field, index) => (
       ('isShown' in field && field.isShown) || !('isShown' in field) ?
         <Field key={index} {...field}
-          component={'component' in field ? 
-            field.component : 
+          component={'component' in field ?
+            field.component :
             RenderController
           } /> : ''
     ))}
     {children}
-    {serverError ?  
+    {serverError ?
       <p className={getClass({b: 'serverError'})}>{serverError.toString()}</p> :
       ''
     }
-    {button ? 
+    {button ?
       button :
-      showButton ? 
-        <Button type="submit" block="formButton" {...buttonOptions} /> : 
+      showButton ?
+        <Button type="submit" block="formButton" {...buttonOptions} /> :
         ''
     }
   </form>

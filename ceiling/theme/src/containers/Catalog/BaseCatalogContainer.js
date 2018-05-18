@@ -10,10 +10,6 @@ class BaseCatalogContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     CONSTANT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    BRAND: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    CATEGORY: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     name: PropTypes.string.isRequired,
     slogan: PropTypes.string,
     routes: PropTypes.object.isRequired,
@@ -41,16 +37,34 @@ class BaseCatalogContainer extends Component {
     } = this.props;
 
     return (
-      <div className={getClass({b: 'catalog', m: modifier, add:'container parent column centered'})}>
+      <div className={
+        getClass({
+          b: 'catalog',
+          m: modifier,
+          add:'container parent column centered'
+        })}>
         <div className='catalogHeader parent row v-centered h-centered'>
-          <h1 className={getClass({b: 'catalogHeader', el: 'title', m: isProduct ? 'active' : '', add: 'parent row centered baseChild'})}>
+          <h1 className={
+            getClass({
+              b: 'catalogHeader',
+              el: 'title',
+              m: isProduct ? 'active' : '',
+              add: 'parent row centered baseChild textCentered_xxs'
+            })}>
             {name}
           </h1>
           <BreadcrumbsContainer routes={routes} />
-          <p className={getClass({b: 'catalogHeader', el: 'slogan', m: modifier, add: 'parent row h-end  darkBlue baseChild'})}>
+          <p className={
+            getClass({
+              b: 'catalogHeader',
+              el: 'slogan',
+              m: modifier,
+              add: 'parent row h-end  darkBlue baseChild'
+            })}>
             {slogan}
           </p>
         </div>
+
         {children}
       </div>
     );

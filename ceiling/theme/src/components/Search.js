@@ -6,16 +6,11 @@ import RenderController from './RenderController';
 import colors from './../constants/colors';
 
 const Search = ({
-  element='',
   modifier='',
-  href,
-  content,
-  children,
   handleSubmit,
   submitSearch,
   onChange,
-  searchName,
-  ...rest
+  searchName
 }) => (
   <form className={getClass(composeClasses('searchForm', '', modifier,'baseChild parent row h-between v-centered'))}
     onSubmit={handleSubmit(submitSearch.bind(this))}
@@ -28,7 +23,6 @@ const Search = ({
       className="baseChild"
       modifier="search"
       onChange={onChange}
-      showBorder={false}
       onFocus={(event) => {
         const element = event.target;
         element.focus();

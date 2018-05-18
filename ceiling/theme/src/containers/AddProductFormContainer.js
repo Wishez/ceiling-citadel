@@ -17,7 +17,7 @@ import ReactHtmlParser from 'react-html-parser';
 import {makeSelectOptions, makeSelectColorOptions} from './../constants/filter';
 
 class AddProductFormContainer extends Component {
-  static propTypes = { 
+  static propTypes = {
     dispatch: PropTypes.func.isRequired,
     helpText: PropTypes.string.isRequired,
     isProductAdded: PropTypes.bool.isRequired,
@@ -40,7 +40,7 @@ class AddProductFormContainer extends Component {
     angle_of_bend: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     ceil_size:  PropTypes.string,
   }
-  // Internal state of select controllers' values.
+
   state = {
     combustibilityValue: '',
     acousticsValue: '',
@@ -50,38 +50,38 @@ class AddProductFormContainer extends Component {
     lightningValue: '',
     proportionsValue: '',
   }
-  
+
   onChangeSelect = input => (event, index, value) => {
     input.onChange(value) ;
 
     this.setState({
-      [`${input.name}Value`]: value 
+      [`${input.name}Value`]: value
     });
-      
+
   }
   submitAddProduct = (values, dispatch) => {
     const {
-      uuid, 
-      name, 
+      uuid,
+      name,
       image,
       url
     } = this.props;
-    
+
     dispatch(showAddingProductToCart({
       ...values,
       uuid,
       name,
-      quantity: 1, 
+      quantity: 1,
       image: image,
       url
     }));
   }
 
   render() {
-    
-    const { 
-      helpText, 
-      isProductAdded, 
+
+    const {
+      helpText,
+      isProductAdded,
       isRequesting,
       image,
       combustibility,
@@ -103,16 +103,24 @@ class AddProductFormContainer extends Component {
 
     return (
       <MuiThemeProvider>
-        <section className={getClass({b: 'addProductFormSection', add: 'catalogForm'})}>
-
-          <h2 className={getClass({b: 'addProductFormSection', el: 'title', add: 'upper parent row'})}>Характеристики</h2>
-          <div className={getClass({b: 'addProductFormContainer', add: `parent column ${isProductAdded ? 'centered' : 'h-end' }`})}>
+        <section className='addProductFormSection catalogForm'>
+          <h2 className='addProductFormSection__title position_relative index_positive upper parent row'>
+            Характеристики
+          </h2>
+          <div className={
+            getClass({
+              b: 'addProductFormContainer',
+              add: `parent column ${isProductAdded ? 'centered' : 'h-end' }`
+            })}>
             <Figure url={image} maxWidth="33.33%" name="product" />
-            {!isProductAdded ? 
 
+            {!isProductAdded ?
               <AddProductForm {...this.state}
-                buttonOptions={{ 
-                  content: !isRequesting ? 'В корзину' : <Loader name="addProductFormLoader" />,
+                buttonOptions={{
+                  content: !isRequesting ?
+                    'В корзину'
+                    : <Loader name="addProductFormLoader"
+                    />,
                   modifier: 'product'
                 }}
                 className="row h-start v-centered"
@@ -134,15 +142,15 @@ class AddProductFormContainer extends Component {
                 step_between_panels={step_between_panels}
                 angle_of_bend={angle_of_bend}
                 diameter={diameter}
-                onSubmit={this.submitAddProduct} 
+                onSubmit={this.submitAddProduct}
                 helpText={helpText.toString()}
                 block="addProductForm"
-              /> :
-              <p className={getClass({b: 'successfull', m:'addProductForm', add: 'parent row centered'})}>
+              />
+              : <p className='successfull successfull_addProductForm parent row centered'>
                 {ReactHtmlParser(helpText)}
-                <OrderButtonContainer 
+                <OrderButtonContainer
                   cartPosition={cartPositions.bag}
-                  cartModifier="hover_bottom" 
+                  cartModifier="hover_bottom"
                   modifier="product"
                 />
               </p>
@@ -156,7 +164,7 @@ class AddProductFormContainer extends Component {
 
 const mapStateToProps = state => {
   const { cart, catalog } = state;
-  const { 
+  const {
     isProductAdded,
     isRequesting,
     helpText

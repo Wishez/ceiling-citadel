@@ -55,6 +55,7 @@ export const tryAskQuestion = userData => dispatch => {
 
 export const tryOrderCallback = userData => dispatch => {
   dispatch(requestCallback());
+  const isCallbackOrdered = false;
 
   return customAjaxRequest({
     type: 'POST',
@@ -63,13 +64,13 @@ export const tryOrderCallback = userData => dispatch => {
     cache: true,
     success: response => {
       const text = response.text;
+      const emptyEmail = '';
 
-      dispatch(orderCallback(true, text));
-      // setUserData(userData.full_name, userData.phone_number, '');
+      dispatch(orderCallback(!isCallbackOrdered, text));
+      setUserData(userData.full_name, userData.phone_number, emptyEmail);
 	    },
     failure: error => {
-      dispatch(orderCallback(false, error.message));
+      dispatch(orderCallback(isCallbackOrdered, error.message));
     }
   });
 };
-
