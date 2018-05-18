@@ -27,6 +27,37 @@ class CatalogPageContainer extends Component {
     categories: [],
     brands: []
   }
+
+
+  componentDidMount() {
+    this.requestCatalogEntities();
+  }
+
+  requestCatalogEntities = () => {
+    localforage.getItem(
+      CATALOG,
+      (err, catalog) => {
+        this.renderCatalogEntities(catalog);
+      });
+  }
+
+  renderCatalogEntities = (catalog) => {
+    if (catalog !== null) {
+      this.setState({
+        brands: catalogSectionCombiner(
+          getArray(catalog.brands),
+          catalogBrandUrl
+        ),
+        categories: catalogSubsectionsCombiner(
+          getArray(catalog.categories),
+          catalogCategoryUrl,
+          'section'
+        ),
+        isCatalogGotten: true
+      });
+    }
+  }
+
   gogo = selector => {
     return event => {
       event.preventDefault();
@@ -37,6 +68,7 @@ class CatalogPageContainer extends Component {
       return false;
     };
   }
+
   render() {
     const { isRequesting } = this.props;
     const {
@@ -45,64 +77,64 @@ class CatalogPageContainer extends Component {
       brands
     } = this.state;
 
-    if (!isCatalogGotten) {
-      localforage.getItem(
-        CATALOG,
-        (err, catalog) => {
-          
-
-          if (catalog !== null) {
-
-            this.setState({
-              brands: catalogSectionCombiner(
-                getArray(catalog.brands),
-                catalogBrandUrl
-              ),
-              categories: catalogSubsectionsCombiner(
-                getArray(catalog.categories),
-                catalogCategoryUrl,
-                'section'
-              ),
-              isCatalogGotten: true
-            });
-          }
-        });
-    }
-
-
     return (
-      <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
-        <div className={getClass({b: 'catalogHeader',m: 'catalog', add: 'parent row v-centered h-centered'})}>
-          <h1 className={getClass({b: 'catalogHeader', el: 'title', m: 'catalog', add: 'parent row centered baseChild'})}>
+      <div className={
+        getClass({
+          b: 'container',
+          m: 'main',
+          add: 'parent column centered'
+        })}>
+        <div className={
+          getClass({
+            b: 'catalogHeader',
+            m: 'catalog',
+            add: 'parent row v-centered h-centered'
+          })}>
+          <h1 className={
+            getClass({
+              b: 'catalogHeader',
+              el: 'title',
+              m: 'catalog',
+              add: 'parent row centered baseChild textCentered_xxs'
+            })}>
               Выставочный зал
             <Figure name="picture" url={picture} maxWidth={68} />
           </h1>
           <ul className='catalogRefersList parent row h-around baseChild'>
             <li className='catalogRefer'>
-              <a href="#brands" onClick={this.gogo('#brands')} className={getClass({b: 'catalogRefer', el: 'refer'})}>Бренды</a>
+              <a href="#brands"
+                onClick={this.gogo('#brands')}
+                className='catalogRefer__refer'>
+                  Бренды
+              </a>
             </li>
-            <li className={getClass({b: 'catalogRefer'})}>
-              <a href="#categories" onClick={this.gogo('#categories')} className={getClass({b: 'catalogRefer', el: 'refer'})}>Категории</a>
+            <li className='catalogRefer'>
+              <a href="#categories"
+                onClick={this.gogo('#categories')}
+                className='catalogRefer__refer'>
+                Категории
+              </a>
             </li>
-
           </ul>
-          <p className={getClass({b: 'catalogHeader', el: 'slogan', add: 'parent row h-end baseChild darkBlue'})}>
+          <p className='catalogHeader__slogan parent row h-end baseChild darkBlue'>
                 Цитадель потолочных покрытий
           </p>
         </div>
 
         <CatalogSection name="Бренды" headerId="brands">
-          {!isRequesting &&
-          brands.length ?
-            brands
-            : ''
+          {
+            !isRequesting &&
+            brands.length ?
+              brands
+              : ''
           }
-          {/*<Loader />*/}
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
-          {!isRequesting &&
+          {
+            !isRequesting &&
             categories.length ?
-            categories : ''
+              categories
+              : ''
           }
         </CatalogSection>
       </div>
