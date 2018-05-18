@@ -78,7 +78,7 @@ const common = {
       hash: true,
       chunks: ["vendor", "app"],
       chunksSortMode: "manual",
-      filename: "index.html",
+      filename: "../pages/templates/index.html",
       inject: "body"
     }),
     new webpack.DefinePlugin({

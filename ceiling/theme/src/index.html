@@ -2,10 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-	<meta 
+	<meta
 		name="viewport"
 		content="width=device-width, initial-scale=1.0">
-  
+
 	<meta
     name='description'
     content='{{ meta }}'
@@ -28,20 +28,35 @@
   <meta name="msapplication-TileColor" content="#333333">
   <meta name="msapplication-TileImage" content="/static/images/appIcons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-    
+
   <meta
     http-equive="X-UA-Compatible"
     content="IE=edge"
   >
   <!-- <link
       rel="shortcut icon"
-      type="image/x-icon" 
+      type="image/x-icon"
       href="/static/images/appIcons/favicon.ico"
   > -->
   <title>{{ title }}</title>
 </head>
 <body>
   <div id="root"></div>
+  <svg hidden aria-hidden="true">
+    <g id="starIcon">
+      <filter id="gaussBlur">
+        <feGaussianBlur stdDeviation="3"/>
+      </filter>
+      <path
+        d="M128 0 L170 90 L256 100 L184 160 L210 256 L128 195 L52 256 L76 160 L0 100 L82 90 L128 0z"
+        transform="translate(4, 4)"
+        fill="#202020"
+        filter='url(#gaussBlur)'></path>
+      <path d="M128 0 L170 90 L256 100 L184 160 L210 256 L128 195 L52 256 L76 160 L0 100 L82 90 L128 0z" fill="#c98c4d"></path>
+    </g>
+  </svg>
+
+
   <script>
     window.navigator.ARTCEILING_INFO = {
       address: "{{ settings.address }}",
@@ -49,7 +64,7 @@
       phone: "{{ settings.phone }}",
       addressHref: "{{ settings.addressHref }}",
     };
-    
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/static/sw.js')
         .then(function(reg) {
