@@ -249,12 +249,13 @@ export const dumpEntitiesForSearch = catalog => {
 
   let products = [];
 
-  const collections = brands.reduce(combineBrandsCollections, []);
+  const collections = [].concat(...brands.reduce(combineBrandsCollections, []));
 
   function combineBrandsCollections(combinedCollections, brand) {
     const brandCollections = brand.collections.reduce(makeCollections, []);
 
     function makeCollections(accumulatedBrandCollections, collection) {
+
       if (collection.is_shown) {
         const collectionUrl = `/catalog/brand/${brand.slug}/${
           collection.slug
@@ -284,7 +285,7 @@ export const dumpEntitiesForSearch = catalog => {
 
     return [...combinedCollections, brandCollections];
   }
-
+  
   localforage.setItem(SEARCH_BRANDS_STORE, brands);
   localforage.setItem(SEARCH_CATEGORIES_STORE, categories);
   localforage.setItem(SEARCH_COLLECTION_STORE, collections);
@@ -298,6 +299,7 @@ export const findEntitiesAndShowResults = value => dispatch => {
     localforage.getItem(SEARCH_CATEGORIES_STORE).then(categories => {
       localforage.getItem(SEARCH_PRODUCTS_STORE).then(products => {
         localforage.getItem(SEARCH_COLLECTION_STORE).then(collections => {
+
           dispatch(
             setFoundEntities(
               [

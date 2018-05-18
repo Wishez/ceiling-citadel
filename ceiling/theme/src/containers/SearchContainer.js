@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Search from './../components/Search';
-import {CATALOG} from './../constants/catalog';
+
 import getClass from './../constants/classes';
 
 import {
@@ -15,7 +15,7 @@ import {
 } from './../actions/catalog';
 
 class SearchContainer extends Component {
-  static propTypes = { 
+  static propTypes = {
     dispatch: PropTypes.func.isRequired,
     searchName: PropTypes.string.isRequired,
     searchEntities: PropTypes.array.isRequired,
@@ -25,7 +25,7 @@ class SearchContainer extends Component {
 
   searchEntity = (values) => {
     const {
-      searchName, 
+      searchName,
       searchEntities,
       SearchForm,
       dispatch
@@ -34,7 +34,6 @@ class SearchContainer extends Component {
     if ('active' in SearchForm && searchName === SearchForm.active) {
       const currentValue = values[searchName];
 
-      
       if (typeof currentValue !== 'undefined') {
         dispatch(findEntitiesAndShowResults(currentValue));
       } else {
@@ -43,7 +42,7 @@ class SearchContainer extends Component {
         }
       }
     }
-        
+
   }
 
   render() {
@@ -51,7 +50,7 @@ class SearchContainer extends Component {
       searchEntities,
       modifier
     } = this.props;
-    
+
     return (
       <div className={getClass({
         b: 'searchBlock',
@@ -61,7 +60,7 @@ class SearchContainer extends Component {
           submitSearch={this.searchEntity}
           onChange={this.searchEntity}
         />
-        {searchEntities.length ? 
+        {searchEntities.length ?
           <section className="result opacity_9">
             {searchEntities.map((section, key) => (
               <article className="resultSection"
@@ -72,7 +71,7 @@ class SearchContainer extends Component {
                 <ul>
                   {section.items.map((item, index) => (
                     <li key={index}>
-                      <Link to={item.url} 
+                      <Link to={item.url}
                         className='resultRefer'
                       >
                         {item.name}
@@ -91,7 +90,7 @@ class SearchContainer extends Component {
 
 const mapStateToProps = state => {
   const {catalog, form} = state;
-  
+
   const {
     searchEntities,
     isFinding
