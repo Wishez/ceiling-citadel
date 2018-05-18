@@ -22,23 +22,26 @@ const order = (
   state=initState,
   action
 ) => {
-	
+
   switch (action.type) {
     case OPEN_ORDER:
       return {
         ...state,
         isOrderOpened: true
       };
+      
     case CLOSE_ORDER:
       return {
         ...state,
         isOrderOpened: false
       };
+      
     case REQUEST_ORDER:
       return {
         ...state,
         isRequesting: true
       };
+
     case MAKE_ORDER:
       return {
         ...state,
@@ -46,6 +49,7 @@ const order = (
         helpText: action.helpText,
         isRequesting: false
       };
+
     default:
       return state;
   }
