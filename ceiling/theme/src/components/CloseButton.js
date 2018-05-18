@@ -1,22 +1,26 @@
 import React from 'react';
 import getClass, { composeClasses } from './../constants/classes';
+import Button from './Button';
 
 const CloseButton = ({
-  block, 
+  block,
   element='',
   modifier='',
   className,
   label='',
   ...rest
 }) => (
-  <button {...rest}
-    aria-label={label}
-    type="button"
-    aria-pressed={false}
-    className={getClass(composeClasses(block, element, modifier, `closeButton ${className}`))}>
-    <span className={getClass({b: 'closeButton', el: 'bar', m: 'right'})}></span>
-    <span className={getClass({b: 'closeButton', el: 'bar', m: 'left'})}></span>
-  </button>
+  <Button {...rest}
+    label={label}
+    className={`${className ? className : ''} closeButton`}
+    block={block}
+    element={element}
+    modifier={modifier}
+    unstyled
+  >
+    <span className='closeButton__bar closeButton__bar_right'></span>
+    <span className='closeButton__bar closeButton__bar_left'></span>
+  </Button>
 );
 
 

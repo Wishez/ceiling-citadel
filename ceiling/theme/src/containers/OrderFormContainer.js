@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
 
-import { tryMakeOrder, closeOrder } from '@/actions/order';
+import { tryMakeOrder, closeOrder, notifyAboutFailureOrderingOrder } from '@/actions/order';
 import {
   changeProductQuantity,
   deleteProductAndNotifyAbout
@@ -37,7 +37,7 @@ class OrderFormContainer extends Component {
   }
 
   renderOrderedProducts() {
-    localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
+    return localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
       cartProducts = cartProducts || [];
 
       this.setState({ cartProducts });
@@ -57,13 +57,25 @@ class OrderFormContainer extends Component {
 
   submitOrder = (values, dispatch) => {
     this.renderOrderedProducts().then((cartProducts) => {
+
       if (!cartProducts.length) {
-        return false;
+        this.notifyUserAboutHisEmptyCart();
+      } else {
+        dispatch(tryMakeOrder(values));
       }
 
-      dispatch(tryMakeOrder(values));
+
     });
   };
+
+  notifyUserAboutHisEmptyCart = () => {
+    const {dispatch} = this.props;
+    const hintMessage = 'Чтобы сделать заказ, нужно что-нибудь положить в вашу корзину';
+    
+    dispatch(
+      notifyAboutFailureOrderingOrder(hintMessage)
+    );
+  }
 
   onClickCloseButton = () => {
     const { dispatch } = this.props;
@@ -90,8 +102,6 @@ class OrderFormContainer extends Component {
   render() {
     const { helpText, isOrderedOrder, isRequesting } = this.props;
     const {cartProducts} = this.state;
-
-    // TODO there is not products when open cart by click on star. Fix it.
 
     return (
       <PopupFormContainer

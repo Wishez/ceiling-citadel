@@ -43,7 +43,7 @@
 	z-index: 102
 	transition: transform 250ms $standart
 	will-change: transform
-	
+
 	&_floor
 		max-width: span(12)
 
@@ -89,18 +89,19 @@
 			&_left
 				transform: rotate(45deg) translate(-.5em, -.5em)
 
-
-
-
-
-
 	&_close
 		background-color: #f7f7f7
+
+		[class*='_darkBlue']
+			max-width: 100%
 
 
 
 .searchForm
-	margin-top: 1.5rem
+
+	@include breakpoint($xs-up)
+		margin-top: 1.5rem
+
 	@extend %relative
 
 
@@ -184,6 +185,8 @@
 	&_opened
 		transition-timing-function: $decelleration
 		transform: translateY(0)
+		border-top: 0
+		border-bottom: 20px solid
 
 .navigationContainer
 	order: 5
@@ -203,8 +206,11 @@
 .buttonsGroup
 	max-width: em(218)
 	z-index: 100
+	padding-bottom:
+
 	&_header
-		align-self: flex-end;
+		align-self: flex-end
+
 		@include breakpoint($md)
 			margin-left: auto
 			margin-right: auto
@@ -216,18 +222,18 @@
 			max-width: em(145)
 
 	@include breakpoint($xs)
+
 		display: flex
 		flex-flow: row nowrap
 		align-items: center
 		justify-content: center
 		min-width: span(12)
-		max-height: em(77)
+		// max-height: em(77)
 		flex-direction: row
 		order: 4
 		background-color: rgba(33, 33, 33, 0.05)
 		border-left: 0
 		border-right: 0
-		// padding: .5em 0
 		box-sizing: content-box
 		height: auto
 	@include breakpoint($xxs)
@@ -342,19 +348,27 @@
 		@include breakpoint($xxs)
 			padding-top: 0 $i
 .orderButtons, .callbackButtons
+
 	&_header
 		margin-top: 1rem $i
+
 		@include breakpoint($xxs)
 		    padding-top: 0  $i
+
 	margin-bottom: 0
+
 	@include breakpoint($xs)
 		margin-top: 0 $i
 		width: em(250)
-		padding: 1rem
+		padding: 1rem 1rem 1.25rem
+
 	&__button
 		margin-right: em(15)
+
 .callbackButtons
+
 	&__button
+
 		@include breakpoint($xs)
 			margin-right: 0
 

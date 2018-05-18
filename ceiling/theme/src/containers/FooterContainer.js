@@ -8,7 +8,7 @@ import Contacts from './../components/Contacts';
 import ButtonsGroup from './../components/ButtonsGroup';
 
 
-import NavContainer from './NavContainer.js'; 
+import NavContainer from './NavContainer.js';
 import QuestionFormContainer from './QuestionFormContainer';
 import SearchContainer from './SearchContainer';
 import CallbackButtonContainer from './CallbackButtonContainer';
@@ -30,38 +30,36 @@ class FooterContainer extends Component {
     addressHref: PropTypes.string.isRequired
   }
 
-
   render() {
-    const {
-      isCartOpened
-    } = this.props;
-
     return (
       <footer className='footer'>
         <QuestionFormContainer />
         <div className='container container_footer parent row v-centered h-around'>
-      			<div className='firstFooterBlock padding-bottom_1 parent column h-around baseChild'>
+      			<div className='firstFooterBlock parent column h-around baseChild'>
       				 <SearchContainer searchName="footerSearch" modifier="footer" />
       				 <ButtonsGroup className="baseChild" modifier="footer">
       				   <CallbackButtonContainer />
-      				   <OrderButtonContainer 
+      				   <OrderButtonContainer
                 cartPosition={cartPositions.footer}
                 cartModifier="hover_up"
       				    />
       				 </ButtonsGroup>
       			</div>
 
-          <NavContainer isFooter={true} modifier="footer" className="padding-bottom_1 baseChild" />
+          <NavContainer isFooter={true}
+            modifier="footer"
+            className="padding-bottom_1 baseChild"
+          />
           <div className='padding-bottom_1 thirdFooterBlock parent column v-centered h-around baseChild'>
 		            <Logo maxWidth={65} modifier="footer"/>
-		            <Contacts 
+		            <Contacts
 		                {...this.props}
               modifier="footer"
 		            />
 			       </div>
         </div>
-        <div className='copyright parent column centered padding-bottom_1'> 
-          <p className='copyright__paragraph centeredText'>&copy;2018&nbsp;ArtCeil<br/> 
+        <div className='copyright parent column centered padding-bottom_1'>
+          <p className='copyright__paragraph centeredText'>&copy;2018&nbsp;ArtCeil<br/>
 Созданно&nbsp;с&nbsp;поддержкой&nbsp;потолочных&nbsp;систем</p>
           <p className='copyright__paragraph centeredText'>
                   Дизайн и разработка: <a onClick={notFollow} className={getClass({b: 'copyright', el: 'paragraph', m: 'refer', add:'reverse'})} href="https://shining-present.ru">&#10086;&nbsp;Филипп Журавлёв</a>
@@ -77,6 +75,6 @@ class FooterContainer extends Component {
 const mapStateToProps = state => {
   return {};
 };
-      
+
 
 export default connect(mapStateToProps)(FooterContainer);

@@ -36,17 +36,17 @@ export const tryMakeOrder = userData => dispatch => {
     data: userData,
     cache: true,
     success: response => {
-      notifyAboutSuccessOrdertingOrder({
-        response,
-        userData,
-        dispatch
-      });
+      dispatch(
+        notifyAboutSuccessOrdertingOrder({
+          response,
+          userData
+        })
+      );
 	  },
     failure: error => {
-      notifyAboutFailureOrderingOrder({
-        message: error.message,
-        dispatch
-      });
+      dispatch(
+        notifyAboutFailureOrderingOrder(error.message)
+      );
     }
   });
 };
@@ -54,7 +54,6 @@ export const tryMakeOrder = userData => dispatch => {
 
 function notifyAboutSuccessOrdertingOrder({
   response,
-  dispatch,
   userData
 }) {
   const message = response.text;
@@ -62,16 +61,17 @@ function notifyAboutSuccessOrdertingOrder({
   const userPhone = userData.phone_number;
   const isOrdered = true;
 
-  dispatch(makeOrder(isOrdered, message));
-  setUserData(userData.full_name, userPhone, userEmail);
+  return (dispatch) => {
+    dispatch(makeOrder(isOrdered, message));
+    setUserData(userData.full_name, userPhone, userEmail);
+  };
 }
 
 
-function notifyAboutFailureOrderingOrder({
-  message,
-  dispatch
-}) {
-  const isOrdered = false;
-
-  dispatch(makeOrder(isOrdered, message));
+export function notifyAboutFailureOrderingOrder(message) {
+  return (dispatch) => {
+    const isOrdered = false;
+    
+    dispatch(makeOrder(isOrdered, message));
+  };
 }

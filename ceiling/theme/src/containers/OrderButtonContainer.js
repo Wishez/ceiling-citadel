@@ -55,7 +55,7 @@ class OrderButtonContainer extends Component {
   }
 
   renderOrderedProducts() {
-    localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
+    return localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
       cartProducts = cartProducts || [];
 
       this.setState({ cartProducts });

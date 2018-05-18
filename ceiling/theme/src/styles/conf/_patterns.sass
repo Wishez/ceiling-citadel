@@ -491,6 +491,9 @@ div[role="presentation"]
 			bottom: 110%
 			left: 0
 
+			@include breakpoint($xs)
+				left: -90%
+
 	&__hint
 		@extend %absolute
 		left: 0
@@ -737,9 +740,11 @@ input[type=number]:hover::-webkit-inner-spin-button
 
 .serverError
 	color: $red
-
-.serverError, .successfull
 	font-weight: bold
+
+.successfull
+	margin-top: 0 $i
+
 
 .successfull
 	color: $darkBlue
