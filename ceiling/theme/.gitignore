@@ -3,6 +3,5 @@ bower_components
 .sass-cache
 public
 .cache
-package-lock.json
 dist/
 static/

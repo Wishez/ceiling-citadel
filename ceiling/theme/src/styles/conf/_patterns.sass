@@ -6,10 +6,19 @@
 	height: 1px
 	position: absolute
 
+
 .materialCascadingShadow
 	box-shadow: 0 2px 6px 0 $shadow
 .lowCascadingShadow
 	box-shadow: 2px 2px 6px 0 $shadow
+
+.position
+
+	&_relative
+		position: relative
+
+	&_absolute
+		position: absolute
 
 .lazy
     opacity: 0
@@ -199,7 +208,8 @@
 	min-width: em(350, 21)
 	color: $white
 	padding:  em(21, 21) em(21, 21) em(32, 21)
-	transition: opacity .3s ease
+	transition: opacity .3s $standart
+
 	&__title
 		border-bottom: 1px solid #adadad
 		font-size: em(24)
@@ -268,15 +278,19 @@ div[role="presentation"]
 	min-width: none
 	width: 100%
 	@extend %relative
+
 	&:not(:first-child)
 		margin-top: em(12.35)
+
 	&_required
 		color: $red
 	&__icon
 		margin-bottom: .15em
 		z-index: 11
+
 	&_small
 		max-width: em(175)
+
 	&__paragraph
 		@extend %absolute
 		bottom: .70em
@@ -306,16 +320,28 @@ div[role="presentation"]
 
 		&_red
 			border-color:  $red
+
+		// &:invalid
+		// 	& ~ .input-border
+		//
+		// 		&:before,
+		// 		&:after
+		// 			border-color: $red
+		transition: 270ms $standart
+
 		&:focus
 			outline: none
 			box-shadow: 0 4px 16px -1px $shadow
-			background-color: transparent
+			background-color: $white
 			border-color: transparent
-			& ~ .input-border
-				background-color: $white
+			//
+			// & ~ .input-border
+			//
+			//
+			//
+			// 	&:before,
+			// 	&:after
 
-				&:before,
-				&:after
 
 		&_select
 			padding: 0 em(9)
@@ -326,12 +352,14 @@ div[role="presentation"]
 
 	&__option
 		color: #4F4F4F $i
+
 		& .colorContainer
 			margin-left: 0
 			&__name
 				opacity: 1
 			&__color
 				margin: 0 .5em 0 0
+
 		&:hover
 			background-color: #4F4F4F $i
 			color: #F2F2F2 $i
@@ -351,12 +379,12 @@ div[role="presentation"]
 	&__label
 		align-self: flex-end
 		font-size: em(18)
+		margin-left: -2px
 
 	&__checkbox
 		-webkit-appearance: none
 		align-self: center
 		cursor: pointer
-		// padding: em(9)
 		height: em(26)
 		width: em(26)
 		border: 2px solid $purple
@@ -366,12 +394,12 @@ div[role="presentation"]
 		display: inline-block
 		position: relative
 		@include round(em(2))
+
 		&:checked:active
 
 
 		&:checked:after
 			content: '\2714'
-			// font-size: em(15)
 			position: absolute
 			top: em(1)
 			left: em(3)
@@ -402,6 +430,7 @@ div[role="presentation"]
 	min-width: em(95, 10)
 	@include round(em(2))
 	@include flyShadow
+	padding-bottom: .9rem
 
 	&_cian
 		background-color: $cian
@@ -432,27 +461,32 @@ div[role="presentation"]
 	width: em(300)
 	margin-top: em(1, 24)
 	transition: opacity .2s
-	// box-shadow: inset 0 0 6px
 	z-index: 99
 	@extend %relative
+	will-change: opacity
+	box-shadow: 2px 5px 30px 4px rgba(#212121, .5)
 	@include breakpoint($xxs)
 		width: 75vw
+
 	&_order
 		width: 	span(12)
-		margin-top: em(21, 24)
+		margin-top: 2.5rem
+
 		& .cart__hint
-			width: 98%
-			border-right: 0
+			min-width: 100%
+
 	&_hover
+
 		&_up, &_bottom
 			@extend %absolute
 			will-change: transform
-			// @extend %flyShadow
 			cursor: move
 			z-index: 100
+
 		&_bottom
 			top: 105%
 			right: 0
+
 		&_up
 			bottom: 110%
 			left: 0
@@ -461,25 +495,27 @@ div[role="presentation"]
 		@extend %absolute
 		left: 0
 		top: 0
-		border-top: 0
-		border-left: 0
 		color: $white
 		font-size: em(16, 24) $i
-		padding: .5em
-		text-align: center
+		padding: .5em 0.75em .75em 1em
 		width: span(5)
-		margin: 0 $i
 		background-color: $contrastOrange
-		z-index: -1
+		z-index: 0
 		opacity: 0
 		will-change: opacity
-		transition: opacity .2s ease
+		transition: opacity .2s $standart
+
+		@include breakpoint($xs)
+			min-width: 100%
+
 		&_shown
 			z-index: 105
+
 		&_empty,  &_shown
 			opacity: 1
+
 		&_empty
-			z-index: 1
+			// z-index: 1
 
 
 
@@ -514,6 +550,7 @@ div[role="presentation"]
     background-color: transparent
 .centeredText
 	text-align: center
+
 .orderedProducts
 	background-repeat: no-repeat
 	background-size: cover
@@ -524,11 +561,13 @@ div[role="presentation"]
 	box-shadow: inset 0 0 20px -5px rgba(0, 0,0,.25)
 	height: em(165)
 	overflow-y: auto
+
 	&__product
 		flex-grow: 0
 		z-index: 101
 		@extend %relative
 		margin: 1em auto
+
 .deleteProductButton
 	font-size: em(18)
 .cartProduct
@@ -571,11 +610,10 @@ div[role="presentation"]
 
 .container
 	padding-right: em(15)
-	padding-left: em(15)
+	padding-left: em(24)
 	margin-right: auto
 	margin-left: auto
-	@include breakpoint($xxs)
-		padding: 0
+
 
 @media (min-width: em(576))
 	.container
@@ -642,8 +680,10 @@ input[type=number]:hover::-webkit-inner-spin-button
 		&_zero
 			margin-bottom: 0
 .text
+
 	&_centered
 		text-align: center
+
 	&Centered_xxs
 		@include breakpoint($xxs)
 			text-align: center
@@ -661,7 +701,8 @@ input[type=number]:hover::-webkit-inner-spin-button
 
 .popupFormContainer
 	font-size: em(18)
-	width: em(320, 18)
+	width: 85vw
+	max-width: em(391, 18)
 	border-radius: 0 0 3px 3px
 	margin: 7em 0
 	height: fit-content
@@ -669,7 +710,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 	@extend %flyShadow
 	z-index: 5
 	@extend %relative
-	padding: em(40, 18) em(25, 18) em(45, 18)
+	padding: 2.22222em 1.2rem 3.5rem 1.4em
 
 	&, &__title
 		background: $white
@@ -690,7 +731,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 .formButton
 	background-color: $darkBlue
 	color: $white
-	margin-top: em(35)
+	margin-top: 3rem
 
 
 

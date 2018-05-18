@@ -17,17 +17,15 @@ const RenderController = ({
   iconOptions,
   className,
   asideText=false,
-  isShown,
-  showBorder=true,
   ...rest
 }) => (
-  <div style={style ? style : {}} 
+  <div style={style ? style : {}}
     className={getClass({
       b: block,
       m: modifier,
       add: className
     })}>
-    {label && !warning ? 
+    {label && !warning ?
       <label className={getClass({
         b: block,
         el: 'label',
@@ -36,24 +34,24 @@ const RenderController = ({
       })}>
         {label}
       </label> : ''}
-    {iconOptions && !warning ? 
-      <Figure 
-        block="controllerIcon" 
+    {iconOptions && !warning ?
+      <Figure
+        block="controllerIcon"
         className="baseChild"
-        {...iconOptions} 
+        {...iconOptions}
       /> : ''
     }
-    {(touched && asideText) && 
-			 	((error && 
+    {(touched && asideText) &&
+			 	((error &&
 			 		<span className={getClass({
 			 		  b: block,
 			 		  el: 'error'
-			 		})}>{error}</span>) || 
+			 		})}>{error}</span>) ||
 			 		(warning && <span className={getClass({
 			 		  b: block,
 			 		  el: 'error'
 			 		})}>{warning}</span>))}
-    <div className="st-form__input--wrapper  half">
+    <div className="fullWidth">
       {rest.type !== 'textarea' ?
         <input {...input}
           {...rest}
@@ -62,7 +60,7 @@ const RenderController = ({
             el: 'input',
             m: modifier,
             add: 'baseChild'
-          })} 
+          })}
         /> :
         <textarea {...input}
           {...rest}
@@ -71,21 +69,19 @@ const RenderController = ({
             el: 'input',
             m: modifier,
             add: 'baseChild'
-          })} 
+          })}
         />
       }
-      {showBorder ? <span className="input-border"></span> : ''}
-      {showBorder ? <span className="input-border"></span> : ''}
     </div>
-		 {asideText ? 
-		 	<Paragraph block="controller" text={`: ${asideText}`}/> : 
+		 {asideText ?
+		 	<Paragraph block="controller" text={`: ${asideText}`}/> :
 		 	''}
-		 {(touched && !asideText) && 
-		 	((error && 
+		 {(touched && !asideText) &&
+		 	((error &&
 		 		<span className={getClass({
 		 		  b: block,
 		 		  el: 'error'
-		 		})}>{error}</span>) || 
+		 		})}>{error}</span>) ||
 		 		(warning && <span className={getClass({
 		 		  b: block,
 		 		  el: 'error'

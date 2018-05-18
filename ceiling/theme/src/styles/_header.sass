@@ -39,16 +39,25 @@
 	padding: .5rem
 	box-sizing: content-box
 	background-color: $white
-	border-radius: 3px;
+	border-radius: 3px
 	z-index: 102
 	transition: transform 250ms $standart
 	will-change: transform
+	
+	&_floor
+		max-width: span(12)
+
+	@include breakpoint($xs)
+		transform: translate(315%, -90%)
+
+	@include breakpoint($xxs)
+		transform: translate(2rem, 0)
 
 	&__text
 		width: span(12)
 		margin-top: em(3)
 		font-weight: 200
-    	font-family: SourceSansPro
+    font-family: SourceSansPro
 
 	&__bar
 		width: em(55)
@@ -81,26 +90,15 @@
 				transform: rotate(45deg) translate(-.5em, -.5em)
 
 
-		&_floor
-			max-width: span(12)
 
-	@include breakpoint($xs)
-		transform: translate(300%, -90%)
 
-	@include breakpoint($xxs)
-		transform: translateY(0)
+
 
 	&_close
-		position: fixed
 		background-color: #f7f7f7
-		@include breakpoint($sm)
-			transform: translateX(50%)
 
-		@include breakpoint($xs)
-			top: 10%
-			transform: translate(0%, -25%)
 
-			right: 10%
+
 .searchForm
 	margin-top: 1.5rem
 	@extend %relative
@@ -113,9 +111,13 @@
 	@include breakpoint($md-less)
 		order: 3
 		min-width: span(3.5)
+
 	@include breakpoint($xs)
-		min-width: span(5)
-		// margin-top: em(32)
+		width: span(12)
+		max-width: 543px
+		padding-left: 2rem
+		padding-right: 1.5rem
+
 .contacts
 	font-size: em(18)
 	font-weight: bold
@@ -138,18 +140,24 @@
 	background-color: $white
 	padding: 1em 0 3em
 	z-index: 100000
+
 	@include breakpoint($xs)
 			padding-bottom: 0 $i
+
 	& > .container
 		max-width: em(1050)
+
 		@include breakpoint($sm)
 			display: grid
-			grid-template-columns: 100px 1fr 1fr 335px
+			grid-template-columns: minmax(250px, 1fr) minmax(224px, 1fr) minmax(275px, 1fr) minmax(97px, 1fr)
 			grid-column-gap: 1rem
+			padding-left: 1rem $i
+
 		@include breakpoint($sm-less)
 			margin: 0
 			padding: 0
 			max-width: none
+
 		@include breakpoint($xs)
 			flex-direction: column
 
@@ -178,12 +186,14 @@
 		transform: translateY(0)
 
 .navigationContainer
+	order: 5
 
 	@include breakpoint($xs)
 		max-height: em(50)
 		order: 2
 		align-self: flex-end
 		margin: 0 auto
+
 	@include breakpoint($xxs)
 		max-height: none
 		order: 1
@@ -261,6 +271,7 @@
 		margin-top: 1rem
 
 .brand
+	order: -1
 	max-width: em(260)
 
 	&, &:hover, &:focus
@@ -270,12 +281,10 @@
 
 		@include breakpoint($md-less)
 			max-width: em(265)
-			order: 4
-			margin-left: 3rem
 
 		@include breakpoint($xs)
 			order: 1
-			transform: translateX(-25%)
+			transform: translateX(-60%)
 			max-width: em(300)
 			align-self: flex-start
 			margin: 0 auto

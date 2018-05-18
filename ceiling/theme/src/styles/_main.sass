@@ -11,6 +11,9 @@
 .productDescriptionContainer
 	max-width: 60ch
 
+	p:last-child
+		padding-bottom: 3.5rem
+
 .catalogItem
 	height: em(360)
 	flex: 1 0 span(6)
@@ -128,6 +131,7 @@
 
 		@include breakpoint($xs-up)
 			grid-area: 1 / 1 / 3 / 1
+
 		@include breakpoint($xs)
 			grid-area: 2 / 1 / 2 / 3
 			margin-top: 1.5rem
@@ -166,12 +170,16 @@
 	@include breakpoint($xs)
 		grid-area: 1 / 1 / 1 / 3
 
-.catalogRefersList,
-.breadcrumbs,
 .catalogHeader__slogan
 	font-weight: 200
+
+.catalogRefersList,
+.breadcrumbs
+
+
 	@include breakpoint($xs)
 		min-width: span(12)
+
 .catalogRefer, .breadcrumb
 	margin: 0
 	padding-left: .5rem
@@ -279,10 +287,13 @@
 		align-self: flex-start
 	&_products
 		align-self: center
+
 		@include breakpoint($sm-less)
 			align-self: flex-end
+
 	&_design
 		align-self: flex-end
+
 		@include breakpoint($sm-less)
 			align-self: flex-start
 
@@ -455,6 +466,7 @@
 		min-width: fit-content
 		order: -1
 		min-width: 18.5em
+		margin-bottom: 1.5rem
 
 	@include breakpoint($xxs)
 		min-width: 100%
