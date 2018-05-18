@@ -51,7 +51,6 @@ const Cart = ({
                 <CartProduct {...product}
                   deleteProduct={deleteProduct(index, product.name, quantityOrderedProducts)}
                   onSubmitQuantityProduct={onSubmitQuantityProduct(index)}
-                  index={index}
                 />
               </li>
             ))

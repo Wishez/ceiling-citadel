@@ -7,8 +7,9 @@ import {
   SHOW_HELP_TEXT,
   HIDE_HELP_TEXT,
   SHOW_ACTION,
-  PRODUCTION_STORE,
-  RESET_ADD_TO_CART_FORM
+  RESET_ADD_TO_CART_FORM,
+  SHOW_PRODUCT_INFO,
+  HIDE_PRODUCT_INFO
 } from './../constants/cart';
 
 export const initState = {
@@ -17,7 +18,17 @@ export const initState = {
   helpText: '',
   isShownHelpText: false,
   isProductAdded: false,
-  isRequesting: false
+  isRequesting: false,
+  productModalInfo: {
+    name: '',
+    quantity: 0,
+    length: 0,
+    thickness: 0,
+    width: 0
+    // There is additional characteristics go as ...rest in the product info.
+    // You can see them in AddProductFormContainer's properties. Sorry for this.
+  },
+  isProductInfoOpened: false
 };
 
 let isSetLastProductLength = false;
@@ -27,6 +38,27 @@ const cart = (state = initState, action, isNotTest=true) => {
   isSetLastProductLength = isNotTest;
 
   switch (action.type) {
+    case SHOW_PRODUCT_INFO:
+
+      return {
+        ...state,
+        productModalInfo: {
+          ...action.productModalInfo
+        },
+        isProductInfoOpened: true
+
+      };
+
+    case HIDE_PRODUCT_INFO:
+
+      return {
+        ...state,
+        productModalInfo: {
+          ...initState.productModalInfo
+        },
+        isProductInfoOpened: false
+      };
+
     case RESET_ADD_TO_CART_FORM:
       return {
         ...state,
@@ -43,6 +75,7 @@ const cart = (state = initState, action, isNotTest=true) => {
       return { ...state,
         isCartOpened: action.id
       };
+
     case CLOSE_CART:
       return {
         ...state,

@@ -8,9 +8,33 @@ import {
   SHOW_HELP_TEXT,
   SHOW_ACTION,
   PRODUCTION_STORE,
-  RESET_ADD_TO_CART_FORM
+  RESET_ADD_TO_CART_FORM,
+  SHOW_PRODUCT_INFO,
+  HIDE_PRODUCT_INFO
 } from './../constants/cart';
 
+export const showProductInfo = ({
+  name,
+  quantity,
+  length,
+  thickness,
+  width,
+  ...rest
+}) => ({
+  type: SHOW_PRODUCT_INFO,
+  productModalInfo: {
+    name,
+    quantity,
+    length,
+    thickness,
+    width,
+    ...rest
+  }
+});
+
+export const hideProductInfo = () => ({
+  type: HIDE_PRODUCT_INFO
+});
 
 export const putProduct = (product, store=PRODUCTION_STORE) => ({
   type: PUT_PRODUCT,
@@ -53,7 +77,7 @@ export const deleteProductAndNotifyAbout = (index, message, quantity) => dispatc
     dispatch(hideHelpText());
 
   }, 1300);
-	
+
 };
 
 export const closeCart = () => ({

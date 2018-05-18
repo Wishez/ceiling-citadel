@@ -5,7 +5,9 @@ import {
   deleteProduct,
   changeProductQuantity,
   showHelpText,
-  hideHelpText
+  hideHelpText,
+  showProductInfo,
+  hideProductInfo
 } from '@/actions/cart';
 import { TEST_STORE, EMPTY_ORDERED_PRODUCT } from '@/constants/cart';
 import { timeout } from '@/constants/pureFunctions';
@@ -211,8 +213,59 @@ const hideHelpTextTest = () => {
   expect(cart(cartBefore, hideHelpText(), isNotTest)).toEqual(cartAfter);
 };
 
+const testProductModalInfo = {
+  width: 16,
+  height: 25.888,
+  length: 41.886784,
+  quantity: 67.772816512,
+  name: 'Magic Golden Ratio'
+};
 
+const testShowProductInfo = () => {
+  const stateBefore = initState;
+  const payload = {
+    ...testProductModalInfo
+  };
 
+  const stateAfter = {
+    ...initState,
+    productModalInfo: {
+      ...payload
+    },
+    isProductInfoOpened: true
+  };
+
+  deepFreeze(stateBefore);
+
+  expect(
+    cart(stateBefore, showProductInfo(payload))
+  ).toEqual(stateAfter);
+};
+
+const testHideProductInfo = () => {
+  const stateBefore = {
+    ...initState,
+    productModalInfo: {
+      ...testProductModalInfo
+    },
+    isProductInfoOpened: true
+  };
+
+  const stateAfter = {
+    ...initState,
+    
+  };
+
+  deepFreeze(stateBefore);
+
+  expect(
+    cart(stateBefore, hideProductInfo())
+  ).toEqual(stateAfter);
+};
+
+testHideProductInfo();
+
+testShowProductInfo();
 hideHelpTextTest();
 showHelpTextTest();
 changeProductQuantityTest();
