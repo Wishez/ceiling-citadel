@@ -16,19 +16,24 @@ class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     isCallbackOpened: PropTypes.bool.isRequired,
+    isProductInfoOpened: PropTypes.bool.isRequired,
+    isOrderOpened: PropTypes.bool.isRequired,
+    address: PropTypes.string,
+    phone: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    addressHref: PropTypes.string
   }
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(fetchCatalogIfNeededAndDumpEntities());
-
-    this.forceUpdate();
+    dispatch(fetchCatalogIfNeededAndDumpEntities());  
   }
 
   render() {
     const {
       isCallbackOpened,
       isOrderOpened,
+      isProductInfoOpened,
       phone, email,
       address, addressHref } = this.props;
 
@@ -38,17 +43,18 @@ class App extends Component {
         <MainRoutes />
         <FooterContainer address={address} addressHref={addressHref}
           phone={phone} email={email} />
-        
+
         {isCallbackOpened ? <CallbackFormContainer /> : ''}
         {isOrderOpened ? <OrderFormContainer /> : ''}
+        {isProductInfoOpened ? <CartProductInfo /> : ''}
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { callback, order, app } = state;
-
+  const { callback, order, app, cart } = state;
+  const {isProductInfoOpened} = cart;
   const { isCallbackOpened } = callback;
   const { isOrderOpened } = order;
   const { phone, email, address, addressHref } = app;
@@ -56,6 +62,7 @@ const mapStateToProps = state => {
   return {
     isCallbackOpened,
     isOrderOpened,
+    isProductInfoOpened,
     phone, email,
     address, addressHref
   };

@@ -18,10 +18,7 @@ import {
 
 const OrderForm = ({
   helpText,
-  cartProducts,
-  quantityOrderedProducts,
   ...rest,
-
 }) => (
   <Form fields={[
     {
@@ -73,9 +70,7 @@ const OrderForm = ({
   serverError={helpText}
   {...rest}>
     <Cart {...rest}
-     	 	quantityOrderedProducts={quantityOrderedProducts}
-          	modifier="order"
-          	cartProducts={cartProducts} />
+      modifier="order" />
   </Form>
 );
 

@@ -260,17 +260,17 @@
 		max-width: span(12)
 		@include breakpoint($xs)
 			margin-top: 2rem
+
 .result
-	@extend %absolute
 	top: 100%
 	max-height: em(210)
 	min-width: span(12)
-	padding: .5rem 1rem
+	padding: .5rem .75rem 1rem 1.25rem
 	z-index: 100
 	overflow-y: auto
 	background: $white
-	border-radius: 3px
-	@extend .lowCascadingShadow
+	opacity: 0
+	will-change: transform, opacity
 
 .resultSection
 	&:not(:first-of-type)

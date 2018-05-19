@@ -9,7 +9,6 @@ const OrderButton = ({
   closeCart,
   openOrder,
   quantityOrderedProducts,
-  cartProducts,
   isCartOpened,
   cartModifier,
   modifier,
@@ -49,13 +48,11 @@ const OrderButton = ({
     </button>
     {isCartOpened ?
       <Cart {...rest}
-        quantityOrderedProducts={quantityOrderedProducts}
         closeButton={{
-          block: 'closeCart',
-          onClick: closeCart
+          block: 'closeCart'
         }}
         modifier={cartModifier}
-        cartProducts={cartProducts} />
+      />
       : ''}
   </div>
 

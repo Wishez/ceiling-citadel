@@ -23,6 +23,10 @@ class SearchContainer extends Component {
     SearchForm: PropTypes.object
   }
 
+  state = {
+    isEntitiesListShown: false
+  }
+
   searchEntity = (values) => {
     const {
       searchName,
@@ -42,7 +46,59 @@ class SearchContainer extends Component {
         }
       }
     }
+  }
 
+  componentWillUpdate(nextProps) {
+    const {searchEntities: nextSearchEntities} = nextProps;
+    const {isEntitiesListShown: isEntitiesListShownNow} = this.state;
+    const entitesLength = nextSearchEntities.length;
+
+    if (!isEntitiesListShownNow && entitesLength) {
+      this.showEntitiesList();
+    } else if (
+      isEntitiesListShownNow &&
+      !entitesLength
+    ) {
+      this.hideEntitiesList();
+    }
+  }
+
+
+  showEntitiesList = () => {
+    const { enitiesList } = this.refs;
+
+    anime({
+      targets: enitiesList,
+      opacity: 0.9,
+      translateY: 0,
+      duration: 250,
+      elasticity: 100,
+      begin: () => {
+        this.setState({
+          isEntitiesListShown: true
+        });
+      }
+    });
+  }
+
+  hideEntitiesList = () => {
+    const { enitiesList } = this.refs;
+
+    anime({
+      targets: enitiesList,
+      opacity: {
+        value: 0,
+        duration: 100
+      },
+      translateY: '-1rem',
+      duration: 250,
+      elasticity: 100,
+      complete: () => {
+        this.setState({
+          isEntitiesListShown: false
+        });
+      }
+    });
   }
 
   render() {
@@ -50,6 +106,7 @@ class SearchContainer extends Component {
       searchEntities,
       modifier
     } = this.props;
+    const {isEntitiesListShown} = this.state;
 
     return (
       <div className={getClass({
@@ -60,8 +117,9 @@ class SearchContainer extends Component {
           submitSearch={this.searchEntity}
           onChange={this.searchEntity}
         />
-        {searchEntities.length ?
-          <section className="result opacity_9">
+        {isEntitiesListShown || searchEntities.length ?
+          <section ref='enitiesList'
+            className="position_absolute fewRound lowCascadingShadow result opacity_9">
             {searchEntities.map((section, key) => (
               <article className="resultSection"
                 key={key}>
