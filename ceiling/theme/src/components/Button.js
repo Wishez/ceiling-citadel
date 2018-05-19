@@ -15,8 +15,6 @@ class Button extends Component {
     unstyled: PropTypes.bool
   };
 
-
-
   state = {
     isPressed: false
   };
@@ -24,7 +22,7 @@ class Button extends Component {
   onClickButton = () => {
     const { isPressed } = this.state;
     const {onClick} = this.props;
-    
+
     this.setState({
       isPressed: !isPressed
     });

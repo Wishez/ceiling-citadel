@@ -122,7 +122,8 @@ const common = {
       }
     }),
     new webpack.ProvidePlugin({
-      localforage: "localforage"
+      localforage: "localforage",
+      anime: 'animejs'
     })
   ],
 

@@ -1,53 +1,111 @@
-import React from 'react';
+
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+
 import getClass, { composeClasses } from './../constants/classes';
 import CloseButton from './CloseButton';
-import { Transition } from 'react-transition-group';
 
-const defaultStyle = {
-  opacity: 0,
-  zIndex: -1000
-};
+class PopupFormContainer extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
+    block: PropTypes.string,
+    modifier: PropTypes.string,
+    className: PropTypes.string,
+    closeButton: PropTypes.object.isRequired,
+    signification: PropTypes.string.isRequired,
+    animationDuration: PropTypes.number,
+  };
 
-const transitionStyles = {
-  entering: {
-    opacity: 0,
-    zIndex: 1000
-  },
-  entered: {
-    opacity: 1,
-    zIndex: 1000
-  },
-};
+  static defaultProps = {
+    animationDuration: 300,
+    block: 'popupFormContainer'
+  }
 
-const PopupFormContainer = ({
-  block='popupFormContainer',
-  modifier='',
-  children,
-  className,
-  closeButton,
-  signification,
-  opacity=0,
-  in: inProp,
-  duration=150,
-  ...rest
-}) => (
-  <Transition in={inProp} timeout={duration}>
-    {state => (
-      <div style={{
-        ...defaultStyle,
-        transition: `opacity ${duration}ms cubic-bazier(0.0,0.0,0.2,1), z-index ${duration}ms ease-in-out`,
-        ...transitionStyles[state]
-      }}
-      className={getClass({b: 'popupBackground', add: `${!inProp ? 'visible-hidden' : ''} parent row h-centered`})}>
-        <section className={getClass(composeClasses(block, '', modifier, `popupFormContainer ${className}`))}>
-          <h2 className={getClass({b: block, el: 'title', add: 'popupFormContainer__titleupper '})}>{signification}</h2>
-          <CloseButton {...closeButton} label="Закрыть всплывающую форму" />
+  componentDidMount() {
+    this.showPopup();
+  }
+
+  showPopup = () => {
+    const {popupBackground} = this.refs;
+    const {animationDuration} = this.props;
+
+    anime({
+      targets: popupBackground,
+      duration: animationDuration,
+      opacity: 1,
+      elacticity: 100,
+      timing: 'easeOutSine'
+    });
+  }
+
+  hidePopup = () => {
+    const {popupBackground} = this.refs;
+    const {closeButton, animationDuration } = this.props;
+    const {onClick: complete}  = closeButton;
+
+    anime({
+      targets: popupBackground,
+      duration: animationDuration ,
+      opacity: 0,
+      elacticity: 100,
+      timing: 'easeInOutQuart',
+      complete
+    });
+  }
+
+  render() {
+    const {
+      block,
+      modifier,
+      className,
+      closeButton,
+      children,
+      signification
+    } = this.props;
+
+    return (
+      <div
+        ref="popupBackground"
+        style={{
+          opacity: 0
+        }}
+        className="popupBackground parent row h-centered"
+      >
+        <section
+          className={getClass(
+            composeClasses(
+              block,
+              modifier,
+              `popupFormContainer ${className ? className : ''}`
+            )
+          )}
+        >
+          <h2
+            className={getClass({
+              b: block,
+              el: 'title',
+              add: 'popupFormContainer__titleupper '
+            })}
+          >
+            {signification}
+          </h2>
+          <CloseButton
+            {...closeButton}
+            label="Закрыть всплывающую форму"
+            onClick={this.hidePopup}
+          />
           {children}
         </section>
       </div>
-    )}
-  </Transition>
-);
+    );
+  }
+}
 
+const mapStateToProps = state => {
+  return {};
+};
 
-export default PopupFormContainer;
+export default withRouter(connect(mapStateToProps)(PopupFormContainer));
