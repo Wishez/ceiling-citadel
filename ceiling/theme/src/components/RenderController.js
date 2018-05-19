@@ -1,5 +1,5 @@
 import React from 'react';
-import getClass from './../constants/classes';
+import getClass from '@/constants/classes';
 import Figure from './Figure';
 import Paragraph from './Paragraph';
 

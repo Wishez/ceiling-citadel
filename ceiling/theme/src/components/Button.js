@@ -24,7 +24,7 @@ class Button extends Component {
   onClickButton = () => {
     const { isPressed } = this.state;
     const {onClick} = this.props;
-    console.log(onClick);
+    
     this.setState({
       isPressed: !isPressed
     });

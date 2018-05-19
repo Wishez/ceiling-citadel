@@ -1,5 +1,3 @@
-import _styles from '../index.sass';
-
 export const composeClasses = (block, element, modifier, additionalClasses) => {
   let composedClasses = {};
 
@@ -17,28 +15,16 @@ export const composeClasses = (block, element, modifier, additionalClasses) => {
     composedClasses.add = additionalClasses;
   }
 
-  return composedClasses;		
+  return composedClasses;
 };
 
-const toCapitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
-
 function getClass({
-  b='', 
-  el='', 
-  m='', 
+  b='',
+  el='',
+  m='',
   add='',
 }) {
   let elementClass = false;
-
-  // if (add.indexOf(' ') !== -1) {
-  //   add = add
-  //     .split(' ')
-  //     .map(additionalClass => additionalClass)
-  //     .join(' ');
-  // } else {
-  //   add = add;
-  // }
-  //
 
   if (el) {
     elementClass = `${b}__${el}`;
