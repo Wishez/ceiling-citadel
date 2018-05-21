@@ -1,9 +1,9 @@
 import React from 'react';
-import getClass, { composeClasses } from './../constants/classes';
+import getClass, { composeClasses } from '@/constants/classes';
+import {timeout} from '@/constants/pureFunctions';
 import { Field, reduxForm } from 'redux-form';
-import Button from './Button';
 import RenderController from './RenderController';
-import colors from './../constants/colors';
+import colors from '@/constants/colors';
 
 const Search = ({
   modifier='',
@@ -29,7 +29,10 @@ const Search = ({
         element.select();
       }}
       onBlur={(event) => {
-        event.target.value = '';
+        timeout(() => {
+          event.target.setAttribute('value', '');
+        }, 200);
+
       }}
       autoComplete="off"
     />

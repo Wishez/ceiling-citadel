@@ -285,7 +285,7 @@ export const dumpEntitiesForSearch = catalog => {
 
     return [...combinedCollections, brandCollections];
   }
-  
+
   localforage.setItem(SEARCH_BRANDS_STORE, brands);
   localforage.setItem(SEARCH_CATEGORIES_STORE, categories);
   localforage.setItem(SEARCH_COLLECTION_STORE, collections);

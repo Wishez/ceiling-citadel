@@ -89,6 +89,36 @@ export const cookiesHandler = {
   }
 
 };
+
+export const timer = (callback, delay = 1000) => {
+  let timeout = null;
+
+  return function() {
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    
+    timeout = setTimeout(() => {
+      callback(...arguments);
+    }, delay);
+  };
+};
+
+export const throttle = (callback) => {
+  let isRunning = false;
+
+  return (event) => {
+    if (isRunning) return;
+
+    isRunning = true;
+
+    window.requestAnimationFrame(() => {
+      callback(event);
+      isRunning =false;
+    });
+  };
+};
+
 export function timeout(callback, timeout) {
   let pastTime = 0;
 

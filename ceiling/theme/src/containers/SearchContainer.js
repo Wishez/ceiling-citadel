@@ -7,7 +7,8 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import Search from './../components/Search';
 
-import getClass from './../constants/classes';
+import getClass from '@/constants/classes';
+import {timer} from '@/constants/pureFunctions';
 
 import {
   findEntitiesAndShowResults,
@@ -18,38 +19,50 @@ class SearchContainer extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     searchName: PropTypes.string.isRequired,
-    searchEntities: PropTypes.array.isRequired,
+    searchedEntities: PropTypes.array.isRequired,
     isFinding: PropTypes.bool.isRequired,
     SearchForm: PropTypes.object
   }
 
   state = {
-    isEntitiesListShown: false
+    isEntitiesListShown: false,
+    searchValue: ''
   }
 
-  searchEntity = (values) => {
+  componentDidMount() {
+
+  }
+
+  searchEntities = (values) => {
     const {
       searchName,
-      searchEntities,
+      searchedEntities,
       SearchForm,
       dispatch
     } = this.props;
 
     if ('active' in SearchForm && searchName === SearchForm.active) {
       const currentValue = values[searchName];
+      this.setSearchValue(currentValue);
 
       if (typeof currentValue !== 'undefined') {
         dispatch(findEntitiesAndShowResults(currentValue));
       } else {
-        if (searchEntities.length) {
+        if (searchedEntities.length) {
           dispatch(cleanSearchEntities());
         }
       }
     }
   }
 
+  setSearchValue = (searchValue) => {
+    this.setState({
+      searchValue
+    });
+  }
+
   componentWillUpdate(nextProps) {
-    const {searchEntities: nextSearchEntities} = nextProps;
+    const {searchedEntities: nextSearchEntities} = nextProps;
     const {isEntitiesListShown: isEntitiesListShownNow} = this.state;
     const entitesLength = nextSearchEntities.length;
 
@@ -75,7 +88,8 @@ class SearchContainer extends Component {
       elasticity: 100,
       begin: () => {
         this.setState({
-          isEntitiesListShown: true
+          isEntitiesListShown: true,
+          lastUpdate: new Date()
         });
       }
     });
@@ -103,10 +117,11 @@ class SearchContainer extends Component {
 
   render() {
     const {
-      searchEntities,
+      searchedEntities,
       modifier
     } = this.props;
-    const {isEntitiesListShown} = this.state;
+    const {isEntitiesListShown, searchValue} = this.state;
+    
 
     return (
       <div className={getClass({
@@ -114,13 +129,13 @@ class SearchContainer extends Component {
         m: modifier
       })}>
         <Search {...this.props}
-          submitSearch={this.searchEntity}
-          onChange={this.searchEntity}
+          submitSearch={this.searchEntities}
+          onChange={timer(this.searchEntities, 500)}
         />
-        {isEntitiesListShown || searchEntities.length ?
+        {(isEntitiesListShown || searchedEntities.length) && searchValue ?
           <section ref='enitiesList'
             className="position_absolute fewRound lowCascadingShadow result opacity_9">
-            {searchEntities.map((section, key) => (
+            {searchedEntities.map((section, key) => (
               <article className="resultSection"
                 key={key}>
                 <h2 className="resultSection__title">
@@ -150,14 +165,14 @@ const mapStateToProps = state => {
   const {catalog, form} = state;
 
   const {
-    searchEntities,
+    searchedEntities,
     isFinding
   } = catalog;
 
   const {SearchForm} = form;
 
   return {
-    searchEntities,
+    searchedEntities,
     isFinding,
     SearchForm
   };

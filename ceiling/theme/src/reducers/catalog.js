@@ -29,7 +29,7 @@ export const initState = {
   COLLECTION: false,
   PRODUCT: false,
   CATALOG: false,
-  searchEntities: [],
+  searchedEntities: [],
   isFinding: false,
   lastShownView: {
     name: '',
@@ -54,13 +54,13 @@ const catalog = (
     case CLEAN_SEARCH_ENTITIES:
       return {
         ...state,
-        searchEntities: []
+        searchedEntities: []
       };
     case SET_FOUND_ENTITIES:
       return {
         ...state,
         isFinding: false,
-        searchEntities: action.foundEntities,
+        searchedEntities: action.foundEntities,
       };
     case FIND_ENTITIES:
       return {
