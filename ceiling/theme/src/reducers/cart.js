@@ -9,7 +9,8 @@ import {
   SHOW_ACTION,
   RESET_ADD_TO_CART_FORM,
   SHOW_PRODUCT_INFO,
-  HIDE_PRODUCT_INFO
+  HIDE_PRODUCT_INFO,
+  UPDATE_PRODUCT_INFO
 } from './../constants/cart';
 
 export const initState = {
@@ -38,6 +39,15 @@ const cart = (state = initState, action, isNotTest=true) => {
   isSetLastProductLength = isNotTest;
 
   switch (action.type) {
+    case UPDATE_PRODUCT_INFO:
+      return {
+        ...state,
+        productModalInfo: {
+          ...state.productModalInfo,
+          ...action.productInfo
+        }
+      };
+
     case SHOW_PRODUCT_INFO:
 
       return {

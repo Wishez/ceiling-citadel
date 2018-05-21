@@ -10,8 +10,23 @@ import {
   PRODUCTION_STORE,
   RESET_ADD_TO_CART_FORM,
   SHOW_PRODUCT_INFO,
-  HIDE_PRODUCT_INFO
+  HIDE_PRODUCT_INFO,
+  UPDATE_PRODUCT_INFO
 } from './../constants/cart';
+
+export const changeProductQuantityAndUpdateInfo = ({
+  id,
+  productInfo,
+  quantity
+}) => (dispatch) => {
+  dispatch(updateProductInfo(productInfo));
+  dispatch(changeProductQuantity(id, quantity));
+};
+
+export const updateProductInfo = (productInfo) => ({
+  type: UPDATE_PRODUCT_INFO,
+  productInfo
+});
 
 export const showProductInfo = ({
   name,

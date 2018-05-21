@@ -14,7 +14,6 @@ import CartProduct from './CartProduct';
 
 import {
   closeCart,
-  changeProductQuantity,
   deleteProductAndNotifyAbout
 } from '@/actions/cart';
 
@@ -91,12 +90,6 @@ class Cart extends Component {
     });
   };
 
-  onSubmitQuantityProduct = index => e => {
-    const { dispatch } = this.props;
-
-    dispatch(changeProductQuantity(index, e.target.value));
-    this.forceUpdate();
-  };
 
   closeCart = () => {
     const { dispatch } = this.props;
@@ -181,13 +174,11 @@ class Cart extends Component {
                 <li key={index} className="orderedProducts__product baseChild">
                   <CartProduct
                     {...product}
+                    productIndex={index}
                     deleteProduct={this.deleteProduct(
                       index,
                       product.name,
                       quantityOrderedProducts
-                    )}
-                    onSubmitQuantityProduct={this.onSubmitQuantityProduct(
-                      index
                     )}
                   />
                 </li>

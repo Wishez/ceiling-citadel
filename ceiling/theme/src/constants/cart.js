@@ -9,7 +9,7 @@ export const SHOW_ACTION = 'SHOW_ACTION';
 export const RESET_ADD_TO_CART_FORM = 'RESET_ADD_TO_CART_FORM';
 export const HIDE_PRODUCT_INFO = 'HIDE_PRODUCT_INFO';
 export const SHOW_PRODUCT_INFO = 'SHOW_PRODUCT_INFO';
-
+export const UPDATE_PRODUCT_INFO = 'UPDATE_PRODUCT_INFO';
 // Stores of orderedProduct
 export const PRODUCTION_STORE = 'ORDERED_PRODUCTS';
 export const TEST_STORE = 'TEST_ORDERED_PRODUCTS';

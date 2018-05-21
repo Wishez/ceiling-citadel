@@ -18,7 +18,7 @@ class CartProduct extends Component {
     modifier: PropTypes.string,
     className: PropTypes.string,
     image: PropTypes.string,
-    onSubmitQuantityProduct: PropTypes.func.isRequired,
+    productIndex: PropTypes.number.isRequired,
     deleteProduct: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
@@ -53,14 +53,17 @@ class CartProduct extends Component {
       thickness,
       width,
       dispatch,
+      productIndex,
       ...rest
     } = this.props;
+
     const productCharacteristics = {
       name,
       quantity,
       length,
       thickness,
       width,
+      productIndex,
       ...rest
     };
 
@@ -74,7 +77,6 @@ class CartProduct extends Component {
       modifier,
       className,
       image,
-      onSubmitQuantityProduct,
       deleteProduct,
       name,
       quantity,
@@ -94,34 +96,26 @@ class CartProduct extends Component {
         )}
       >
         <CloseButton
-          label="Удалить продукт из корзины"
+          label="Удалить образец из корзины"
           block="deleteProductButton"
           onClick={deleteProduct}
         />
-        <h3 className={getClass(composeClasses('cartProduct', 'name', '', ''))}>
+        <h3 className='position_absolute cartProduct__name fullWidth parent centered'>
           {name}
         </h3>
 
         <Link
           to={url}
-          className='moreRefer moreRefer_product parent row centered zeroVerticalMargin'
+          className='productIndicator unstyledLink fullWidth lowCascadingShadow moreRefer moreRefer_product parent row centered zeroVerticalMargin background-color_white'
         >
-          К продукту
+          К образцу
         </Link>
         <Button
           onClick={this.showProductInfo}
-          className="sampleData parent row centered position_absolute background-color_white"
+          className="productIndicator sampleData parent row centered position_absolute background-color_white"
           content="Показать информацию"
         />
-        <input
-          type="number"
-          max="10000"
-          min="1"
-          title="Количество продукта"
-          value={quantity}
-          onChange={onSubmitQuantityProduct}
-          className="productController"
-        />
+
       </div>
     );
   }

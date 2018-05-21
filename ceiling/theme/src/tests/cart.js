@@ -7,7 +7,8 @@ import {
   showHelpText,
   hideHelpText,
   showProductInfo,
-  hideProductInfo
+  hideProductInfo,
+  updateProductInfo
 } from '@/actions/cart';
 import { TEST_STORE, EMPTY_ORDERED_PRODUCT } from '@/constants/cart';
 import { timeout } from '@/constants/pureFunctions';
@@ -253,7 +254,7 @@ const testHideProductInfo = () => {
 
   const stateAfter = {
     ...initState,
-    
+
   };
 
   deepFreeze(stateBefore);
@@ -263,8 +264,33 @@ const testHideProductInfo = () => {
   ).toEqual(stateAfter);
 };
 
-testHideProductInfo();
+const testUpdateProductInfo = () => {
+  const stateBefore = initState;
+  const productInfo = {
+    quntity: 10,
+    width: 1,
+    height: 2,
+    over: 9999
+  };
 
+  const stateAfter = {
+    ...stateBefore,
+    productModalInfo: {
+      ...stateBefore.productModalInfo,
+      ...productInfo
+    }
+  };
+
+  deepFreeze(stateBefore);
+
+  expect(
+    cart(stateBefore, updateProductInfo(productInfo))
+  ).toEqual(stateAfter);
+};
+
+testUpdateProductInfo();
+
+testHideProductInfo();
 testShowProductInfo();
 hideHelpTextTest();
 showHelpTextTest();
