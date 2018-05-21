@@ -32,7 +32,8 @@ const VENDOR = [
   "react-router-dom",
   "redux",
   "react-redux",
-  "redux-thunk"
+  "redux-thunk",
+  "localforage"
 ];
 
 const basePath = path.resolve(__dirname, "src");
@@ -123,7 +124,8 @@ const common = {
     }),
     new webpack.ProvidePlugin({
       localforage: "localforage",
-      anime: 'animejs'
+      anime: 'animejs',
+
     })
   ],
 
@@ -150,7 +152,8 @@ const common = {
               "transform-class-properties",
               "transform-decorators-legacy",
               "transform-object-rest-spread",
-              "transform-react-jsx-source"
+              "transform-react-jsx-source",
+              "transform-function-bind"
             ],
             presets: [
               [
@@ -243,6 +246,7 @@ const common = {
     extensions: [".js", ".json", ".scss", ".css"],
     modules: [path.join(__dirname, "node_modules")],
     alias: {
+
       "@": path.resolve(__dirname, "src"),
       TweenLite: path.resolve(
         "node_modules",
