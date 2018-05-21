@@ -87,13 +87,15 @@ const Characteristics = ({
     {children}
 
     {url ?
-      <Link to={url} className={getClass({
+      <div className={getClass({
         b: 'moreRefer',
         m: modifier,
         add: 'parent row centered zeroVerticalMargin'
       })}>
+        <Link to={url} >
         Подробнее
-      </Link>
+        </Link>
+      </div>
       : ''}
   </article>
 

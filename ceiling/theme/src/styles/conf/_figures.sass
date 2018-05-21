@@ -1,5 +1,11 @@
+
+
 .imageContainer
 	z-index: 1
+	
+	&_loader
+		margin-top: 0
+		margin-bottom: 0
 
 	&_email
 		min-height: 25px
@@ -97,20 +103,20 @@
 		order: -1
 
 	&_bag
-		
+
 		@include breakpoint($md-up)
 			transform: translateX(15%)
-			
+
 		@include breakpoint($sm-less)
 			max-width: em(372)
-			
+
 		left: 100%
 		top: -10%
-		
+
 	&_contacts, &_service
 		order: -1
 		margin-right: em(16, 28)
-		
+
 .imageContainer__image_exhibition
 	@extend .lowCascadingShadow
 

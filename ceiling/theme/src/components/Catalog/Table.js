@@ -2,7 +2,7 @@ import React  from 'react';
 import getClass from './../../constants/classes';
 import {Link} from 'react-router-dom';
 
-const Table = ({ 
+const Table = ({
   block,
   element,
   elementModifier,
@@ -15,21 +15,13 @@ const Table = ({
   isNotRoute,
   ...rest
 }) => (
-  <h3 className={`${getClass({b: block, el: element, m: elementModifier, add: 'lowCascadingShadow upper centeredText'})} ${getClass({b: 'table', m: modifier, add: `${className} parent centered row` })}`}>
-    {/*isNotRoute ? 
-      <a className={getClass({b: 'table', el: 'refer', m: modifier, add: 'parent row centered'})} 
-        href={`${url}${slug}/`}
-        onClick={onClick}
-      >
-        {content}
-      </a> :*/}
-    <Link className={getClass({b: 'table', el: 'refer', m: modifier, add: 'parent row centered'})} 
+  <h3 className={`${getClass({b: block, el: element, m: elementModifier, add: 'lowCascadingShadow upper'})} ${getClass({b: 'table', m: modifier, add: `${className} parent centered row` })}`}>
+    <Link className={getClass({b: 'table', el: 'refer', m: modifier, add: 'parent row centered unstyledLink productIndicator'})}
       to={`${url}${slug}/`}
       onClick={onClick}
     >
       {content}
     </Link>
-    
   </h3>
 );
 

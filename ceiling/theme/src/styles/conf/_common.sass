@@ -55,19 +55,22 @@ p:not(:first-child)
 ul
   list-style: none
 a
-  transition: .2s ease
+  transition: 200ms $standart
   color: $darkGray
+
   &, &:hover
-    text-decoration: none
-    background-image: linear-gradient(to right, $darkGray  0%, $darkGray 100%)
-    background-repeat: repeat-x
-    background-position: bottom
-    background-size: 1px 1px
+    &:not(.unstyledLink)
+      text-decoration: none
+      background-image: linear-gradient(to right, $darkGray  0%, $darkGray 100%)
+      background-repeat: repeat-x
+      background-position: bottom
+      background-size: 1px 1px
 
 
   &:hover, &:focus, &:active
-    color: $darkBlue
-    background-image: linear-gradient(to right, $darkBlue 0%, $darkBlue 100%)
+    &:not(.unstyledLink)
+      color: $darkBlue
+      background-image: linear-gradient(to right, $darkBlue 0%, $darkBlue 100%)
 
   &.reverse
     $darkenWhite: draken($white, 15%)
@@ -87,5 +90,6 @@ a
 
 button
   background-color: transparent
+  
 input, textarea
   @include placehodler-color($gray)

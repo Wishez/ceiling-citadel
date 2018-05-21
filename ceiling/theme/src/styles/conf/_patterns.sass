@@ -63,56 +63,10 @@
 		&_base
 			padding-top: 1em
 
-// .registrationButton
-// 	&_red
-// 		background-color: $red
-//
-// 	&_purple
-// 		background-color: $purple
-//
-// 	&:disabled
-// 		background-color: $gray
-// 		&__refer
-// 			&:hover
-// 				color: $darkGray $i
-//
-//
-// 		&:hover
-// 			color: $darkGray $i
-// 			box-shadow: none
-//
-//
-// 	text-align: center
-// 	min-width: em(235, 21)
-// 	max-width: em(235, 21)
-// 	font-size: em(21)
-// 	display: inline-block
-// 	position: relative
-// 	@include round(em(2, 21))
-// 	&_centered
-// 		margin: auto
-// 		display: block
-//
-// 	// @include flyShadow()
-// 	&_active
-// 		background-color: $purple
-//
-// 	&__refer
-// 		color: $white $i
-// 		padding: 1em 0
-// 		display: block
-// 		background-image: none $i
-// 		&:hover
-// 			color: $white $i
-// 			background-image: none $i
-//
-//
-// 	@extend %all-transition-3
-// 	&:hover, &:focus, &:active
-// 		@extend %flyShadow
-// 		z-index: 3
-//
+	&-left
 
+		&_extra-large
+			padding-left: 2.5rem $i
 
 .index
 
@@ -591,8 +545,9 @@ div[role="presentation"]
 	cursor: pointer
 
 	&__name
-		max-width: span(7)
+		font-size: em(14, 24)
 		-webkit-box: block
+
 		-webkit-box-orient: vertical
 		-webkit-line-clamp: 2
 		overflow: hidden
@@ -600,22 +555,23 @@ div[role="presentation"]
 		display: -webkit-box
 		left: 0
 		text-transform: none
+		height: em((24 * 1.5) * 2 + (16 / 2 * 2), 24)
+
+
 
 .productController, .cartProduct__name
-	color: $white
-	padding: .15rem .5rem .2rem .75rem
-
-	font-size: em(14, 24)
-	height: em((24 * 1.5) * 2 + (16 / 2 * 2), 24)
-
-	background-color: $contrastOrange
-	@extend %absolute
+	padding: .15rem .5rem .5rem .75rem
 	bottom: 0
+	background-color: $contrastOrange
+	color: $white
 
 .productController
 	right: 0
-	text-indent: 0.1em
+	text-indent: 0.75em
+	font-size: 1rem
 	max-width: span(4)
+	height: 50px
+
 
 .image, .container
   	width: span(12)
@@ -650,20 +606,22 @@ input[type=number]::-webkit-inner-spin-button
 	text-align:center
 	position:relative
 	background: transparent url('./../src/images/icons/arrows.png') no-repeat 50% 50%
-	width: em(14)
-	height: em(14)
+	width: em(16)
+	height: em(16)
 	padding: em(4)
 	position: relative
 	right: 0px
 	visibility: visible
 	opacity: .7
-	transition: opacity .3s ease
+	transition: opacity .3s $standart
 	will-change: opacity
-	cursor:pointer
+	cursor: pointer
 	z-index: 2
+
 div[data-id="tooltip"]
 	font-size: 1rem
 	z-index: 100
+
 input[type=number]:hover::-webkit-inner-spin-button
 	opacity: 1
 	cursor:pointer
@@ -692,6 +650,12 @@ input[type=number]:hover::-webkit-inner-spin-button
 
 		&_zero
 			margin-bottom: 0
+
+	&-top
+
+		&_zero
+			margin-top: 0 $i
+
 .text
 
 	&_centered
@@ -809,16 +773,13 @@ input[type=number]:hover::-webkit-inner-spin-button
 			transition: transform .7s ease-in
 			transform: translateX(0)
 	&-exit
-
-		// margin-top: 4.6875em
-		// position: absolute
-
 		will-change: opacity
 		opacity: 1
+
 		&.translate-exit-active
-			transition: opacity .3s ease-in
+			transition: opacity .3s $decelleration
 			opacity: 0
-			// transform: translate(250%)
+
 
 .moreRefer
 	font-size: em(18)
@@ -831,10 +792,8 @@ input[type=number]:hover::-webkit-inner-spin-button
 		font-size: 1rem
 		top: 0
 		left: 0
-		padding: .1rem 0 .3rem
-		background-color: $contrastOrange
-		max-height: 2.5rem
-		max-width: 6rem
+		padding: .1rem 0 .4rem
+		max-height: 2rem
 		color: $darkGray
 
 .background
@@ -844,8 +803,21 @@ input[type=number]:hover::-webkit-inner-spin-button
 		&_white
 			background-color: $white
 
-.sampleData
-	font-size: .7rem
-	bottom: 33%
-	max-width: 100%
+.productIndicator
 	opacity: .7
+	will-change: opacity, color
+	max-width: 100%
+	transition: 350ms $standart
+	transition-property: opacity, color, background-color
+	color: $darkBlue
+
+	&:hover, &:focus
+		opacity: 1
+		background-color: $darkBlue
+		color: $white
+		transform: none
+		box-shadow: none
+
+.sampleData
+	font-size: .9rem
+	bottom: 32%
