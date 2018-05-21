@@ -8,6 +8,7 @@ import OrderFormContainer from './OrderFormContainer';
 import FooterContainer from './FooterContainer';
 import MainRoutes from './MainRoutes';
 
+import CartProductInfo  from '@/components/Cart/CartProductInfo';
 import {fetchCatalogIfNeededAndDumpEntities} from '@/actions/catalog';
 
 import '@/tests';
@@ -26,7 +27,7 @@ class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(fetchCatalogIfNeededAndDumpEntities());  
+    dispatch(fetchCatalogIfNeededAndDumpEntities());
   }
 
   render() {

@@ -18,13 +18,13 @@ class CartProduct extends Component {
     modifier: PropTypes.string,
     className: PropTypes.string,
     image: PropTypes.string,
-    onSubmitQuantityProduct: PropTypes.oneOfType([Number, String]).isRequired,
+    onSubmitQuantityProduct: PropTypes.func.isRequired,
     deleteProduct: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    quantity: PropTypes.oneOfType([Number, String]).isRequired,
-    width: PropTypes.oneOfType([Number, String]),
-    length: PropTypes.oneOfType([Number, String]),
-    thickness: PropTypes.oneOfType([Number, String]),
+    quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    length: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    thickness: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     url: PropTypes.string.isRequired
   };
 
@@ -55,16 +55,17 @@ class CartProduct extends Component {
       dispatch,
       ...rest
     } = this.props;
+    const productCharacteristics = {
+      name,
+      quantity,
+      length,
+      thickness,
+      width,
+      ...rest
+    };
 
     dispatch(
-      showProductInfo({
-        name,
-        quantity,
-        length,
-        thickness,
-        width,
-        ...rest
-      })
+      showProductInfo(productCharacteristics)
     );
   };
 
@@ -84,6 +85,7 @@ class CartProduct extends Component {
       ...rest
     } = this.props;
 
+
     return (
       <div
         style={{ backgroundImage: `url("${image}")` }}
@@ -102,24 +104,13 @@ class CartProduct extends Component {
 
         <Link
           to={url}
-          className={getClass({
-            b: 'moreRefer',
-            m: 'product',
-            add: 'parent row centered zeroVerticalMargin'
-          })}
+          className='moreRefer moreRefer_product parent row centered zeroVerticalMargin'
         >
           К продукту
         </Link>
         <Button
-          onClick={showProductInfo({
-            name,
-            quantity,
-            length,
-            thickness,
-            width,
-            ...rest
-          })}
-          className="sampleData"
+          onClick={this.showProductInfo}
+          className="sampleData parent row centered position_absolute background-color_white"
           content="Показать информацию"
         />
         <input

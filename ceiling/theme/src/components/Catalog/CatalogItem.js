@@ -6,9 +6,7 @@ import Image from 'pimg';
 import Description from './Description';
 import Characteristics from './Characteristics';
 
-import {siteApi} from './../../constants/conf';
 import {slideTo, timeout} from './../../constants/pureFunctions';
-
 
 const CatalogItem = ({
   modifier,
@@ -64,6 +62,5 @@ const CatalogItem = ({
     />
   </article>
 );
-  // </Circle>
 
 export default CatalogItem;
