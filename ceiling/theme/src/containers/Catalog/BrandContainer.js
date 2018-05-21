@@ -185,6 +185,7 @@ class BrandContainer extends Component {
         routes={{
           '/catalog': 'Каталог',
           '/catalog/brand': false,
+          '/catalog/brand/:brandSlug': false,
           '/catalog/brand/:brandSlug/': false
         }}
         CONSTANT={BRAND}

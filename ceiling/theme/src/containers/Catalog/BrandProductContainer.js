@@ -180,6 +180,7 @@ class BrandProductContainer extends Component {
            '/catalog/brand': false,
            '/catalog/brand/:brandSlug': brandName,
            '/catalog/brand/:brandSlug/:collectionSlug': collectionName,
+           '/catalog/brand/:brandSlug/:collectionSlug/:productSlug': false,
            '/catalog/brand/:brandSlug/:collectionSlug/:productSlug/': false
          }}
          isProduct={true}

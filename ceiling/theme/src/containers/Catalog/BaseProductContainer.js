@@ -96,6 +96,7 @@ class BaseProductContainer extends Component {
           '/catalog/category': false,
           '/catalog/category/:categorySlug': lastStepName,
           '/catalog/category/:categorySlug/sample': false,
+          '/catalog/category/:categorySlug/sample/:productSlug': false,
           '/catalog/category/:categorySlug/sample/:productSlug/': false
         };
         break;
@@ -105,6 +106,7 @@ class BaseProductContainer extends Component {
           '/catalog/brand': false,
           '/catalog/brand/:brandSlug': lastStepName,
           '/catalog/brand/:brandSlug/sample': false,
+          '/catalog/brand/:brandSlug/sample/:productSlug': false,
           '/catalog/brand/:brandSlug/sample/:productSlug/': false
         };
         break;
@@ -190,7 +192,7 @@ class BaseProductContainer extends Component {
         isProduct={true}
         CONSTANT={PRODUCT}
       >
-        {!isRequesting && product ? 
+        {!isRequesting && product ?
           <div className="productContainer fullWidth lowCascadingShadow">
             <AddProductFormContainer
               image={product.preview.image}

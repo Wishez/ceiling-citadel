@@ -169,6 +169,7 @@ class BrandCategoryContainer extends Component {
           '/catalog': 'Каталог',
           '/catalog/category': false,
           '/catalog/category/:categorySlug': categoryName,
+          '/catalog/category/:categorySlug/:collectionSlug': false,
           '/catalog/category/:categorySlug/:collectionSlug/': false
         }}
         CONSTANT={COLLECTION}

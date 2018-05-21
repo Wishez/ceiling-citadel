@@ -208,6 +208,7 @@ class CategoryProductContainer extends Component {
           '/catalog/category': false,
           '/catalog/category/:categorySlug': categoryName,
           '/catalog/category/:categorySlug/:collectionSlug': collectionName,
+          '/catalog/category/:categorySlug/:collectionSlug/:productSlug': false,
           '/catalog/category/:categorySlug/:collectionSlug/:productSlug/': false
         }}
         isProduct={true}

@@ -11,8 +11,6 @@ import MainRoutes from './MainRoutes';
 import CartProductInfo  from '@/components/Cart/CartProductInfo';
 import {fetchCatalogIfNeededAndDumpEntities} from '@/actions/catalog';
 
-import '@/tests';
-
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,

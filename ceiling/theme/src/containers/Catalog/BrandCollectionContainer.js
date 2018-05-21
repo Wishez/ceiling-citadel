@@ -165,6 +165,7 @@ class BrandCollectionContainer extends Component {
            '/catalog': 'Каталог',
            '/catalog/brand': false,
            '/catalog/brand/:brandSlug': brandName,
+           '/catalog/brand/:brandSlug/:collectionSlug': false,
            '/catalog/brand/:brandSlug/:collectionSlug/': false
          }}
          CONSTANT={COLLECTION}
