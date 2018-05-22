@@ -7,7 +7,9 @@ import PopupFormContainer from '@/components/PopupFormContainer';
 import Characteristics from '../Catalog/Characteristics';
 import {timer} from '@/constants/pureFunctions';
 import {hideProductInfo} from '@/actions/cart';
-const Rx = require('rxjs/Rx');
+import {Observable, fromEvent} from 'rxjs';
+import {map} from 'rxjs/operators';
+// const Rx = require('rxjs/Rx');
 
 import {
   changeProductQuantityAndUpdateInfo
@@ -44,7 +46,6 @@ class CartProductInfo extends Component {
       dispatch,
       productIndex
     } = this.props;
-    console.log( 'i:', productIndex, 'q:', quantity);
 
     dispatch(changeProductQuantityAndUpdateInfo({
       id: productIndex,
@@ -65,12 +66,14 @@ class CartProductInfo extends Component {
     const observer = {
       next: timer(this.changeProductQuantity, 500)
     };
-    const quantityProductsObservable = Rx.Observable.fromEvent(qunatityProductsInput, 'input');
+    const quantityProductsObservable = Observable::fromEvent(qunatityProductsInput, 'input');
 
     const quantityProductsSubscribtion = quantityProductsObservable
-      .map((event) => (
-        event.target.value
-      ))
+      .pipe(
+        map((event) => (
+          event.target.value
+        ))
+      )
       .subscribe(observer);
 
     this.setState({

@@ -28,23 +28,6 @@ class CartProduct extends Component {
     url: PropTypes.string.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  componentWillMount() {}
-  componentDidMount() {}
-  getDerivedStateFromProps(nextProps, prevState) {}
-
-  shouldComponentUpdate(nextProps, nextState) {}
-  componentDidUpdate(prevProps, prevState, snapshot) {}
-  getSnapshotBeforeUpdate(prevProps, prevState) {}
-
-  componentWillUnmount() {}
-  componentDidCatch(error, info) {}
-
   showProductInfo = () => {
     const {
       name,
@@ -79,28 +62,18 @@ class CartProduct extends Component {
       image,
       deleteProduct,
       name,
-      quantity,
-      width,
-      length,
-      thickness,
-      url,
-      ...rest
+      url
     } = this.props;
-
 
     return (
       <div
         style={{ backgroundImage: `url("${image}")` }}
         className={getClass(
-          composeClasses('cartProduct', '', modifier, className)
+          composeClasses('cartProduct', '', modifier, `parent centered ${className}`)
         )}
       >
-        <CloseButton
-          label="Удалить образец из корзины"
-          block="deleteProductButton"
-          onClick={deleteProduct}
-        />
-        <h3 className='position_absolute cartProduct__name fullWidth parent centered'>
+
+        <h3 className='position_absolute cartProduct__name fullWidth parent centered text_centered'>
           {name}
         </h3>
 
@@ -112,17 +85,19 @@ class CartProduct extends Component {
         </Link>
         <Button
           onClick={this.showProductInfo}
-          className="productIndicator sampleData parent row centered position_absolute background-color_white"
+          className="productIndicator sampleData parent row centered position_absolute background-color_white shadow_none"
           content="Показать информацию"
         />
-
+        <CloseButton
+          label="Удалить образец из корзины"
+          block="deleteProductButton"
+          onClick={deleteProduct}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
+const mapStateToProps = state => ({});
 
 export default withRouter(connect(mapStateToProps)(CartProduct));
