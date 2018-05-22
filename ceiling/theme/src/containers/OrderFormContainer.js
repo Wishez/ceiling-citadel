@@ -21,13 +21,14 @@ class OrderFormContainer extends Component {
     isRequesting: PropTypes.bool.isRequired
   };
 
-  submitOrder = (values, dispatch) => {
+  submitOrder = (userData, dispatch) => {
     this.getOrderedProducts().then((cartProducts) => {
-
       if (!cartProducts.length) {
         this.notifyUserAboutHisEmptyCart();
       } else {
-        dispatch(tryMakeOrder(values));
+        userData.products = cartProducts;
+
+        dispatch(tryMakeOrder(userData));
       }
 
 

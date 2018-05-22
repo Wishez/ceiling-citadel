@@ -1,9 +1,9 @@
 
 // Footer data
 export const siteApi =  'https://artceiling-systems.ru';
-export const callbackUrl = `${siteApi}/make_form/callback/`;
-export const orderUrl = `${siteApi}/make_form/order/`;
-export const questionUrl = `${siteApi}/make_form/question/`;
+export const callbackUrl = '/make_form/callback/';
+export const orderUrl = '/make_form/order/';
+export const questionUrl = '/make_form/question/';
 
 const catalogApi = '/catalog/api/current';
 

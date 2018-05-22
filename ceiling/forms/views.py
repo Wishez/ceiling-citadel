@@ -32,16 +32,27 @@ def order_callback(request):
 def make_order(request):
     if request.method == 'POST':
 
+
+
         data = json.loads(request._body)
 
         isNotTest = not 'isTest' in data
         consumer = get_or_create_consumer(data)
 
-        order = Order.objects.create(
-            consumer=consumer
-        )
+        try:
+            order = Order.objects.create(
+                consumer=consumer
+            )
+        except Exception:
+            print('Заказ не создаля')
+
+
         # List of ordered products.
-        products = data.get('products')
+        try:
+            products = data.get('products')
+        except Exception:
+            print('Не получилось получить образцы из списка.')
+
 
         for product in products:
             uuid = product.get('uuid')
@@ -53,10 +64,13 @@ def make_order(request):
             )
 
         if isNotTest:
-            Thread(
-                target=save_order_and_notify_about,
-                args=(order,)
-            ).start()
+            try:
+                Thread(
+                    target=save_order_and_notify_about,
+                    args=(order,)
+                ).start()
+            except Exception:
+                print('Не получилось запустить сохранить заказ и сообщить о нём в отдельном потоке.')
 
         return HttpResponse('Мы выслали на почту задокументированную версию заказа. В скором времени, мы сяжемся с вами!')
     return HttpResponse('Внутренняя ошибка сервера')

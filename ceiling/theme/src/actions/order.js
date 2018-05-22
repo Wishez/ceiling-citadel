@@ -71,7 +71,7 @@ function notifyAboutSuccessOrdertingOrder({
 export function notifyAboutFailureOrderingOrder(message) {
   return (dispatch) => {
     const isOrdered = false;
-    
+
     dispatch(makeOrder(isOrdered, message));
   };
 }
