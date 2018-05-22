@@ -140,7 +140,7 @@ class Cart extends Component {
               'cart',
               '',
               modifier,
-              'lowCascadingShadow ' + className ? className : ''
+              'lowCascadingShadow display_grid' + className ? className : ''
             )
           )}
         >

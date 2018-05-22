@@ -4,13 +4,13 @@ import ReactHtmlParser from 'react-html-parser';
 import { Link } from 'react-router-dom';
 
 const NavItem = ({
-  block, 
+  block,
   href,
   name,
   children
-}) => (  
+}) => (
   <Link to={href}
-    className={`${block}__refer baseChild`}
+    className={`${block}__refer baseChild unstyledLink`}
   >
     {name}
     {ReactHtmlParser(children)}

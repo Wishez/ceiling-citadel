@@ -12,6 +12,9 @@
 .lowCascadingShadow
 	box-shadow: 2px 2px 6px 0 $shadow
 
+.shadow_none
+	box-shadow: none
+
 .position
 
 	&_relative
@@ -78,6 +81,11 @@
 
 	&_positive
 		z-index: 1
+.display
+
+	&_grid
+		@supports(display: grid)
+			display: grid
 
 .imageContainer
 	display: inline-block
@@ -521,7 +529,13 @@ div[role="presentation"]
 	box-shadow: inset 0 0 20px -5px rgba(0, 0,0,.25)
 	height: em(165)
 	overflow-y: auto
+	padding-bottom: 1.5rem
+	padding-top: .5rem
 
+	@supports(display: grid)
+		grid-template-columns: repeat(auto-fit, minmax(157.5px, 1fr))
+		grid-gap: 1rem 0
+		grid-template-rows: repeat(auto-fit, minmax(218.5px, 1fr))
 	&__product
 		flex-grow: 0
 		z-index: 101

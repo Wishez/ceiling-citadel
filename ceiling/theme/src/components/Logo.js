@@ -8,10 +8,10 @@ const Logo = ({
   modifier,
   maxWidth
 }) => (
-  	<Link to='/' className={getClass(composeClasses('brand', '', modifier, 'baseChild parent row h-between'))}>
-  		<Figure name="brand" 
+  	<Link to='/' className={getClass(composeClasses('brand', '', modifier, 'baseChild parent row h-between unstyledLink'))}>
+  		<Figure name="brand"
   			maxWidth={maxWidth}
-  			url={brand} 
+  			url={brand}
   			className="baseChild"
   			modifier={modifier}
   		/>
