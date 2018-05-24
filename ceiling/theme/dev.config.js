@@ -3,6 +3,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 // importLoader:1 from https://blog.madewithenvy.com/webpack-2-postcss-cssnext-fdcd2fd7d0bd
 const extractSass = new ExtractTextPlugin("styles/app.css");
 const extractFonts = new ExtractTextPlugin("styles/fonts.css");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   watch: true,
@@ -86,5 +87,15 @@ module.exports = {
       }
     ]
   },
-  plugins: [extractSass, extractFonts]
+  plugins: [
+    extractSass, extractFonts,
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "src/index.html"),
+      hash: true,
+      chunks: ["vendor", "app"],
+      chunksSortMode: "manual",
+      filename: "../pages/templates/index.html",
+      inject: "body"
+    }),
+  ]
 };

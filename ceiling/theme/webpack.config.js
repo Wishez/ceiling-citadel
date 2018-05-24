@@ -74,14 +74,6 @@ const common = {
       async: true,
       minChunks: 2
     }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src/index.html"),
-      hash: true,
-      chunks: ["vendor", "app"],
-      chunksSortMode: "manual",
-      filename: "../pages/templates/index.html",
-      inject: "body"
-    }),
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: TARGET === "dev" ? '"development"' : '"production"'
