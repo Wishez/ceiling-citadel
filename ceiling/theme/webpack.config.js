@@ -26,6 +26,9 @@ const PATHS = {
 const VENDOR = [
   "babel-polyfill",
   "whatwg-fetch",
+  "react-transition-group",
+  "superagent",
+  "react-draggable",
   "react",
   "prop-types",
   "react-dom",
@@ -33,18 +36,20 @@ const VENDOR = [
   "redux",
   "react-redux",
   "redux-thunk",
-  "localforage"
+  "localforage",
+  "redux-form",
+  "pimg"
 ];
 
 const basePath = path.resolve(__dirname, "src");
 
 const common = {
-  // node: false,
   context: basePath,
   entry: {
     app: "./index.js",
-    vendor: VENDOR
-
+    vendor: VENDOR,
+    tests: "./tests/index.js",
+    fonts: "./fonts.js"
   },
   output: {
     path: PATHS.build,
@@ -116,8 +121,7 @@ const common = {
     }),
     new webpack.ProvidePlugin({
       localforage: "localforage",
-      anime: 'animejs',
-
+      anime: "animejs"
     })
   ],
 
@@ -238,7 +242,6 @@ const common = {
     extensions: [".js", ".json", ".scss", ".css"],
     modules: [path.join(__dirname, "node_modules")],
     alias: {
-
       "@": path.resolve(__dirname, "src"),
       TweenLite: path.resolve(
         "node_modules",

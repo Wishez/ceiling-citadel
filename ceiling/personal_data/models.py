@@ -13,6 +13,7 @@ class ConsumerManager(models.Manager):
     def fill_name_by_fields(self, instance, full_name):
         shared_name = full_name.split(' ')
         length = len(shared_name)
+
         if length < 2:
             return False
 
@@ -26,6 +27,7 @@ class ConsumerManager(models.Manager):
 
     def is_consumer(self, first_name, last_name, **kwargs):
         return self.filter(first_name=first_name, last_name=last_name, **kwargs)
+
     def get_full_name(self, consumer):
         return '%s %s %s' % (getattr(consumer, "last_name", ""),
                              getattr(consumer, "first_name", ""),

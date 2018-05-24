@@ -4,8 +4,6 @@ import App from './containers/App';
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './fonts.sass';
-//import '@/tests';
 
 const store = configureStore();
 

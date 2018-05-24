@@ -13,11 +13,27 @@ class Settings(TimeStampedModel):
         blank=True,
         null=True
     )
+
+    is_tests_included = models.BooleanField(
+        _('Включить front-end тесты?'),
+        default=False
+    )
+
+    tests_file_name = models.CharField(
+        _('Имя файла тестов'),
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Пример: tests.hashname.js"
+    )
+
+    help_text = "Если нет имени файла, то тесты не загрузятся."
     meta = models.TextField(
-        _('Глобальное мето описание'),
+        _('Глобальное мета описание'),
         max_length=300,
         blank=True,
-        null=True
+        null=True,
+        help_text="Для каждый страницы делать лучше уникальное описание."
     )
     # Contacts
     email = models.CharField(

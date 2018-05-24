@@ -1,10 +1,11 @@
 const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 // importLoader:1 from https://blog.madewithenvy.com/webpack-2-postcss-cssnext-fdcd2fd7d0bd
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+
 const extractSass = new ExtractTextPlugin("styles/app.css");
 const extractFonts = new ExtractTextPlugin("styles/fonts.css");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
   watch: true,
   devtool: "source-map", // 'cheap-module-eval-source-map'
@@ -95,7 +96,9 @@ module.exports = {
       chunks: ["vendor", "app"],
       chunksSortMode: "manual",
       filename: "../pages/templates/index.html",
-      inject: "body"
+      inject: "body",
+      excludeAsets: [/fonts.js/]
     }),
+    new HtmlWebpackExcludeAssetsPlugin(),
   ]
 };

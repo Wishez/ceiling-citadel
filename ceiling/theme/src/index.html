@@ -76,5 +76,21 @@
     }
   </script>
   {{ settings.widgets|safe }}
+
+  {% if settings.is_tests_included %}
+    {% if settings.tests_file_name %}
+      <script>
+        (function() {
+          var tests = document.createElement('script');
+
+          tests.src = '/static/{{settings.tests_file_name}}';
+          tests.async = true;
+          console.log('will inject tests')
+
+          document.body.appendChild(tests);
+        }());
+      </script>
+    {% endif %}
+  {% endif %}
 </body>
 </html>
