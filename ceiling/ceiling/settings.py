@@ -2,6 +2,7 @@ import os
 import raven
 import dj_database_url
 from decouple import config
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +25,6 @@ ALLOWED_HOSTS = config(
 )
 
 SITE_ID=1
-
 
 # Application definition
 THIRD_PARTY_APPS = [
@@ -88,6 +88,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -165,7 +166,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'Europe/Moscow'
 
@@ -236,11 +237,14 @@ EMAIL_HOST_USER = 'shiningtests@gmail.com'
 EMAIL_HOST_PASSWORD = 'demonstration'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'shiningtests@gmail.com'
-
+#
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
+LANGUAGES = [
+    ('ru', _('Russian')),
+]
 
 # Jet config
 JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(BASE_DIR, 'client_secrets.json')
