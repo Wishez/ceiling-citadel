@@ -30,27 +30,54 @@ export const requestOrder = () => ({
 export const tryMakeOrder = userData => dispatch => {
   dispatch(requestOrder());
 
-  return customAjaxRequest({
-    type: 'POST',
-    url: orderUrl,
+  return requestForMakingOrder({
     data: userData,
-    cache: true,
-    success: response => {
-      dispatch(
-        notifyAboutSuccessOrdertingOrder({
-          response,
-          userData
-        })
-      );
-	  },
-    failure: error => {
-      dispatch(
-        notifyAboutFailureOrderingOrder(error.message)
-      );
-    }
+    success: orderSuccessHandler({
+      userData,
+      dispatch
+    }),
+    failure: orderFailureHandler(dispatch)
   });
 };
 
+export function requestForMakingOrder({
+  success,
+  failure,
+  data
+}) {
+  return customAjaxRequest({
+    type: 'POST',
+    url: orderUrl,
+    cache: true,
+    data,
+    success,
+    failure
+  });
+}
+
+function orderSuccessHandler({
+  userData,
+  dispatch
+}) {
+  return (response) => {
+    dispatch(
+      notifyAboutSuccessOrdertingOrder({
+        response,
+        userData
+      })
+    );
+  };
+
+}
+
+function orderFailureHandler(dispatch) {
+  return (error) => {
+    dispatch(
+      notifyAboutFailureOrderingOrder(error.message)
+    );
+  };
+
+}
 
 function notifyAboutSuccessOrdertingOrder({
   response,
