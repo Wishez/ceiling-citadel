@@ -5,11 +5,11 @@ import { withRouter } from 'react-router-dom';
 
 import PopupFormContainer from '@/components/PopupFormContainer';
 import Characteristics from '../Catalog/Characteristics';
-import {timer} from '@/constants/pureFunctions';
+
 import {hideProductInfo} from '@/actions/cart';
 import {Observable, fromEvent} from 'rxjs';
-import {map} from 'rxjs/operators';
-// const Rx = require('rxjs/Rx');
+import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
+
 
 import {
   changeProductQuantityAndUpdateInfo
@@ -64,7 +64,7 @@ class CartProductInfo extends Component {
     qunatityProductsInput.value = quantity;
 
     const observer = {
-      next: timer(this.changeProductQuantity, 500)
+      next: this.changeProductQuantity
     };
     const quantityProductsObservable = Observable::fromEvent(qunatityProductsInput, 'input');
 
@@ -72,7 +72,9 @@ class CartProductInfo extends Component {
       .pipe(
         map((event) => (
           event.target.value
-        ))
+        )),
+        debounceTime(500),
+        distinctUntilChanged()
       )
       .subscribe(observer);
 
@@ -80,66 +82,66 @@ class CartProductInfo extends Component {
       quantityProductsSubscribtion
     });
   }
+be
+componentWillUnmount() {
+  this.unsubscribeWatchForQuantityProducts();
+}
 
-  componentWillUnmount() {
-    this.unsubscribeWatchForQuantityProducts();
-  }
+unsubscribeWatchForQuantityProducts() {
+  const {quantityProductsSubscribtion} = this.state;
 
-  unsubscribeWatchForQuantityProducts() {
-    const {quantityProductsSubscribtion} = this.state;
+  quantityProductsSubscribtion.unsubscribe();
+}
 
-    quantityProductsSubscribtion.unsubscribe();
-  }
+render() {
+  const {
+    isProductInfoShown,
+    name,
+    quantity,
+    length,
+    thickness,
+    width,
+    ...rest
+  } = this.props;
 
-  render() {
-    const {
-      isProductInfoShown,
-      name,
-      quantity,
-      length,
-      thickness,
-      width,
-      ...rest
-    } = this.props;
+  return (
+    <PopupFormContainer
+      signification={name}
+      visible={isProductInfoShown}
+      closeButton={{
+        onClick: this.hideProductInfo
+      }}
+      className='padding-left_extra-large'
+    >
+      <p className="margin-top_zero">Количество: {quantity}шт.</p>
 
-    return (
-      <PopupFormContainer
-        signification={name}
-        visible={isProductInfoShown}
-        closeButton={{
-          onClick: this.hideProductInfo
-        }}
-        className='padding-left_extra-large'
-      >
-        <p className="margin-top_zero">Количество: {quantity}шт.</p>
-
-        {width && length ? (
-          <p>
+      {width && length ? (
+        <p>
             Квадратные метры: {width * length * quantity}²<br />
-          </p>
-        ) : (
-          ''
-        )}
+        </p>
+      ) : (
+        ''
+      )}
 
-        <Characteristics
-          width={width}
-          length={length}
-          thickness={thickness}
-          modifier="static"
-          {...rest}
-        />
+      <Characteristics
+        width={width}
+        length={length}
+        thickness={thickness}
+        modifier="static"
+        {...rest}
+      />
 
-        <input
-          ref="qunatityProductsInput"
-          type="number"
-          max="10000"
-          min="1"
-          title="Количество продукта"
-          className="productController position_absolute"
-        />
-      </PopupFormContainer>
-    );
-  }
+      <input
+        ref="qunatityProductsInput"
+        type="number"
+        max="10000"
+        min="1"
+        title="Количество продукта"
+        className="productController position_absolute"
+      />
+    </PopupFormContainer>
+  );
+}
 }
 
 const mapStateToProps = state => {
