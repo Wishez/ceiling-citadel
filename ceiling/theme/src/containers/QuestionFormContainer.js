@@ -35,14 +35,15 @@ class QuestionFormContainer extends Component {
           <Figure url={maria} maxWidth={280} name="maria" />
 
           {!isAskedQuestion ?
-            <QuestionForm buttonOptions={{
-              content: !isRequesting ?
-                'Спросить'
-                : <Loader />,
-            }}
-            onSubmit={this.submitQuestion}
-            helpText={helpText.toString()}
-            block="questionForm"
+            <QuestionForm
+              buttonOptions={{
+                content: !isRequesting ?
+                  'Спросить'
+                  : <Loader />,
+              }}
+              onSubmit={this.submitQuestion}
+              helpText={helpText.toString()}
+              block="questionForm"
             />
             : <p className='askedSuccessfull parent row centered'>
               {ReactHtmlParser(helpText)}

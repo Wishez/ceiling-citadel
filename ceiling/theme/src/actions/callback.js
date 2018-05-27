@@ -3,12 +3,17 @@ import {
   ORDER_CALLBACK,
   CLOSE_CALLBACK,
   REQUEST_CALLBACK,
-  ASK_QUESTION
+  ASK_QUESTION,
+  REINIT_CALLBACK_FORM
 } from './../constants/callback';
 import customAjaxRequest from './../constants/ajax';
 import {callbackUrl, questionUrl} from './../constants/conf';
 
 import {setUserData} from './app';
+
+export const reinitCallbackForm = () => ({
+  type: REINIT_CALLBACK_FORM
+});
 
 export const openCallback = () => ({
   type: OPEN_CALLBACK

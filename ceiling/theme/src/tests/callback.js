@@ -2,7 +2,8 @@ import {
   openCallback,
   closeCallback,
   orderCallback,
-  requestCallback
+  requestCallback,
+  reinitCallbackForm
 } from './../actions/callback';
 import expect from 'expect';
 import deepFreeze from 'deep-freeze';
@@ -74,6 +75,26 @@ const testShowingRequestForCallback = () => {
     callback(callbackBefore, requestCallback())
   ).toEqual(callbackAfter);
 };
+
+const testReinitCallbackForm = () => {
+  const stateBefore = {
+    ...initState,
+    isOrderedCallback: true,
+    helpText: 'The hint of this module has relation with two form. I need to clean it after closing and opening  callback from.' ,
+    isRequesting: false
+  };
+
+  const stateAfter = initState;
+
+
+  deepFreeze(stateBefore);
+
+  expect(
+    callback(stateBefore, reinitCallbackForm())
+  ).toEqual(stateAfter);
+};
+
+testReinitCallbackForm();
 
 testShowingRequestForCallback();
 testSuccessOrderedCallback();

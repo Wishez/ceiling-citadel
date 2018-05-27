@@ -34,7 +34,8 @@ class App extends Component {
       isOrderOpened,
       isProductInfoOpened,
       phone, email,
-      address, addressHref } = this.props;
+      address, addressHref
+    } = this.props;
 
     return (
       <div>

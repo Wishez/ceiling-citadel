@@ -73,7 +73,8 @@ module.exports = {
               loader: "css-loader",
               options: {
                 importLoaders: 1,
-                sourceMap: true
+                sourceMap: true,
+                minimize: true
               }
             },
             {

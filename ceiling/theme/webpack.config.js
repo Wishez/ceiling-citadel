@@ -79,6 +79,8 @@ const common = {
       async: true,
       minChunks: 2
     }),
+
+
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: TARGET === "dev" ? '"development"' : '"production"'

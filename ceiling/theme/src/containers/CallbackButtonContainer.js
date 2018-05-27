@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 
 import CallbackButton from './../components/CallbackButton';
 
-import {openCallback} from './../actions/callback';
+import {openCallback, reinitCallbackForm} from './../actions/callback';
 
-import { 
-  getDeleteProductArguments, 
-  slideTo 
+import {
+  getDeleteProductArguments
 } from './../constants/pureFunctions';
 
 class CallbackButtonContainer extends Component {
-	static propTypes = {
+	 static propTypes = {
 	    dispatch: PropTypes.func.isRequired,
 	    isCallbackOpened: PropTypes.bool.isRequired,
     	isShownHelpText: PropTypes.bool.isRequired,
@@ -20,18 +19,18 @@ class CallbackButtonContainer extends Component {
 	    modifier: PropTypes.string
   	}
 
-	openCallbackForm = () => { 
+	openCallbackForm = () => {
   	const { dispatch } = this.props;
+
+	  dispatch(reinitCallbackForm());
   	dispatch(openCallback());
-	  slideTo('.popupFormContainer__title');
 	}
 
 	render() {
 	  return (
-	    
 	     <CallbackButton {...this.props}
 	        openCallback={this.openCallbackForm} />
-	    
+
 	  );
 	}
 }
@@ -39,10 +38,10 @@ class CallbackButtonContainer extends Component {
 const mapStateToProps = state => {
   const { callback } = state;
 
-  const { 
-    isCallbackOpened, 
-    isShownHelpText, 
-    helpText 
+  const {
+    isCallbackOpened,
+    isShownHelpText,
+    helpText
   } = callback;
 
   return {

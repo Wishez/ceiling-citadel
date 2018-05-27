@@ -5,7 +5,8 @@ import ReactHtmlParser from 'react-html-parser';
 
 import {
   tryOrderCallback,
-  closeCallback
+  closeCallback,
+  reinitCallbackForm
 } from '@/actions/callback';
 
 import Loader from '@/components/Loader';
@@ -30,6 +31,8 @@ class CallbackFormContainer extends Component {
 
   onClickCloseButton = () => {
     const { dispatch } = this.props;
+
+    dispatch(reinitCallbackForm());
     dispatch(closeCallback());
   }
 

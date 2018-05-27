@@ -4,7 +4,7 @@
   <meta charset="utf-8">
 	<meta
 		name="viewport"
-		content="width=device-width, initial-scale=1.0">
+		content="width=device-width,initial-scale=1.0">
 
 	<meta
     name='description'
@@ -28,18 +28,13 @@
   <meta name="msapplication-TileColor" content="#333333">
   <meta name="msapplication-TileImage" content="/static/images/appIcons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-
+  <link rel="stylesheet" href="/static/styles/fonts.css" media="none" onload="if(media==='none')media='all'"/>
   <meta
     http-equive="X-UA-Compatible"
     content="IE=edge"
-  >
-  <!-- <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/static/images/appIcons/favicon.ico"
-  > -->
+  />
   <title>{{ title }}</title>
-<link href="/static/styles/app.css?86eff8056902151a75f5" rel="stylesheet"><link href="/static/styles/fonts.css?86eff8056902151a75f5" rel="stylesheet"></head>
+<link href="/static/styles/app.css?2e54976fda123b9d8694" rel="stylesheet"></head>
 <body>
   <div id="root"></div>
   <svg hidden aria-hidden="true">
@@ -76,5 +71,22 @@
     }
   </script>
   {{ settings.widgets|safe }}
-<script type="text/javascript" src="/static/vendor.js?86eff8056902151a75f5"></script><script type="text/javascript" src="/static/app.js?86eff8056902151a75f5"></script></body>
+
+  {% if settings.is_tests_included %}
+    {% if settings.tests_file_name %}
+      <script>
+        (function() {
+          var tests = document.createElement('script');
+
+          tests.src = '/static/{{settings.tests_file_name}}';
+          tests.async = true;
+          
+          window.setTimeout(function() {
+            document.body.appendChild(tests);
+          }, 1000);
+        }());
+      </script>
+    {% endif %}
+  {% endif %}
+<script type="text/javascript" src="/static/vendor.js?2e54976fda123b9d8694"></script><script type="text/javascript" src="/static/app.js?2e54976fda123b9d8694"></script></body>
 </html>

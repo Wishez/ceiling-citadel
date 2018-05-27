@@ -74,7 +74,6 @@ const testOpenOrder = () => {
     isOrderOpened: true
   };
 
-
   deepFreeze(stateBefore);
 
   expect(

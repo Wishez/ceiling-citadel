@@ -4,7 +4,7 @@
   <meta charset="utf-8">
 	<meta
 		name="viewport"
-		content="width=device-width, initial-scale=1.0">
+		content="width=device-width,initial-scale=1.0">
 
 	<meta
     name='description'
@@ -28,16 +28,11 @@
   <meta name="msapplication-TileColor" content="#333333">
   <meta name="msapplication-TileImage" content="/static/images/appIcons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-
+  <link rel="stylesheet" href="/static/styles/fonts.css" media="none" onload="if(media==='none')media='all'"/>
   <meta
     http-equive="X-UA-Compatible"
     content="IE=edge"
-  >
-  <!-- <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="/static/images/appIcons/favicon.ico"
-  > -->
+  />
   <title>{{ title }}</title>
 </head>
 <body>
@@ -85,9 +80,10 @@
 
           tests.src = '/static/{{settings.tests_file_name}}';
           tests.async = true;
-          console.log('will inject tests')
-
-          document.body.appendChild(tests);
+          
+          window.setTimeout(function() {
+            document.body.appendChild(tests);
+          }, 1000);
         }());
       </script>
     {% endif %}
