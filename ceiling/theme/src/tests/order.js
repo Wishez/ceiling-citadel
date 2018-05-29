@@ -102,7 +102,7 @@ const testMakeOrderWithOneProduct = () => {
 };
 
 function testMakeUserOrder({
-  full_name='Futer Customer',
+  full_name='Awesome Fake Customer',
   email='awseome@mail.com',
   phone_number='+7 (985) 905-12-51',
   products

@@ -7,7 +7,9 @@ from django.utils.translation import gettext_lazy as _
 from twilio.rest import Client
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
-
+from django.core.mail import EmailMessage
+from django.conf import settings as global_settings
+# from django.
 
 def get_text_from_locale_or_settings(text_variable, instance, settings):
     text = getattr(
@@ -23,6 +25,7 @@ def get_text_from_locale_or_settings(text_variable, instance, settings):
         )
 
     return text
+
 @receiver(pre_save, sender=Order)
 def send_notification_about_changed_status_of_order_to_consumer(sender, instance, **kwargs):
     isChanged = False
@@ -79,12 +82,13 @@ def save_instance_and_notify_about(
 ):
     instance.save()
     consumer = instance.consumer
+    settings = Settings.objects.get()
+
     if callback is not None:
         callback()
-    # From Settings get info about sender, receivers,
-    # service data, and the message.
-    send_sms_notification(
-        Settings.objects.get(),
+
+    send_notifications_about_new_order(
+        settings,
         [consumer, instance],
         phone_message,
         additional_vocabulary,
@@ -110,47 +114,72 @@ def save_order_and_notify_about(order):
     save_instance_and_notify_about(
         order,
         'order_ordered_message',
-        lambda: MessageParser(
-                [consumer, order],
-                'after_ordering_order_message',
-                'after_ordering_order_subject',
-                receiver=consumer,
-                order=order
-        )()
+        lambda: notify_consumer_about_order(consumer, order)
     )
 
+def notify_consumer_about_order(consumer, order):
+    MessageParser(
+        [consumer, order],
+        'after_ordering_order_message',
+        'after_ordering_order_subject',
+        receiver=consumer,
+        order=order
+    )()
 
-def send_sms_notification(
+def send_notifications_about_new_order(
         settings,
         instances,
         message_type,
         additional_vocabulary,
         receiver
 ):
-
-    phone_from = settings.phone_from
-    phones_to = settings.phones_to.replace(' ', '').split(',')
-    account_sid = settings.account_sid
-    auth_token = settings.auth_token
-
     parser = MessageParser(
         instances,
         message=message_type,
         additional_vocabulary=additional_vocabulary,
         receiver=receiver
     )
-
     parser.parse_text()
-
     message = parser.message
-    client = Client(account_sid, auth_token)
 
-    for phone_to in phones_to:
-        client.messages.create(
-            phone_to,
-            body=message,
-            from_=phone_from
-        )
+    send_email_notification(settings, message)
+    send_sms_notification(settings, message)
+
+def send_sms_notification(
+    settings,
+    message
+):
+    phone_from = settings.phone_from
+    phones_to = settings.phones_to.replace(' ', '').split(',')
+    account_sid = settings.account_sid
+    auth_token = settings.auth_token
+    is_allowed_send_sms = settings.is_send_sms
+
+    if is_allowed_send_sms \
+            and account_sid \
+            and auth_token:
+        client = Client(account_sid, auth_token)
+
+        for phone_to in phones_to:
+            client.messages.create(
+                phone_to,
+                body=message,
+                from_=phone_from
+            )
+
+def send_email_notification(
+    settings,
+    message
+):
+    recipients = settings.email_recipients.replace(' ', '').split(',')
+
+    if len(recipients):
+        EmailMessage(
+            'Новый заказ с Art-ceil!',
+            message,
+            getattr(global_settings, "DEFAULT_FROM_EMAIL"),
+            recipients
+        ).send()
 
 @receiver(post_save, sender=Question)
 def change_question_status(sender, instance, **kwargs):

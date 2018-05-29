@@ -6,6 +6,14 @@ from home.help_parts import simple_hint, answer_hint, ordered_products_hint
 from colorfield.fields import ColorField
 
 class Settings(TimeStampedModel):
+    email_recipients = models.TextField(
+        _('Список получателей email сообщний'),
+        max_length=2048,
+        help_text=_('Пример: shiningfinger@list.ru, g_zhur@ortgraph.ru, awesome@ceiling.com'),
+        blank=True,
+        null=True
+    )
+
     # Additional content
     widgets = models.TextField(
         _('Метрики, виджеты и прочее'),
@@ -80,6 +88,7 @@ class Settings(TimeStampedModel):
         default="",
         help_text="Account Sid из аккаунта TwilioAPI"
     )
+
     auth_token = models.CharField(
         _('Auth Token'),
         max_length=350,
@@ -87,6 +96,11 @@ class Settings(TimeStampedModel):
         null=True,
         default="",
         help_text="Auth Token из аккаунта TwilioAPI"
+    )
+
+    is_send_sms = models.BooleanField(
+        _('Включить смс оповещения?'),
+        default=True
     )
 
     phone_from = models.CharField(

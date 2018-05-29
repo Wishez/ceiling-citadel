@@ -1,59 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-	<meta
-		name="viewport"
-		content="width=device-width,initial-scale=1.0">
-
-	<meta
-    name='description'
-    content='{{ meta }}'
-  >
-
-  <link rel="apple-touch-icon" sizes="57x57" href="/static/images/appIcons/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="/static/images/appIcons/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="/static/images/appIcons/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="/static/images/appIcons/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="/static/images/appIcons/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="/static/images/appIcons/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="/static/images/appIcons/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="/static/images/appIcons/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/static/images/appIcons/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192"  href="/static/images/appIcons/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/static/images/appIcons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="/static/images/appIcons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/static/images/appIcons/favicon-16x16.png">
-  <link rel="manifest" href="/static/manifest.json">
-  <meta name="msapplication-TileColor" content="#333333">
-  <meta name="msapplication-TileImage" content="/static/images/appIcons/ms-icon-144x144.png">
-  <meta name="theme-color" content="#ffffff">
-  <link rel="stylesheet" href="/static/styles/fonts.css" media="none" onload="if(media==='none')media='all'"/>
-  <meta
-    http-equive="X-UA-Compatible"
-    content="IE=edge"
-  />
-  <title>{{ title }}</title>
-<link href="/static/styles/app.css?2e54976fda123b9d8694" rel="stylesheet"></head>
-<body>
-  <div id="root"></div>
-  <svg hidden aria-hidden="true">
-    <g id="starIcon">
-      <filter id="gaussBlur">
-        <feGaussianBlur stdDeviation="3"/>
-      </filter>
-      <path
-        d="M128 0 L170 90 L256 100 L184 160 L210 256 L128 195 L52 256 L76 160 L0 100 L82 90 L128 0z"
-        transform="translate(4, 4)"
-        fill="#202020"
-        filter='url(#gaussBlur)'></path>
-      <path d="M128 0 L170 90 L256 100 L184 160 L210 256 L128 195 L52 256 L76 160 L0 100 L82 90 L128 0z" fill="#c98c4d"></path>
-    </g>
-  </svg>
-
-
-  <script>
-    window.navigator.ARTCEILING_INFO = {
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="{{ meta }}"><link rel=apple-touch-icon sizes=57x57 href=/static/images/appIcons/apple-icon-57x57.png><link rel=apple-touch-icon sizes=60x60 href=/static/images/appIcons/apple-icon-60x60.png><link rel=apple-touch-icon sizes=72x72 href=/static/images/appIcons/apple-icon-72x72.png><link rel=apple-touch-icon sizes=76x76 href=/static/images/appIcons/apple-icon-76x76.png><link rel=apple-touch-icon sizes=114x114 href=/static/images/appIcons/apple-icon-114x114.png><link rel=apple-touch-icon sizes=120x120 href=/static/images/appIcons/apple-icon-120x120.png><link rel=apple-touch-icon sizes=144x144 href=/static/images/appIcons/apple-icon-144x144.png><link rel=apple-touch-icon sizes=152x152 href=/static/images/appIcons/apple-icon-152x152.png><link rel=apple-touch-icon sizes=180x180 href=/static/images/appIcons/apple-icon-180x180.png><link rel=icon type=image/png sizes=192x192 href=/static/images/appIcons/android-icon-192x192.png><link rel=icon type=image/png sizes=32x32 href=/static/images/appIcons/favicon-32x32.png><link rel=icon type=image/png sizes=96x96 href=/static/images/appIcons/favicon-96x96.png><link rel=icon type=image/png sizes=16x16 href=/static/images/appIcons/favicon-16x16.png><link rel=manifest href=/static/manifest.json><meta name=msapplication-TileColor content=#333333><meta name=msapplication-TileImage content=/static/images/appIcons/ms-icon-144x144.png><meta name=theme-color content=#ffffff><link rel=stylesheet href=/static/styles/fonts.css media=none onload="if(media==='none')media='all'"><meta http-equive=X-UA-Compatible content="IE=edge"><title>{{ title }}</title><link href=/static/styles/app.0c54989fafe4268efc534cad2320658e.css?c8028c06d124dab06647 rel=stylesheet></head><body><div id=root></div><svg hidden aria-hidden=true><g id=starIcon><filter id=gaussBlur><feGaussianBlur stdDeviation=3 /></filter><path d="M128 0 L170 90 L256 100 L184 160 L210 256 L128 195 L52 256 L76 160 L0 100 L82 90 L128 0z" transform="translate(4, 4)" fill=#202020 filter=url(#gaussBlur)></path><path d="M128 0 L170 90 L256 100 L184 160 L210 256 L128 195 L52 256 L76 160 L0 100 L82 90 L128 0z" fill=#c98c4d></path></g></svg><script>window.navigator.ARTCEILING_INFO = {
       address: "{{ settings.address }}",
       email: "{{ settings.email }}",
       phone: "{{ settings.phone }}",
@@ -68,14 +13,7 @@
         .catch(function(err) {
           console.log(err);
         });
-    }
-  </script>
-  {{ settings.widgets|safe }}
-
-  {% if settings.is_tests_included %}
-    {% if settings.tests_file_name %}
-      <script>
-        (function() {
+    }</script>{{ settings.widgets|safe }} {% if settings.is_tests_included %} {% if settings.tests_file_name %}<script>(function() {
           var tests = document.createElement('script');
 
           tests.src = '/static/{{settings.tests_file_name}}';
@@ -84,9 +22,4 @@
           window.setTimeout(function() {
             document.body.appendChild(tests);
           }, 1000);
-        }());
-      </script>
-    {% endif %}
-  {% endif %}
-<script type="text/javascript" src="/static/vendor.js?2e54976fda123b9d8694"></script><script type="text/javascript" src="/static/app.js?2e54976fda123b9d8694"></script></body>
-</html>
+        }());</script>{% endif %} {% endif %}<script type=text/javascript src=/static/vendor-c8028c06d124dab06647.js?c8028c06d124dab06647></script><script type=text/javascript src=/static/app-c8028c06d124dab06647.js?c8028c06d124dab06647></script></body></html>

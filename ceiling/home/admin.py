@@ -11,6 +11,8 @@ class SettingsAdmin(SingleModelAdmin):
             'fields': (
                 ('widgets',),
                 ('meta',),
+                ('tests_file_name',),
+                ('is_tests_included',),
             ),
         },),
         ('Настройка контактной информации', {
@@ -22,10 +24,13 @@ class SettingsAdmin(SingleModelAdmin):
         },),
         ('Настройка отправки сообщений', {
             'fields': (
+                ('email_recipients',),
+                ('is_send_sms',),
                 ('account_sid',),
                 ('auth_token',),
                 ('phone_from',),
                 ('phones_to',),
+
             ),
         },),
         ('Сообщения на телефон', {
