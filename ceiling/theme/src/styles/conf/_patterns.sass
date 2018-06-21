@@ -318,8 +318,12 @@ div[role="presentation"]
 	&__option
 		color: #4F4F4F $i
 
+		> div > [style*="absolute"]
+			display: none $i
+
 		& .colorContainer
 			margin-left: 0
+
 			&__name
 				opacity: 1
 			&__color
@@ -821,6 +825,7 @@ input[type=number]:hover::-webkit-inner-spin-button
 	opacity: .7
 	will-change: opacity, color
 	max-width: 100%
+	font-weight: bold
 	transition: 350ms $standart
 	transition-property: opacity, color, background-color
 	color: $darkBlue

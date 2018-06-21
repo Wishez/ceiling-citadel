@@ -24,13 +24,13 @@ const SelectController = ({
   hintText,
   ...rest
 }) => (
-  <div style={style ? style : {}} 
+  <div style={style ? style : {}}
     className={getClass({
       b: block,
       m: modifier,
       add: `${className}`
     })}>
-    {label ? 
+    {label ?
       <label className={getClass({
         b: block,
         el: 'label',
@@ -39,11 +39,11 @@ const SelectController = ({
       })}>
         {label}
       </label> : ''}
-    {iconOptions ? 
-      <Figure 
-        block="controllerIcon" 
+    {iconOptions ?
+      <Figure
+        block="controllerIcon"
         className="baseChild"
-        {...iconOptions} 
+        {...iconOptions}
       /> : ''
     }
     <SelectField {...input}
@@ -51,29 +51,33 @@ const SelectController = ({
       onChange={onChangeSelect(input)}
       hintText={hintText}
       value={input.value}
-			
+
     >
-      {options.map((option, index) => (
-	 			<MenuItem className={getClass({
-	 				b: 'controller', 
-	 				el: 'option', 
-	 				m: modifier}
-	 			)}
-	 				key={index} 
-	 				value={option.value} 
-	 				primaryText={option.text}
-	 				leftIcon={
-	 					'showIcon' in option ? 
-	 						<ActionLabel color={option.color} /> : <span></span>}
-	 			/>
-      ))}
+      {options.map((option, index) => {
+        const menuItemOptions = {
+          key: index,
+          value: option.value,
+          primaryText: option.text,
+          className: getClass({
+            b: 'controller',
+            el: 'option',
+            m: modifier}
+          )
+        };
+
+        if('showIcon' in option) {
+          menuItemOptions.leftIcon = <ActionLabel color={option.color} />;
+        }
+
+        return (<MenuItem {...menuItemOptions} />);
+      })}
     </SelectField>
-    {touched && 
-		 	((error && 
+    {touched &&
+		 	((error &&
 		 		<span className={getClass({
 		 		  b: block,
 		 		  el: 'error'
-		 		})}>{error}</span>) || 
+		 		})}>{error}</span>) ||
 		 		(warning && <span className={getClass({
 		 		  b: block,
 		 		  el: 'error'

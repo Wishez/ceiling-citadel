@@ -15,7 +15,7 @@ const Table = ({
   isNotRoute,
   ...rest
 }) => (
-  <h3 className={`${getClass({b: block, el: element, m: elementModifier, add: 'lowCascadingShadow upper'})} ${getClass({b: 'table', m: modifier, add: `${className} parent centered row` })}`}>
+  <h3 className={`${getClass({b: block, el: element, m: elementModifier, add: 'lowCascadingShadow upper text_centered'})} ${getClass({b: 'table', m: modifier, add: `${className ? className : ''} parent centered row` })}`}>
     <Link className={getClass({b: 'table', el: 'refer', m: modifier, add: 'parent row centered unstyledLink productIndicator'})}
       to={`${url}${slug}/`}
       onClick={onClick}

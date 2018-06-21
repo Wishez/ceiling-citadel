@@ -100,9 +100,11 @@
 	margin:	0
 
 	&__title
-		font-weight: 200
-		border-top-color: $darkBlue
-		padding-top: 4rem
+		padding-top: 1.75rem $i
+		border-top: 0 $i
+		border-bottom: 8px solid $cian
+		background-color: $darkGray
+		color: $white
 
 .catalogSection, .catalogSubsection
 
@@ -151,6 +153,7 @@
 			grid-area: 2 / 2 / 2 / 2
 
 		@include breakpoint($xs)
+			justify-self: center
 			text-align: center
 			justify-content: center
 			border-bottom: 0 $i
@@ -214,6 +217,7 @@
 .controller__input button > div > div
 	height: 0px $i
 	weight: 0px $i
+
 .table
 	height: em(65)
 	margin-top: 0
@@ -222,12 +226,11 @@
 	transition: 259ms $standart
 	background-color: rgba(255,255,255,.8)
 	max-width: span(6)
-
-	// &:hover, &:focus
 	@extend %flyShadow
 
 	&__refer
 		height: 100%
+		padding: 0 1rem
 
 		&, &:hover, &:focus
 			background-image: none
@@ -385,7 +388,6 @@
 	margin-top: 0
 	margin-bottom: 0
 
-// .sampleCharacteristic, .colorContainer, .characteristics, .sampleCharacteristic__characteristic
 .sampleCharacteristic
 	font-size: em(12)
 	margin-top: em(9.11)
@@ -396,13 +398,18 @@
 
 	&:hover
 		transition-timing-function: $decelleration
-		transform: scale(1.2)
+
+	&:not(.sampleCharacteristic_colors):hover
+		transform: scale(1.2) translateX(.5rem)
 
 	&_colors
 		min-width: span(4)
 		order: 100
 		flex-flow: column wrap
 		margin-left: auto
+
+		&:hover
+			transform: scale(1.2) translateX(-1rem)
 
 	&__label
 		text-align: right

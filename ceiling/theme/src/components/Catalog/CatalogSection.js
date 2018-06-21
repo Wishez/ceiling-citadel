@@ -14,7 +14,7 @@ const CatalogSection = ({
   headerId,
   fallback=''
 }) => (
-  <section className={getClass({b: 'catalogSection', m: modifier, add: `${className} lowCascadingShadow` })}>
+  <section className={getClass({b: 'catalogSection', m: modifier, add: `${className} lowCascadingShadow background-color_white` })}>
     <h2 key="heading" id={headerId} className={getClass({b: 'catalogSection', el: 'title', m: modifier, add: `text_centered${titleShown ? '' : ' visible-hidden'}` })}>
       {name}
     </h2>
