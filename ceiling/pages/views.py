@@ -23,6 +23,7 @@ class BaseView(TemplateView):
     # Дополняет контекст свойствами нужной страницы, если нужно
     def set_additional_context(self, context):
         return context
+
     def get_page(self):
         self.page = self.page_model.objects.get()
 
@@ -36,7 +37,7 @@ class BaseView(TemplateView):
 
         if is_page_set:
             page = self.page
-            context['title'] = page.page_title
+            context['title'] = page.page_title or page.name
             context['page'] = page
             # Установка мета-описания для текущей страницы
             if page.meta != '':
@@ -48,14 +49,17 @@ class BaseView(TemplateView):
 
         return self.set_additional_context(context)
 
-class BaseProductView(BaseView):
+
+class ManyInstancesView(BaseView):
+    def get_page(self, slug):
+        self.page = self.page_model.objects.get(slug=slug)
+
+class BaseProductView(ManyInstancesView):
     def __init__(self):
         super(BaseProductView, self).__init__()
         self.page_model = Product
         self.is_single_model = False
 
-    def get_page(self, productSlug):
-        self.page = self.page_model.objects.get(slug=productSlug)
 
 
 class CategorySampleView(BaseProductView):
@@ -93,7 +97,6 @@ class BrandSampleView(BaseProductView):
         productSlug
     ):
         self.get_page(productSlug)
-
         return super(BrandSampleView, self).get(request)
 
 class BrandProductView(BaseProductView):
@@ -117,7 +120,6 @@ class HomeView(BaseView):
 
 
 class ServiceView(BaseView):
-
     def __init__(self):
         super(ServiceView, self).__init__()
         self.page_model = ServicePage
@@ -132,19 +134,32 @@ class CatalogView(BaseView):
         super(CatalogView, self).__init__()
         self.page_model = CatalogPage
 
-class BrandView(CatalogView):
+class BrandView(ManyInstancesView):
+    def __init__(self):
+        super(BrandView, self).__init__()
+        self.page_model = Brand
+        self.is_single_model = False
+
     def get(
         self,
         request,
         brandSlug,
     ):
+        self.get_page(brandSlug)
         return super(BrandView, self).get(request)
-class CategoryView(CatalogView):
+
+class CategoryView(ManyInstancesView):
+    def __init__(self):
+        super(CategoryView, self).__init__()
+        self.page_model = Category
+        self.is_single_model = False
+
     def get(
         self,
         request,
         categorySlug,
     ):
+        self.get_page(categorySlug)
         return super(CategoryView, self).get(request)
 
 class BrandCollectionView(CatalogView):

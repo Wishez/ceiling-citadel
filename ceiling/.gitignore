@@ -7,3 +7,5 @@ public
 package-lock.json
 dist/
 static
+media/
+albums

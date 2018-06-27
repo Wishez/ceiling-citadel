@@ -15,7 +15,19 @@ from home.models import \
 from pages.validators import validate_slug_field
 
 class BaseDescriptionModel(TimeStampedModel):
-
+    page_title = models.CharField(
+        _('Заголовок'),
+        help_text=_('Название страницы во вкладке'),
+        max_length=100,
+        blank=True,
+        null=True
+    )
+    meta = models.TextField(
+        _('META-описание страницы'),
+        max_length=350,
+        blank=True,
+        null=True
+    )
     name = models.CharField(_('Наименование'), max_length=100)
     description = models.TextField(
         _('Описание'),
@@ -105,6 +117,7 @@ class CategorySection(TimeStampedModel):
         verbose_name_plural = _('Секции')
 
 class Category(BaseDescriptionModel):
+
     section = models.ForeignKey(
         CategorySection,
         verbose_name=_('Секция'),

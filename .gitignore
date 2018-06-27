@@ -17,3 +17,5 @@ rest_framework
 .coverage
 python
 client_secrets.json
+media
+albums

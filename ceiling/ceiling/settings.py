@@ -72,6 +72,7 @@ RAVEN_CONFIG = {
     # release based on the git info.
     'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
 }
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
@@ -247,7 +248,7 @@ LANGUAGES = [
 ]
 
 # Jet config
-JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(BASE_DIR, 'client_secrets.json')
+# JET_MODULE_GOOGLE_ANALYTICS_CLIENT_SECRETS_FILE = os.path.join(BASE_DIR, 'client_secrets.json')
 JET_DEFAULT_THEME = 'default'
 JET_SIDE_MENU_COMPACT = True
 JET_INDEX_DASHBOARD = 'myadmin.dashboard.CustomIndexDashboard'

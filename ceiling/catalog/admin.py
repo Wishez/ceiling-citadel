@@ -5,6 +5,8 @@ from .models import *
 
 base_description = ('Базовое описание', {
     'fields': (
+        ('page_title',),
+        ('meta',),
         ('name', 'slug',),
         ('slogan',),
         ('description',),
