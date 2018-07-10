@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import getClass from './../constants/classes';
-import AddProductForm from './../components/Product/AddProductForm';
-import Figure from './../components/Figure';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import getClass from "./../constants/classes";
+import AddProductForm from "./../components/Product/AddProductForm";
+import Figure from "./../components/Figure";
 
-import OrderButtonContainer from './OrderButtonContainer';
-import { cartPositions } from './../constants/cart';
-import { showAddingProductToCart } from './../actions/cart';
+import OrderButtonContainer from "./OrderButtonContainer";
+import { cartPositions } from "./../constants/cart";
+import { showAddingProductToCart } from "./../actions/cart";
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
-import Loader from './../components/Loader';
-import ReactHtmlParser from 'react-html-parser';
-import {makeSelectOptions, makeSelectColorOptions} from './../constants/filter';
+import Loader from "./../components/Loader";
+import ReactHtmlParser from "react-html-parser";
+import {makeSelectOptions, makeSelectColorOptions} from "./../constants/filter";
 
 class AddProductFormContainer extends Component {
   static propTypes = {
@@ -42,13 +42,13 @@ class AddProductFormContainer extends Component {
   }
 
   state = {
-    combustibilityValue: '',
-    acousticsValue: '',
-    edgesValue: '',
-    colorsValue: '',
-    materialValue: '',
-    lightningValue: '',
-    proportionsValue: '',
+    combustibilityValue: "",
+    acousticsValue: "",
+    edgesValue: "",
+    colorsValue: "",
+    materialValue: "",
+    lightningValue: "",
+    proportionsValue: "",
   }
 
   onChangeSelect = input => (event, index, value) => {
@@ -75,6 +75,15 @@ class AddProductFormContainer extends Component {
       image: image,
       url
     }));
+
+    this.makeAddToCartConvertionIfNeeded();
+  }
+
+  makeAddToCartConvertionIfNeeded = () => {
+    console.log(window.makeAddToCartConvertion);
+    if (window.makeAddToCartConvertion) {
+      window.makeAddToCartConvertion();
+    }
   }
 
   render() {
@@ -109,8 +118,8 @@ class AddProductFormContainer extends Component {
           </h2>
           <div className={
             getClass({
-              b: 'addProductFormContainer',
-              add: `parent column ${isProductAdded ? 'centered' : 'h-end' }`
+              b: "addProductFormContainer",
+              add: `parent column ${isProductAdded ? "centered" : "h-end" }`
             })}>
             <Figure url={image} maxWidth="33.33%" name="product" />
 
@@ -118,10 +127,10 @@ class AddProductFormContainer extends Component {
               <AddProductForm {...this.state}
                 buttonOptions={{
                   content: !isRequesting ?
-                    'В корзину'
+                    "В корзину"
                     : <Loader name="addProductFormLoader"
                     />,
-                  modifier: 'product'
+                  modifier: "product"
                 }}
                 className="row h-start v-centered"
                 centered={false}
