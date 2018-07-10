@@ -1,9 +1,7 @@
-import React from 'react';
-import CatalogItem from '@/components/Catalog/CatalogItem';
-import {getArray, fixUrl} from './pureFunctions';
-import  CatalogSubsection from '@/components/Catalog/CatalogSubsection';
-
-
+import React from "react";
+import CatalogItem from "@/components/Catalog/CatalogItem";
+import {slideTo, timeout, getArray, fixUrl} from "./pureFunctions";
+import  CatalogSubsection from "@/components/Catalog/CatalogSubsection";
 
 export const makeSelectOptions = options => (
   options ?
@@ -62,12 +60,13 @@ export const catalogSectionCombiner = (
     combineCatalogSimpleItem({
       key: index,
       description: item.description,
+      changePage: changePage(item.page_title),
       name: item.name,
       image: item.preview.image,
       slug: item.slug,
       style: false,
       url: fixUrl(url),
-      modifier: isSample ? 'sample' : '',
+      modifier: isSample ? "sample" : "",
       isSample,
       item
     })
@@ -75,6 +74,17 @@ export const catalogSectionCombiner = (
   ))
 );
 
+function changePage(pageTitle) {
+  return () => {
+    timeout(() => {
+      slideTo({
+        selector: "#main"
+      });
+    }, 500);
+
+    document.title = pageTitle;
+  };
+}
 
 export const catalogSubsectionsCombiner = (
   items,
@@ -107,8 +117,9 @@ export const catalogSubsectionsCombiner = (
           description: item.description,
           image: item.preview.image,
           style: false,
+          changePage: changePage(item.page_title),
           url: fixUrl(url),
-          modifier: isSample ? 'sample' : '',
+          modifier: isSample ? "sample" : "",
           isSample,
           name,
           slug,
@@ -129,5 +140,5 @@ export const catalogSubsectionsCombiner = (
 function combineCatalogSimpleItem(props) {
   return props.item.is_shown ?
     <CatalogItem key={props.key} {...props}/>
-    : '';
+    : "";
 }
