@@ -5,6 +5,7 @@ from home.models import Color
 from album.models import AlbumImage, Album
 
 base_list_fields = [
+    'page_title',
     'uuid',
     'name',
     'description',
@@ -14,6 +15,7 @@ base_list_fields = [
 ]
 
 base_fields = [
+    'page_title',
     'uuid',
     'name',
     'description',
@@ -23,10 +25,11 @@ base_fields = [
 ]
 # Base
 class ImageSerializer(serializers.ModelSerializer):
-    image = serializers.SlugRelatedField(
-        read_only=True,
-        slug_field="url"
-    )
+    # image = serializers.SlugRelatedField(
+    #     read_only=True,
+    #     slug_field="url"
+    # )
+
     class Meta:
         model = AlbumImage
         fields = [
@@ -42,6 +45,7 @@ class ColorSerializer(serializers.ModelSerializer):
             'name',
             'color'
         ]
+
 # Product
 class ProductsListSerializer(serializers.ModelSerializer):
     colors = ColorSerializer(
@@ -80,7 +84,10 @@ class ProductsListSerializer(serializers.ModelSerializer):
 class ProductBrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = ['name', 'uuid', 'slug']
+        fields = [
+            'page_title',
+            'name', 'uuid', 'slug']
+
 class ProductSerializer(serializers.ModelSerializer):
     preview = ImageSerializer(
         read_only=True
@@ -173,6 +180,7 @@ class InfoProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            'page_title',
             'name',
             'uuid',
             'slug',
@@ -195,6 +203,7 @@ class BrandOrCategoryCollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = [
+            'page_title',
             'name',
             'uuid',
             'slug',
