@@ -28,7 +28,7 @@
 		transform: translateY(-2.5em)
 .container_footer
 	min-height: em(255)
-	max-width: em(1280)
+	max-width: em(1024)
 	@include breakpoint($sm-less)
 		padding: 0
 .footerNavigationContainer
@@ -77,7 +77,9 @@
 		min-width: span(12)
 
 .firstFooterBlock
-	align-items: flex-start
+    padding-right: 75px
+	align-items: flex-end
+
 	@include breakpoint($md)
 		padding-left: 2em
 	@include breakpoint($sm-less)
@@ -85,6 +87,9 @@
 	@include breakpoint($xs)
 		order: 2
 		display: block
+	
+	.buttonsGroup .callbackButtons
+		margin-right: 0
 
 .buttonsGroup_footer
 	min-width: span(6.5)

@@ -9,7 +9,7 @@
 	@extend %absolute
 	min-width: auto
 	right: 0
-	top: .5rem
+	top: .75rem
 	z-index: 101
 
 
@@ -17,7 +17,7 @@
 	min-width: 100%
 	background: none
 	border-bottom: 1px solid
-	padding-bottom: .5rem
+	padding-bottom: 1.1rem
 	padding-top: 1.1rem
 	box-shadow: none
 
@@ -139,7 +139,7 @@
 
 .header
 	background-color: $white
-	padding: 1em 0 3em
+	padding: 0 0 2.5em
 	z-index: 100000
 
 	@include breakpoint($xs)
@@ -164,9 +164,6 @@
 
 
 .navigation
-	position: fixed
-	transition: transform 250ms
-	transition-timing-function: $acceleration
 	padding-bottom: 1em
 	padding-top: 2em
 	top: 0
@@ -181,6 +178,29 @@
 	color: $gray
 	background-color: #F2F2F2
 	border-top: 1px solid $darkGray
+	position: fixed
+	transition: transform 250ms
+	transition-timing-function: $acceleration
+
+	&_static
+		position: relative
+		transform: translateY(0)
+		background: transparent
+		padding: 0
+		border: 0
+
+		.navList
+			flex-direction: row
+		
+		.navItem
+			font-size: 1em
+			margin-top: auto
+
+			&:not(:last-child)
+				margin-right: em(16)
+
+			&_active
+
 
 	&_opened
 		transition-timing-function: $decelleration
@@ -204,31 +224,14 @@
 
 
 .buttonsGroup
-	max-width: em(218)
-	z-index: 100
-	padding-bottom:
-
-	&_header
-		align-self: flex-end
-
-		@include breakpoint($md)
-			margin-left: auto
-			margin-right: auto
-		@include breakpoint($md-less)
-			order: 2
-		@include breakpoint($xs)
-			z-index: 1
-		@include breakpoint($xxs)
-			max-width: em(145)
+	z-index: 1
 
 	@include breakpoint($xs)
-
 		display: flex
 		flex-flow: row nowrap
 		align-items: center
 		justify-content: center
 		min-width: span(12)
-		// max-height: em(77)
 		flex-direction: row
 		order: 4
 		background-color: rgba(33, 33, 33, 0.05)
@@ -236,10 +239,28 @@
 		border-right: 0
 		box-sizing: content-box
 		height: auto
+
 	@include breakpoint($xxs)
 		min-height: em(140)
 		flex-direction: column
 		max-height: none
+	
+	&_header
+
+	
+	@include breakpoint($md)
+		margin-left: auto
+		margin-right: auto
+
+	@include breakpoint($md-less)
+		order: 2
+
+	@include breakpoint($xxs)
+		max-width: em(145)
+	
+	
+	.callbackButtons 
+		margin-right: em(13 * 1.618)
 
 
 .infoHeaderBlock
@@ -251,13 +272,15 @@
 
 .searchBlock
 	@extend %relative
-	max-width: em(275)
+	max-width: em(345)
 	width: span(12)
-	margin: 1rem auto 2rem
+	margin: 1rem 0 2rem auto
+	z-index: 1000
 
 	&_header
-		margin-bottom: 0
-		max-width: span(12)
+		max-width: 65%
+		
+
 		@include breakpoint($xs)
 			margin-top: 2rem
 
@@ -343,14 +366,10 @@
 		& .navItem__refer_orange
 			color: $orange
 
-.orderButtons
-	&_header
-		@include breakpoint($xxs)
-			padding-top: 0 $i
 .orderButtons, .callbackButtons
+	max-width: em(218)
 
 	&_header
-		margin-top: 1rem $i
 
 		@include breakpoint($xxs)
 		    padding-top: 0  $i

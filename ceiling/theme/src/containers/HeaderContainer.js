@@ -1,67 +1,37 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
-import SearchContainer from './SearchContainer';
-import NavContainer from './NavContainer.js'; 
-import OrderButtonContainer from './OrderButtonContainer';
-import CallbackButtonContainer from './CallbackButtonContainer';
-
-import Logo from './../components/Logo';
-import Contacts from './../components/Contacts';
-import ButtonsGroup from './../components/ButtonsGroup';
-
-import {cartPositions} from './../constants/cart';
-import getClass from './../constants/classes';
+import React from "react";
+import SearchContainer from "./SearchContainer";
+import NavContainer from "./NavContainer"; 
+import OrderButtonContainer from "./OrderButtonContainer";
+import CallbackButtonContainer from "./CallbackButtonContainer";
+import Logo from "./../components/Logo";
+import ButtonsGroup from "./../components/ButtonsGroup";
+import { cartPositions } from "./../constants/cart";
+import getClass from "./../constants/classes";
 
 
-class HeaderContainer extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    phone: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-  }
+const HeaderContainer = (props) => {
 
- 
-  render() {
-    const isBigScreen = window.innerWidth > 1199;
-  
-    return (
-      <header className={getClass({b: 'header', add: 'materialCascadingShadow'})}>
-        <div className={getClass({b: 'container', add: 'parent row v-centered h-around'})}>
-          <NavContainer isFooter={false} />
-  
-          <Logo maxWidth={65} modifier="header"/>
-          <div className={getClass({b: 'infoHeaderBlock'})}>  
-                
-            <Contacts 
-              {...this.props}
-            />
-            <SearchContainer searchName="headerSearch" modifier="header" />
-          </div>
-          <ButtonsGroup className="baseChild" modifier="header">
-            <CallbackButtonContainer {...this.props}
-              openCallback={this.openCallbackForm} />
-            <OrderButtonContainer
-              cartPosition={cartPositions.header}
-              cartModifier="hover_bottom"
-              modifier="header"
-            />
-          </ButtonsGroup>
+  return (
+    <header className={getClass({b: "header", add: "materialCascadingShadow"})}>
+      <div className={getClass({b: "container", add: "parent row v-centered h-around"})}>
+        <Logo maxWidth={65} modifier="header"/>
 
-        </div>
-      </header>
-    );
-  }
-}
+        <SearchContainer searchName="headerSearch" modifier="header" />
 
+        <ButtonsGroup className="baseChild parent row" modifier="header">
+          <CallbackButtonContainer {...props} />
 
+          <OrderButtonContainer
+            cartPosition={cartPositions.header}
+            cartModifier="hover_bottom"
+            modifier="header"
+          />
+        </ButtonsGroup>
 
-const mapStateToProps = state => {
-  
-  return {};
+        <NavContainer isStaticMenu />
+      </div>
+    </header>
+  );
 };
-      
 
-export default connect(mapStateToProps)(HeaderContainer);
+export default HeaderContainer;
