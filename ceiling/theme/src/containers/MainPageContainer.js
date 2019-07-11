@@ -1,36 +1,35 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import OrderButtonContainer from './OrderButtonContainer';
+import React, {PureComponent} from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import OrderButtonContainer from "./OrderButtonContainer";
 
-import CatalogSection from '@/components/Catalog/CatalogSection';
-import CatalogItem from '@/components/Catalog/CatalogItem';
-import Loader from '@/components/Loader';
-import AboutSection from '@/components/AboutSection';
-import Paragraph from '@/components/Paragraph';
-import Fading from '@/components/Animation/Fading';
+import CatalogSection from "@/components/Catalog/CatalogSection";
+import CatalogItem from "@/components/Catalog/CatalogItem";
+import Loader from "@/components/Loader";
+import AboutSection from "@/components/AboutSection";
+import Paragraph from "@/components/Paragraph";
+import Fading from "@/components/Animation/Fading";
 
-import getClass from '@/constants/classes';
+import getClass from "@/constants/classes";
 
-import {getArray, slideTo, timeout } from '@/constants/pureFunctions';
-import { catalogSectionCombiner } from '@/constants/filter';
-import {catalogBrandUrl} from '@/constants/conf';
-import { aboutSections } from '@/constants/conf';
-import { CATALOG } from '@/constants/catalog';
+import {getArray, slideTo, timeout } from "@/constants/pureFunctions";
+import { catalogSectionCombiner } from "@/constants/filter";
+import {catalogBrandUrl} from "@/constants/conf";
+import { aboutSections } from "@/constants/conf";
+import { CATALOG } from "@/constants/catalog";
 
-import { initNavigationState } from '@/reducers/navigation';
+import { initNavigationState } from "@/reducers/navigation";
 
-import { selectNavigationItem } from '@/actions/navigationActions';
+import { selectNavigationItem } from "@/actions/navigationActions";
 
 
-import exhibition from '@/images/about/exhebition1.png';
-import boxes from '@/images/about/boxes.png';
-import {cartPositions} from '@/constants/cart';
+import exhibition from "@/images/about/exhebition1.png";
+import boxes from "@/images/about/boxes.png";
+import {cartPositions} from "@/constants/cart";
 
-class MainPageContainer extends Component {
+class MainPageContainer extends PureComponent {
 	static propTypes = {
-	  dispatch: PropTypes.func.isRequired,
 	  match: PropTypes.object,
 	  location: PropTypes.object,
 	  isRequesting: PropTypes.bool.isRequired
@@ -65,7 +64,7 @@ class MainPageContainer extends Component {
 		  	CATALOG,
 		  	(err, catalog) => {
 
-			  if (catalog !== null && 'brands' in catalog) {
+			  if (catalog !== null && "brands" in catalog) {
 				  this.setState({
 				  	brands: catalogSectionCombiner(
 				  		getArray(catalog.brands),
@@ -79,11 +78,11 @@ class MainPageContainer extends Component {
 
 
 	  return (
-	    <div className={getClass({b: 'container', m: 'main', add: 'parent column centered'})}>
+	    <div className={getClass({b: "container", m: "main", add: "parent column centered"})}>
 	      	<CatalogSection name="Основные бренды" titleShown={false}>
 	    	{!isRequesting && brands.length ?
           		brands :
-          		''}
+          		""}
 	      	</CatalogSection>
 	      {aboutSections.map((section, index) => (
 	        <Fading key={index}>
@@ -101,7 +100,7 @@ class MainPageContainer extends Component {
 	          block="aboutSection">
 	          Наша галерея хранит отборные дизайнерские работы.
 	          Она делится на несколько залов, которые, вероятно, заинтересуют вас:
-	          <Link to='/catalog#brands' onClick={this.gogo('#brands')}> зал с брэндами</Link> и <Link onClick={this.gogo('#categories')} to='/catalog#categories'> зал с разнообразым типами потолков</Link>.
+	          <Link to='/catalog#brands' onClick={this.gogo("#brands")}> зал с брэндами</Link> и <Link onClick={this.gogo("#categories")} to='/catalog#categories'> зал с разнообразым типами потолков</Link>.
 	         </Paragraph>
 
 	      </AboutSection>

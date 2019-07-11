@@ -29,7 +29,6 @@ logOut = () => {
 * Props
 static PropTypes = {    
     isLogged: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired,

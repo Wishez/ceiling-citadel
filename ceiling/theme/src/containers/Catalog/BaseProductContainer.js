@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 
 import {
   PRODUCT,
   LAST_ALBUM,
   BRAND,
   CATEGORY
-} from '@/constants/catalog';
-import { transformName, makeSlides, timeout } from '@/constants/pureFunctions';
+} from "@/constants/catalog";
+import { transformName, makeSlides, timeout } from "@/constants/pureFunctions";
 
-import { fetchCatalogEntityOrGetLocale } from '@/actions/catalog';
-import { resetAddToCartForm } from '@/actions/cart';
+import { fetchCatalogEntityOrGetLocale } from "@/actions/catalog";
+import { resetAddToCartForm } from "@/actions/cart";
 
-import BaseCatalogContainer from './BaseCatalogContainer';
-import AddProductFormContainer from './../AddProductFormContainer';
+import BaseCatalogContainer from "./BaseCatalogContainer";
+import AddProductFormContainer from "./../AddProductFormContainer";
 
-import Figure from '@/components/Figure';
-import Loader from '@/components/Loader';
-import Slider from '@/components/Slider/Slider';
+import Figure from "@/components/Figure";
+import Loader from "@/components/Loader";
+import Slider from "@/components/Slider/Slider";
 
-class BaseProductContainer extends Component {
+class BaseProductContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
@@ -36,8 +35,8 @@ class BaseProductContainer extends Component {
 
     this.state = {
       product: false,
-      slogan: '',
-      productName: '',
+      slogan: "",
+      productName: "",
       album: false,
       slides: [],
       inited: true,
@@ -92,22 +91,22 @@ class BaseProductContainer extends Component {
     switch (lastShownView.type) {
       case CATEGORY:
         breadcrumbsRoutes = {
-          '/catalog': 'Каталог',
-          '/catalog/category': false,
-          '/catalog/category/:categorySlug': lastStepName,
-          '/catalog/category/:categorySlug/sample': false,
-          '/catalog/category/:categorySlug/sample/:productSlug': false,
-          '/catalog/category/:categorySlug/sample/:productSlug/': false
+          "/catalog": "Каталог",
+          "/catalog/category": false,
+          "/catalog/category/:categorySlug": lastStepName,
+          "/catalog/category/:categorySlug/sample": false,
+          "/catalog/category/:categorySlug/sample/:productSlug": false,
+          "/catalog/category/:categorySlug/sample/:productSlug/": false
         };
         break;
       case BRAND:
         breadcrumbsRoutes = {
-          '/catalog': 'Каталог',
-          '/catalog/brand': false,
-          '/catalog/brand/:brandSlug': lastStepName,
-          '/catalog/brand/:brandSlug/sample': false,
-          '/catalog/brand/:brandSlug/sample/:productSlug': false,
-          '/catalog/brand/:brandSlug/sample/:productSlug/': false
+          "/catalog": "Каталог",
+          "/catalog/brand": false,
+          "/catalog/brand/:brandSlug": lastStepName,
+          "/catalog/brand/:brandSlug/sample": false,
+          "/catalog/brand/:brandSlug/sample/:productSlug": false,
+          "/catalog/brand/:brandSlug/sample/:productSlug/": false
         };
         break;
       default:
@@ -206,7 +205,7 @@ class BaseProductContainer extends Component {
                 name="visualisation"
                 maxWidth="100%"
               />
-              : ''
+              : ""
             }
 
             {album && album.slug === product.album ?
@@ -215,7 +214,7 @@ class BaseProductContainer extends Component {
                 animSettings={{ animDuration: 500, animElasticity: 200 }}
                 dotSettings={{ size: 12, gap: 6 }}
               />
-              : ''}
+              : ""}
 
             {product.content ?
               <section className='productContent parent centered'>
@@ -223,7 +222,7 @@ class BaseProductContainer extends Component {
                   {ReactHtmlParser(product.content)}
                 </div>
               </section>
-              : ''}
+              : ""}
           </div>
           : <Loader />}
       </BaseCatalogContainer>

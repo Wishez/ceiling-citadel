@@ -1,37 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 
 import {
   CATALOG,
   PRODUCT,
   LAST_ALBUM
-} from '@/constants/catalog';
+} from "@/constants/catalog";
 import {
   transformName,
   makeSlides
-} from '@/constants/pureFunctions';
+} from "@/constants/pureFunctions";
 
 import {
   getProductData
-} from '@/constants/filter';
+} from "@/constants/filter";
 
-import BreadcrumbsContainer from './../BreadcrumbsContainer';
-import BaseCatalogContainer from './BaseCatalogContainer';
-import AddProductFormContainer from './../AddProductFormContainer';
-import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
-import {resetAddToCartForm} from '@/actions/cart';
+import BreadcrumbsContainer from "./../BreadcrumbsContainer";
+import BaseCatalogContainer from "./BaseCatalogContainer";
+import AddProductFormContainer from "./../AddProductFormContainer";
+import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
+import {resetAddToCartForm} from "@/actions/cart";
 
-import Figure from '@/components/Figure';
-import Loader from '@/components/Loader';
-import CatalogSection from '@/components/Catalog/CatalogSection';
-import Slider from '@/components/Slider/Slider';
+import Figure from "@/components/Figure";
+import Loader from "@/components/Loader";
+import Slider from "@/components/Slider/Slider";
 
-class CategoryProductContainer extends Component {
+class CategoryProductContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
@@ -39,12 +37,12 @@ class CategoryProductContainer extends Component {
 
 
   state = {
-    id: '',
-    categoryName: '',
-    collectionName: '',
+    id: "",
+    categoryName: "",
+    collectionName: "",
     product: false,
-    slogan: '',
-    productName: '',
+    slogan: "",
+    productName: "",
     album: false,
     slides: []
   }
@@ -204,12 +202,12 @@ class CategoryProductContainer extends Component {
         slogan={slogan}
         modifier="product"
         routes={{
-          '/catalog': 'Каталог',
-          '/catalog/category': false,
-          '/catalog/category/:categorySlug': categoryName,
-          '/catalog/category/:categorySlug/:collectionSlug': collectionName,
-          '/catalog/category/:categorySlug/:collectionSlug/:productSlug': false,
-          '/catalog/category/:categorySlug/:collectionSlug/:productSlug/': false
+          "/catalog": "Каталог",
+          "/catalog/category": false,
+          "/catalog/category/:categorySlug": categoryName,
+          "/catalog/category/:categorySlug/:collectionSlug": collectionName,
+          "/catalog/category/:categorySlug/:collectionSlug/:productSlug": false,
+          "/catalog/category/:categorySlug/:collectionSlug/:productSlug/": false
         }}
         isProduct={true}
         CONSTANT={PRODUCT}
@@ -224,13 +222,13 @@ class CategoryProductContainer extends Component {
 
             {product.visualisation !== null ?
               <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" />
-              : ''}
+              : ""}
 
             {(album && album.slug === product.album) ?
               <Slider slides={slides}
                 animSettings={{animDuration: 500, animElasticity: 200}}
                 dotSettings={{size: 12, gap: 6}} />
-              : ''}
+              : ""}
 
             {product.content ?
               <section className='productContent parent centered'>
@@ -238,7 +236,7 @@ class CategoryProductContainer extends Component {
                   {ReactHtmlParser(product.content)}
                 </div>
               </section>
-              : ''}
+              : ""}
           </div>
           : <Loader />}
       </BaseCatalogContainer>

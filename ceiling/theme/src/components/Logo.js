@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import getClass, {composeClasses} from "./../constants/classes";
 import brand from "./../images/logo.png";

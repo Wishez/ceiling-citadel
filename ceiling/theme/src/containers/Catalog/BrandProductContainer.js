@@ -1,35 +1,34 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import ReactHtmlParser from "react-html-parser";
 
-import getClass from './../../constants/classes';
+import getClass from "./../../constants/classes";
 import {
   CATALOG,
   PRODUCT,
   LAST_ALBUM
-} from '@/constants/catalog';
+} from "@/constants/catalog";
 
-import {transformName, makeSlides} from '@/constants/pureFunctions';
+import {transformName, makeSlides} from "@/constants/pureFunctions";
 
-import {getProductData} from '@/constants/filter';
+import {getProductData} from "@/constants/filter";
 
 
-import BaseCatalogContainer from './BaseCatalogContainer';
-import AddProductFormContainer from './../AddProductFormContainer';
+import BaseCatalogContainer from "./BaseCatalogContainer";
+import AddProductFormContainer from "./../AddProductFormContainer";
 
-import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
-import {resetAddToCartForm} from '@/actions/cart';
+import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
+import {resetAddToCartForm} from "@/actions/cart";
 
-import Figure from '@/components/Figure';
-import Loader from '@/components/Loader';
+import Figure from "@/components/Figure";
+import Loader from "@/components/Loader";
 
-import Slider from '@/components/Slider/Slider';
+import Slider from "@/components/Slider/Slider";
 
-class BrandProductContainer extends Component {
+class BrandProductContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
@@ -37,12 +36,12 @@ class BrandProductContainer extends Component {
 
 
   state = {
-    id: '',
-    brandName: '',
-    collectionName: '',
+    id: "",
+    brandName: "",
+    collectionName: "",
     product: false,
-    slogan: '',
-    productName: '',
+    slogan: "",
+    productName: "",
     album: false,
     slides: [],
     inited: true
@@ -94,7 +93,7 @@ class BrandProductContainer extends Component {
            if (product) {
              localforage.getItem(LAST_ALBUM)
                .then(album => {
-                 const slides = album.images.map(makeSlides);
+                 const slides = album && album.images && album.images.map(makeSlides);
                  const transformedProductName =  transformName(product.name);
 
                  if (productName !== transformedProductName) {
@@ -176,12 +175,12 @@ class BrandProductContainer extends Component {
          slogan={slogan}
          modifier="product"
          routes={{
-           '/catalog': 'Каталог',
-           '/catalog/brand': false,
-           '/catalog/brand/:brandSlug': brandName,
-           '/catalog/brand/:brandSlug/:collectionSlug': collectionName,
-           '/catalog/brand/:brandSlug/:collectionSlug/:productSlug': false,
-           '/catalog/brand/:brandSlug/:collectionSlug/:productSlug/': false
+           "/catalog": "Каталог",
+           "/catalog/brand": false,
+           "/catalog/brand/:brandSlug": brandName,
+           "/catalog/brand/:brandSlug/:collectionSlug": collectionName,
+           "/catalog/brand/:brandSlug/:collectionSlug/:productSlug": false,
+           "/catalog/brand/:brandSlug/:collectionSlug/:productSlug/": false
          }}
          isProduct={true}
          CONSTANT={PRODUCT}
@@ -200,7 +199,7 @@ class BrandProductContainer extends Component {
                  name="visualisation"
                  maxWidth="100%"
                />
-               : ''
+               : ""
              }
 
              {album && album.slug === product.album ?
@@ -209,7 +208,7 @@ class BrandProductContainer extends Component {
                  animSettings={{ animDuration: 500, animElasticity: 200 }}
                  dotSettings={{ size: 12, gap: 6 }}
                />
-               : ''}
+               : ""}
 
              {product.content ?
                <section className='productContent parent centered'>
@@ -217,7 +216,7 @@ class BrandProductContainer extends Component {
                    {ReactHtmlParser(product.content)}
                  </div>
                </section>
-               : ''}
+               : ""}
            </div>
            : <Loader />}
        </BaseCatalogContainer>

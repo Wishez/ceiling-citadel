@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ReactHtmlParser from 'react-html-parser';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 
 import {
   tryOrderCallback,
   closeCallback,
   reinitCallbackForm
-} from '@/actions/callback';
+} from "@/actions/callback";
 
-import Loader from '@/components/Loader';
-import CallbackForm from '@/components/CallbackForm';
-import PopupFormContainer from '@/components/PopupFormContainer';
+import Loader from "@/components/Loader";
+import CallbackForm from "@/components/CallbackForm";
+import PopupFormContainer from "@/components/PopupFormContainer";
 
 
-class CallbackFormContainer extends Component {
+class CallbackFormContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     isCallbackOpened: PropTypes.bool.isRequired,
     helpText: PropTypes.string.isRequired,
     isShownHelpText: PropTypes.bool.isRequired,
@@ -52,7 +51,7 @@ class CallbackFormContainer extends Component {
           <CallbackForm
             buttonOptions={{
               content: !isRequesting ?
-                'Заказать'
+                "Заказать"
                 : <Loader />,
             }}
             id="callbackForm"

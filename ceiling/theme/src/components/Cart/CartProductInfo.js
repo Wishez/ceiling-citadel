@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import PopupFormContainer from '@/components/PopupFormContainer';
-import Characteristics from '../Catalog/Characteristics';
+import PopupFormContainer from "@/components/PopupFormContainer";
+import Characteristics from "../Catalog/Characteristics";
 
-import {hideProductInfo} from '@/actions/cart';
-import {Observable, fromEvent} from 'rxjs';
-import {map, debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {hideProductInfo} from "@/actions/cart";
+import {Observable, fromEvent} from "rxjs";
+import {map, debounceTime, distinctUntilChanged} from "rxjs/operators";
 
 
 import {
   changeProductQuantityAndUpdateInfo
-} from '@/actions/cart';
+} from "@/actions/cart";
 
-class CartProductInfo extends Component {
+class CartProductInfo extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     name: PropTypes.string.isRequired,
     quantity: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
@@ -66,7 +65,7 @@ class CartProductInfo extends Component {
     const observer = {
       next: this.changeProductQuantity
     };
-    const quantityProductsObservable = Observable::fromEvent(qunatityProductsInput, 'input');
+    const quantityProductsObservable = Observable::fromEvent(qunatityProductsInput, "input");
 
     const quantityProductsSubscribtion = quantityProductsObservable
       .pipe(
@@ -120,7 +119,7 @@ render() {
             Квадратные метры: {width * length * quantity}²<br />
         </p>
       ) : (
-        ''
+        ""
       )}
 
       <Characteristics

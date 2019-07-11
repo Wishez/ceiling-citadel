@@ -1,24 +1,22 @@
-import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import React, { PureComponent } from "react";
+import {Link} from "react-router-dom";
 
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import Search from './../components/Search';
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import Search from "./../components/Search";
 
-import getClass from '@/constants/classes';
-import {timer} from '@/constants/pureFunctions';
+import getClass from "@/constants/classes";
+import {timer} from "@/constants/pureFunctions";
 
 import {
   findEntitiesAndShowResults,
   cleanSearchEntities
-} from './../actions/catalog';
+} from "./../actions/catalog";
 
-class SearchContainer extends Component {
+class SearchContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    searchName: PropTypes.string.isRequired,
     searchedEntities: PropTypes.array.isRequired,
     isFinding: PropTypes.bool.isRequired,
     SearchForm: PropTypes.object
@@ -26,39 +24,12 @@ class SearchContainer extends Component {
 
   state = {
     isEntitiesListShown: false,
-    searchValue: ''
+    searchValue: ""
   }
 
-  componentDidMount() {
-
-  }
-
-  searchEntities = (values) => {
-    const {
-      searchName,
-      searchedEntities,
-      SearchForm,
-      dispatch
-    } = this.props;
-
-    if ('active' in SearchForm && searchName === SearchForm.active) {
-      const currentValue = values[searchName];
-      this.setSearchValue(currentValue);
-
-      if (typeof currentValue !== 'undefined') {
-        dispatch(findEntitiesAndShowResults(currentValue));
-      } else {
-        if (searchedEntities.length) {
-          dispatch(cleanSearchEntities());
-        }
-      }
-    }
-  }
 
   setSearchValue = (searchValue) => {
-    this.setState({
-      searchValue
-    });
+    this.setState({ searchValue });
   }
 
   componentWillUpdate(nextProps) {
@@ -68,10 +39,7 @@ class SearchContainer extends Component {
 
     if (!isEntitiesListShownNow && entitesLength) {
       this.showEntitiesList();
-    } else if (
-      isEntitiesListShownNow &&
-      !entitesLength
-    ) {
+    } else if (isEntitiesListShownNow && !entitesLength) {
       this.hideEntitiesList();
     }
   }
@@ -104,7 +72,7 @@ class SearchContainer extends Component {
         value: 0,
         duration: 100
       },
-      translateY: '-1rem',
+      translateY: "-1rem",
       duration: 250,
       elasticity: 100,
       complete: () => {
@@ -116,22 +84,20 @@ class SearchContainer extends Component {
   }
 
   render() {
-    const {
-      searchedEntities,
-      modifier
-    } = this.props;
-    const {isEntitiesListShown, searchValue} = this.state;
-    
+    const { props, state } = this;
+    const { searchedEntities, modifier, searchEntities } = props;
+    const { isEntitiesListShown, searchValue } = state;
 
     return (
       <div className={getClass({
-        b: 'searchBlock',
+        b: "searchBlock",
         m: modifier
       })}>
-        <Search {...this.props}
-          submitSearch={this.searchEntities}
-          onChange={timer(this.searchEntities, 500)}
+        <Search {...props}
+          submitSearch={searchEntities}
+          onChange={timer(searchEntities, 500)}
         />
+
         {(isEntitiesListShown || searchedEntities.length) && searchValue ?
           <section ref='enitiesList'
             className="position_absolute fewRound lowCascadingShadow result opacity_9">
@@ -141,6 +107,7 @@ class SearchContainer extends Component {
                 <h2 className="resultSection__title">
                   {section.name}
                 </h2>
+                
                 <ul>
                   {section.items.map((item, index) => (
                     <li key={index}>
@@ -154,28 +121,43 @@ class SearchContainer extends Component {
                 </ul>
               </article>
             ))}
-          </section> : ''}
+          </section> : ""}
       </div>
     );
   }
 }
 
+const mergeProps = (stateProps, dispatch, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+
+  searchEntities: (values) => {
+    const {
+      searchName,
+      searchedEntities,
+      SearchForm,
+    } = stateProps;
+  
+    if ("active" in SearchForm && searchName === SearchForm.active) {
+      const currentValue = values[searchName];
+      this.setSearchValue(currentValue);
+  
+      if (typeof currentValue !== "undefined") {
+        dispatch(findEntitiesAndShowResults(currentValue));
+      } else {
+        if (searchedEntities.length > 0) {
+          dispatch(cleanSearchEntities());
+        }
+      }
+    }
+  },
+});
 
 const mapStateToProps = state => {
-  const {catalog, form} = state;
-
-  const {
-    searchedEntities,
-    isFinding
-  } = catalog;
-
+  const { catalog, form } = state;
+  const { searchedEntities, isFinding } = catalog;
   const {SearchForm} = form;
-
-  return {
-    searchedEntities,
-    isFinding,
-    SearchForm
-  };
+  return { searchedEntities, isFinding, SearchForm };
 };
 
-export default withRouter(connect(mapStateToProps)(SearchContainer));
+export default withRouter(connect(mapStateToProps, null, mergeProps)(SearchContainer));

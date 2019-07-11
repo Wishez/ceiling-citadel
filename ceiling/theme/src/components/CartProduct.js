@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import getClass, { composeClasses } from '@/constants/classes';
-import CloseButton from './CloseButton';
-import Button from './Button';
-import Characteristics from './Catalog/Characteristics';
-import { Link } from 'react-router-dom';
+import getClass, { composeClasses } from "@/constants/classes";
+import CloseButton from "./CloseButton";
+import Button from "./Button";
+import Characteristics from "./Catalog/Characteristics";
+import { Link } from "react-router-dom";
 
-import { showProductInfo } from '@/actions/cart';
+import { showProductInfo } from "@/actions/cart";
 
-class CartProduct extends Component {
+class CartProduct extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     modifier: PropTypes.string,
     className: PropTypes.string,
@@ -69,7 +68,7 @@ class CartProduct extends Component {
       <div
         style={{ backgroundImage: `url("${image}")` }}
         className={getClass(
-          composeClasses('cartProduct', '', modifier, `parent centered ${className}`)
+          composeClasses("cartProduct", "", modifier, `parent centered ${className}`)
         )}
       >
 

@@ -1,33 +1,31 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import {CATALOG, COLLECTION} from '@/constants/catalog';
-import {transformName} from '@/constants/pureFunctions';
-import {catalogSectionCombiner, findUUID} from '@/constants/filter';
+import {CATALOG, COLLECTION} from "@/constants/catalog";
+import {transformName} from "@/constants/pureFunctions";
+import {catalogSectionCombiner, findUUID} from "@/constants/filter";
 
-import BaseCatalogContainer from './BaseCatalogContainer';
+import BaseCatalogContainer from "./BaseCatalogContainer";
 
-import {fetchCatalogEntityOrGetLocale} from '@/actions/catalog';
+import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
 
-import CatalogSection from '@/components/Catalog/CatalogSection';
-import Loader from '@/components/Loader';
+import CatalogSection from "@/components/Catalog/CatalogSection";
 
-class BrandCollectionContainer extends Component {
+class BrandCollectionContainer extends PureComponent {
     static propTypes = {
-      dispatch: PropTypes.func.isRequired,
       match: PropTypes.object.isRequired,
       COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
       isRequesting: PropTypes.bool.isRequired
     }
 
     state = {
-      id: '',
-      brandName: '',
+      id: "",
+      brandName: "",
       collection: false,
-      slogan: '',
-      collectionName: ''
+      slogan: "",
+      collectionName: ""
     }
 
     componentWillMount() {
@@ -162,11 +160,11 @@ class BrandCollectionContainer extends Component {
        <BaseCatalogContainer name={collectionName}
          slogan={slogan}
          routes={{
-           '/catalog': 'Каталог',
-           '/catalog/brand': false,
-           '/catalog/brand/:brandSlug': brandName,
-           '/catalog/brand/:brandSlug/:collectionSlug': false,
-           '/catalog/brand/:brandSlug/:collectionSlug/': false
+           "/catalog": "Каталог",
+           "/catalog/brand": false,
+           "/catalog/brand/:brandSlug": brandName,
+           "/catalog/brand/:brandSlug/:collectionSlug": false,
+           "/catalog/brand/:brandSlug/:collectionSlug/": false
          }}
          CONSTANT={COLLECTION}
        >
@@ -175,13 +173,13 @@ class BrandCollectionContainer extends Component {
            headerId="samples"
            fallback={
              !isRequesting &&
-               !samplesLength ? <p className="paragraph_container">У этой коллекции нет образцов.</p> : ''
+               !samplesLength ? <p className="paragraph_container">У этой коллекции нет образцов.</p> : ""
            }
          >
            {!isRequesting &&
             samplesLength ?
              catalogSectionCombiner(collection.collection_items, url, isSample) :
-             ''
+             ""
            }
          </CatalogSection>
        </BaseCatalogContainer>

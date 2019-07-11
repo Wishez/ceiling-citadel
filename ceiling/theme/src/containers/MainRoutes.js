@@ -1,27 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import {Route, Switch} from 'react-router-dom'; 
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import getClass from './../constants/classes';
+import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import {Route, Switch} from "react-router-dom"; 
+import getClass from "./../constants/classes";
 
-import MainPageContainer from './MainPageContainer';
-import ContactsContainer from './ContactsContainer';
-import ServiceContainer from './ServiceContainer';
-import CatalogRoutes from './Catalog/CatalogRoutes';
+import MainPageContainer from "./MainPageContainer";
+import ContactsContainer from "./ContactsContainer";
+import ServiceContainer from "./ServiceContainer";
+import CatalogRoutes from "./Catalog/CatalogRoutes";
 
-class MainRoutes extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired
-  }
+class MainRoutes extends PureComponent {
   
-  render() {    
-    const { location }   = this.props;
+  render() { 
     return (
-      <main id="main" className={getClass({b: 'main'})}>
-       
-
+      <main id="main" className={getClass({b: "main"})}>
         <Switch>
           <Route exact path="/" component={MainPageContainer} />
           <Route path="/catalog" 
@@ -42,14 +34,7 @@ class MainRoutes extends Component {
     );
   }
 }
-// <TransitionGroup>
-//          <CSSTransition key={location.key}  
-//            classNames="fading"
-//            appear={true}
-//            enter={false}
-//            exit={false}
-//            timeout={1000}
-//          >
+
 const mapStateToProps = state => {
   const { catalog } = state;
 

@@ -1,34 +1,33 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import {CATALOG, BRAND} from '@/constants/catalog';
-import {transformName, fixUrl} from '@/constants/pureFunctions';
-import {catalogSectionCombiner, catalogSubsectionsCombiner} from '@/constants/filter';
+import {CATALOG, BRAND} from "@/constants/catalog";
+import {transformName, fixUrl} from "@/constants/pureFunctions";
+import {catalogSectionCombiner, catalogSubsectionsCombiner} from "@/constants/filter";
 
-import {fetchCatalogEntityOrGetLocale, setLastShownView} from '@/actions/catalog';
+import {fetchCatalogEntityOrGetLocale, setLastShownView} from "@/actions/catalog";
 
-import BaseCatalogContainer from './BaseCatalogContainer';
+import BaseCatalogContainer from "./BaseCatalogContainer";
 
-import CatalogSection from '@/components/Catalog/CatalogSection';
-import Loader from '@/components/Loader';
+import CatalogSection from "@/components/Catalog/CatalogSection";
+import Loader from "@/components/Loader";
 
 
-class BrandContainer extends Component {
+class BrandContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     BRAND: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
 
   }
   state = {
-    id: '',
-    brandName: '',
-    slogan: '',
+    id: "",
+    brandName: "",
+    slogan: "",
     brand:  false,
-    sampleUrl: ''
+    sampleUrl: ""
   }
 
   componentWillUnmount() {
@@ -107,7 +106,7 @@ class BrandContainer extends Component {
   combineSampleUrl = () => {
     const {url: categoryUrl} = this.props.match;
     const fixedCategoryUrl = fixUrl(categoryUrl);
-    const sampleUrl = fixedCategoryUrl + 'sample/';
+    const sampleUrl = fixedCategoryUrl + "sample/";
 
     this.setState({sampleUrl});
   }
@@ -183,10 +182,10 @@ class BrandContainer extends Component {
       <BaseCatalogContainer name={brandName}
         slogan={slogan}
         routes={{
-          '/catalog': 'Каталог',
-          '/catalog/brand': false,
-          '/catalog/brand/:brandSlug': false,
-          '/catalog/brand/:brandSlug/': false
+          "/catalog": "Каталог",
+          "/catalog/brand": false,
+          "/catalog/brand/:brandSlug": false,
+          "/catalog/brand/:brandSlug/": false
         }}
         CONSTANT={BRAND}
       >
@@ -195,11 +194,11 @@ class BrandContainer extends Component {
           headerId="collections"
           fallback={
             !isRequesting &&
-              !collectionsLength ? <p className="paragraph_container">Нет отельных коллекций.</p> : ''
+              !collectionsLength ? <p className="paragraph_container">Нет отельных коллекций.</p> : ""
           }>
           {!isRequesting &&
             collectionsLength ?
-            catalogSubsectionsCombiner(brand.collections, url, 'category') : ''
+            catalogSubsectionsCombiner(brand.collections, url, "category") : ""
           }
         </CatalogSection>
         <CatalogSection
@@ -207,11 +206,11 @@ class BrandContainer extends Component {
           headerId="samples"
           fallback={
             !isRequesting &&
-              !samplesLength ? <p className="paragraph_container">Нет отельных образцов.</p> : ''
+              !samplesLength ? <p className="paragraph_container">Нет отельных образцов.</p> : ""
           }>
           {!isRequesting &&
             samplesLength ?
-            catalogSubsectionsCombiner(brand.products, sampleUrl, 'section') : ''
+            catalogSubsectionsCombiner(brand.products, sampleUrl, "section") : ""
           }
         </CatalogSection>
       </BaseCatalogContainer>

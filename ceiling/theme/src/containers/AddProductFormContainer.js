@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
@@ -16,9 +16,8 @@ import Loader from "./../components/Loader";
 import ReactHtmlParser from "react-html-parser";
 import {makeSelectOptions, makeSelectColorOptions} from "./../constants/filter";
 
-class AddProductFormContainer extends Component {
+class AddProductFormContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     helpText: PropTypes.string.isRequired,
     isProductAdded: PropTypes.bool.isRequired,
     isRequesting: PropTypes.bool.isRequired,

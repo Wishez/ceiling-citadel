@@ -71,13 +71,14 @@
 .thirdFooterBlock, .footerNavigationContainer
 	@include breakpoint($sm-less)
 		min-width: span(6)
+
 .firstFooterBlock, .thirdFooterBlock, .footerNavigationContainer
 	min-width: span(4)
 	@include breakpoint($xs)
 		min-width: span(12)
 
 .firstFooterBlock
-    padding-right: 75px
+	padding-right: 75px
 	align-items: flex-end
 
 	@include breakpoint($md)
@@ -85,7 +86,7 @@
 	@include breakpoint($sm-less)
 		display: none
 	@include breakpoint($xs)
-		order: 2
+		
 		display: block
 	
 	.buttonsGroup .callbackButtons
@@ -116,14 +117,17 @@
 
 .thirdFooterBlock
 	justify-content: space-between
+
 	@include breakpoint($md-up)
 		aling-items: flex-end
+
 	@include breakpoint($sm-less)
 		order: 1
+
 	@include breakpoint($xs)
 		flex-direction: column
 		min-height: em(225)
-		padding: 1.5rem 0 1rem
+		padding: 1rem 0 3rem
 
 
 

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import getClass from '@/constants/classes';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from "react";
+import getClass from "@/constants/classes";
+import PropTypes from "prop-types";
 
-class Button extends Component {
+class Button extends PureComponent {
   static propTypes = {
     block: PropTypes.string,
     element: PropTypes.string,
@@ -62,7 +62,7 @@ class Button extends Component {
     return (
       <button
         aria-label={label}
-        type={type ? type : 'button'}
+        type={type ? type : "button"}
         aria-pressed={isPressed}
         onClick={this.onClickButton}
         onBlur={this.onBlurButton}
@@ -70,7 +70,7 @@ class Button extends Component {
           b: block,
           el: element,
           m: modifier,
-          add: `${!unstyled ? 'button lowCascadingShadow ': ''} ${className ? className: ''}`
+          add: `${!unstyled ? "button lowCascadingShadow ": ""} ${className ? className: ""}`
         })}`}
         {...rest}
       >

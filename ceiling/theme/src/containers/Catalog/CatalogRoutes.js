@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import {Route, Switch} from 'react-router-dom';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 
-import CatalogPageContainer from './CatalogPageContainer';
-import BrandContainer from './BrandContainer';
-import CategoryContainer from './CategoryContainer';
-import BaseProductContainer from './BaseProductContainer';
-import BrandCollectionContainer from './BrandCollectionContainer';
-import CategoryCollectionContainer from './CategoryCollectionContainer';
-import BrandProductContainer from './BrandProductContainer';
-import CategoryProductContainer from './CategoryProductContainer';
+import CatalogPageContainer from "./CatalogPageContainer";
+import BrandContainer from "./BrandContainer";
+import CategoryContainer from "./CategoryContainer";
+import BaseProductContainer from "./BaseProductContainer";
+import BrandCollectionContainer from "./BrandCollectionContainer";
+import CategoryCollectionContainer from "./CategoryCollectionContainer";
+import BrandProductContainer from "./BrandProductContainer";
+import CategoryProductContainer from "./CategoryProductContainer";
 
-import MyRoute from '@/components/MyRoute';
+import MyRoute from "@/components/MyRoute";
 
-import getClass from '@/constants/classes';
-import { selectNavigationItem } from '@/actions/navigationActions.js';
-import { initNavigationState } from '@/reducers/navigation.js';
+import getClass from "@/constants/classes";
+import { selectNavigationItem } from "@/actions/navigationActions.js";
+import { initNavigationState } from "@/reducers/navigation.js";
 
-class CatalogRoutes extends Component {
+class CatalogRoutes extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
   }
@@ -33,7 +32,7 @@ class CatalogRoutes extends Component {
     this.forceUpdate();
 
     if (!document.title)
-      document.title = 'Каталог | ArtCeil';
+      document.title = "Каталог | ArtCeil";
   }
 
 
@@ -46,7 +45,7 @@ class CatalogRoutes extends Component {
     } = this.props;
 
     return (
-      <div className={getClass({b: 'catalog'})}>
+      <div className={getClass({b: "catalog"})}>
         <Switch location={location}>
           <MyRoute path={`${url}/brand/:brandSlug/sample/:productSlug`} component={BaseProductContainer} />
           <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />

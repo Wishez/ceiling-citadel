@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ReactHtmlParser from 'react-html-parser';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 
-import { tryMakeOrder, closeOrder, notifyAboutFailureOrderingOrder } from '@/actions/order';
+import { tryMakeOrder, closeOrder, notifyAboutFailureOrderingOrder } from "@/actions/order";
 
-import { PRODUCTION_STORE } from '@/constants/cart';
+import { PRODUCTION_STORE } from "@/constants/cart";
 
-import OrderForm from '@/components/OrderForm';
-import PopupFormContainer from '@/components/PopupFormContainer';
-import Loader from '@/components/Loader';
+import OrderForm from "@/components/OrderForm";
+import PopupFormContainer from "@/components/PopupFormContainer";
+import Loader from "@/components/Loader";
 
-class OrderFormContainer extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
+class OrderFormContainer extends PureComponent {
+  static propTypes = {dispatch: PropTypes.func.isRequired,
     isOrderOpened: PropTypes.bool.isRequired,
     helpText: PropTypes.string.isRequired,
     isShownHelpText: PropTypes.bool.isRequired,
@@ -52,7 +51,7 @@ class OrderFormContainer extends Component {
 
   notifyUserAboutHisEmptyCart = () => {
     const {dispatch} = this.props;
-    const hintMessage = 'Чтобы сделать заказ, нужно что-нибудь положить в вашу корзину';
+    const hintMessage = "Чтобы сделать заказ, нужно что-нибудь положить в вашу корзину";
 
     dispatch(
       notifyAboutFailureOrderingOrder(hintMessage)
@@ -75,7 +74,7 @@ class OrderFormContainer extends Component {
           <OrderForm
             buttonOptions={{
               content: !isRequesting ?
-                'Заказать'
+                "Заказать"
                 : <Loader />
             }}
             id="orderForm"

@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import HeaderContainer from './HeaderContainer';
-import CallbackFormContainer from './CallbackFormContainer';
-import OrderFormContainer from './OrderFormContainer';
-import FooterContainer from './FooterContainer';
-import MainRoutes from './MainRoutes';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import HeaderContainer from "./HeaderContainer";
+import CallbackFormContainer from "./CallbackFormContainer";
+import OrderFormContainer from "./OrderFormContainer";
+import FooterContainer from "./FooterContainer";
+import MainRoutes from "./MainRoutes";
 
-import CartProductInfo  from '@/components/Cart/CartProductInfo';
-import {fetchCatalogIfNeededAndDumpEntities} from '@/actions/catalog';
+import CartProductInfo  from "@/components/Cart/CartProductInfo";
+import {fetchCatalogIfNeededAndDumpEntities} from "@/actions/catalog";
 
-class App extends Component {
+class App extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     isCallbackOpened: PropTypes.bool.isRequired,
     isProductInfoOpened: PropTypes.bool.isRequired,
     isOrderOpened: PropTypes.bool.isRequired,
@@ -22,10 +21,9 @@ class App extends Component {
     email: PropTypes.string.isRequired,
     addressHref: PropTypes.string
   }
-  componentDidMount() {
-    const { dispatch } = this.props;
 
-    dispatch(fetchCatalogIfNeededAndDumpEntities());
+  componentDidMount() {
+    this.props.onAppLoaded();
   }
 
   render() {
@@ -44,9 +42,9 @@ class App extends Component {
         <FooterContainer address={address} addressHref={addressHref}
           phone={phone} email={email} />
 
-        {isCallbackOpened ? <CallbackFormContainer /> : ''}
-        {isOrderOpened ? <OrderFormContainer /> : ''}
-        {isProductInfoOpened ? <CartProductInfo /> : ''}
+        {isCallbackOpened ? <CallbackFormContainer /> : ""}
+        {isOrderOpened ? <OrderFormContainer /> : ""}
+        {isProductInfoOpened ? <CartProductInfo /> : ""}
       </div>
     );
   }
@@ -68,4 +66,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(App));
+const mapDispatchToProps = dispatch => ({
+  onAppLoaded: () => {
+    dispatch(fetchCatalogIfNeededAndDumpEntities());
+  }
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

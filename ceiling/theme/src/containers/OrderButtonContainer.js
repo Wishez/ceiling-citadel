@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import {
   openCart
-} from '@/actions/cart';
+} from "@/actions/cart";
 
-import OrderButton from '@/components/OrderButton';
-import { openOrder } from '@/actions/order';
+import OrderButton from "@/components/OrderButton";
+import { openOrder } from "@/actions/order";
 
-class OrderButtonContainer extends Component {
+class OrderButtonContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     quantityOrderedProducts: PropTypes.number.isRequired,
     isCartOpened: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isShownHelpText: PropTypes.bool.isRequired,

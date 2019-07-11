@@ -8,7 +8,6 @@ import {openCallback, reinitCallbackForm} from "./../actions/callback";
 
 class CallbackButtonContainer extends PureComponent {
 	 static propTypes = {
-	    dispatch: PropTypes.func.isRequired,
 	    isCallbackOpened: PropTypes.bool.isRequired,
     	isShownHelpText: PropTypes.bool.isRequired,
     	helpText: PropTypes.string.isRequired,

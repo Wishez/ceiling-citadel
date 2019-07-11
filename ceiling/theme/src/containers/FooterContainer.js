@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Logo from "./../components/Logo";
@@ -16,14 +15,11 @@ import OrderButtonContainer from "./OrderButtonContainer";
 
 import getClass from "./../constants/classes";
 import {cartPositions} from "./../constants/cart";
-import { getDeleteProductArguments, notFollow } from "./../constants/pureFunctions";
+import { notFollow } from "./../constants/pureFunctions";
+import { isMobile } from "@/reducers/app";
 
-import {openCallback} from "./../actions/callback";
-import {openOrder} from "./../actions/order";
-
-class FooterContainer extends Component {
+class FooterContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     phone: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
@@ -31,27 +27,34 @@ class FooterContainer extends Component {
   }
 
   render() {
+    const { isNotMobile } = this.props;
+    console.log(isNotMobile);
     return (
       <footer className='footer'>
         <QuestionFormContainer />
+
         <div className='container container_footer parent row v-centered h-around'>
       			<div className='firstFooterBlock parent column h-around baseChild'>
       				 <SearchContainer searchName="footerSearch" modifier="footer" />
 
-      				 <ButtonsGroup className="baseChild" modifier="footer">
-      				   <CallbackButtonContainer />
-      				   <OrderButtonContainer
-                cartPosition={cartPositions.footer}
-                cartModifier="hover_up"
-      				    />
-      				 </ButtonsGroup>
+      				 {isNotMobile && (
+              <ButtonsGroup className="baseChild" modifier="footer">
+                <CallbackButtonContainer />
+                <OrderButtonContainer
+                  cartPosition={cartPositions.footer}
+                  cartModifier="hover_up"
+                />
+              </ButtonsGroup>
+            )}
       			</div>
 
-          <NavContainer
-            modifier="footer"
-            className="padding-bottom_1 baseChild"
-            isFooter
-          />
+          {isNotMobile && (
+            <NavContainer
+              modifier="footer"
+              className="padding-bottom_1 baseChild"
+              isFooter
+            />
+          )}
           <div className='padding-bottom_1 thirdFooterBlock parent column v-centered h-around baseChild'>
 		            <Logo maxWidth={65} modifier="footer"/>
 		            <Contacts
@@ -60,6 +63,7 @@ class FooterContainer extends Component {
 		            />
 			       </div>
         </div>
+
         <div className='copyright parent column centered padding-bottom_1'>
           <p className='copyright__paragraph centeredText'>&copy;2018&nbsp;ArtCeil<br/>
 Созданно&nbsp;с&nbsp;поддержкой&nbsp;потолочных&nbsp;систем</p>
@@ -74,9 +78,9 @@ class FooterContainer extends Component {
 
 
 
-const mapStateToProps = state => {
-  return {};
-};
+const mapStateToProps = state => ({
+  isNotMobile: !isMobile()(state),
+});
 
 
 export default connect(mapStateToProps)(FooterContainer);

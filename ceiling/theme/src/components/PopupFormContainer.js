@@ -1,15 +1,14 @@
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import getClass, { composeClasses } from './../constants/classes';
-import CloseButton from './CloseButton';
+import getClass, { composeClasses } from "./../constants/classes";
+import CloseButton from "./CloseButton";
 
-class PopupFormContainer extends Component {
+class PopupFormContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     block: PropTypes.string,
     modifier: PropTypes.string,
@@ -21,7 +20,7 @@ class PopupFormContainer extends Component {
 
   static defaultProps = {
     animationDuration: 300,
-    block: 'popupFormContainer'
+    block: "popupFormContainer"
   }
 
   componentDidMount() {
@@ -37,7 +36,7 @@ class PopupFormContainer extends Component {
       duration: animationDuration,
       opacity: 1,
       elacticity: 100,
-      timing: 'easeOutSine'
+      timing: "easeOutSine"
     });
   }
 
@@ -51,7 +50,7 @@ class PopupFormContainer extends Component {
       duration: animationDuration ,
       opacity: 0,
       elacticity: 100,
-      timing: 'easeInOutQuart',
+      timing: "easeInOutQuart",
       complete
     });
   }
@@ -79,15 +78,15 @@ class PopupFormContainer extends Component {
             composeClasses(
               block,
               modifier,
-              `popupFormContainer ${className ? className : ''}`
+              `popupFormContainer ${className ? className : ""}`
             )
           )}
         >
           <h2
             className={getClass({
               b: block,
-              el: 'title',
-              add: 'popupFormContainer__titleupper '
+              el: "title",
+              add: "popupFormContainer__titleupper "
             })}
           >
             {signification}

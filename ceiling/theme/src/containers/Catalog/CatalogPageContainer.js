@@ -1,24 +1,22 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import Loader from './../../components/Loader';
+import React, {PureComponent} from "react";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
-import {CATALOG} from './../../constants/catalog';
-import getClass from './../../constants/classes';
-import {localData, getArray} from './../../constants/pureFunctions.js';
-import {catalogSectionCombiner, catalogSubsectionsCombiner} from './../../constants/filter';
-import {catalogBrandUrl, catalogCategoryUrl} from './../../constants/conf';
+import {CATALOG} from "./../../constants/catalog";
+import getClass from "./../../constants/classes";
+import {getArray} from "./../../constants/pureFunctions.js";
+import {catalogSectionCombiner, catalogSubsectionsCombiner} from "./../../constants/filter";
+import {catalogBrandUrl, catalogCategoryUrl} from "./../../constants/conf";
 
-import picture from './../../images/icons/picture.png';
+import picture from "./../../images/icons/picture.png";
 
-import { slideTo } from './../../constants/pureFunctions';
-import CatalogSection from './../../components/catalog/CatalogSection';
-import Figure from './../../components/Figure';
+import { slideTo } from "./../../constants/pureFunctions";
+import CatalogSection from "./../../components/catalog/CatalogSection";
+import Figure from "./../../components/Figure";
 
-class CatalogPageContainer extends Component {
+class CatalogPageContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     isRequesting: PropTypes.bool.isRequired,
   }
@@ -51,7 +49,7 @@ class CatalogPageContainer extends Component {
         categories: catalogSubsectionsCombiner(
           getArray(catalog.categories),
           catalogCategoryUrl,
-          'section'
+          "section"
         ),
         isCatalogGotten: true
       });
@@ -80,22 +78,22 @@ class CatalogPageContainer extends Component {
     return (
       <div className={
         getClass({
-          b: 'container',
-          m: 'main',
-          add: 'parent column centered'
+          b: "container",
+          m: "main",
+          add: "parent column centered"
         })}>
         <div className={
           getClass({
-            b: 'catalogHeader',
-            m: 'catalog',
-            add: 'parent row v-centered h-centered'
+            b: "catalogHeader",
+            m: "catalog",
+            add: "parent row v-centered h-centered"
           })}>
           <h1 className={
             getClass({
-              b: 'catalogHeader',
-              el: 'title',
-              m: 'catalog',
-              add: 'parent row centered baseChild textCentered_xxs'
+              b: "catalogHeader",
+              el: "title",
+              m: "catalog",
+              add: "parent row centered baseChild textCentered_xxs"
             })}>
               Выставочный зал
             <Figure name="picture" url={picture} maxWidth={68} />
@@ -103,14 +101,14 @@ class CatalogPageContainer extends Component {
           <ul className='catalogRefersList parent row h-around baseChild'>
             <li className='catalogRefer'>
               <a href="#brands"
-                onClick={this.gogo('#brands')}
+                onClick={this.gogo("#brands")}
                 className='catalogRefer__refer'>
                   Бренды
               </a>
             </li>
             <li className='catalogRefer'>
               <a href="#categories"
-                onClick={this.gogo('#categories')}
+                onClick={this.gogo("#categories")}
                 className='catalogRefer__refer'>
                 Категории
               </a>
@@ -126,7 +124,7 @@ class CatalogPageContainer extends Component {
             !isRequesting &&
             brands.length ?
               brands
-              : ''
+              : ""
           }
         </CatalogSection>
         <CatalogSection name="Категории" headerId="categories">
@@ -134,7 +132,7 @@ class CatalogPageContainer extends Component {
             !isRequesting &&
             categories.length ?
               categories
-              : ''
+              : ""
           }
         </CatalogSection>
       </div>

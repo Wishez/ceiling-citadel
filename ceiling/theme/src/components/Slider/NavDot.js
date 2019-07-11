@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { PureComponent } from "react";
 
-export default class NavDot extends React.Component {
+export default class NavDot extends PureComponent {
   render() {
     const { size, margin = 0 } = this.props;
 

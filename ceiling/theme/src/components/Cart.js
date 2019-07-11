@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import Draggable from 'react-draggable';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import Draggable from "react-draggable";
 
-import getClass, { composeClasses } from '@/constants/classes';
-import { PRODUCTION_STORE } from '@/constants/cart';
-import { getDeleteProductArguments } from '@/constants/pureFunctions';
+import getClass, { composeClasses } from "@/constants/classes";
+import { PRODUCTION_STORE } from "@/constants/cart";
+import { getDeleteProductArguments } from "@/constants/pureFunctions";
 
-import CloseButton from './CloseButton';
-import CartProduct from './CartProduct';
+import CloseButton from "./CloseButton";
+import CartProduct from "./CartProduct";
 
 
 import {
   closeCart,
   deleteProductAndNotifyAbout
-} from '@/actions/cart';
+} from "@/actions/cart";
 
-import mesh from '@/images/cart/mesh.png';
+import mesh from "@/images/cart/mesh.png";
 
-class Cart extends Component {
+class Cart extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     block: PropTypes.string,
     modifier: PropTypes.string,
     className: PropTypes.string,
@@ -72,7 +71,7 @@ class Cart extends Component {
         duration: animationDuration * 1.618
       },
       elacticity: 100,
-      timing: 'easeInOutQuart'
+      timing: "easeInOutQuart"
     });
   };
 
@@ -85,7 +84,7 @@ class Cart extends Component {
       duration: animationDuration / 1.618 - 100 ,
       opacity: 0,
       elacticity: 100,
-      timing: 'easeOutSine',
+      timing: "easeOutSine",
       complete: this.closeCart
     });
   };
@@ -133,14 +132,14 @@ class Cart extends Component {
           ref="cart"
           style={{
             opacity: 0,
-            transform: 'translate(0, -1.5rem)'
+            transform: "translate(0, -1.5rem)"
           }}
           className={getClass(
             composeClasses(
-              'cart',
-              '',
+              "cart",
+              "",
               modifier,
-              'lowCascadingShadow display_grid' + className ? className : ''
+              "lowCascadingShadow display_grid" + className ? className : ""
             )
           )}
         >
@@ -150,15 +149,15 @@ class Cart extends Component {
               label="Закрыть корзину"
             />
           ) : (
-            ''
+            ""
           )}
           <h2 className="visible-hidden">Корзина</h2>
           <p
             className={getClass({
-              b: 'cart',
-              el: 'hint',
-              m: `${isShownHelpText ? 'shown' : ''}`,
-              add: 'lowCascadingShadow'
+              b: "cart",
+              el: "hint",
+              m: `${isShownHelpText ? "shown" : ""}`,
+              add: "lowCascadingShadow"
             })}
           >
             {helpText}
@@ -186,9 +185,9 @@ class Cart extends Component {
             ) : (
               <p
                 className={getClass({
-                  b: 'cart',
-                  el: 'hint',
-                  m: 'empty'
+                  b: "cart",
+                  el: "hint",
+                  m: "empty"
                 })}
               >
                 Ваша корзина пуста, но вы всегда можете её пополнить ʕ•ᴥ•ʔ!

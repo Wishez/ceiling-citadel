@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import ReactHtmlParser from 'react-html-parser';
+import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 
-import QuestionForm from '@/components/QuestionForm';
-import Figure from '@/components/Figure';
-import Loader from '@/components/Loader';
+import QuestionForm from "@/components/QuestionForm";
+import Figure from "@/components/Figure";
+import Loader from "@/components/Loader";
 
-import maria from '@/images/callback/masha.png';
+import maria from "@/images/callback/masha.png";
 
-import {tryAskQuestion} from '@/actions/callback';
+import {tryAskQuestion} from "@/actions/callback";
 
-class QuestionFormContainer extends Component {
+class QuestionFormContainer extends PureComponent {
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
     helpText: PropTypes.string.isRequired,
     isAskedQuestion: PropTypes.bool.isRequired,
     isRequesting: PropTypes.bool.isRequired
@@ -38,7 +37,7 @@ class QuestionFormContainer extends Component {
             <QuestionForm
               buttonOptions={{
                 content: !isRequesting ?
-                  'Спросить'
+                  "Спросить"
                   : <Loader />,
               }}
               onSubmit={this.submitQuestion}

@@ -1,5 +1,7 @@
 .main
+	position: relative
 	padding: em(67.772816512) 0 em(109.656417116416)
+
 .fullWidth
 	width: span(12)
 .productContainer
@@ -15,7 +17,7 @@
 		padding-bottom: 3.5rem
 
 .catalogItem
-	height: em(360)
+	// height: em(360)
 	flex: 1 0 span(6)
 	min-width: span(6)
 	margin: 0 auto
@@ -61,17 +63,20 @@
 
 	&_5
 		-webkit-line-clamp: 5
-		height: (6px * 1.5 * 18)
+		height: (6px * 1.5 * 17)
 
 
 
 .itemPresentation
 	box-shadow: inset 0 0 12px rgba(0,0,0, .15)
 	min-width: 	span(12)
-	min-height: em(245.7, 16)
 	background-color: $white
 
-
+	@include breakpoint($xxs-up)
+		min-height: em(240, 16)
+	
+	@include breakpoint($xxs-up)
+		min-height: 240px
 
 .catalog
 	position: relative
@@ -88,9 +93,17 @@
 	width: span(12)
 
 .catalogSection
-	margin-top: 3rem
 	margin-bottom: 3rem
 	border-radius: 3px
+
+	@include breakpoint($xxs) 
+	    padding: .5rem 1rem 0 1.25rem
+
+	&:first-of-type
+		margin-top: 1rem
+	
+	&:not(:first-of-type)
+		margin-top: 3rem
 
 	&__title
 		border-top-color: $orange

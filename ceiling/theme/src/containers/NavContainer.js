@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import { selectNavigationItem, openMenu as openMenuClicked, closeMenu as closeMe
 import getClass from "./../constants/classes";
 import {timeout, slideTo } from "./../constants/pureFunctions";
 
-class NavContainer extends Component {
+class NavContainer extends PureComponent {
   static propTypes = { 
     navigationItems: PropTypes.array.isRequired,
     isOpened: PropTypes.bool.isRequired,

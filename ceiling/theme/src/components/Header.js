@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Logo from './Logo';
 import NavContainer from './../containers/NavContainer.js'; 
 import getClass from './../constants/classes';
