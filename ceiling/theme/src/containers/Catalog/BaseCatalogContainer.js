@@ -14,12 +14,12 @@ class BaseCatalogContainer extends PureComponent {
     routes: PropTypes.object.isRequired,
     children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     isProduct: PropTypes.bool,
-    modifier: PropTypes.string
+    modifier: PropTypes.string,
   }
 
 
   componentWillReceiveProps(nextProps) {
-    const {CONSTANT} = this.props;
+    const { CONSTANT } = this.props;
 
     if (!this.props[CONSTANT] && nextProps[CONSTANT]) {
       this.forceUpdate();
@@ -32,7 +32,7 @@ class BaseCatalogContainer extends PureComponent {
       routes,
       children,
       isProduct,
-      modifier
+      modifier,
     } = this.props;
 
     return (
@@ -40,16 +40,20 @@ class BaseCatalogContainer extends PureComponent {
         getClass({
           b: "catalog",
           m: modifier,
-          add:"container parent column centered"
-        })}>
-        <div className='catalogHeader parent row v-centered h-centered'>
+          add: "container parent column centered",
+        })
+      }
+      >
+        <div className="catalogHeader parent row v-centered h-centered">
           <h1 className={
             getClass({
               b: "catalogHeader",
               el: "title",
               m: isProduct ? "active" : "",
-              add: "parent row centered baseChild textCentered_xxs"
-            })}>
+              add: "parent row centered baseChild textCentered_xxs",
+            })
+          }
+          >
             {name}
           </h1>
           <BreadcrumbsContainer routes={routes} />
@@ -58,8 +62,10 @@ class BaseCatalogContainer extends PureComponent {
               b: "catalogHeader",
               el: "slogan",
               m: modifier,
-              add: "parent row h-end  darkBlue baseChild"
-            })}>
+              add: "parent row h-end  darkBlue baseChild",
+            })
+          }
+          >
             {slogan}
           </p>
         </div>
@@ -71,10 +77,10 @@ class BaseCatalogContainer extends PureComponent {
 }
 
 
-const mapStateToProps = state => {
-  const {catalog} = state;
+const mapStateToProps = (state) => {
+  const { catalog } = state;
   return {
-    ...catalog
+    ...catalog,
   };
 };
 

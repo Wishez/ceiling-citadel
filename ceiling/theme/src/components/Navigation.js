@@ -14,10 +14,10 @@ const Navigation = (props) => {
     ...rest
   } = props;
   const listClasses = classNames({
-    ["centered"]: !isStaticMenu,
+    centered: !isStaticMenu,
     [getClass({
       b: "navList",
-      add: "parent column baseChild"
+      add: "parent column baseChild",
     })]: true,
   });
   const openedState = isOpened || isFooter ? "opened" : "closed";
@@ -26,24 +26,26 @@ const Navigation = (props) => {
     [getClass(
       composeClasses("navigation", "", menuModifiers, "parent column baseChild")
     )]: true,
-    "navigation_footer": isFooter,
+    navigation_footer: isFooter,
   });
 
   return (
     <nav aria-label="Навигация сайта" className={navClasses}>
-      <ul className={listClasses}
+      <ul
+        className={listClasses}
         style={navStyles}
       >
-        { 
+        {
           navigationItems.map((item, index) => (
-            <li className={getClass(
-              composeClasses("navItem", "", item.active ? "active" : "", "")
-            )} 
-            key={index}
-            onClick={changeActiveNavigationItem(item.index)} 
-            >  
+            <li
+              className={getClass(
+                composeClasses("navItem", "", item.active ? "active" : "", "")
+              )}
+              key={index}
+              onClick={changeActiveNavigationItem(item.index)}
+            >
               <NavItem
-                block='navItem'
+                block="navItem"
                 href={item.pathTo}
                 isActive={item.active}
                 {...rest}
@@ -58,6 +60,6 @@ const Navigation = (props) => {
     </nav>
   );
 };
-  
+
 
 export default Navigation;

@@ -1,3 +1,4 @@
+import * as localforage from "localforage";
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -12,13 +13,8 @@ import PopupFormContainer from "@/components/PopupFormContainer";
 import Loader from "@/components/Loader";
 
 class OrderFormContainer extends PureComponent {
-  static propTypes = {dispatch: PropTypes.func.isRequired,
-    isOrderOpened: PropTypes.bool.isRequired,
-    helpText: PropTypes.string.isRequired,
-    isShownHelpText: PropTypes.bool.isRequired,
-    isOrderedOrder: PropTypes.bool.isRequired,
-    isRequesting: PropTypes.bool.isRequired
-  };
+  getOrderedProducts = () =>
+    localforage.getItem(PRODUCTION_STORE).then((cartProducts) => (cartProducts || []));
 
   submitOrder = (userData, dispatch) => {
     this.getOrderedProducts().then((cartProducts) => {
@@ -29,42 +25,22 @@ class OrderFormContainer extends PureComponent {
 
         dispatch(tryMakeOrder(userData));
       }
-
-
     });
   };
 
-  getOrderedProducts() {
-    return localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
-      cartProducts = cartProducts || [];
-
-      return cartProducts;
-    });
-  }
-
-  closeOrderPopup = () => {
-    const {dispatch} =  this.props;
-
-    dispatch(closeOrder());
-  }
-
+  closeOrderPopup = () => this.props.dispatch(closeOrder());
 
   notifyUserAboutHisEmptyCart = () => {
-    const {dispatch} = this.props;
     const hintMessage = "Чтобы сделать заказ, нужно что-нибудь положить в вашу корзину";
-
-    dispatch(
-      notifyAboutFailureOrderingOrder(hintMessage)
-    );
+    this.props.dispatch(notifyAboutFailureOrderingOrder(hintMessage));
   }
 
   render() {
     const { helpText, isOrderedOrder, isRequesting } = this.props;
-
     return (
       <PopupFormContainer
         closeButton={{
-          onClick: this.closeOrderPopup
+          onClick: this.closeOrderPopup,
         }}
         signification="Заказ"
         {...this.props}
@@ -75,7 +51,7 @@ class OrderFormContainer extends PureComponent {
             buttonOptions={{
               content: !isRequesting ?
                 "Заказать"
-                : <Loader />
+                : <Loader />,
             }}
             id="orderForm"
             onSubmit={this.submitOrder}
@@ -92,11 +68,19 @@ class OrderFormContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+OrderFormContainer.propTypes = {
+  isOrderOpened: PropTypes.bool.isRequired,
+  helpText: PropTypes.string.isRequired,
+  isShownHelpText: PropTypes.bool.isRequired,
+  isOrderedOrder: PropTypes.bool.isRequired,
+  isRequesting: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => {
   const { order } = state;
 
   return {
-    ...order
+    ...order,
   };
 };
 

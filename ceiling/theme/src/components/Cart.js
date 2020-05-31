@@ -3,21 +3,21 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Draggable from "react-draggable";
+import anime from 'animejs'
+import * as localforage from 'localforage'
 
 import getClass, { composeClasses } from "@/constants/classes";
 import { PRODUCTION_STORE } from "@/constants/cart";
 import { getDeleteProductArguments } from "@/constants/pureFunctions";
 
+import {
+  closeCart,
+  deleteProductAndNotifyAbout,
+} from "@/actions/cart";
+import mesh from "@/images/cart/mesh.png";
 import CloseButton from "./CloseButton";
 import CartProduct from "./CartProduct";
 
-
-import {
-  closeCart,
-  deleteProductAndNotifyAbout
-} from "@/actions/cart";
-
-import mesh from "@/images/cart/mesh.png";
 
 class Cart extends PureComponent {
   static propTypes = {
@@ -28,16 +28,16 @@ class Cart extends PureComponent {
     animationDuration: PropTypes.number,
     helpText: PropTypes.string,
     isShownHelpText: PropTypes.bool.isRequired,
-    quantityOrderedProducts: PropTypes.number
+    quantityOrderedProducts: PropTypes.number,
   };
 
   static defaultProps = {
     animationDuration: 300,
-    closeButton: false
+    closeButton: false,
   };
 
   state = {
-    cartProducts: []
+    cartProducts: [],
   };
 
   componentWillMount() {
@@ -45,7 +45,7 @@ class Cart extends PureComponent {
   }
 
   renderOrderedProducts() {
-    return localforage.getItem(PRODUCTION_STORE).then(cartProducts => {
+    return localforage.getItem(PRODUCTION_STORE).then((cartProducts) => {
       cartProducts = cartProducts || [];
 
       this.setState({ cartProducts });
@@ -68,10 +68,10 @@ class Cart extends PureComponent {
       opacity: 1,
       translateY: {
         value: 0,
-        duration: animationDuration * 1.618
+        duration: animationDuration * 1.618,
       },
       elacticity: 100,
-      timing: "easeInOutQuart"
+      timing: "easeInOutQuart",
     });
   };
 
@@ -81,11 +81,11 @@ class Cart extends PureComponent {
 
     anime({
       targets: cart,
-      duration: animationDuration / 1.618 - 100 ,
+      duration: animationDuration / 1.618 - 100,
       opacity: 0,
       elacticity: 100,
       timing: "easeOutSine",
-      complete: this.closeCart
+      complete: this.closeCart,
     });
   };
 
@@ -123,7 +123,7 @@ class Cart extends PureComponent {
       className,
       isShownHelpText,
       helpText,
-      quantityOrderedProducts
+      quantityOrderedProducts,
     } = this.props;
 
     return (
@@ -132,19 +132,20 @@ class Cart extends PureComponent {
           ref="cart"
           style={{
             opacity: 0,
-            transform: "translate(0, -1.5rem)"
+            transform: "translate(0, -1.5rem)",
           }}
           className={getClass(
             composeClasses(
               "cart",
               "",
               modifier,
-              "lowCascadingShadow display_grid" + className ? className : ""
+              `lowCascadingShadow display_grid${className}` ? className : ""
             )
           )}
         >
           {closeButton ? (
-            <CloseButton {...closeButton}
+            <CloseButton
+              {...closeButton}
               onClick={this.hideCart}
               label="Закрыть корзину"
             />
@@ -157,14 +158,14 @@ class Cart extends PureComponent {
               b: "cart",
               el: "hint",
               m: `${isShownHelpText ? "shown" : ""}`,
-              add: "lowCascadingShadow"
+              add: "lowCascadingShadow",
             })}
           >
             {helpText}
           </p>
           <ul
             style={{
-              backgroundImage: `url(${mesh})`
+              backgroundImage: `url(${mesh})`,
             }}
             className="orderedProducts parent row h-around"
           >
@@ -187,7 +188,7 @@ class Cart extends PureComponent {
                 className={getClass({
                   b: "cart",
                   el: "hint",
-                  m: "empty"
+                  m: "empty",
                 })}
               >
                 Ваша корзина пуста, но вы всегда можете её пополнить ʕ•ᴥ•ʔ!
@@ -200,7 +201,7 @@ class Cart extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { cart } = state;
 
   const { quantityOrderedProducts, isShownHelpText, helpText } = cart;
@@ -208,7 +209,7 @@ const mapStateToProps = state => {
   return {
     quantityOrderedProducts,
     isShownHelpText,
-    helpText
+    helpText,
   };
 };
 

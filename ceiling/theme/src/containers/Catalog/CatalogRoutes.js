@@ -1,9 +1,13 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import {Route, Switch} from "react-router-dom";
+import { withRouter, Route, Switch } from "react-router-dom";
 
+
+import MyRoute from "@/components/MyRoute";
+import getClass from "@/constants/classes";
+import { selectNavigationItem } from "@/actions/navigationActions.js";
+import { initNavigationState } from "@/reducers/navigation.js";
 import CatalogPageContainer from "./CatalogPageContainer";
 import BrandContainer from "./BrandContainer";
 import CategoryContainer from "./CategoryContainer";
@@ -13,16 +17,11 @@ import CategoryCollectionContainer from "./CategoryCollectionContainer";
 import BrandProductContainer from "./BrandProductContainer";
 import CategoryProductContainer from "./CategoryProductContainer";
 
-import MyRoute from "@/components/MyRoute";
-
-import getClass from "@/constants/classes";
-import { selectNavigationItem } from "@/actions/navigationActions.js";
-import { initNavigationState } from "@/reducers/navigation.js";
 
 class CatalogRoutes extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    location: PropTypes.object.isRequired,
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -31,21 +30,20 @@ class CatalogRoutes extends PureComponent {
 
     this.forceUpdate();
 
-    if (!document.title)
-      document.title = "Каталог | ArtCeil";
+    if (!document.title) document.title = "Каталог | ArtCeil";
   }
 
 
   render() {
     const {
-      url
+      url,
     } = this.props.match;
     const {
-      location
+      location,
     } = this.props;
 
     return (
-      <div className={getClass({b: "catalog"})}>
+      <div className={getClass({ b: "catalog" })}>
         <Switch location={location}>
           <MyRoute path={`${url}/brand/:brandSlug/sample/:productSlug`} component={BaseProductContainer} />
           <MyRoute path={`${url}/brand/:brandSlug/:collectionSlug/:productSlug`} component={BrandProductContainer} />
@@ -64,11 +62,11 @@ class CatalogRoutes extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
 
   return {
-    ...catalog
+    ...catalog,
   };
 };
 

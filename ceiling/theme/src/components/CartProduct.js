@@ -1,15 +1,14 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import getClass, { composeClasses } from "@/constants/classes";
+import { showProductInfo } from "@/actions/cart";
 import CloseButton from "./CloseButton";
 import Button from "./Button";
 import Characteristics from "./Catalog/Characteristics";
-import { Link } from "react-router-dom";
 
-import { showProductInfo } from "@/actions/cart";
 
 class CartProduct extends PureComponent {
   static propTypes = {
@@ -24,7 +23,7 @@ class CartProduct extends PureComponent {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     length: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     thickness: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired,
   };
 
   showProductInfo = () => {
@@ -46,7 +45,7 @@ class CartProduct extends PureComponent {
       thickness,
       width,
       productIndex,
-      ...rest
+      ...rest,
     };
 
     dispatch(
@@ -61,7 +60,7 @@ class CartProduct extends PureComponent {
       image,
       deleteProduct,
       name,
-      url
+      url,
     } = this.props;
 
     return (
@@ -72,13 +71,13 @@ class CartProduct extends PureComponent {
         )}
       >
 
-        <h3 className='position_absolute cartProduct__name fullWidth parent centered text_centered'>
+        <h3 className="position_absolute cartProduct__name fullWidth parent centered text_centered">
           {name}
         </h3>
 
         <Link
           to={url}
-          className='productIndicator unstyledLink fullWidth lowCascadingShadow moreRefer moreRefer_product parent row centered zeroVerticalMargin background-color_white'
+          className="productIndicator unstyledLink fullWidth lowCascadingShadow moreRefer moreRefer_product parent row centered zeroVerticalMargin background-color_white"
         >
           К образцу
         </Link>
@@ -97,6 +96,6 @@ class CartProduct extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 export default withRouter(connect(mapStateToProps)(CartProduct));

@@ -4,10 +4,10 @@ import {
   orderCallback,
   requestCallback,
   reinitCallbackForm
-} from './../actions/callback';
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
-import callback, {initState} from './../reducers/callback';
+} from "./../actions/callback";
+import expect from "expect";
+import deepFreeze from "deep-freeze";
+import callback, {initState} from "./../reducers/callback";
 
 const testOpenCallback = () => {
   const callbackBefore = initState;
@@ -80,7 +80,7 @@ const testReinitCallbackForm = () => {
   const stateBefore = {
     ...initState,
     isOrderedCallback: true,
-    helpText: 'The hint of this module has relation with two form. I need to clean it after closing and opening  callback from.' ,
+    helpText: "The hint of this module has relation with two form. I need to clean it after closing and opening  callback from." ,
     isRequesting: false
   };
 

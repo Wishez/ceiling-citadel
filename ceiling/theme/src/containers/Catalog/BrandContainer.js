@@ -2,17 +2,18 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import * as localforage from 'localforage'
 
-import {CATALOG, BRAND} from "@/constants/catalog";
-import {transformName, fixUrl} from "@/constants/pureFunctions";
-import {catalogSectionCombiner, catalogSubsectionsCombiner} from "@/constants/filter";
+import { CATALOG, BRAND } from "@/constants/catalog";
+import { transformName, fixUrl } from "@/constants/pureFunctions";
+import { catalogSectionCombiner, catalogSubsectionsCombiner } from "@/constants/filter";
 
-import {fetchCatalogEntityOrGetLocale, setLastShownView} from "@/actions/catalog";
+import { fetchCatalogEntityOrGetLocale, setLastShownView } from "@/actions/catalog";
 
-import BaseCatalogContainer from "./BaseCatalogContainer";
 
 import CatalogSection from "@/components/Catalog/CatalogSection";
 import Loader from "@/components/Loader";
+import BaseCatalogContainer from "./BaseCatalogContainer";
 
 
 class BrandContainer extends PureComponent {
@@ -26,28 +27,25 @@ class BrandContainer extends PureComponent {
     id: "",
     brandName: "",
     slogan: "",
-    brand:  false,
-    sampleUrl: ""
+    brand: false,
+    sampleUrl: "",
   }
 
   componentWillUnmount() {
-    const {dispatch} = this.props;
-    const {brandName} = this.state;
+    const { dispatch } = this.props;
+    const { brandName } = this.state;
     const lastShownView  = {
       name: brandName,
-      type: BRAND
+      type: BRAND,
     };
 
     dispatch(setLastShownView(lastShownView));
   }
 
 
-
-
-
-  requestBrand = (force=false) => {
-    const {id, brandName} = this.state;
-    const {dispatch} = this.props;
+  requestBrand = (force = false) => {
+    const { id, brandName } = this.state;
+    const { dispatch } = this.props;
 
     if (id) {
       const request = dispatch(
@@ -55,12 +53,11 @@ class BrandContainer extends PureComponent {
       );
 
       if (request) {
-        request.then(brand => {
+        request.then((brand) => {
           this.renderNewBrand({
             oldBrandName: brandName,
-            brand
+            brand,
           });
-
         });
       }
     }
@@ -68,7 +65,7 @@ class BrandContainer extends PureComponent {
 
   renderNewBrand = ({
     brand,
-    oldBrandName
+    oldBrandName,
   }) => {
     if (brand) {
       const transformedName = transformName(brand.name);
@@ -77,7 +74,7 @@ class BrandContainer extends PureComponent {
         this.setState({
           brandName: transformedName,
           slogan: brand.slogan,
-          brand
+          brand,
         });
       }
     }
@@ -88,38 +85,37 @@ class BrandContainer extends PureComponent {
     this.combineSampleUrl();
   }
 
-  getIdFromCatalog = (callback=false, newSlug=false) => {
-    const {match} = this.props;
-    let {brandSlug} = match.params;
-    brandSlug = newSlug ? newSlug : brandSlug;
+  getIdFromCatalog = (callback = false, newSlug = false) => {
+    const { match } = this.props;
+    let { brandSlug } = match.params;
+    brandSlug = newSlug || brandSlug;
 
     localforage.getItem(CATALOG, (error, catalog) => {
-
       this.setBrandIdAndMakeCallbackIfNeeded({
         catalog,
         brandSlug,
-        callback
+        callback,
       });
     });
   }
 
   combineSampleUrl = () => {
-    const {url: categoryUrl} = this.props.match;
+    const { url: categoryUrl } = this.props.match;
     const fixedCategoryUrl = fixUrl(categoryUrl);
-    const sampleUrl = fixedCategoryUrl + "sample/";
+    const sampleUrl = `${fixedCategoryUrl}sample/`;
 
-    this.setState({sampleUrl});
+    this.setState({ sampleUrl });
   }
 
   setBrandIdAndMakeCallbackIfNeeded = ({
     catalog,
     brandSlug,
-    callback
+    callback,
   }) => {
     if (catalog !== null && brandSlug in catalog.brands) {
       const id = catalog.brands[brandSlug].uuid;
 
-      this.setState({id});
+      this.setState({ id });
       if (callback) {
         callback();
       }
@@ -128,13 +124,13 @@ class BrandContainer extends PureComponent {
 
   componentWillUpdate(nextProps) {
     const {
-      brandSlug
+      brandSlug,
     } = this.props.match.params;
-    const {BRAND} = this.props;
+    const { BRAND } = this.props;
 
     if (BRAND !== nextProps.BRAND) {
       this.setState({
-        brand: false
+        brand: false,
       });
     }
 
@@ -158,17 +154,18 @@ class BrandContainer extends PureComponent {
   render() {
     const {
       isRequesting,
-      match
+      match,
     } = this.props;
-    const {url} = match;
+    const { url } = match;
 
     const {
       brand,
       slogan,
       brandName,
-      sampleUrl
+      sampleUrl,
     } = this.state;
-    let collectionsLength, samplesLength;
+    let collectionsLength; let
+      samplesLength;
 
     if (!brand) {
       this.requestBrand();
@@ -179,13 +176,14 @@ class BrandContainer extends PureComponent {
 
     return (
 
-      <BaseCatalogContainer name={brandName}
+      <BaseCatalogContainer
+        name={brandName}
         slogan={slogan}
         routes={{
           "/catalog": "Каталог",
           "/catalog/brand": false,
           "/catalog/brand/:brandSlug": false,
-          "/catalog/brand/:brandSlug/": false
+          "/catalog/brand/:brandSlug/": false,
         }}
         CONSTANT={BRAND}
       >
@@ -195,11 +193,11 @@ class BrandContainer extends PureComponent {
           fallback={
             !isRequesting &&
               !collectionsLength ? <p className="paragraph_container">Нет отельных коллекций.</p> : ""
-          }>
+          }
+        >
           {!isRequesting &&
             collectionsLength ?
-            catalogSubsectionsCombiner(brand.collections, url, "category") : ""
-          }
+            catalogSubsectionsCombiner(brand.collections, url, "category") : ""}
         </CatalogSection>
         <CatalogSection
           name="Образцы"
@@ -207,26 +205,26 @@ class BrandContainer extends PureComponent {
           fallback={
             !isRequesting &&
               !samplesLength ? <p className="paragraph_container">Нет отельных образцов.</p> : ""
-          }>
+          }
+        >
           {!isRequesting &&
             samplesLength ?
-            catalogSubsectionsCombiner(brand.products, sampleUrl, "section") : ""
-          }
+            catalogSubsectionsCombiner(brand.products, sampleUrl, "section") : ""}
         </CatalogSection>
       </BaseCatalogContainer>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const {
-    isRequesting
+    isRequesting,
   } = catalog;
 
   return {
     BRAND: catalog.BRAND,
-    isRequesting
+    isRequesting,
   };
 };
 

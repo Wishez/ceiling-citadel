@@ -3,7 +3,7 @@ import {
   retrieveEntity,
   getEntityRequestInfo,
   catalogRequests
-} from './../actions/catalog';
+} from "./../actions/catalog";
 
 import {
   REQUEST_CATALOG,
@@ -23,17 +23,17 @@ import {
   BRAND,
   CATALOG,
   PRODUCT_SLUG,
-} from './../constants/catalog';
+} from "./../constants/catalog";
 
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
-import catalog, {initState} from './../reducers/catalog';
+import expect from "expect";
+import deepFreeze from "deep-freeze";
+import catalog, {initState} from "./../reducers/catalog";
 
 const testSetLastShownView = () => {
   const stateBefore = initState;
   const payload = {
-    name: 'Awesome item of Awesome View',
-    type: 'AWESOME_VIEW'
+    name: "Awesome item of Awesome View",
+    type: "AWESOME_VIEW"
   };
   const stateAfter = {
     ...initState,
@@ -53,10 +53,10 @@ const testRetrieveEntity = () => {
   const stateBefore = initState;
 
   const type = RETRIEVE_BRAND;
-  const id = '123454321qwertrewq';
+  const id = "123454321qwertrewq";
   const stateAfter = {
     ...initState,
-    'BRAND': id
+    "BRAND": id
   };
 
   deepFreeze(stateBefore);

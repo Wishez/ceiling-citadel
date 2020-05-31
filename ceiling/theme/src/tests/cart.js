@@ -1,3 +1,4 @@
+import * as localforage from 'localforage'
 import {
   openCart,
   closeCart,
@@ -9,19 +10,19 @@ import {
   showProductInfo,
   hideProductInfo,
   updateProductInfo
-} from '@/actions/cart';
-import { TEST_STORE, EMPTY_ORDERED_PRODUCT } from '@/constants/cart';
-import { timeout } from '@/constants/pureFunctions';
+} from "@/actions/cart";
+import { TEST_STORE, EMPTY_ORDERED_PRODUCT } from "@/constants/cart";
+import { timeout } from "@/constants/pureFunctions";
 
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
-import cart, { initState } from '@/reducers/cart';
+import expect from "expect";
+import deepFreeze from "deep-freeze";
+import cart, { initState } from "@/reducers/cart";
 
 const isNotTest = false;
 
 const testOpenCart = () => {
   const cartBefore = initState;
-  const name = 'header';
+  const name = "header";
   const cartAfter = {
     ...cartBefore,
     isCartOpened: name
@@ -46,7 +47,7 @@ const testCloseCart = () => {
 
 
 const getProductToTheCartTest = () => {
-  const STORE_NAME = 'getProductToTheCartTestStore';
+  const STORE_NAME = "getProductToTheCartTestStore";
 
   setTestProducts(STORE_NAME).then((products) => {
     const cartBefore = {
@@ -55,25 +56,25 @@ const getProductToTheCartTest = () => {
     };
 
     const newProduct = {
-      name: 'Some Name of the product',
-      uuid: '12345',
+      name: "Some Name of the product",
+      uuid: "12345",
       quantity: 1,
-      combustibility: '',
-      acoustics: '',
-      lightning: '',
-      edges: '',
-      material: '',
-      colors: '',
-      width: '',
-      height: '',
-      length: '',
-      thickness: ''
+      combustibility: "",
+      acoustics: "",
+      lightning: "",
+      edges: "",
+      material: "",
+      colors: "",
+      width: "",
+      height: "",
+      length: "",
+      thickness: ""
     };
 
     const cartAfter = {
       ...initState,
       isProductAdded: true,
-      helpText: 'Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.',
+      helpText: "Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.",
       quantityOrderedProducts: cartBefore.quantityOrderedProducts + 1
     };
 
@@ -106,7 +107,7 @@ function getTestProducts(storeName=TEST_STORE) {
 }
 
 const throwProductFromCartTest = () => {
-  const STORE_NAME = 'throwProductFromCartTestStore';
+  const STORE_NAME = "throwProductFromCartTestStore";
 
   setTestProducts(STORE_NAME).then((products) => {
     const cartBefore = {
@@ -153,7 +154,7 @@ function checkDifferanceBetweetProductsInStore({
 }
 
 const changeProductQuantityTest = () => {
-  const STORE_NAME = 'changeProductQuantityTestStore';
+  const STORE_NAME = "changeProductQuantityTestStore";
 
   setTestProducts(STORE_NAME).then((products) => {
     const cartBefore = {
@@ -189,7 +190,7 @@ const changeProductQuantityTest = () => {
 
 const showHelpTextTest = () => {
   const cartBefore = initState;
-  const helpText = 'You will see it!';
+  const helpText = "You will see it!";
   const cartAfter = {
     ...cartBefore,
     helpText: helpText,
@@ -205,7 +206,7 @@ const hideHelpTextTest = () => {
   const cartBefore = initState;
   const cartAfter = {
     ...cartBefore,
-    helpText: '',
+    helpText: "",
     isShownHelpText: false
   };
 
@@ -219,7 +220,7 @@ const testProductModalInfo = {
   height: 25.888,
   length: 41.886784,
   quantity: 67.772816512,
-  name: 'Magic Golden Ratio'
+  name: "Magic Golden Ratio"
 };
 
 const testShowProductInfo = () => {

@@ -4,16 +4,15 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import PopupFormContainer from "@/components/PopupFormContainer";
-import Characteristics from "../Catalog/Characteristics";
 
-import {hideProductInfo} from "@/actions/cart";
-import {Observable, fromEvent} from "rxjs";
-import {map, debounceTime, distinctUntilChanged} from "rxjs/operators";
-
-
-import {
-  changeProductQuantityAndUpdateInfo
+import { hideProductInfo,
+  changeProductQuantityAndUpdateInfo,
 } from "@/actions/cart";
+import { Observable, fromEvent } from "rxjs";
+import { map, debounceTime, distinctUntilChanged } from "rxjs/operators";
+
+
+import Characteristics from "../Catalog/Characteristics";
 
 class CartProductInfo extends PureComponent {
   static propTypes = {
@@ -30,42 +29,42 @@ class CartProductInfo extends PureComponent {
     super(props);
 
     this.state = {
-      quantityProductsSubsciption: false
+      quantityProductsSubsciption: false,
     };
   }
 
   hideProductInfo = () => {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
 
     dispatch(hideProductInfo());
   }
 
-  changeProductQuantity = quantity => {
+  changeProductQuantity = (quantity) => {
     const {
       dispatch,
-      productIndex
+      productIndex,
     } = this.props;
 
     dispatch(changeProductQuantityAndUpdateInfo({
       id: productIndex,
       productInfo: {
-        quantity
+        quantity,
       },
-      quantity
+      quantity,
     }));
   };
 
 
   componentDidMount() {
-    const {quantity} = this.props;
-    const {qunatityProductsInput} = this.refs;
+    const { quantity } = this.props;
+    const { qunatityProductsInput } = this.refs;
 
     qunatityProductsInput.value = quantity;
 
     const observer = {
-      next: this.changeProductQuantity
+      next: this.changeProductQuantity,
     };
-    const quantityProductsObservable = Observable::fromEvent(qunatityProductsInput, "input");
+    const quantityProductsObservable = Observable.fromEvent(qunatityProductsInput, "input");
 
     const quantityProductsSubscribtion = quantityProductsObservable
       .pipe(
@@ -78,7 +77,7 @@ class CartProductInfo extends PureComponent {
       .subscribe(observer);
 
     this.setState({
-      quantityProductsSubscribtion
+      quantityProductsSubscribtion,
     });
   }
 be
@@ -87,7 +86,7 @@ componentWillUnmount() {
 }
 
 unsubscribeWatchForQuantityProducts() {
-  const {quantityProductsSubscribtion} = this.state;
+  const { quantityProductsSubscribtion } = this.state;
 
   quantityProductsSubscribtion.unsubscribe();
 }
@@ -108,15 +107,15 @@ render() {
       signification={name}
       visible={isProductInfoShown}
       closeButton={{
-        onClick: this.hideProductInfo
+        onClick: this.hideProductInfo,
       }}
-      className='padding-left_extra-large'
+      className="padding-left_extra-large"
     >
       <p className="margin-top_zero">Количество: {quantity}шт.</p>
 
       {width && length ? (
         <p>
-            Квадратные метры: {width * length * quantity}²<br />
+          Квадратные метры: {width * length * quantity}²<br />
         </p>
       ) : (
         ""
@@ -143,10 +142,10 @@ render() {
 }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { cart } = state;
 
-  const { productModalInfo} = cart;
+  const { productModalInfo } = cart;
   const { name, quantity, length, thickness, width, ...rest } = productModalInfo;
 
   return {
@@ -155,7 +154,7 @@ const mapStateToProps = state => {
     length,
     thickness,
     width,
-    ...rest
+    ...rest,
   };
 };
 

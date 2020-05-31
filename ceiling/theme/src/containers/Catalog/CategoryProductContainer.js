@@ -3,30 +3,31 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
+import * as localforage from 'localforage'
 
 import {
   CATALOG,
   PRODUCT,
-  LAST_ALBUM
+  LAST_ALBUM,
 } from "@/constants/catalog";
 import {
   transformName,
-  makeSlides
+  makeSlides,
 } from "@/constants/pureFunctions";
 
 import {
-  getProductData
+  getProductData,
 } from "@/constants/filter";
 
-import BreadcrumbsContainer from "./../BreadcrumbsContainer";
-import BaseCatalogContainer from "./BaseCatalogContainer";
-import AddProductFormContainer from "./../AddProductFormContainer";
-import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
-import {resetAddToCartForm} from "@/actions/cart";
+import { fetchCatalogEntityOrGetLocale } from "@/actions/catalog";
+import { resetAddToCartForm } from "@/actions/cart";
 
 import Figure from "@/components/Figure";
 import Loader from "@/components/Loader";
 import Slider from "@/components/Slider/Slider";
+import AddProductFormContainer from "./../AddProductFormContainer";
+import BaseCatalogContainer from "./BaseCatalogContainer";
+import BreadcrumbsContainer from "./../BreadcrumbsContainer";
 
 class CategoryProductContainer extends PureComponent {
   static propTypes = {
@@ -44,7 +45,7 @@ class CategoryProductContainer extends PureComponent {
     slogan: "",
     productName: "",
     album: false,
-    slides: []
+    slides: [],
   }
 
   componentDidMount() {
@@ -53,18 +54,18 @@ class CategoryProductContainer extends PureComponent {
   }
 
   showAddToCartForm = () => {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
 
     dispatch(resetAddToCartForm());
   }
 
-  getIdFromCatalog = (callback=false) => {
-    const {match} = this.props;
+  getIdFromCatalog = (callback = false) => {
+    const { match } = this.props;
 
     const {
       categorySlug,
       collectionSlug,
-      productSlug
+      productSlug,
     } = match.params;
 
     localforage.getItem(CATALOG, (error, catalog) => {
@@ -73,7 +74,7 @@ class CategoryProductContainer extends PureComponent {
         collectionSlug,
         productSlug,
         catalog,
-        callback
+        callback,
       });
     });
   }
@@ -83,7 +84,7 @@ class CategoryProductContainer extends PureComponent {
     categorySlug,
     callback,
     collectionSlug,
-    productSlug
+    productSlug,
   }) => {
     if (catalog !== null && categorySlug in catalog.categories) {
       const category = catalog.categories[categorySlug];
@@ -96,7 +97,7 @@ class CategoryProductContainer extends PureComponent {
 
       this.setState({
         categoryName: category.name,
-        ...productData
+        ...productData,
       });
 
       if (callback) {
@@ -107,11 +108,11 @@ class CategoryProductContainer extends PureComponent {
 
   transformAndRenderProductIfNeeded = ({
     product,
-    oldProductName
+    oldProductName,
   }) => {
     if (product) {
       localforage.getItem(LAST_ALBUM)
-        .then(album => {
+        .then((album) => {
           const slides = album.images.map(makeSlides);
           const transformedProductName =  transformName(product.name);
 
@@ -121,7 +122,7 @@ class CategoryProductContainer extends PureComponent {
               slogan: product.slogan,
               product,
               album,
-              slides
+              slides,
             });
           }
         });
@@ -130,9 +131,9 @@ class CategoryProductContainer extends PureComponent {
 
   componentWillUpdate(nextProps) {
     const {
-      productSlug
+      productSlug,
     } = this.props.match.params;
-    const {PRODUCT} = this.props;
+    const { PRODUCT } = this.props;
 
     const isProductUpdated = PRODUCT !== nextProps.PRODUCT;
 
@@ -150,7 +151,7 @@ class CategoryProductContainer extends PureComponent {
 
   cleanCurrentProduct = () => {
     this.setState({
-      product: false
+      product: false,
     });
   }
 
@@ -161,9 +162,9 @@ class CategoryProductContainer extends PureComponent {
     this.requestProduct(isForceRequest);
   }
 
-  requestProduct = (force=false) => {
-    const {id, productName} = this.state;
-    const {dispatch} = this.props;
+  requestProduct = (force = false) => {
+    const { id, productName } = this.state;
+    const { dispatch } = this.props;
 
     if (id) {
       const request = dispatch(
@@ -171,10 +172,10 @@ class CategoryProductContainer extends PureComponent {
       );
 
       if (request) {
-        request.then(product => {
+        request.then((product) => {
           this.transformAndRenderProductIfNeeded({
             oldProductName: productName,
-            product
+            product,
           });
         });
       }
@@ -189,16 +190,17 @@ class CategoryProductContainer extends PureComponent {
       slogan,
       album,
       productName,
-      slides
+      slides,
     } = this.state;
-    const {url} = this.props.match;
+    const { url } = this.props.match;
 
     if (!product) {
       this.requestProduct();
     }
 
     return (
-      <BaseCatalogContainer name={productName}
+      <BaseCatalogContainer
+        name={productName}
         slogan={slogan}
         modifier="product"
         routes={{
@@ -207,9 +209,9 @@ class CategoryProductContainer extends PureComponent {
           "/catalog/category/:categorySlug": categoryName,
           "/catalog/category/:categorySlug/:collectionSlug": collectionName,
           "/catalog/category/:categorySlug/:collectionSlug/:productSlug": false,
-          "/catalog/category/:categorySlug/:collectionSlug/:productSlug/": false
+          "/catalog/category/:categorySlug/:collectionSlug/:productSlug/": false,
         }}
-        isProduct={true}
+        isProduct
         CONSTANT={PRODUCT}
       >
         {product ?
@@ -221,17 +223,19 @@ class CategoryProductContainer extends PureComponent {
             />
 
             {product.visualisation !== null ?
-              <Figure url={product.visualisation.image} name='visualisation' maxWidth="100%" />
+              <Figure url={product.visualisation.image} name="visualisation" maxWidth="100%" />
               : ""}
 
             {(album && album.slug === product.album) ?
-              <Slider slides={slides}
-                animSettings={{animDuration: 500, animElasticity: 200}}
-                dotSettings={{size: 12, gap: 6}} />
+              <Slider
+                slides={slides}
+                animSettings={{ animDuration: 500, animElasticity: 200 }}
+                dotSettings={{ size: 12, gap: 6 }}
+              />
               : ""}
 
             {product.content ?
-              <section className='productContent parent centered'>
+              <section className="productContent parent centered">
                 <div className="productDescriptionContainer parent column">
                   {ReactHtmlParser(product.content)}
                 </div>
@@ -244,15 +248,15 @@ class CategoryProductContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const {
-    isRequesting
+    isRequesting,
   } = catalog;
 
   return {
     PRODUCT: catalog.PRODUCT,
-    isRequesting
+    isRequesting,
   };
 };
 

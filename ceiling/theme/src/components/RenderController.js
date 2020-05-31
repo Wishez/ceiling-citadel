@@ -1,92 +1,99 @@
-import React from 'react';
-import getClass from '@/constants/classes';
-import Figure from './Figure';
-import Paragraph from './Paragraph';
+import React from "react";
+import getClass from "@/constants/classes";
+import Figure from "./Figure";
+import Paragraph from "./Paragraph";
 
 const RenderController = ({
   input,
   meta: {
     touched,
     error,
-    warning
+    warning,
   },
-  block='controller',
+  block = "controller",
   label,
-  modifier='',
+  modifier = "",
   style,
   iconOptions,
   className,
   isShown,
-  asideText=false,
+  asideText = false,
   ...rest
 }) => (
-  <div style={style ? style : {}}
+  <div
+    style={style || {}}
     className={getClass({
       b: block,
       m: modifier,
-      add: className
-    })}>
+      add: className,
+    })}
+  >
     {label && !warning ?
       <label className={getClass({
         b: block,
-        el: 'label',
+        el: "label",
         m: modifier,
-        add: 'baseChild'
-      })}>
+        add: "baseChild",
+      })}
+      >
         {label}
-      </label> : ''}
+      </label> : ""}
     {iconOptions && !warning ?
       <Figure
         block="controllerIcon"
         className="baseChild"
         {...iconOptions}
-      /> : ''
-    }
+      /> : ""}
     {(touched && asideText) &&
 			 	((error &&
-			 		<span className={getClass({
+  <span className={getClass({
 			 		  b: block,
-			 		  el: 'error'
-			 		})}>{error}</span>) ||
+			 		  el: "error",
+			 		})}
+  >{error}</span>) ||
 			 		(warning && <span className={getClass({
 			 		  b: block,
-			 		  el: 'error'
-			 		})}>{warning}</span>))}
+			 		  el: "error",
+			 		})}
+			 		>{warning}</span>))}
     <div className="fullWidth">
-      {rest.type !== 'textarea' ?
-        <input {...input}
+      {rest.type !== "textarea" ?
+        <input
+          {...input}
           {...rest}
           className={getClass({
             b: block,
-            el: 'input',
+            el: "input",
             m: modifier,
-            add: 'baseChild'
+            add: "baseChild",
           })}
         /> :
-        <textarea {...input}
+        <textarea
+          {...input}
           {...rest}
           className={getClass({
             b: block,
-            el: 'input',
+            el: "input",
             m: modifier,
-            add: 'baseChild'
+            add: "baseChild",
           })}
-        />
-      }
+        />}
     </div>
-		 {asideText ?
-		 	<Paragraph block="controller" text={`: ${asideText}`}/> :
-		 	''}
-		 {(touched && !asideText) &&
+    {asideText ?
+      <Paragraph block="controller" text={`: ${asideText}`}/> :
+		 	""}
+    {(touched && !asideText) &&
 		 	((error &&
-		 		<span className={getClass({
+  <span className={getClass({
 		 		  b: block,
-		 		  el: 'error'
-		 		})}>{error}</span>) ||
+		 		  el: "error",
+		 		})}
+  >{error}</span>) ||
 		 		(warning && <span className={getClass({
 		 		  b: block,
-		 		  el: 'error'
-		 		})}>{warning}</span>))}
+		 		  el: "error",
+		 		})}
+		 		>{warning}</span>))}
 
   </div>
 );

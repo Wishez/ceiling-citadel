@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import {
-  openCart
+  openCart,
 } from "@/actions/cart";
 
 import OrderButton from "@/components/OrderButton";
@@ -18,7 +18,7 @@ class OrderButtonContainer extends PureComponent {
     cartPosition: PropTypes.string.isRequired,
     cartModifier: PropTypes.string.isRequired,
     modifier: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
   };
 
   openCart = () => {
@@ -48,21 +48,21 @@ class OrderButtonContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { cart } = state;
 
   const {
     quantityOrderedProducts,
     isCartOpened,
     isShownHelpText,
-    helpText
+    helpText,
   } = cart;
 
   return {
     quantityOrderedProducts,
     isCartOpened,
     isShownHelpText,
-    helpText
+    helpText,
   };
 };
 

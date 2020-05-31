@@ -7,12 +7,12 @@ export default class NavDot extends PureComponent {
     const styles = {
       height: `${size}px`,
       width: `${size}px`,
-      marginRight: `${margin}px`
+      marginRight: `${margin}px`,
     };
 
     return (
       <div
-        ref={el => { this.el = el; }}
+        ref={(el) => { this.el = el; }}
         className={this.props.className}
         style={styles}
       />

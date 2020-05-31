@@ -1,7 +1,7 @@
-import React from 'react';
-import Slide from './Slide';
-import Navigator from './SliderNavigator';
-import SlidePreview from './SliderPreview';
+import React from "react";
+import Slide from "./Slide";
+import Navigator from "./SliderNavigator";
+import SlidePreview from "./SliderPreview";
 
 export default class Slider extends React.Component {
   constructor() {
@@ -10,7 +10,7 @@ export default class Slider extends React.Component {
       activeIndex: 0,
       previousIndex: 0,
       previewIndex: 0,
-      previewActive: false
+      previewActive: false,
     };
   }
 
@@ -19,7 +19,7 @@ export default class Slider extends React.Component {
     this.setState({
       activeIndex: index,
       previousIndex: activeIndex,
-      previewActive: false
+      previewActive: false,
     });
   }
 
@@ -27,7 +27,7 @@ export default class Slider extends React.Component {
     this.setState({
       previewOffset: offset,
       previewIndex: index,
-      previewActive: activate
+      previewActive: activate,
     });
   }
 
@@ -37,7 +37,7 @@ export default class Slider extends React.Component {
       previousIndex,
       previewIndex,
       previewOffset,
-      previewActive
+      previewActive,
     } = this.state;
 
     const { slides, dotSettings, animSettings } = this.props;
@@ -46,7 +46,7 @@ export default class Slider extends React.Component {
     const { content: previous } = slides[previousIndex];
 
     return (
-      <div className='slides'>
+      <div className="slides">
         <Slide
           current={current}
           previous={previous}
@@ -56,7 +56,8 @@ export default class Slider extends React.Component {
           contentAnimMultiplier={1.65}
           gap={5}
           active={previewActive}
-          offset={previewOffset}>
+          offset={previewOffset}
+        >
           { preview }
         </SlidePreview>
         <Navigator

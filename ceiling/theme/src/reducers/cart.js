@@ -1,3 +1,4 @@
+import * as localforage from "localforage";
 import {
   OPEN_CART,
   CLOSE_CART,
@@ -10,32 +11,41 @@ import {
   RESET_ADD_TO_CART_FORM,
   SHOW_PRODUCT_INFO,
   HIDE_PRODUCT_INFO,
-  UPDATE_PRODUCT_INFO
-} from './../constants/cart';
+  UPDATE_PRODUCT_INFO,
+} from "./../constants/cart";
+
+const getProducts = (storeName) => localforage.getItem(storeName);
+
+let isSetLastProductLength = false;
+
+const setLastProductLength = (cartProductsLength) => {
+  if (isSetLastProductLength) {
+    localStorage.lastProductsLength = cartProductsLength;
+  }
+};
 
 export const initState = {
   isCartOpened: false,
   quantityOrderedProducts: 0,
-  helpText: '',
+  helpText: "",
   isShownHelpText: false,
   isProductAdded: false,
   isRequesting: false,
   productModalInfo: {
-    name: '',
+    name: "",
     quantity: 0,
     length: 0,
     thickness: 0,
-    width: 0
+    width: 0,
     // There is additional characteristics go as ...rest in the product info.
     // You can see them in AddProductFormContainer's properties. Sorry for this.
   },
-  isProductInfoOpened: false
+  isProductInfoOpened: false,
 };
 
-let isSetLastProductLength = false;
-
-const cart = (state = initState, action, isNotTest=true) => {
-  let quantityOrderedProducts, index, storeName;
+const cart = (state = initState, action, isNotTest = true) => {
+  let quantityOrderedProducts; let index; let
+    storeName;
   isSetLastProductLength = isNotTest;
 
   switch (action.type) {
@@ -44,8 +54,8 @@ const cart = (state = initState, action, isNotTest=true) => {
         ...state,
         productModalInfo: {
           ...state.productModalInfo,
-          ...action.productInfo
-        }
+          ...action.productInfo,
+        },
       };
 
     case SHOW_PRODUCT_INFO:
@@ -53,9 +63,9 @@ const cart = (state = initState, action, isNotTest=true) => {
       return {
         ...state,
         productModalInfo: {
-          ...action.productModalInfo
+          ...action.productModalInfo,
         },
-        isProductInfoOpened: true
+        isProductInfoOpened: true,
 
       };
 
@@ -64,46 +74,43 @@ const cart = (state = initState, action, isNotTest=true) => {
       return {
         ...state,
         productModalInfo: {
-          ...initState.productModalInfo
+          ...initState.productModalInfo,
         },
-        isProductInfoOpened: false
+        isProductInfoOpened: false,
       };
 
     case RESET_ADD_TO_CART_FORM:
       return {
         ...state,
         isProductAdded: false,
-        helpText: ''
+        helpText: "",
       };
 
     case SHOW_ACTION:
       return { ...state,
-        isRequesting: true
+        isRequesting: true,
       };
 
     case OPEN_CART:
       return { ...state,
-        isCartOpened: action.id
+        isCartOpened: action.id,
       };
 
     case CLOSE_CART:
       return {
         ...state,
-        isCartOpened: false
+        isCartOpened: false,
       };
 
     case PUT_PRODUCT:
       storeName = action.store;
 
       getProducts(storeName).then((cartProducts) => {
-
-        cartProducts = cartProducts ? cartProducts : [];
-        const updatedCartProducts = [...cartProducts, action.product];
-
-        localforage.setItem(storeName, updatedCartProducts);
+        const products = cartProducts || [];
+        localforage.setItem(storeName, [...products, action.product]);
       });
 
-      quantityOrderedProducts = state.quantityOrderedProducts+1;
+      quantityOrderedProducts = state.quantityOrderedProducts + 1;
 
       setLastProductLength(quantityOrderedProducts);
 
@@ -111,8 +118,8 @@ const cart = (state = initState, action, isNotTest=true) => {
         ...state,
         isProductAdded: true,
         isRequesting: false,
-        helpText: 'Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.',
-        quantityOrderedProducts
+        helpText: "Вы успешно добавили продукт в корзинуʕʘ̅͜ʘ̅ʔ.",
+        quantityOrderedProducts,
       };
 
     case DELETE_PRODUCT:
@@ -120,20 +127,17 @@ const cart = (state = initState, action, isNotTest=true) => {
       index = action.id;
 
       getProducts(storeName).then((cartProducts) => {
-        cartProducts = cartProducts ? cartProducts : [];
-
-        const updatedCartProducts = [...cartProducts.slice(0, index), ...cartProducts.slice(index+1)];
-
-        localforage.setItem(storeName, updatedCartProducts);
+        const products = cartProducts || [];
+        localforage.setItem(storeName, [...products.slice(0, index), ...products.slice(index + 1)]);
       });
 
-      quantityOrderedProducts = state.quantityOrderedProducts-1;
+      quantityOrderedProducts = state.quantityOrderedProducts - 1;
 
       setLastProductLength(quantityOrderedProducts);
 
       return {
         ...state,
-        quantityOrderedProducts
+        quantityOrderedProducts,
       };
 
     case CHANGE_PRODUCT_QUANTITY:
@@ -141,20 +145,18 @@ const cart = (state = initState, action, isNotTest=true) => {
       index = action.id;
 
       getProducts(storeName).then((cartProducts) => {
-        cartProducts = cartProducts ? cartProducts : [];
-
+        const products = cartProducts || [];
         const updatedCartProducts = [
-          ...cartProducts.slice(0, index),
+          ...products.slice(0, index),
           {
-            ...cartProducts[index],
-            quantity: action.quantity
+            ...products[index],
+            quantity: action.quantity,
           },
-          ...cartProducts.slice(index + 1)
+          ...products.slice(index + 1),
         ];
 
         localforage.setItem(storeName, updatedCartProducts);
         setLastProductLength(updatedCartProducts.length);
-
       });
 
       return state;
@@ -163,33 +165,23 @@ const cart = (state = initState, action, isNotTest=true) => {
       return {
         ...state,
         helpText: action.helpText,
-        isShownHelpText: true
+        isShownHelpText: true,
       };
 
     case HIDE_HELP_TEXT:
       return {
         ...state,
-        helpText: '',
-        isShownHelpText: false
+        helpText: "",
+        isShownHelpText: false,
       };
 
     default:
 
       return {
         ...state,
-        quantityOrderedProducts: Number(localStorage.lastProductsLength) || 0
+        quantityOrderedProducts: Number(localStorage.lastProductsLength) || 0,
       };
   }
 };
-
-function getProducts(storeName) {
-  return localforage.getItem(storeName);
-}
-
-function setLastProductLength(cartProductsLength) {
-  if (isSetLastProductLength) {
-    localStorage.lastProductsLength = cartProductsLength;
-  }
-}
 
 export default cart;

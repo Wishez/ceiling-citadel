@@ -3,29 +3,29 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
+import * as localforage from 'localforage'
 
-import getClass from "./../../constants/classes";
 import {
   CATALOG,
   PRODUCT,
-  LAST_ALBUM
+  LAST_ALBUM,
 } from "@/constants/catalog";
 
-import {transformName, makeSlides} from "@/constants/pureFunctions";
+import { transformName, makeSlides } from "@/constants/pureFunctions";
 
-import {getProductData} from "@/constants/filter";
+import { getProductData } from "@/constants/filter";
 
 
-import BaseCatalogContainer from "./BaseCatalogContainer";
-import AddProductFormContainer from "./../AddProductFormContainer";
-
-import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
-import {resetAddToCartForm} from "@/actions/cart";
+import { fetchCatalogEntityOrGetLocale } from "@/actions/catalog";
+import { resetAddToCartForm } from "@/actions/cart";
 
 import Figure from "@/components/Figure";
 import Loader from "@/components/Loader";
 
 import Slider from "@/components/Slider/Slider";
+import AddProductFormContainer from "./../AddProductFormContainer";
+import BaseCatalogContainer from "./BaseCatalogContainer";
+import getClass from "./../../constants/classes";
 
 class BrandProductContainer extends PureComponent {
   static propTypes = {
@@ -44,16 +44,16 @@ class BrandProductContainer extends PureComponent {
     productName: "",
     album: false,
     slides: [],
-    inited: true
+    inited: true,
   }
 
-  getIdFromCatalog = (callback=false) => {
-    const {dispatch, match} = this.props;
+  getIdFromCatalog = (callback = false) => {
+    const { dispatch, match } = this.props;
 
     const {
       brandSlug,
       collectionSlug,
-      productSlug
+      productSlug,
     } = match.params;
 
     localforage.getItem(CATALOG, (error, catalog) => {
@@ -68,7 +68,7 @@ class BrandProductContainer extends PureComponent {
 
         this.setState({
           brandName: category.name,
-          ...productData
+          ...productData,
         });
 
         if (callback) {
@@ -78,9 +78,9 @@ class BrandProductContainer extends PureComponent {
     });
   }
 
-   requestProduct = (force=false) => {
-     const {id, productName} = this.state;
-     const {dispatch} = this.props;
+   requestProduct = (force = false) => {
+     const { id, productName } = this.state;
+     const { dispatch } = this.props;
 
      if (id) {
        const request = dispatch(
@@ -88,11 +88,10 @@ class BrandProductContainer extends PureComponent {
        );
 
        if (request) {
-         request.then(product => {
-
+         request.then((product) => {
            if (product) {
              localforage.getItem(LAST_ALBUM)
-               .then(album => {
+               .then((album) => {
                  const slides = album && album.images && album.images.map(makeSlides);
                  const transformedProductName =  transformName(product.name);
 
@@ -103,10 +102,9 @@ class BrandProductContainer extends PureComponent {
                      product,
                      album,
                      slides,
-                     inited: true
+                     inited: true,
                    });
                  }
-
                });
            }
          });
@@ -115,13 +113,13 @@ class BrandProductContainer extends PureComponent {
    }
 
    componentWillUpdate(nextProps) {
-     const {productSlug} = this.props.match.params;
-     const {PRODUCT, dispatch} = this.props;
+     const { productSlug } = this.props.match.params;
+     const { PRODUCT, dispatch } = this.props;
 
 
      if (PRODUCT !== nextProps.PRODUCT) {
        this.setState({
-         product: false
+         product: false,
        });
 
        dispatch(resetAddToCartForm());
@@ -145,7 +143,7 @@ class BrandProductContainer extends PureComponent {
    }
 
    showAddToCartForm = () => {
-     const {dispatch} = this.props;
+     const { dispatch } = this.props;
 
      dispatch(resetAddToCartForm());
    }
@@ -153,9 +151,9 @@ class BrandProductContainer extends PureComponent {
 
    render() {
      const {
-       isRequesting
+       isRequesting,
      } = this.props;
-     const {url} = this.props.match;
+     const { url } = this.props.match;
      const {
        collectionName,
        brandName,
@@ -163,7 +161,7 @@ class BrandProductContainer extends PureComponent {
        slogan,
        album,
        productName,
-       slides
+       slides,
      } = this.state;
 
      if (!product) {
@@ -171,7 +169,8 @@ class BrandProductContainer extends PureComponent {
      }
 
      return (
-       <BaseCatalogContainer name={productName}
+       <BaseCatalogContainer
+         name={productName}
          slogan={slogan}
          modifier="product"
          routes={{
@@ -180,9 +179,9 @@ class BrandProductContainer extends PureComponent {
            "/catalog/brand/:brandSlug": brandName,
            "/catalog/brand/:brandSlug/:collectionSlug": collectionName,
            "/catalog/brand/:brandSlug/:collectionSlug/:productSlug": false,
-           "/catalog/brand/:brandSlug/:collectionSlug/:productSlug/": false
+           "/catalog/brand/:brandSlug/:collectionSlug/:productSlug/": false,
          }}
-         isProduct={true}
+         isProduct
          CONSTANT={PRODUCT}
        >
          {!isRequesting && product ?
@@ -199,8 +198,7 @@ class BrandProductContainer extends PureComponent {
                  name="visualisation"
                  maxWidth="100%"
                />
-               : ""
-             }
+               : ""}
 
              {album && album.slug === product.album ?
                <Slider
@@ -211,7 +209,7 @@ class BrandProductContainer extends PureComponent {
                : ""}
 
              {product.content ?
-               <section className='productContent parent centered'>
+               <section className="productContent parent centered">
                  <div className="productDescriptionContainer parent column">
                    {ReactHtmlParser(product.content)}
                  </div>
@@ -224,15 +222,15 @@ class BrandProductContainer extends PureComponent {
    }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const {
-    isRequesting
+    isRequesting,
   } = catalog;
 
   return {
     PRODUCT: catalog.PRODUCT,
-    isRequesting
+    isRequesting,
   };
 };
 

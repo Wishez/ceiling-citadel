@@ -1,6 +1,6 @@
-import React from 'react';
-import loader from './../images/icons/loader.svg';
-import Figure from './../components/Figure';
+import React from "react";
+import loader from "./../images/icons/loader.svg";
+import Figure from "./../components/Figure";
 
 const Loader = ({
   ...rest

@@ -4,42 +4,41 @@ import {
   CLOSE_CALLBACK,
   REQUEST_CALLBACK,
   ASK_QUESTION,
-  REINIT_CALLBACK_FORM
-} from './../constants/callback.js';
+  REINIT_CALLBACK_FORM,
+} from "./../constants/callback.js";
 
 
 export const initState = {
   isCallbackOpened: false,
-  helpText: '',
+  helpText: "",
   isShownHelpText: false,
   isOrderedCallback: false,
   isRequesting: false,
-  isAskedQuestion: false
+  isAskedQuestion: false,
 };
 
 const callback = (
-  state=initState,
+  state = initState,
   action
 ) => {
-
   switch (action.type) {
     case OPEN_CALLBACK:
       return {
         ...state,
         isCallbackOpened: true,
-        helpText: ''
+        helpText: "",
       };
 
     case CLOSE_CALLBACK:
       return {
         ...state,
-        isCallbackOpened: false
+        isCallbackOpened: false,
       };
 
     case REQUEST_CALLBACK:
       return {
         ...state,
-        isRequesting: true
+        isRequesting: true,
       };
 
     case ORDER_CALLBACK:
@@ -47,7 +46,7 @@ const callback = (
         ...state,
         isOrderedCallback: action.isOrderedCallback,
         helpText: action.helpText,
-        isRequesting: false
+        isRequesting: false,
       };
 
     case ASK_QUESTION:
@@ -55,7 +54,7 @@ const callback = (
         ...state,
         isAskedQuestion: action.isAskedQuestion,
         helpText: action.helpText,
-        isRequesting: false
+        isRequesting: false,
       };
 
     case REINIT_CALLBACK_FORM:

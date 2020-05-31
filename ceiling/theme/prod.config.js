@@ -1,17 +1,65 @@
 const path = require("path");
 const webpack = require("webpack");
+const cssNano = require('cssnano')
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const OptimizeCSSPlugin = require("optimize-css-assets-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 
 // importLoader:1 from https://blog.madewithenvy.com/webpack-2-postcss-cssnext-fdcd2fd7d0bd
-const extractSass = new ExtractTextPlugin("styles/app.[contenthash].css");
-const extractFonts = new ExtractTextPlugin("styles/fonts.[contenthash].css");
+const extractSass = new ExtractTextPlugin("styles/app.[hash].css");
+const extractFonts = new ExtractTextPlugin("styles/fonts.[hash].css");
 
+const postCssLoaderConfig = {
+  loader: "postcss-loader",
+  options: {
+    ident: 'postscss',
+    parser: 'postcss-safe-parser',
+    syntax: 'postcss-scss',
+    plugins: [
+      cssNano({
+        preset: ['advanced', {
+          discardUnused: false,
+          discardComments: {
+            removeAll: true,
+          },
+          mergeIdents: false,
+          reduceIdents: false,
+          zindex: false,
+        }],
+      }),
+    ],
+  },
+}
 module.exports = {
-  // devtool: 'source-map', // No need for dev tool in production
-
+  mode: 'production',
+  cache: false,
+  bail: true,
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false, // Must be set to true if using source-maps in production
+        terserOptions: { // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+    runtimeChunk: {
+      name: 'manifest',
+    },
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'initial',
+        },
+      },
+    },
+  },
   module: {
     rules: [
       {
@@ -21,9 +69,9 @@ module.exports = {
           use: [
             {
               loader: "css-loader",
-              options: { importLoaders: 1, sourceMap: "inline", minimize: true }
+              options: { importLoaders: 1, sourceMap: "inline" }
             },
-            "postcss-loader"
+            postCssLoaderConfig,
           ]
         })
       },
@@ -34,12 +82,10 @@ module.exports = {
           use: [
             {
               loader: "css-loader",
-              options: { importLoaders: 1, minimize: true, sourceMap: true }
+              options: { importLoaders: 1, sourceMap: true }
             },
-            "postcss-loader",
-            {
-              loader: "sass-loader"
-            }
+            postCssLoaderConfig,
+            "sass-loader"
           ],
           fallback: "style-loader"
         }) // end use
@@ -52,14 +98,14 @@ module.exports = {
               loader: "css-loader",
               options: {
                 importLoaders: 1,
-                sourceMap: true,
-                minimize: true
+                sourceMap: false
               }
             },
+            postCssLoaderConfig,
             {
               loader: "sass-loader",
               options: {
-                sourceMap: true
+                sourceMap: false
               }
             }
           ],
@@ -72,34 +118,21 @@ module.exports = {
   plugins: [
     extractFonts,
     extractSass,
-    // new OptimizeCSSPlugin({
-    //   cssProcessorOptions: {
-    //     safe: true
-    //   }
-    // }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src/index.html"),
-      hash: true,
-      chunks: ["vendor", "app"],
-      chunksSortMode: "manual",
+      chunksSortMode: 'none',
       filename: "../pages/templates/index.html",
-      inject: "body",
+      inject: true,
       minify: {
-        removeComments: true,
         collapseWhitespace: true,
-        removeAttributeQuotes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
+        removeComments: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
       },
-      excludeAsets: [/test.*.js/, /fonts.*.js/]
+      excludeAssets: [/test.*.js/, /fonts.*.js/]
     }),
-    new HtmlWebpackExcludeAssetsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      },
-      sourceMap: true
-    })
   ]
 };

@@ -1,40 +1,32 @@
 import React, { PureComponent } from "react";
-import {Link} from "react-router-dom";
-
+import { Link, withRouter } from "react-router-dom";
+import anime from "animejs";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
-import Search from "./../components/Search";
 
-import getClass from "@/constants/classes";
-import {timer} from "@/constants/pureFunctions";
+import getClass from "../constants/classes";
+import { timer } from "../constants/pureFunctions";
+import Search from "../components/Search";
 
 import {
   findEntitiesAndShowResults,
-  cleanSearchEntities
-} from "./../actions/catalog";
+  cleanSearchEntities,
+} from "../actions/catalog";
 
 class SearchContainer extends PureComponent {
-  static propTypes = {
-    searchedEntities: PropTypes.array.isRequired,
-    isFinding: PropTypes.bool.isRequired,
-    SearchForm: PropTypes.object
-  }
-
   state = {
     isEntitiesListShown: false,
-    searchValue: ""
+    searchValue: "",
   }
-
 
   setSearchValue = (searchValue) => {
     this.setState({ searchValue });
   }
 
   componentWillUpdate(nextProps) {
-    const {searchedEntities: nextSearchEntities} = nextProps;
-    const {isEntitiesListShown: isEntitiesListShownNow} = this.state;
+    const { searchedEntities: nextSearchEntities } = nextProps;
+    const { isEntitiesListShown: isEntitiesListShownNow } = this.state;
     const entitesLength = nextSearchEntities.length;
 
     if (!isEntitiesListShownNow && entitesLength) {
@@ -57,9 +49,9 @@ class SearchContainer extends PureComponent {
       begin: () => {
         this.setState({
           isEntitiesListShown: true,
-          lastUpdate: new Date()
+          lastUpdate: new Date(),
         });
-      }
+      },
     });
   }
 
@@ -70,16 +62,16 @@ class SearchContainer extends PureComponent {
       targets: enitiesList,
       opacity: {
         value: 0,
-        duration: 100
+        duration: 100,
       },
       translateY: "-1rem",
       duration: 250,
       elasticity: 100,
       complete: () => {
         this.setState({
-          isEntitiesListShown: false
+          isEntitiesListShown: false,
         });
-      }
+      },
     });
   }
 
@@ -91,28 +83,35 @@ class SearchContainer extends PureComponent {
     return (
       <div className={getClass({
         b: "searchBlock",
-        m: modifier
-      })}>
-        <Search {...props}
+        m: modifier,
+      })}
+      >
+        <Search
+          {...props}
           submitSearch={searchEntities}
           onChange={timer(searchEntities, 500)}
         />
 
         {(isEntitiesListShown || searchedEntities.length) && searchValue ?
-          <section ref='enitiesList'
-            className="position_absolute fewRound lowCascadingShadow result opacity_9">
+          <section
+            ref="enitiesList"
+            className="position_absolute fewRound lowCascadingShadow result opacity_9"
+          >
             {searchedEntities.map((section, key) => (
-              <article className="resultSection"
-                key={key}>
+              <article
+                className="resultSection"
+                key={key}
+              >
                 <h2 className="resultSection__title">
                   {section.name}
                 </h2>
-                
+
                 <ul>
                   {section.items.map((item, index) => (
                     <li key={index}>
-                      <Link to={item.url}
-                        className='resultRefer'
+                      <Link
+                        to={item.url}
+                        className="resultRefer"
                       >
                         {item.name}
                       </Link>
@@ -127,6 +126,12 @@ class SearchContainer extends PureComponent {
   }
 }
 
+SearchContainer.propTypes = {
+  searchedEntities: PropTypes.array.isRequired,
+  isFinding: PropTypes.bool.isRequired,
+  SearchForm: PropTypes.object,
+}
+
 const mergeProps = (stateProps, dispatch, ownProps) => ({
   ...ownProps,
   ...stateProps,
@@ -137,26 +142,24 @@ const mergeProps = (stateProps, dispatch, ownProps) => ({
       searchedEntities,
       SearchForm,
     } = stateProps;
-  
+
     if ("active" in SearchForm && searchName === SearchForm.active) {
       const currentValue = values[searchName];
       this.setSearchValue(currentValue);
-  
+
       if (typeof currentValue !== "undefined") {
         dispatch(findEntitiesAndShowResults(currentValue));
-      } else {
-        if (searchedEntities.length > 0) {
-          dispatch(cleanSearchEntities());
-        }
+      } else if (searchedEntities.length > 0) {
+        dispatch(cleanSearchEntities());
       }
     }
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog, form } = state;
   const { searchedEntities, isFinding } = catalog;
-  const {SearchForm} = form;
+  const { SearchForm } = form;
   return { searchedEntities, isFinding, SearchForm };
 };
 

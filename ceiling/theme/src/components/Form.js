@@ -1,33 +1,33 @@
-import React from 'react';
-import getClass, { composeClasses } from './../constants/classes';
-import Button from './Button';
-import { Field } from 'redux-form';
-import RenderController from './RenderController';
+import React from "react";
+import { Field } from "redux-form";
+import getClass, { composeClasses } from "./../constants/classes";
+import Button from "./Button";
+import RenderController from "./RenderController";
 
 const Form = ({
   block,
-  modifier='',
+  modifier = "",
   children,
   handleSubmit,
   onSubmit,
   buttonOptions,
   button,
   className,
-  fields=[],
-  column=true,
+  fields = [],
+  column = true,
   serverError,
-  showButton=true,
-  centered=true,
-  id=''
+  showButton = true,
+  centered = true,
+  id = "",
 }) => (
   <form
     className={
       getClass(
         composeClasses(
           block,
-          '',
+          "",
           modifier,
-          `${className ? className : ''} parent${column ? ' column' : ''}${centered ? ' centered' : ''}`
+          `${className || ""} parent${column ? " column" : ""}${centered ? " centered" : ""}`
         )
       )
     }
@@ -35,28 +35,25 @@ const Form = ({
     id={id}
   >
     {fields.map((field, index) => (
-      ('isShown' in field && field.isShown) ||
-       !('isShown' in field) ?
-        <Field key={index} {...field}
-          component={'component' in field ?
+      ("isShown" in field && field.isShown) ||
+       !("isShown" in field) ?
+        <Field
+           key={index} {...field}
+           component={"component" in field ?
             field.component
-            : RenderController
-          } />
-        : ''
+            : RenderController}
+         />
+        : ""
     ))}
     {children}
     {serverError ?
-      <p className='serverError'>
+      <p className="serverError">
         {serverError.toString()}
       </p>
-      : ''
-    }
-    {button ?
-      button
-      : showButton ?
-        <Button type="submit" block="formButton" {...buttonOptions} />
-        : ''
-    }
+      : ""}
+    {button || (showButton ?
+      <Button type="submit" block="formButton" {...buttonOptions} />
+      : "")}
   </form>
 );
 

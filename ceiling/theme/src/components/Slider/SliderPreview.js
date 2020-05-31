@@ -1,6 +1,6 @@
-import React from 'react';
-import anime from 'animejs';
-import {stopAnimation} from './../../constants/pureFunctions';
+import React from "react";
+import anime from "animejs";
+import { stopAnimation } from "./../../constants/pureFunctions";
 
 export default class SlidePreview extends React.Component {
   componentDidUpdate() {
@@ -8,7 +8,7 @@ export default class SlidePreview extends React.Component {
       offset,
       animElasticity,
       animDuration,
-      contentAnimMultiplier
+      contentAnimMultiplier,
     } = this.props;
 
     const { xOff, yOff } = offset;
@@ -23,14 +23,14 @@ export default class SlidePreview extends React.Component {
       targets: content,
       duration: animDuration * contentAnimMultiplier,
       elasticity: animElasticity * contentAnimMultiplier,
-      translateX: this.clamp(xOff - contentOff / 2, contentOff)
+      translateX: this.clamp(xOff - contentOff / 2, contentOff),
     });
 
     const triangleAnim = anime({
       targets: triangle,
-      translateX: xOff - triangleOff * 2 ,
+      translateX: xOff - triangleOff * 2,
       elasticity: animElasticity,
-      duration: animDuration
+      duration: animDuration,
     });
 
     this.animations = [contentAnim, triangleAnim];
@@ -55,19 +55,19 @@ export default class SlidePreview extends React.Component {
 
   render() {
     const { children, active } = this.props;
-    const baseClass = 'slide__slide-preview';
-    const activeClass = 'slide__slide-preview--active';
+    const baseClass = "slide__slide-preview";
+    const activeClass = "slide__slide-preview--active";
     const classes = active ? `${baseClass} ${activeClass}` : baseClass;
     return (
       <div className={classes}>
         <div
-          className='slide-preview__content'
-          ref={el => { this.content = el; }}
+          className="slide-preview__content"
+          ref={(el) => { this.content = el; }}
           children={children}
         />
         <div
-          className='slide-preview__triangle'
-          ref={el => { this.triangle = el; }}
+          className="slide-preview__triangle"
+          ref={(el) => { this.triangle = el; }}
         />
       </div>
     );

@@ -2,22 +2,23 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import * as localforage from 'localforage'
 
-import {CATALOG, COLLECTION} from "@/constants/catalog";
-import {transformName} from "@/constants/pureFunctions";
-import {catalogSectionCombiner, findUUID} from "@/constants/filter";
+import { CATALOG, COLLECTION } from "@/constants/catalog";
+import { transformName } from "@/constants/pureFunctions";
+import { catalogSectionCombiner, findUUID } from "@/constants/filter";
 
-import BaseCatalogContainer from "./BaseCatalogContainer";
 
-import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
+import { fetchCatalogEntityOrGetLocale } from "@/actions/catalog";
 
 import CatalogSection from "@/components/Catalog/CatalogSection";
+import BaseCatalogContainer from "./BaseCatalogContainer";
 
 class BrandCollectionContainer extends PureComponent {
     static propTypes = {
       match: PropTypes.object.isRequired,
       COLLECTION: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-      isRequesting: PropTypes.bool.isRequired
+      isRequesting: PropTypes.bool.isRequired,
     }
 
     state = {
@@ -25,7 +26,7 @@ class BrandCollectionContainer extends PureComponent {
       brandName: "",
       collection: false,
       slogan: "",
-      collectionName: ""
+      collectionName: "",
     }
 
     componentWillMount() {
@@ -33,13 +34,12 @@ class BrandCollectionContainer extends PureComponent {
     }
 
    getIdFromCatalog = (
-     callback=false,
+     callback = false,
      newCollectionSlug,
      newBrandSlug
    ) => {
-
-     const {match} = this.props;
-     let {collectionSlug, brandSlug} = match.params;
+     const { match } = this.props;
+     let { collectionSlug, brandSlug } = match.params;
 
      if (newCollectionSlug) {
        collectionSlug = newCollectionSlug;
@@ -47,7 +47,6 @@ class BrandCollectionContainer extends PureComponent {
      }
 
      localforage.getItem(CATALOG, (error, catalog) => {
-
        if (catalog !== null && brandSlug in catalog.brands) {
          const brand = catalog.brands[brandSlug];
 
@@ -55,27 +54,26 @@ class BrandCollectionContainer extends PureComponent {
 
          this.setState({
            brandName: transformName(brand.name),
-           id
+           id,
          });
 
          if (callback) {
            callback();
          }
        }
-
      });
    }
 
    componentWillUpdate(nextProps) {
      const {
-       collectionSlug
+       collectionSlug,
      } = this.props.match.params;
 
-     const {COLLECTION} = this.props;
+     const { COLLECTION } = this.props;
 
      if (COLLECTION !== nextProps.COLLECTION) {
        this.setState({
-         collection: false
+         collection: false,
        });
      }
 
@@ -98,21 +96,20 @@ class BrandCollectionContainer extends PureComponent {
      this.requestCollection(isForceRequest);
    }
 
-   requestCollection = (force=false) => {
-     const {id, collectionName} = this.state;
-     const {dispatch} = this.props;
+   requestCollection = (force = false) => {
+     const { id, collectionName } = this.state;
+     const { dispatch } = this.props;
 
      if (id) {
-
        const request = dispatch(
          fetchCatalogEntityOrGetLocale(COLLECTION, id, force)
        );
 
        if (request) {
-         request.then(collection => {
+         request.then((collection) => {
            this.renderNewCollection({
              previousCollectionName: collectionName,
-             collection
+             collection,
            });
          });
        }
@@ -121,7 +118,7 @@ class BrandCollectionContainer extends PureComponent {
 
    renderNewCollection = ({
      collection,
-     previousCollectionName
+     previousCollectionName,
    }) => {
      if (collection) {
        const transformedName = transformName(collection.name);
@@ -130,7 +127,7 @@ class BrandCollectionContainer extends PureComponent {
          this.setState({
            collectionName: transformedName,
            slogan: collection.slogan,
-           collection: collection,
+           collection,
          });
        }
      }
@@ -138,14 +135,14 @@ class BrandCollectionContainer extends PureComponent {
 
    render() {
      const {
-       isRequesting
+       isRequesting,
      } = this.props;
-     const {url} = this.props.match;
+     const { url } = this.props.match;
      const {
        brandName,
        collection,
        collectionName,
-       slogan
+       slogan,
      } = this.state;
      let samplesLength;
      const isSample = true;
@@ -157,14 +154,15 @@ class BrandCollectionContainer extends PureComponent {
      }
 
      return (
-       <BaseCatalogContainer name={collectionName}
+       <BaseCatalogContainer
+         name={collectionName}
          slogan={slogan}
          routes={{
            "/catalog": "Каталог",
            "/catalog/brand": false,
            "/catalog/brand/:brandSlug": brandName,
            "/catalog/brand/:brandSlug/:collectionSlug": false,
-           "/catalog/brand/:brandSlug/:collectionSlug/": false
+           "/catalog/brand/:brandSlug/:collectionSlug/": false,
          }}
          CONSTANT={COLLECTION}
        >
@@ -179,23 +177,22 @@ class BrandCollectionContainer extends PureComponent {
            {!isRequesting &&
             samplesLength ?
              catalogSectionCombiner(collection.collection_items, url, isSample) :
-             ""
-           }
+             ""}
          </CatalogSection>
        </BaseCatalogContainer>
      );
    }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const {
-    isRequesting
+    isRequesting,
   } = catalog;
 
   return {
     COLLECTION: catalog.COLLECTION,
-    isRequesting
+    isRequesting,
   };
 };
 

@@ -4,16 +4,16 @@ import {
   requestForMakingOrder,
   closeOrder,
   openOrder
-} from './../actions/order';
+} from "./../actions/order";
 
 import {
   TEST_USER_ORDERED_PRODUCTS
-} from './../constants/order';
+} from "./../constants/order";
 
 
-import expect from 'expect';
-import deepFreeze from 'deep-freeze';
-import order, {initState} from './../reducers/order';
+import expect from "expect";
+import deepFreeze from "deep-freeze";
+import order, {initState} from "./../reducers/order";
 
 
 const testRequestOrder = () => {
@@ -102,9 +102,9 @@ const testMakeOrderWithOneProduct = () => {
 };
 
 function testMakeUserOrder({
-  full_name='Awesome Fake Customer',
-  email='awseome@mail.com',
-  phone_number='+7 (985) 905-12-51',
+  full_name="Awesome Fake Customer",
+  email="awseome@mail.com",
+  phone_number="+7 (985) 905-12-51",
   products
 }) {
   const userData = {
@@ -123,7 +123,7 @@ function testMakeUserOrder({
 
   function orderSuccessHandler(response) {
     expect(response.statusCode).toEqual(200);
-    expect(typeof response.text).toBe('string');
+    expect(typeof response.text).toBe("string");
   }
 
   function orderFailureHandler(error) {

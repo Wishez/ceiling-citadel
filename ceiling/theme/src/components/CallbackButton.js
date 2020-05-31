@@ -1,9 +1,9 @@
-import React from 'react';
-import getClass from './../constants/classes';
-import Button from './Button';
-import colors from './../constants/colors';
-import Figure from './Figure';
-import callbackIcon from './../images/icons/callback.png';
+import React from "react";
+import getClass from "./../constants/classes";
+import Button from "./Button";
+import colors from "./../constants/colors";
+import Figure from "./Figure";
+import callbackIcon from "./../images/icons/callback.png";
 
 const CallbackButton = ({
   openCallback,
@@ -13,32 +13,36 @@ const CallbackButton = ({
   ...rest
 }) => (
   <div className={getClass({
-    b: 'callbackButtons',
+    b: "callbackButtons",
     m: modifier,
-    add: 'parent parent_nowrap row h-between v-centered'
-  })}>
-  	<Button
-      id='menuButton'
+    add: "parent parent_nowrap row h-between v-centered",
+  })}
+  >
+    <Button
+      id="menuButton"
       className={getClass({
-        b: 'callbackButtons',
-        el: 'button',
+        b: "callbackButtons",
+        el: "button",
         m: modifier,
-        add: 'button_cian baseChild'
+        add: "button_cian baseChild",
       })}
-      onClick={isCallbackOpened ? closeCallback :openCallback}
+      onClick={isCallbackOpened ? closeCallback : openCallback}
       content="Обратный вызов"
       label="Открывает форму отбратного вызова"
     />
-    <button aria-pressed={false}
+    <button
+      aria-pressed={false}
       className={getClass({
-        b: 'callbackFigureButton',
+        b: "callbackFigureButton",
         m: modifier,
-        add: 'parent row h-between v-centered'
+        add: "parent row h-between v-centered",
       })}
-      aria-label={!isCallbackOpened ? 'Открывает форму обратного вызова' : 'Закрывает форму обратного вызова'}
+      aria-label={!isCallbackOpened ? "Открывает форму обратного вызова" : "Закрывает форму обратного вызова"}
       onClick={isCallbackOpened ? closeCallback : openCallback}
-      title="Открывает форму для заказа консультации">
-      <Figure name="callback"
+      title="Открывает форму для заказа консультации"
+    >
+      <Figure
+        name="callback"
         maxWidth={`${45 / 16}em`}
         width={100}
         height={100}

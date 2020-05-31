@@ -210,7 +210,6 @@
 		
 		.navItem
 			font-size: 1em
-			margin-top: auto
 
 			&:not(:last-child)
 				margin-right: em(16)
@@ -340,12 +339,14 @@
 	font-weight: 200
 	font-family: $decorativeFont
 	min-height: em(27, 21)
+	margin-top: auto
+	margin-bottom: auto
+
 	&__refer
 		&, &:hover
 			background-image: none
 
-	&:not(:first-of-type)
-		margin-top: em(14, 21)
+
 	&_active, &:hover
 		& .navItem__refer_darkBlue
 			color: $darkBlue

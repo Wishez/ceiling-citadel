@@ -1,4 +1,4 @@
-
+import anime from 'animejs'
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -20,7 +20,7 @@ class PopupFormContainer extends PureComponent {
 
   static defaultProps = {
     animationDuration: 300,
-    block: "popupFormContainer"
+    block: "popupFormContainer",
   }
 
   componentDidMount() {
@@ -28,30 +28,30 @@ class PopupFormContainer extends PureComponent {
   }
 
   showPopup = () => {
-    const {popupBackground} = this.refs;
-    const {animationDuration} = this.props;
+    const { popupBackground } = this.refs;
+    const { animationDuration } = this.props;
 
     anime({
       targets: popupBackground,
       duration: animationDuration,
       opacity: 1,
       elacticity: 100,
-      timing: "easeOutSine"
+      timing: "easeOutSine",
     });
   }
 
   hidePopup = () => {
-    const {popupBackground} = this.refs;
-    const {closeButton, animationDuration } = this.props;
-    const {onClick: complete}  = closeButton;
+    const { popupBackground } = this.refs;
+    const { closeButton, animationDuration } = this.props;
+    const { onClick: complete }  = closeButton;
 
     anime({
       targets: popupBackground,
-      duration: animationDuration ,
+      duration: animationDuration,
       opacity: 0,
       elacticity: 100,
       timing: "easeInOutQuart",
-      complete
+      complete,
     });
   }
 
@@ -62,14 +62,14 @@ class PopupFormContainer extends PureComponent {
       className,
       closeButton,
       children,
-      signification
+      signification,
     } = this.props;
 
     return (
       <div
         ref="popupBackground"
         style={{
-          opacity: 0
+          opacity: 0,
         }}
         className="popupBackground parent row h-centered"
       >
@@ -78,7 +78,7 @@ class PopupFormContainer extends PureComponent {
             composeClasses(
               block,
               modifier,
-              `popupFormContainer ${className ? className : ""}`
+              `popupFormContainer ${className || ""}`
             )
           )}
         >
@@ -86,7 +86,7 @@ class PopupFormContainer extends PureComponent {
             className={getClass({
               b: block,
               el: "title",
-              add: "popupFormContainer__titleupper "
+              add: "popupFormContainer__titleupper ",
             })}
           >
             {signification}
@@ -103,8 +103,6 @@ class PopupFormContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
+const mapStateToProps = (state) => ({});
 
 export default withRouter(connect(mapStateToProps)(PopupFormContainer));

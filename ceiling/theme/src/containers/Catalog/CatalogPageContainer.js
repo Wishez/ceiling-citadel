@@ -1,18 +1,19 @@
-import React, {PureComponent} from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import * as localforage from 'localforage'
 
-import {CATALOG} from "./../../constants/catalog";
+import { CATALOG } from "./../../constants/catalog";
 import getClass from "./../../constants/classes";
-import {getArray} from "./../../constants/pureFunctions.js";
-import {catalogSectionCombiner, catalogSubsectionsCombiner} from "./../../constants/filter";
-import {catalogBrandUrl, catalogCategoryUrl} from "./../../constants/conf";
+import { getArray, slideTo } from "./../../constants/pureFunctions.js";
+import { catalogSectionCombiner, catalogSubsectionsCombiner } from "./../../constants/filter";
+import { catalogBrandUrl, catalogCategoryUrl } from "./../../constants/conf";
 
 import picture from "./../../images/icons/picture.png";
 
-import { slideTo } from "./../../constants/pureFunctions";
-import CatalogSection from "./../../components/catalog/CatalogSection";
+
+import CatalogSection from "./../../components/Catalog/CatalogSection";
 import Figure from "./../../components/Figure";
 
 class CatalogPageContainer extends PureComponent {
@@ -23,7 +24,7 @@ class CatalogPageContainer extends PureComponent {
   state = {
     isCatalogGotten: false,
     categories: [],
-    brands: []
+    brands: [],
   }
 
 
@@ -51,20 +52,18 @@ class CatalogPageContainer extends PureComponent {
           catalogCategoryUrl,
           "section"
         ),
-        isCatalogGotten: true
+        isCatalogGotten: true,
       });
     }
   }
 
-  gogo = selector => {
-    return event => {
-      event.preventDefault();
-      slideTo({
-        selector
-      });
+  gogo = (selector) => (event) => {
+    event.preventDefault();
+    slideTo({
+      selector,
+    });
 
-      return false;
-    };
+    return false;
   }
 
   render() {
@@ -72,7 +71,7 @@ class CatalogPageContainer extends PureComponent {
     const {
       isCatalogGotten,
       categories,
-      brands
+      brands,
     } = this.state;
 
     return (
@@ -80,42 +79,52 @@ class CatalogPageContainer extends PureComponent {
         getClass({
           b: "container",
           m: "main",
-          add: "parent column centered"
-        })}>
+          add: "parent column centered",
+        })
+      }
+      >
         <div className={
           getClass({
             b: "catalogHeader",
             m: "catalog",
-            add: "parent row v-centered h-centered"
-          })}>
+            add: "parent row v-centered h-centered",
+          })
+        }
+        >
           <h1 className={
             getClass({
               b: "catalogHeader",
               el: "title",
               m: "catalog",
-              add: "parent row centered baseChild textCentered_xxs"
-            })}>
-              Выставочный зал
+              add: "parent row centered baseChild textCentered_xxs",
+            })
+          }
+          >
+            Выставочный зал
             <Figure name="picture" url={picture} maxWidth={68} />
           </h1>
-          <ul className='catalogRefersList parent row h-around baseChild'>
-            <li className='catalogRefer'>
-              <a href="#brands"
+          <ul className="catalogRefersList parent row h-around baseChild">
+            <li className="catalogRefer">
+              <a
+                href="#brands"
                 onClick={this.gogo("#brands")}
-                className='catalogRefer__refer'>
-                  Бренды
+                className="catalogRefer__refer"
+              >
+                Бренды
               </a>
             </li>
-            <li className='catalogRefer'>
-              <a href="#categories"
+            <li className="catalogRefer">
+              <a
+                href="#categories"
                 onClick={this.gogo("#categories")}
-                className='catalogRefer__refer'>
+                className="catalogRefer__refer"
+              >
                 Категории
               </a>
             </li>
           </ul>
-          <p className='catalogHeader__slogan parent row h-end baseChild darkBlue'>
-                Цитадель потолочных покрытий
+          <p className="catalogHeader__slogan parent row h-end baseChild darkBlue">
+            Цитадель потолочных покрытий
           </p>
         </div>
 
@@ -140,11 +149,11 @@ class CatalogPageContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
 
   return {
-    ...catalog
+    ...catalog,
   };
 };
 

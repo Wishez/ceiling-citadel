@@ -4,14 +4,14 @@ import { connect } from "react-redux";
 
 import CallbackButton from "./../components/CallbackButton";
 
-import {openCallback, reinitCallbackForm} from "./../actions/callback";
+import { openCallback, reinitCallbackForm } from "./../actions/callback";
 
 class CallbackButtonContainer extends PureComponent {
 	 static propTypes = {
 	    isCallbackOpened: PropTypes.bool.isRequired,
     	isShownHelpText: PropTypes.bool.isRequired,
     	helpText: PropTypes.string.isRequired,
-	    modifier: PropTypes.string
+	    modifier: PropTypes.string,
   	}
 
 	 render() {
@@ -21,14 +21,14 @@ class CallbackButtonContainer extends PureComponent {
 	 }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   openCallback: () => {
 	  dispatch(reinitCallbackForm());
   	dispatch(openCallback());
   },
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { callback } = state;
   const { isCallbackOpened, isShownHelpText, helpText } = callback;
   return { isShownHelpText, helpText, isCallbackOpened };

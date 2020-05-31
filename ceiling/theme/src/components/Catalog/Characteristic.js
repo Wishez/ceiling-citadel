@@ -1,5 +1,5 @@
-import React from 'react';
-import getClass from './../../constants/classes';
+import React from "react";
+import getClass from "./../../constants/classes";
 
 const Characteristic = ({
   label,
@@ -9,28 +9,31 @@ const Characteristic = ({
   className,
 }) => (
   <div className={getClass({
-    b: 'sampleCharacteristic',
+    b: "sampleCharacteristic",
     m: name,
-    add: `parent row zeroVerticalMargin ${className ? className : ''}`
-  })}>
+    add: `parent row zeroVerticalMargin ${className || ""}`,
+  })}
+  >
     <span className={getClass({
-      b: 'sampleCharacteristic',
-      el: 'label',
-      m: name
-    })}>
+      b: "sampleCharacteristic",
+      el: "label",
+      m: name,
+    })}
+    >
       {`${label}:`}
     </span>&thinsp;
 
     {value ?
       <span className={getClass({
-        b: 'sampleCharacteristic',
-        el: 'characteristic',
+        b: "sampleCharacteristic",
+        el: "characteristic",
         m: name,
-        add: 'zeroVerticalMargin'
-      })}>
+        add: "zeroVerticalMargin",
+      })}
+      >
         {value}
       </span>
-      : ''}
+      : ""}
 
     {children}
   </div>

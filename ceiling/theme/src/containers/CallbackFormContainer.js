@@ -6,7 +6,7 @@ import ReactHtmlParser from "react-html-parser";
 import {
   tryOrderCallback,
   closeCallback,
-  reinitCallbackForm
+  reinitCallbackForm,
 } from "@/actions/callback";
 
 import Loader from "@/components/Loader";
@@ -20,11 +20,10 @@ class CallbackFormContainer extends PureComponent {
     helpText: PropTypes.string.isRequired,
     isShownHelpText: PropTypes.bool.isRequired,
     isOrderedCallback: PropTypes.bool.isRequired,
-    isRequesting: PropTypes.bool.isRequired
+    isRequesting: PropTypes.bool.isRequired,
   }
 
   submitCallback = (values, dispatch) => {
-
     dispatch(tryOrderCallback(values));
   }
 
@@ -43,10 +42,11 @@ class CallbackFormContainer extends PureComponent {
 
       <PopupFormContainer
         closeButton={{
-          onClick: this.onClickCloseButton
+          onClick: this.onClickCloseButton,
         }}
         signification="Консультация"
-        {...this.props}>
+        {...this.props}
+      >
         {!isOrderedCallback ?
           <CallbackForm
             buttonOptions={{
@@ -58,10 +58,9 @@ class CallbackFormContainer extends PureComponent {
             onSubmit={this.submitCallback}
             helpText={helpText.toString()}
           />
-          : <p className='successfull'>
+          : <p className="successfull">
             {ReactHtmlParser(helpText)}
-          </p>
-        }
+          </p>}
       </PopupFormContainer>
 
     );
@@ -69,11 +68,11 @@ class CallbackFormContainer extends PureComponent {
 }
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { callback } = state;
 
   return {
-    ...callback
+    ...callback,
   };
 };
 

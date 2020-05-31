@@ -1,3 +1,4 @@
+/*eslint-disable camelcase */
 import {
   OPEN_CART,
   CLOSE_CART,
@@ -11,21 +12,12 @@ import {
   RESET_ADD_TO_CART_FORM,
   SHOW_PRODUCT_INFO,
   HIDE_PRODUCT_INFO,
-  UPDATE_PRODUCT_INFO
-} from './../constants/cart';
-
-export const changeProductQuantityAndUpdateInfo = ({
-  id,
-  productInfo,
-  quantity
-}) => (dispatch) => {
-  dispatch(updateProductInfo(productInfo));
-  dispatch(changeProductQuantity(id, quantity));
-};
+  UPDATE_PRODUCT_INFO,
+} from "./../constants/cart";
 
 export const updateProductInfo = (productInfo) => ({
   type: UPDATE_PRODUCT_INFO,
-  productInfo
+  productInfo,
 });
 
 export const showProductInfo = ({
@@ -43,73 +35,79 @@ export const showProductInfo = ({
     length,
     thickness,
     width,
-    ...rest
-  }
+    ...rest,
+  },
 });
 
 export const hideProductInfo = () => ({
-  type: HIDE_PRODUCT_INFO
+  type: HIDE_PRODUCT_INFO,
 });
 
-export const putProduct = (product, store=PRODUCTION_STORE) => ({
+export const putProduct = (product, store = PRODUCTION_STORE) => ({
   type: PUT_PRODUCT,
   store,
-  product
+  product,
 });
 
-export const deleteProduct = (id, store=PRODUCTION_STORE) => ({
+export const deleteProduct = (id, store = PRODUCTION_STORE) => ({
   type: DELETE_PRODUCT,
   store,
   id,
 });
 
 export const showAction = () => ({
-  type: SHOW_ACTION
+  type: SHOW_ACTION,
 });
 
-export const showAddingProductToCart = product => dispatch => {
+export const showHelpText = (helpText) => ({
+  type: SHOW_HELP_TEXT,
+  helpText,
+});
+export const hideHelpText = () => ({
+  type: HIDE_HELP_TEXT,
+});
+
+export const closeCart = () => ({
+  type: CLOSE_CART,
+});
+
+export const openCart = (id) => ({
+  type: OPEN_CART,
+  id,
+});
+export const resetAddToCartForm = () => ({
+  type: RESET_ADD_TO_CART_FORM,
+});
+
+export const changeProductQuantity = (id, quantity, store = PRODUCTION_STORE) => ({
+  type: CHANGE_PRODUCT_QUANTITY,
+  store,
+  quantity,
+  id,
+});
+
+export const showAddingProductToCart = (product) => (dispatch) => {
   dispatch(showAction());
   dispatch(putProduct(product));
 };
 
-export const showHelpText = helpText => ({
-  type: SHOW_HELP_TEXT,
-  helpText
-});
-export const hideHelpText = () => ({
-  type: HIDE_HELP_TEXT
-});
+export const changeProductQuantityAndUpdateInfo = ({
+  id,
+  productInfo,
+  quantity,
+}) => (dispatch) => {
+  dispatch(updateProductInfo(productInfo));
+  dispatch(changeProductQuantity(id, quantity));
+};
 
 let lastTimeOut = () => {};
 
-export const deleteProductAndNotifyAbout = (index, message, quantity) => dispatch => {
-
+export const deleteProductAndNotifyAbout = (index, message) => (dispatch) => {
   clearTimeout(lastTimeOut);
 
   dispatch(deleteProduct(index));
   dispatch(showHelpText(message));
   lastTimeOut = setTimeout(() => {
     dispatch(hideHelpText());
-
   }, 1300);
-
 };
-
-export const closeCart = () => ({
-  type: CLOSE_CART
-});
-
-export const openCart = id => ({
-  type: OPEN_CART,
-  id
-});
-export const resetAddToCartForm = () => ({
-  type: RESET_ADD_TO_CART_FORM
-});
-
-export const changeProductQuantity = (id, quantity, store=PRODUCTION_STORE) => ({
-  type: CHANGE_PRODUCT_QUANTITY,
-  store,
-  quantity,
-  id
-});

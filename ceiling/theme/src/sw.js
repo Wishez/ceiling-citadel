@@ -16,10 +16,10 @@ assetsToCache = assetsToCache.map(path => {
 });
 
 // When the service worker is first added to a computer.
-self.addEventListener('install', event => {
+self.addEventListener("install", event => {
   // Perform install steps.
   if (DEBUG) {
-    console.log('[SW] Install event');
+    console.log("[SW] Install event");
   }
 
   // Add core website files to cache during serviceworker installation.
@@ -31,7 +31,7 @@ self.addEventListener('install', event => {
       })
       .then(() => {
         if (DEBUG) {
-          console.log('Cached assets: main', assetsToCache);
+          console.log("Cached assets: main", assetsToCache);
         }
       })
       .catch(error => {
@@ -41,9 +41,9 @@ self.addEventListener('install', event => {
 });
 
 // After the install event.
-self.addEventListener('activate', event => {
+self.addEventListener("activate", event => {
   if (DEBUG) {
-    console.log('[SW] Activate event');
+    console.log("[SW] Activate event");
   }
 
   // Clean the caches
@@ -63,9 +63,9 @@ self.addEventListener('activate', event => {
   );
 });
 
-self.addEventListener('message', event => {
+self.addEventListener("message", event => {
   switch (event.data.action) {
-    case 'skipWaiting':
+    case "skipWaiting":
       if (self.skipWaiting) {
         self.skipWaiting();
         self.clients.claim();
@@ -76,11 +76,11 @@ self.addEventListener('message', event => {
   }
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", event => {
   const request = event.request;
 
   // Ignore not GET request.
-  if (request.method !== 'GET') {
+  if (request.method !== "GET") {
     if (DEBUG) {
       console.log(`[SW] Ignore non GET request ${request.method}`);
     }
@@ -140,8 +140,8 @@ self.addEventListener('fetch', event => {
       })
       .catch(() => {
         // User is landing on our page.
-        if (event.request.mode === 'navigate') {
-          return global.caches.match('./');
+        if (event.request.mode === "navigate") {
+          return global.caches.match("./");
         }
 
         return null;

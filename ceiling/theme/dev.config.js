@@ -2,13 +2,23 @@ const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 // importLoader:1 from https://blog.madewithenvy.com/webpack-2-postcss-cssnext-fdcd2fd7d0bd
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 
-const extractSass = new ExtractTextPlugin("styles/app.css");
-const extractFonts = new ExtractTextPlugin("styles/fonts.css");
+const extractSass = new ExtractTextPlugin("./styles/app.css");
+const extractFonts = new ExtractTextPlugin("./styles/fonts.css");
 module.exports = {
+  mode: 'development',
   watch: true,
-  devtool: "source-map", // 'cheap-module-eval-source-map'
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'initial',
+        },
+      },
+    },
+  },
   module: {
     rules: [
       {
@@ -74,7 +84,6 @@ module.exports = {
               options: {
                 importLoaders: 1,
                 sourceMap: true,
-                minimize: true
               }
             },
             {
@@ -90,16 +99,15 @@ module.exports = {
     ]
   },
   plugins: [
-    extractSass, extractFonts,
+    extractSass,
+    extractFonts,
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src/index.html"),
-      hash: true,
-      chunks: ["vendor", "app"],
-      chunksSortMode: "manual",
-      filename: "../pages/templates/index.html",
-      inject: "body",
-      excludeAsets: [/fonts.js/]
+      chunksSortMode: "none",
+      filename: path.join(__dirname, "../pages/templates/index.html"),
+      inject: true,
+      excludeAssets: [/fonts.js/]
     }),
-    new HtmlWebpackExcludeAssetsPlugin(),
+    // new HtmlWebpackExcludeAssetsPlugin(),
   ]
 };

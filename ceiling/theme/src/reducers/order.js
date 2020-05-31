@@ -2,8 +2,8 @@ import {
   OPEN_ORDER,
   MAKE_ORDER,
   CLOSE_ORDER,
-  REQUEST_ORDER
-} from './../constants/order.js';
+  REQUEST_ORDER,
+} from "./../constants/order.js";
 
 /*
  * State:
@@ -11,35 +11,34 @@ import {
 
 export const initState = {
   isOrderOpened: false,
-  helpText: '',
+  helpText: "",
   isShownHelpText: false,
   isOrderedOrder: false,
-  isRequesting: false
+  isRequesting: false,
 
 };
 
 const order = (
-  state=initState,
+  state = initState,
   action
 ) => {
-
   switch (action.type) {
     case OPEN_ORDER:
       return {
         ...state,
-        isOrderOpened: true
+        isOrderOpened: true,
       };
-      
+
     case CLOSE_ORDER:
       return {
         ...state,
-        isOrderOpened: false
+        isOrderOpened: false,
       };
-      
+
     case REQUEST_ORDER:
       return {
         ...state,
-        isRequesting: true
+        isRequesting: true,
       };
 
     case MAKE_ORDER:
@@ -47,7 +46,7 @@ const order = (
         ...state,
         isOrderedOrder: action.isOrderedOrder,
         helpText: action.helpText,
-        isRequesting: false
+        isRequesting: false,
       };
 
     default:

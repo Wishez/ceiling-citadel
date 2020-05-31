@@ -2,6 +2,8 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import ReactHtmlParser from "react-html-parser";
 import getClass from "./../constants/classes";
 import AddProductForm from "./../components/Product/AddProductForm";
 import Figure from "./../components/Figure";
@@ -10,11 +12,9 @@ import OrderButtonContainer from "./OrderButtonContainer";
 import { cartPositions } from "./../constants/cart";
 import { showAddingProductToCart } from "./../actions/cart";
 
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 import Loader from "./../components/Loader";
-import ReactHtmlParser from "react-html-parser";
-import {makeSelectOptions, makeSelectColorOptions} from "./../constants/filter";
+import { makeSelectOptions, makeSelectColorOptions } from "./../constants/filter";
 
 class AddProductFormContainer extends PureComponent {
   static propTypes = {
@@ -37,7 +37,7 @@ class AddProductFormContainer extends PureComponent {
     step_between_panels: PropTypes.string,
     diameter: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     angle_of_bend: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    ceil_size:  PropTypes.string,
+    ceil_size: PropTypes.string,
   }
 
   state = {
@@ -50,20 +50,19 @@ class AddProductFormContainer extends PureComponent {
     proportionsValue: "",
   }
 
-  onChangeSelect = input => (event, index, value) => {
-    input.onChange(value) ;
+  onChangeSelect = (input) => (event, index, value) => {
+    input.onChange(value);
 
     this.setState({
-      [`${input.name}Value`]: value
+      [`${input.name}Value`]: value,
     });
-
   }
   submitAddProduct = (values, dispatch) => {
     const {
       uuid,
       name,
       image,
-      url
+      url,
     } = this.props;
 
     dispatch(showAddingProductToCart({
@@ -71,8 +70,8 @@ class AddProductFormContainer extends PureComponent {
       uuid,
       name,
       quantity: 1,
-      image: image,
-      url
+      image,
+      url,
     }));
 
     this.makeAddToCartConvertionIfNeeded();
@@ -86,7 +85,6 @@ class AddProductFormContainer extends PureComponent {
   }
 
   render() {
-
     const {
       helpText,
       isProductAdded,
@@ -111,25 +109,27 @@ class AddProductFormContainer extends PureComponent {
 
     return (
       <MuiThemeProvider>
-        <section className='addProductFormSection catalogForm'>
-          <h2 className='addProductFormSection__title position_relative index_positive upper parent row'>
+        <section className="addProductFormSection catalogForm">
+          <h2 className="addProductFormSection__title position_relative index_positive upper parent row">
             Характеристики
           </h2>
           <div className={
             getClass({
               b: "addProductFormContainer",
-              add: `parent column ${isProductAdded ? "centered" : "h-end" }`
-            })}>
+              add: `parent column ${isProductAdded ? "centered" : "h-end"}`,
+            })
+          }
+          >
             <Figure url={image} maxWidth="33.33%" name="product" />
 
             {!isProductAdded ?
-              <AddProductForm {...this.state}
+              <AddProductForm
+                {...this.state}
                 buttonOptions={{
                   content: !isRequesting ?
                     "В корзину"
-                    : <Loader name="addProductFormLoader"
-                    />,
-                  modifier: "product"
+                    : <Loader name="addProductFormLoader"/>,
+                  modifier: "product",
                 }}
                 className="row h-start v-centered"
                 centered={false}
@@ -154,15 +154,14 @@ class AddProductFormContainer extends PureComponent {
                 helpText={helpText.toString()}
                 block="addProductForm"
               />
-              : <p className='successfull successfull_addProductForm parent row centered'>
+              : <p className="successfull successfull_addProductForm parent row centered">
                 {ReactHtmlParser(helpText)}
                 <OrderButtonContainer
                   cartPosition={cartPositions.bag}
                   cartModifier="hover_bottom"
                   modifier="product"
                 />
-              </p>
-            }
+              </p>}
           </div>
         </section>
       </MuiThemeProvider>
@@ -170,12 +169,12 @@ class AddProductFormContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { cart, catalog } = state;
   const {
     isProductAdded,
     isRequesting,
-    helpText
+    helpText,
   } = cart;
 
   const { PRODUCT } = catalog;
@@ -183,7 +182,7 @@ const mapStateToProps = state => {
     isProductAdded,
     helpText,
     isRequesting,
-    uuid: PRODUCT
+    uuid: PRODUCT,
   };
 };
 

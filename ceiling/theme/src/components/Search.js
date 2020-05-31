@@ -1,21 +1,23 @@
-import React from 'react';
-import getClass, { composeClasses } from '@/constants/classes';
-import {timeout} from '@/constants/pureFunctions';
-import { Field, reduxForm } from 'redux-form';
-import RenderController from './RenderController';
-import colors from '@/constants/colors';
+import React from "react";
+import getClass, { composeClasses } from "@/constants/classes";
+import { timeout } from "@/constants/pureFunctions";
+import { Field, reduxForm } from "redux-form";
+import colors from "@/constants/colors";
+import RenderController from "./RenderController";
 
 const Search = ({
-  modifier='',
+  modifier = "",
   handleSubmit,
   submitSearch,
   onChange,
-  searchName
+  searchName,
 }) => (
-  <form className={getClass(composeClasses('searchForm', '', modifier,'baseChild parent row h-between v-centered'))}
+  <form
+    className={getClass(composeClasses("searchForm", "", modifier, "baseChild parent row h-between v-centered"))}
     onSubmit={handleSubmit(submitSearch.bind(this))}
   >
-    <Field name={searchName}
+    <Field
+      name={searchName}
       type="text"
       max-lenght="150"
       placeholder="Поиск"
@@ -30,24 +32,25 @@ const Search = ({
       }}
       onBlur={(event) => {
         timeout(() => {
-          event.target.setAttribute('value', '');
+          event.target.setAttribute("value", "");
         }, 200);
-
       }}
       autoComplete="off"
     />
-    <svg className={getClass({
-      b: 'searchButton',
-      add: 'baseChild parent row centered'
-    })} width="45" height="45" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="75" cy="75" r="75" fill={colors.darkGray}></circle>
-      <circle cx="75" cy="75" r="55" fill="#C98C4D"></circle>
-      <path d="M95 135 135 120 L180 180 150 200" ></path>
+    <svg
+      className={getClass({
+        b: "searchButton",
+        add: "baseChild parent row centered",
+      })} width="45" height="45" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="75" cy="75" r="75" fill={colors.darkGray} />
+      <circle cx="75" cy="75" r="55" fill="#fff" />
+      <path d="M95 135 135 120 L180 180 150 200" />
     </svg>
   </form>
 );
 
 
 export default reduxForm({
-  form: 'SearchForm'
+  form: "SearchForm",
 })(Search);

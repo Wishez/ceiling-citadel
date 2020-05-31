@@ -12,19 +12,19 @@ class Button extends PureComponent {
     label: PropTypes.string,
     onClick: PropTypes.func,
     onBlur: PropTypes.func,
-    unstyled: PropTypes.bool
+    unstyled: PropTypes.bool,
   };
 
   state = {
-    isPressed: false
+    isPressed: false,
   };
 
   onClickButton = () => {
     const { isPressed } = this.state;
-    const {onClick} = this.props;
+    const { onClick } = this.props;
 
     this.setState({
-      isPressed: !isPressed
+      isPressed: !isPressed,
     });
 
     if (onClick) {
@@ -33,10 +33,10 @@ class Button extends PureComponent {
   }
 
   onBlurButton = () => {
-    const {onBlur} = this.props;
+    const { onBlur } = this.props;
 
     this.setState({
-      isPressed: false
+      isPressed: false,
     });
 
     if (onBlur) {
@@ -62,7 +62,7 @@ class Button extends PureComponent {
     return (
       <button
         aria-label={label}
-        type={type ? type : "button"}
+        type={type || "button"}
         aria-pressed={isPressed}
         onClick={this.onClickButton}
         onBlur={this.onBlurButton}
@@ -70,7 +70,7 @@ class Button extends PureComponent {
           b: block,
           el: element,
           m: modifier,
-          add: `${!unstyled ? "button lowCascadingShadow ": ""} ${className ? className: ""}`
+          add: `${!unstyled ? "button lowCascadingShadow " : ""} ${className || ""}`,
         })}`}
         {...rest}
       >

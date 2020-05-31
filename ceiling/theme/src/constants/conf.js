@@ -1,12 +1,18 @@
 
+/*eslint-disable camelcase max-len */
 // Footer data
-export const siteApi =  'https://artceiling-systems.ru';
-export const callbackUrl = '/make_form/callback/';
-export const orderUrl = '/make_form/order/';
-export const questionUrl = '/make_form/question/';
+// About section constants
+import nice_to_meet_you from "./../images/about/sharp_first.png";
+import products from "./../images/about/sharp.png";
+import design from "./../images/about/square.png";
 
-const catalogApi = '/catalog/api/current';
 
+export const siteApi =  "http://localhost:8080";// "https://artceiling-systems.ru";
+export const callbackUrl = "/make_form/callback/";
+export const orderUrl = "/make_form/order/";
+export const questionUrl = "/make_form/question/";
+
+const catalogApi = "/catalog/api/current";
 
 export const productUrl = `${siteApi}${catalogApi}/product/`;
 export const productSlugUrl = `${siteApi}/catalog/api/next/product/`;
@@ -16,45 +22,38 @@ export const brandUrl = `${siteApi}${catalogApi}/brand/`;
 export const catalogUrl = `${siteApi}${catalogApi}/catalog/`;
 export const productAlbumUrl = `${siteApi}${catalogApi}/album/`;
 
-export const catalogCollectionUrl = '/catalog/collection/';
-export const catalogBrandUrl = '/catalog/brand/';
-export const catalogCategoryUrl = '/catalog/category/';
-
-
-// About section constants
-import nice_to_meet_you from './../images/about/sharp_first.png';
-import products from './../images/about/sharp.png';
-import design from './../images/about/square.png';
-
+export const catalogCollectionUrl = "/catalog/collection/";
+export const catalogBrandUrl = "/catalog/brand/";
+export const catalogCategoryUrl = "/catalog/category/";
 
 
 export const aboutSections = [{
-  title: 'приятно познакомиться',
-  text: 'Мы поставщики большого объёма дизайнерских потолков, под кодовым именем ArtCeil.',
-  image: '',
+  title: "приятно познакомиться",
+  text: "Мы поставщики большого объёма дизайнерских потолков, под кодовым именем ArtCeil.",
+  image: "",
   maxWidth: 187,
-  modifier: 'niceToMeetYou',
-  sources: [{url: nice_to_meet_you, media: `(max-width: ${992 / 16}em)`}],
-  children: ''
+  modifier: "niceToMeetYou",
+  sources: [{ url: nice_to_meet_you, media: `(max-width: ${992 / 16}em)` }],
+  children: "",
 },
 {
-  title: 'Продукция',
-  text: 'Мы предлагаем бренды с обширным выбором разнообразных дизайнерских качественных потолочных покрытий.',
+  title: "Продукция",
+  text: "Мы предлагаем бренды с обширным выбором разнообразных дизайнерских качественных потолочных покрытий.",
   image: products,
   maxWidth: 206,
-  modifier: 'products',
+  modifier: "products",
   sources: [],
-  children: ''
+  children: "",
 },
 {
-  title: 'дизайн',
-  text: 'Все они имеют нестандартную форму и сотканы из различных материалов. Эти потолки заставят расцвести ваше помещение и привлекут внимание со стороны, что хорошо для нас и для вас!',
-  image: '',
-  sources: [{url: design, media: `(max-width: ${992 / 16}em)`}],
-  children: '',
+  title: "дизайн",
+  text: "Все они имеют нестандартную форму и сотканы из различных материалов. Эти потолки заставят расцвести ваше помещение и привлекут внимание со стороны, что хорошо для нас и для вас!",
+  image: "",
+  sources: [{ url: design, media: `(max-width: ${992 / 16}em)` }],
+  children: "",
   maxWidth: 190,
-  modifier: 'design',
-},
+  modifier: "design",
+}];
 // {
 //   title: 'Локальный Эрмитаж',
 //   text: 'Наша галерея хранит отборные дизайнерские работы. Она делится на несколько залов, которые, вероятно, заинтересуют вас: <a href="/catalog#brands">зал с брэндами</a> и <a href="/catalog#categories">зал с разнообразым типами потолков</a>.',
@@ -73,4 +72,3 @@ export const aboutSections = [{
 // 	maxWidth: 190,
 // 	modifier: "design",
 // }
-];

@@ -9,13 +9,13 @@ import Loader from "@/components/Loader";
 
 import maria from "@/images/callback/masha.png";
 
-import {tryAskQuestion} from "@/actions/callback";
+import { tryAskQuestion } from "@/actions/callback";
 
 class QuestionFormContainer extends PureComponent {
   static propTypes = {
     helpText: PropTypes.string.isRequired,
     isAskedQuestion: PropTypes.bool.isRequired,
-    isRequesting: PropTypes.bool.isRequired
+    isRequesting: PropTypes.bool.isRequired,
   }
 
   submitQuestion = (values, dispatch) => {
@@ -26,11 +26,11 @@ class QuestionFormContainer extends PureComponent {
     const { helpText, isAskedQuestion, isRequesting } = this.props;
 
     return (
-      <section className='questionFormSection'>
+      <section className="questionFormSection">
 
-        <h2 className='questionFormSection__title textCentered_xxs upper parent row centered materialCascadingShadow'>
+        <h2 className="questionFormSection__title textCentered_xxs upper parent row centered materialCascadingShadow">
           задайте вопрос маше</h2>
-        <div className='questionFormContainer container parent row centered'>
+        <div className="questionFormContainer container parent row centered">
           <Figure url={maria} maxWidth={280} name="maria" />
 
           {!isAskedQuestion ?
@@ -44,10 +44,9 @@ class QuestionFormContainer extends PureComponent {
               helpText={helpText.toString()}
               block="questionForm"
             />
-            : <p className='askedSuccessfull parent row centered'>
+            : <p className="askedSuccessfull parent row centered">
               {ReactHtmlParser(helpText)}
-            </p>
-          }
+            </p>}
         </div>
       </section>
     );
@@ -55,11 +54,11 @@ class QuestionFormContainer extends PureComponent {
 }
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { callback } = state;
 
   return {
-    ...callback
+    ...callback,
   };
 };
 

@@ -1,11 +1,11 @@
-import React from 'react';
-import getClass, { composeClasses } from './../constants/classes';
-import {reduxForm} from 'redux-form';
-import Form from './Form';
-import Cart from './Cart';
-import phone_number from './../images/icons/phone.png';
-import user from './../images/icons/user.png';
-import envelope from './../images/icons/envelope.png';
+import React from "react";
+import getClass, { composeClasses } from "./../constants/classes";
+import {reduxForm} from "redux-form";
+import Form from "./Form";
+import Cart from "./Cart";
+import phone_number from "./../images/icons/phone.png";
+import user from "./../images/icons/user.png";
+import envelope from "./../images/icons/envelope.png";
 
 import {
   required,
@@ -14,67 +14,64 @@ import {
   full_name,
   phoneLength,
   email
-} from './../constants/validation';
+} from "./../constants/validation";
 
-const OrderForm = ({
-  helpText,
-  ...rest,
-}) => (
+const OrderForm = ({ helpText, ...rest }) => (
   <Form fields={[
     {
       maxLength: 150,
       minLength: 10,
-      name: 'full_name',
-      type: 'text',
+      name: "full_name",
+      type: "text",
       validate: [required, fullNameLength, full_name],
-      placeholder: 'Иванов Иван Иванович',
-      label: 'ФИО',
-      autoComplete: 'name',
+      placeholder: "Иванов Иван Иванович",
+      label: "ФИО",
+      autoComplete: "name",
       iconOptions: {
         url: user,
         maxWidth: 35
       },
-      className:'parent row h-around'
+      className:"parent row h-around"
     },
     {
-      type: 'tel',
+      type: "tel",
       maxLength: 26,
       minLength: 11,
-      autoComplete: 'tel',
-      name: 'phone_number',
+      autoComplete: "tel",
+      name: "phone_number",
       validate: [required, phone, phoneLength],
-      placeholder: '+7 (985) 905-02-51',
-      label: 'Телефон',
+      placeholder: "+7 (985) 905-02-51",
+      label: "Телефон",
       iconOptions: {
         url: phone_number,
         maxWidth: 35
       },
-      className:'parent row h-around'
+      className:"parent row h-around"
     },
     {
-      type: 'email',
-      autoComplete: 'email',
+      type: "email",
+      autoComplete: "email",
       maxLength: 150,
       minLength: 1,
-      name: 'email',
+      name: "email",
       validate: [required, email],
-      placeholder: 'awesome_maria@mail.ru',
-      label: 'Email',
+      placeholder: "awesome_maria@mail.ru",
+      label: "Email",
       iconOptions: {
         url: envelope,
         maxWidth: 35
       },
-      className:'parent row h-around'
+      className:"parent row h-around"
     }
   ]}
   serverError={helpText}
-  {...rest}>
-    <Cart {...rest}
-      modifier="order" />
+  {...rest}
+  >
+    <Cart {...rest} modifier="order" />
   </Form>
 );
 
 
 export default reduxForm({
-  form: 'orderForm'
+  form: "orderForm"
 })(OrderForm);

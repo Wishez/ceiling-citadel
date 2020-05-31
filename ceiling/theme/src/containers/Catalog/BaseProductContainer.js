@@ -3,31 +3,32 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
+import * as localforage from 'localforage'
 
 import {
   PRODUCT,
   LAST_ALBUM,
   BRAND,
-  CATEGORY
+  CATEGORY,
 } from "@/constants/catalog";
 import { transformName, makeSlides, timeout } from "@/constants/pureFunctions";
 
 import { fetchCatalogEntityOrGetLocale } from "@/actions/catalog";
 import { resetAddToCartForm } from "@/actions/cart";
 
-import BaseCatalogContainer from "./BaseCatalogContainer";
-import AddProductFormContainer from "./../AddProductFormContainer";
 
 import Figure from "@/components/Figure";
 import Loader from "@/components/Loader";
 import Slider from "@/components/Slider/Slider";
+import AddProductFormContainer from "./../AddProductFormContainer";
+import BaseCatalogContainer from "./BaseCatalogContainer";
 
 class BaseProductContainer extends PureComponent {
   static propTypes = {
     match: PropTypes.object.isRequired,
     PRODUCT: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
     isRequesting: PropTypes.bool.isRequired,
-    lastShownView: PropTypes.object.isRequired
+    lastShownView: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -40,7 +41,7 @@ class BaseProductContainer extends PureComponent {
       album: false,
       slides: [],
       inited: true,
-      breadcrumbsRoutes: {}
+      breadcrumbsRoutes: {},
     };
   }
 
@@ -50,7 +51,7 @@ class BaseProductContainer extends PureComponent {
 
     if (PRODUCT !== nextProps.PRODUCT) {
       this.setState({
-        product: false
+        product: false,
       });
 
       dispatch(resetAddToCartForm());
@@ -96,7 +97,7 @@ class BaseProductContainer extends PureComponent {
           "/catalog/category/:categorySlug": lastStepName,
           "/catalog/category/:categorySlug/sample": false,
           "/catalog/category/:categorySlug/sample/:productSlug": false,
-          "/catalog/category/:categorySlug/sample/:productSlug/": false
+          "/catalog/category/:categorySlug/sample/:productSlug/": false,
         };
         break;
       case BRAND:
@@ -106,14 +107,14 @@ class BaseProductContainer extends PureComponent {
           "/catalog/brand/:brandSlug": lastStepName,
           "/catalog/brand/:brandSlug/sample": false,
           "/catalog/brand/:brandSlug/sample/:productSlug": false,
-          "/catalog/brand/:brandSlug/sample/:productSlug/": false
+          "/catalog/brand/:brandSlug/sample/:productSlug/": false,
         };
         break;
       default:
     }
 
     this.setState({
-      breadcrumbsRoutes
+      breadcrumbsRoutes,
     });
   };
 
@@ -131,22 +132,21 @@ class BaseProductContainer extends PureComponent {
     }
 
     if (request) {
-      request.then(product => {
+      request.then((product) => {
         this.transformAndRenderProductIfNeeded({
           product,
-          lastProductName: productName
+          lastProductName: productName,
         });
       });
     }
-
   };
 
   transformAndRenderProductIfNeeded = ({
     product,
-    lastProductName
+    lastProductName,
   }) => {
     if (product) {
-      localforage.getItem(LAST_ALBUM).then(album => {
+      localforage.getItem(LAST_ALBUM).then((album) => {
         const slides = album.images.map(makeSlides);
         const transformedProductName = transformName(product.name);
 
@@ -157,7 +157,7 @@ class BaseProductContainer extends PureComponent {
             product,
             album,
             slides,
-            inited: true
+            inited: true,
           });
         }
       });
@@ -175,7 +175,7 @@ class BaseProductContainer extends PureComponent {
       slogan,
       album,
       slides,
-      productName
+      productName,
     } = this.state;
 
     if (!product) {
@@ -188,7 +188,7 @@ class BaseProductContainer extends PureComponent {
         slogan={slogan}
         modifier="product"
         routes={breadcrumbsRoutes}
-        isProduct={true}
+        isProduct
         CONSTANT={PRODUCT}
       >
         {!isRequesting && product ?
@@ -205,8 +205,7 @@ class BaseProductContainer extends PureComponent {
                 name="visualisation"
                 maxWidth="100%"
               />
-              : ""
-            }
+              : ""}
 
             {album && album.slug === product.album ?
               <Slider
@@ -217,7 +216,7 @@ class BaseProductContainer extends PureComponent {
               : ""}
 
             {product.content ?
-              <section className='productContent parent centered'>
+              <section className="productContent parent centered">
                 <div className="productDescriptionContainer parent column">
                   {ReactHtmlParser(product.content)}
                 </div>
@@ -230,14 +229,14 @@ class BaseProductContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const { isRequesting, lastShownView } = catalog;
 
   return {
     PRODUCT: catalog.PRODUCT,
     isRequesting,
-    lastShownView
+    lastShownView,
   };
 };
 

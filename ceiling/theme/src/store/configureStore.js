@@ -1,10 +1,10 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
-import rootReducer from '../reducers/index';
-import { composeWithDevTools } from 'remote-redux-devtools';
+import { createStore, applyMiddleware, compose } from "redux";
+import thunkMiddleware from "redux-thunk";
+import { composeWithDevTools } from "remote-redux-devtools";
+import rootReducer from "../reducers/index";
 
 let compositionEnhance = null;
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   compositionEnhance = composeWithDevTools(
     applyMiddleware(thunkMiddleware)
   );

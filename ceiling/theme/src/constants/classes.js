@@ -1,5 +1,5 @@
 export const composeClasses = (block, element, modifier, additionalClasses) => {
-  let composedClasses = {};
+  const composedClasses = {};
 
   composedClasses.b = block;
 
@@ -19,16 +19,16 @@ export const composeClasses = (block, element, modifier, additionalClasses) => {
 };
 
 function getClass({
-  b='',
-  el='',
-  m='',
-  add='',
+  b = "",
+  el = "",
+  m = "",
+  add = "",
 }) {
   let elementClass = false;
 
   if (el) {
     elementClass = `${b}__${el}`;
-    b = '';
+    b = "";
   }
 
   if (elementClass && m) {
@@ -38,8 +38,8 @@ function getClass({
   }
 
   return [b, elementClass, m, add]
-    .filter(filteredClass => filteredClass)
-    .join(' ');
+    .filter((filteredClass) => filteredClass)
+    .join(" ");
 }
 
 export default getClass;

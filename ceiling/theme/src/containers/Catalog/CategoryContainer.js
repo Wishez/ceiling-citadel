@@ -2,16 +2,16 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import * as localforage from 'localforage'
 
-import BaseCatalogContainer from "./BaseCatalogContainer";
+import { fetchCatalogEntityOrGetLocale, setLastShownView } from "@/actions/catalog";
 
-import {fetchCatalogEntityOrGetLocale, setLastShownView} from "@/actions/catalog";
-
-import {CATALOG, CATEGORY} from "@/constants/catalog";
-import {transformName, fixUrl} from "@/constants/pureFunctions";
-import {catalogSubsectionsCombiner, catalogSectionCombiner} from "@/constants/filter";
+import { CATALOG, CATEGORY } from "@/constants/catalog";
+import { transformName, fixUrl } from "@/constants/pureFunctions";
+import { catalogSubsectionsCombiner, catalogSectionCombiner } from "@/constants/filter";
 
 import CatalogSection from "@/components/Catalog/CatalogSection";
+import BaseCatalogContainer from "./BaseCatalogContainer";
 
 
 class CategoryContainer extends PureComponent {
@@ -27,15 +27,15 @@ class CategoryContainer extends PureComponent {
     category: false,
     categoryName: "",
     slogan: "",
-    sampleUrl: ""
+    sampleUrl: "",
   }
 
   componentWillUnmount() {
-    const {dispatch} = this.props;
-    const {categoryName} = this.state;
+    const { dispatch } = this.props;
+    const { categoryName } = this.state;
     const lastShownView  = {
       name: categoryName,
-      type: CATEGORY
+      type: CATEGORY,
     };
 
     dispatch(setLastShownView(lastShownView));
@@ -47,22 +47,22 @@ class CategoryContainer extends PureComponent {
   }
 
   combineSampleUrl = () => {
-    const {url: categoryUrl} = this.props.match;
+    const { url: categoryUrl } = this.props.match;
     const fixedCategoryUrl = fixUrl(categoryUrl);
-    const sampleUrl = fixedCategoryUrl + "sample/";
+    const sampleUrl = `${fixedCategoryUrl}sample/`;
 
-    this.setState({sampleUrl});
+    this.setState({ sampleUrl });
   }
 
-  getIdFromCatalog = (callback=false) => {
-    const {match} = this.props;
-    const {categorySlug} = match.params;
+  getIdFromCatalog = (callback = false) => {
+    const { match } = this.props;
+    const { categorySlug } = match.params;
 
     localforage.getItem(CATALOG, (error, catalog) => {
       if (catalog !== null && categorySlug in catalog.categories) {
         const id = catalog.categories[categorySlug].uuid;
 
-        this.setState({id});
+        this.setState({ id });
 
         if (callback) {
           callback();
@@ -73,9 +73,9 @@ class CategoryContainer extends PureComponent {
 
   componentWillUpdate(nextProps) {
     const {
-      categorySlug
+      categorySlug,
     } = this.props.match.params;
-    const {CATEGORY} = this.props;
+    const { CATEGORY } = this.props;
     const isCategoryUpdated = CATEGORY !== nextProps.CATEGORY;
     if (isCategoryUpdated) {
       this.cleanCurrentCategory();
@@ -91,10 +91,9 @@ class CategoryContainer extends PureComponent {
 
   cleanCurrentCategory = () => {
     this.setState({
-      category: false
+      category: false,
     });
   }
-
 
 
   makeForceRequestForCategoryAfterFindingId = () => {
@@ -102,9 +101,9 @@ class CategoryContainer extends PureComponent {
     this.requestCategory(isForceRequest);
   }
 
-  requestCategory = (force=false) => {
-    const {id, categoryName} = this.state;
-    const {dispatch} = this.props;
+  requestCategory = (force = false) => {
+    const { id, categoryName } = this.state;
+    const { dispatch } = this.props;
 
     if (id) {
       const request = dispatch(
@@ -112,22 +111,21 @@ class CategoryContainer extends PureComponent {
       );
 
       if (request) {
-        request.then(category => {
+        request.then((category) => {
           this.renderNewCategoryIfNeeded({
             oldCategoryName: categoryName,
             category,
-            id
+            id,
           });
         });
       }
-
     }
   }
 
   renderNewCategoryIfNeeded = ({
     category,
     oldCategoryName,
-    id
+    id,
   }) => {
     if (category) {
       const transformedName = transformName(category.name);
@@ -136,8 +134,8 @@ class CategoryContainer extends PureComponent {
         this.setState({
           categoryName: transformedName,
           slogan: category.slogan,
-          category: category,
-          id
+          category,
+          id,
         });
       }
     }
@@ -145,16 +143,17 @@ class CategoryContainer extends PureComponent {
 
   render() {
     const {
-      isRequesting
+      isRequesting,
     } = this.props;
-    const {url} = this.props.match;
+    const { url } = this.props.match;
     const {
       category,
       slogan,
       categoryName,
-      sampleUrl
+      sampleUrl,
     } = this.state;
-    let categoryProductsLength, categoryCollectionsLength;
+    let categoryProductsLength; let
+      categoryCollectionsLength;
 
     if (!category) {
       this.requestCategory();
@@ -164,7 +163,8 @@ class CategoryContainer extends PureComponent {
     }
 
     return (
-      <BaseCatalogContainer name={categoryName}
+      <BaseCatalogContainer
+        name={categoryName}
         slogan={slogan}
         routes={{
           "/catalog": "Каталог",
@@ -174,9 +174,12 @@ class CategoryContainer extends PureComponent {
         }}
         CONSTANT={CATEGORY}
       >
-        <CatalogSection name="Коллекции" headerId="collections" fallback={
-          !isRequesting && !categoryCollectionsLength ?
-            <p className="paragraph_container">Нет отдельных коллекций.</p> : ""}>
+        <CatalogSection
+          name="Коллекции" headerId="collections" fallback={
+            !isRequesting && !categoryCollectionsLength ?
+              <p className="paragraph_container">Нет отдельных коллекций.</p> : ""
+          }
+        >
           {
             !isRequesting &&
             categoryCollectionsLength ?
@@ -185,9 +188,12 @@ class CategoryContainer extends PureComponent {
           }
         </CatalogSection>
 
-        <CatalogSection name="Образцы" headerId="samples" fallback={
-          !isRequesting && !categoryProductsLength ?
-            <p className="paragraph_container">Нет отдельных образцов.</p> : ""}>
+        <CatalogSection
+          name="Образцы" headerId="samples" fallback={
+            !isRequesting && !categoryProductsLength ?
+              <p className="paragraph_container">Нет отдельных образцов.</p> : ""
+          }
+        >
           {
             !isRequesting &&
             categoryProductsLength ?
@@ -200,15 +206,15 @@ class CategoryContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const {
-    isRequesting
+    isRequesting,
   } = catalog;
 
   return {
     CATEGORY: catalog.CATEGORY,
-    isRequesting
+    isRequesting,
   };
 };
 

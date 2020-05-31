@@ -1,15 +1,16 @@
-import React from 'react';
-import getClass from './../constants/classes';
-import ReactHtmlParser from 'react-html-parser';
-import { Link } from 'react-router-dom';
+import React from "react";
+import ReactHtmlParser from "react-html-parser";
+import { Link } from "react-router-dom";
+import getClass from "./../constants/classes";
 
 const NavItem = ({
   block,
   href,
   name,
-  children
+  children,
 }) => (
-  <Link to={href}
+  <Link
+    to={href}
     className={`${block}__refer baseChild unstyledLink`}
   >
     {name}

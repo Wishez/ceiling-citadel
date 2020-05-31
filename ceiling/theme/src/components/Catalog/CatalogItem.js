@@ -1,18 +1,18 @@
 import React  from "react";
+import Image from "pimg";
 import getClass from "./../../constants/classes";
 import Table from "./Table";
 import Figure from "./../Figure";
-import Image from "pimg";
 import Description from "./Description";
 import Characteristics from "./Characteristics";
 
-import {slideTo, timeout} from "./../../constants/pureFunctions";
+import { slideTo, timeout } from "./../../constants/pureFunctions";
 
 const CatalogItem = ({
   modifier,
   className,
   name,
-  tablePosition="stretch",
+  tablePosition = "stretch",
   image,
   description,
   style,
@@ -20,19 +20,20 @@ const CatalogItem = ({
   url,
   isSample,
   item,
-  changePage
+  changePage,
 }) => (
   <article
     className={
       getClass({
         b: "catalogItem",
         m: modifier,
-        add: `${className ? className : ""}${style ? ` catalogItem_${style}`: ""} parent row h-start v-end`
+        add: `${className || ""}${style ? ` catalogItem_${style}` : ""} parent row h-start v-end`,
       })
     }
   >
     <span role="presentation" className="catalogItemContent fullWidth index_big margin-bottom_zero">
-      <Table url={url}
+      <Table
+        url={url}
         slug={slug}
         content={name}
         modifier={tablePosition}
@@ -40,14 +41,14 @@ const CatalogItem = ({
         onClick={changePage}
       />
       {isSample ?
-		  <Characteristics url={`${url}${slug}/`} {...item} /> :
-		  <Description changePage={changePage} url={`${url}${slug}/`} content={description} />}
+        <Characteristics url={`${url}${slug}/`} {...item} /> :
+        <Description changePage={changePage} url={`${url}${slug}/`} content={description} />}
     </span>
     <Image
       fetchOnDemand
       src={image}
       className={`catalogItem__image lazy  image ${isSample ? "catalogItem__image_sample" : "catalogItem__image_preview"}`}
-      alt=''
+      alt=""
       style={{
         maxWidth: 190,
       }}

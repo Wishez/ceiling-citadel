@@ -1,21 +1,22 @@
-import React from 'react';
-import ReactHtmlParser from 'react-html-parser';
-import getClass from './../constants/classes';
+import React from "react";
+import ReactHtmlParser from "react-html-parser";
+import getClass from "./../constants/classes";
 
-const Paragraph = ({ 
+const Paragraph = ({
   text,
   block,
   children,
   modifier,
   className,
-  ...rest 
-}) => (	
+  ...rest
+}) => (
   <p className={getClass({
-    b: block, 
-    el: 'paragraph', 
-    m: modifier, 
-    add: `${className}`
-  })}>
+    b: block,
+    el: "paragraph",
+    m: modifier,
+    add: `${className}`,
+  })}
+  >
     { ReactHtmlParser(text) }
     {children}
   </p>

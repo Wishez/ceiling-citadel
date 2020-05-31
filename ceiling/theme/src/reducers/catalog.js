@@ -9,8 +9,8 @@ import {
   SET_FOUND_ENTITIES,
   FIND_ENTITIES,
   CLEAN_SEARCH_ENTITIES,
-  SET_LAST_SHOWN_VIEW
-} from './../constants/catalog';
+  SET_LAST_SHOWN_VIEW,
+} from "./../constants/catalog";
 
 /*
  * State:
@@ -19,11 +19,11 @@ import {
 
 const fetchState = {
   isRequesting: false,
-  isRefetching: false
+  isRefetching: false,
 };
 
 export const initState = {
-  helpText: '',
+  helpText: "",
   BRAND: false,
   CATEGORY: false,
   COLLECTION: false,
@@ -32,29 +32,28 @@ export const initState = {
   searchedEntities: [],
   isFinding: false,
   lastShownView: {
-    name: '',
-    type: ''
+    name: "",
+    type: "",
   },
-  ...fetchState
+  ...fetchState,
 };
 
 const catalog = (
-  state=initState,
+  state = initState,
   action
 ) => {
-
   switch (action.type) {
     case SET_LAST_SHOWN_VIEW:
       return {
         ...state,
         lastShownView: {
-          ...action.lastShownView
-        }
+          ...action.lastShownView,
+        },
       };
     case CLEAN_SEARCH_ENTITIES:
       return {
         ...state,
-        searchedEntities: []
+        searchedEntities: [],
       };
     case SET_FOUND_ENTITIES:
       return {
@@ -65,46 +64,46 @@ const catalog = (
     case FIND_ENTITIES:
       return {
         ...state,
-        isFinding: true
+        isFinding: true,
       };
     case REQUEST_CATALOG:
       return {
         ...state,
-        isRequesting: true
+        isRequesting: true,
       };
     case RETRIEVE_CATALOG:
       return {
         ...state,
-        ...fetchState
+        ...fetchState,
       };
     case RETRIEVE_CATEGORY:
       return {
         ...state,
         CATEGORY: action.id,
-        ...fetchState
+        ...fetchState,
       };
     case RETRIEVE_PRODUCT:
       return {
         ...state,
         PRODUCT: action.id,
-        ...fetchState
+        ...fetchState,
       };
     case RETRIEVE_COLLECTION:
       return {
         ...state,
         COLLECTION: action.id,
-        ...fetchState
+        ...fetchState,
       };
     case RETRIEVE_BRAND:
       return {
         ...state,
         BRAND: action.id,
-        ...fetchState
+        ...fetchState,
       };
     case REFETCH_DATA:
       return {
         ...state,
-        isRefetching: true
+        isRefetching: true,
       };
     default:
       return state;

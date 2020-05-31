@@ -2,18 +2,19 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import * as localforage from 'localforage'
 
 import {
   CATALOG,
-  COLLECTION
+  COLLECTION,
 } from "@/constants/catalog";
-import {transformName} from "@/constants/pureFunctions";
-import {catalogSectionCombiner, findUUID} from "./../../constants/filter";
+import { transformName } from "@/constants/pureFunctions";
+import CatalogSection from "@/components/Catalog/CatalogSection";
+import { fetchCatalogEntityOrGetLocale } from "@/actions/catalog";
+import { catalogSectionCombiner, findUUID } from "./../../constants/filter";
 
 import BaseCatalogContainer from "./BaseCatalogContainer";
-import CatalogSection from "@/components/Catalog/CatalogSection";
 
-import {fetchCatalogEntityOrGetLocale} from "@/actions/catalog";
 
 class BrandCategoryContainer extends PureComponent {
   static propTypes = {
@@ -27,11 +28,8 @@ class BrandCategoryContainer extends PureComponent {
     categoryName: "",
     collection: false,
     slogan: "",
-    collectionName: ""
+    collectionName: "",
   }
-
-
-
 
 
   componentDidMount() {
@@ -39,12 +37,12 @@ class BrandCategoryContainer extends PureComponent {
   }
 
   getIdFromCatalog = (
-    callback=false,
-    newCollectionSlug=false,
-    newCategorySlug=false
+    callback = false,
+    newCollectionSlug = false,
+    newCategorySlug = false
   ) => {
-    const {match} = this.props;
-    let {collectionSlug, categorySlug} = match.params;
+    const { match } = this.props;
+    let { collectionSlug, categorySlug } = match.params;
 
     if (newCollectionSlug) {
       collectionSlug = newCollectionSlug;
@@ -52,7 +50,6 @@ class BrandCategoryContainer extends PureComponent {
     }
 
     localforage.getItem(CATALOG, (error, catalog) => {
-
       if (catalog !== null && categorySlug in catalog.categories) {
         const category = catalog.categories[categorySlug];
 
@@ -60,27 +57,26 @@ class BrandCategoryContainer extends PureComponent {
 
         this.setState({
           categoryName: transformName(category.name),
-          id
+          id,
         });
 
         if (callback) {
           callback();
         }
       }
-
     });
   }
 
   componentWillUpdate(nextProps) {
     const {
-      collectionSlug
+      collectionSlug,
     } = this.props.match.params;
 
-    const {COLLECTION} = this.props;
+    const { COLLECTION } = this.props;
 
     if (COLLECTION !== nextProps.COLLECTION) {
       this.setState({
-        collection: false
+        collection: false,
       });
     }
 
@@ -103,9 +99,9 @@ class BrandCategoryContainer extends PureComponent {
   }
 
 
-  requestCollection = (force=false) => {
-    const {id, collectionName} = this.state;
-    const {dispatch} = this.props;
+  requestCollection = (force = false) => {
+    const { id, collectionName } = this.state;
+    const { dispatch } = this.props;
 
     if (id) {
       const request = dispatch(
@@ -113,10 +109,10 @@ class BrandCategoryContainer extends PureComponent {
       );
 
       if (request) {
-        request.then(collection => {
+        request.then((collection) => {
           this.transformAndRenderCollectionIfNeeded({
             oldCollectionName: collectionName,
-            collection
+            collection,
           });
         });
       }
@@ -125,7 +121,7 @@ class BrandCategoryContainer extends PureComponent {
 
   transformAndRenderCollectionIfNeeded = ({
     oldCollectionName,
-    collection
+    collection,
   }) => {
     if (collection) {
       const transformedName = transformName(collection.name);
@@ -134,7 +130,7 @@ class BrandCategoryContainer extends PureComponent {
         this.setState({
           collectionName: transformedName,
           slogan: collection.slogan,
-          collection: collection,
+          collection,
         });
       }
     }
@@ -142,16 +138,16 @@ class BrandCategoryContainer extends PureComponent {
 
   render() {
     const {
-      isRequesting
+      isRequesting,
     } = this.props;
 
-    const {url} = this.props.match;
+    const { url } = this.props.match;
 
     const {
       categoryName,
       collection,
       collectionName,
-      slogan
+      slogan,
     } = this.state;
 
     if (!collection) {
@@ -162,24 +158,27 @@ class BrandCategoryContainer extends PureComponent {
     const isSample = true;
 
     return (
-      <BaseCatalogContainer name={collectionName}
+      <BaseCatalogContainer
+        name={collectionName}
         slogan={slogan}
         routes={{
           "/catalog": "Каталог",
           "/catalog/category": false,
           "/catalog/category/:categorySlug": categoryName,
           "/catalog/category/:categorySlug/:collectionSlug": false,
-          "/catalog/category/:categorySlug/:collectionSlug/": false
+          "/catalog/category/:categorySlug/:collectionSlug/": false,
         }}
         CONSTANT={COLLECTION}
       >
-        <CatalogSection name="Образцы" headerId="collections"
+        <CatalogSection
+          name="Образцы" headerId="collections"
           fallback={
             !isRequesting &&
             !samplesLength ?
               <p className="paragraph_container">У этой коллекции нет образцов.</p>
               : ""
-          }>
+          }
+        >
           {
             !isRequesting &&
             samplesLength ?
@@ -192,15 +191,15 @@ class BrandCategoryContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { catalog } = state;
   const {
-    isRequesting
+    isRequesting,
   } = catalog;
 
   return {
     COLLECTION: catalog.COLLECTION,
-    isRequesting
+    isRequesting,
   };
 };
 

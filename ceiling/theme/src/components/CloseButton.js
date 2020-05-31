@@ -1,25 +1,26 @@
-import React from 'react';
-import getClass, { composeClasses } from './../constants/classes';
-import Button from './Button';
+import React from "react";
+import getClass, { composeClasses } from "./../constants/classes";
+import Button from "./Button";
 
 const CloseButton = ({
   block,
-  element='',
-  modifier='',
+  element = "",
+  modifier = "",
   className,
-  label='',
+  label = "",
   ...rest
 }) => (
-  <Button {...rest}
+  <Button
+    {...rest}
     label={label}
-    className={`${className ? className : ''} closeButton`}
+    className={`${className || ""} closeButton`}
     block={block}
     element={element}
     modifier={modifier}
     unstyled
   >
-    <span className='closeButton__bar closeButton__bar_right'></span>
-    <span className='closeButton__bar closeButton__bar_left'></span>
+    <span className="closeButton__bar closeButton__bar_right" />
+    <span className="closeButton__bar closeButton__bar_left" />
   </Button>
 );
 

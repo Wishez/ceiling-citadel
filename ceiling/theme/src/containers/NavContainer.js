@@ -7,10 +7,10 @@ import Navigation from "./../components/Navigation";
 import MenuButton from "./../components/MenuButton";
 import { selectNavigationItem, openMenu as openMenuClicked, closeMenu as closeMenuClicked } from "./../actions/navigationActions.js";
 import getClass from "./../constants/classes";
-import {timeout, slideTo } from "./../constants/pureFunctions";
+import { timeout, slideTo } from "./../constants/pureFunctions";
 
 class NavContainer extends PureComponent {
-  static propTypes = { 
+  static propTypes = {
     navigationItems: PropTypes.array.isRequired,
     isOpened: PropTypes.bool.isRequired,
     isFooter: PropTypes.bool,
@@ -19,59 +19,61 @@ class NavContainer extends PureComponent {
   }
 
   state = {
-    navStyles: {}
+    navStyles: {},
   };
 
-  getActiveClasses = state => ( 
+  getActiveClasses = (state) => (
     classNames({
-      "navItem": true,
-      "navItem--active": state
+      navItem: true,
+      "navItem--active": state,
     })
   )
-  
+
   render() {
     const { isOpened, isFooter, modifier, isStaticMenu, changeActiveNavigationItem, openMenu, closeMenu } = this.props;
     const isStaticMenuShown = isStaticMenu || isFooter;
     return (
       <div className={getClass({
         b: isFooter ? "footerNavigationContainer" : "navigationContainer",
-        m: modifier 
-      })}>
+        m: modifier,
+      })}
+      >
         {!isStaticMenuShown ? (
-          <MenuButton 
+          <MenuButton
             isOpened={isOpened}
             openMenu={openMenu}
             closeMenu={closeMenu}
           />
         ) : ("")}
 
-        <Navigation {...this.props}
+        <Navigation
+          {...this.props}
           isStaticMenuShown={isStaticMenuShown}
           getActiveClasses={this.getActiveClasses}
           changeActiveNavigationItem={changeActiveNavigationItem}
         />
-        
+
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { navigation } = state;
   const { isMenuOpened } = navigation;
 
-  let navigationItems = [];
+  const navigationItems = [];
   for (const key in navigation) {
     const value = navigation[key];
-    
+
     if (typeof value === "object") {
       navigationItems.push(value);
     }
   }
-  
+
   return {
     navigationItems,
-    isOpened: isMenuOpened
+    isOpened: isMenuOpened,
   };
 };
 
@@ -84,14 +86,14 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(closeMenuClicked());
   },
 
-  changeActiveNavigationItem: navigationItem => () => {
+  changeActiveNavigationItem: (navigationItem) => () => {
     dispatch(selectNavigationItem(navigationItem));
     dispatch(closeMenuClicked());
 
     timeout(() => {
       slideTo({ selector: ".header" });
     }, 500);
-  }
+  },
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavContainer));

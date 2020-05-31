@@ -1,9 +1,9 @@
-import { 
-  SELECT_NAVIGATION_ITEM, 
+import {
+  SELECT_NAVIGATION_ITEM,
   navigationItems,
   CLOSE_MENU,
-  OPEN_MENU
-} from './../constants/navigationTypes.js';
+  OPEN_MENU,
+} from "./../constants/navigationTypes.js";
 
 
 // Объект описывающий состояние навигации.
@@ -12,36 +12,36 @@ export const initNavigationState = {
   firstNavItem: {
     active: false,
     name: navigationItems.home,
-    index: 'firstNavItem',
-    icon: '',
-    pathTo: '/'
+    index: "firstNavItem",
+    icon: "",
+    pathTo: "/",
   },
   secondNavItem: {
     active: false,
     name: navigationItems.catalog,
-    index: 'secondNavItem',
-    icon: '',
-    pathTo: '/catalog/'
+    index: "secondNavItem",
+    icon: "",
+    pathTo: "/catalog/",
   },
   thirdNavItem: {
     active: false,
     name: navigationItems.service,
-    index: 'thirdNavItem',
-    icon: '',
-    pathTo: '/service/'
+    index: "thirdNavItem",
+    icon: "",
+    pathTo: "/service/",
   },
   fourthNavItem: {
     active: false,
     name: navigationItems.contacts,
-    index: 'fourthNavItem',
-    icon: '',
-    pathTo: '/contacts/'
+    index: "fourthNavItem",
+    icon: "",
+    pathTo: "/contacts/",
   },
-  isMenuOpened: false
+  isMenuOpened: false,
 };
 
 const navigation = (
-  state=initNavigationState,
+  state = initNavigationState,
   action
 ) => {
   switch (action.type) {
@@ -50,18 +50,18 @@ const navigation = (
         ...initNavigationState,
         [action.navigationItem]: {
           ...state[action.navigationItem],
-          active: true
-        }
+          active: true,
+        },
       };
     case OPEN_MENU:
       return {
         ...state,
-        isMenuOpened: true
+        isMenuOpened: true,
       };
     case CLOSE_MENU:
       return {
         ...state,
-        isMenuOpened: false
+        isMenuOpened: false,
       };
     default:
       return state;

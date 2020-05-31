@@ -1,12 +1,16 @@
-import {
-  SET_USER_DATA
-} from './../constants/actionTypes.js';
+/*eslint-disable camelcase */
+import { SET_USER_DATA } from "./../constants/actionTypes";
 
-export const setUserData = (full_name, phone_number, email) => ({
+const setUserData = (full_name, phone_number, email) => ({
   type: SET_USER_DATA,
   userData: {
     full_name,
     phone_number,
-    email
-  }
+    email,
+  },
 });
+
+export {
+  //eslint-disable-next-line
+  setUserData,
+};

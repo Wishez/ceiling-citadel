@@ -1,7 +1,7 @@
-import React from 'react';
-import anime from 'animejs';
-import NavDot from './NavDot';
-import {stopAnimation} from './../../constants/pureFunctions';
+import React from "react";
+import anime from "animejs";
+import NavDot from "./NavDot";
+import { stopAnimation } from "./../../constants/pureFunctions";
 
 export default class Navigator extends React.Component {
   constructor() {
@@ -10,17 +10,17 @@ export default class Navigator extends React.Component {
       start: 0,
       snapped: 0,
       index: 0,
-      listeners: this.buildListeners()
+      listeners: this.buildListeners(),
     };
   }
 
   buildListeners() {
     return ({
-      mousemove: e => {
+      mousemove: (e) => {
         e.preventDefault();
         this.drag(e);
       },
-      touchmove: e => {
+      touchmove: (e) => {
         e.preventDefault();
         e = e.touches[0];
         this.drag(e);
@@ -30,7 +30,7 @@ export default class Navigator extends React.Component {
       },
       touchend: () => {
         this.stopDrag();
-      }
+      },
     });
   }
 
@@ -95,10 +95,10 @@ export default class Navigator extends React.Component {
     if (onPreviewChange) {
       const index = snaps.indexOf(snapped);
       const { top, left } = navEl.getBoundingClientRect();
-      const dotOffset = (size /2) + gap;
+      const dotOffset = (size / 2) + gap;
       const offsets = {
         xOff: snapped + left + dotOffset,
-        yOff: top + window.pageYOffset
+        yOff: top + window.pageYOffset,
       };
       onPreviewChange(index, offsets, activate);
     }
@@ -121,7 +121,7 @@ export default class Navigator extends React.Component {
       translateX,
       scale,
       elasticity: animElasticity,
-      duration: animDuration
+      duration: animDuration,
     });
   }
 
@@ -135,13 +135,14 @@ export default class Navigator extends React.Component {
   }
 
   render() {
-    let { num, size, gap } = this.props;
+    const { num, size, gap } = this.props;
     const dots = [];
 
     dots.push(
-      <NavDot key="first"
-        className='slide-nav__current'
-        ref={current => { this.current = current; }}
+      <NavDot
+        key="first"
+        className="slide-nav__current"
+        ref={(current) => { this.current = current; }}
         size={size}
       />
     );
@@ -151,7 +152,7 @@ export default class Navigator extends React.Component {
       dots.push(
         <NavDot
           key={i}
-          className='slide-nav__indicator'
+          className="slide-nav__indicator"
           size={size}
           margin={margin}
         />
@@ -159,15 +160,16 @@ export default class Navigator extends React.Component {
     }
 
     return (
-      <div className='slide-nav-wrap'>
+      <div className="slide-nav-wrap">
         <div
-          className='slide-nav'
-          ref={el => { this.navEl = el; }}
+          className="slide-nav"
+          ref={(el) => { this.navEl = el; }}
           onMouseDown={this.startDrag.bind(this)}
-          onTouchStart={e => {
+          onTouchStart={(e) => {
             e.preventDefault();
             this.startDrag(e.touches[0]);
-          }}>
+          }}
+        >
           {dots}
         </div>
       </div>

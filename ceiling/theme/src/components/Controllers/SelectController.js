@@ -1,19 +1,19 @@
-import React from 'react';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import getClass from './../../constants/classes';
-import Figure from './../Figure';
-import ActionLabel from 'material-ui/svg-icons/av/stop';
-import ReactHtmlParser from 'react-html-parser';
+import React from "react";
+import SelectField from "material-ui/SelectField";
+import MenuItem from "material-ui/MenuItem";
+import ActionLabel from "material-ui/svg-icons/av/stop";
+import ReactHtmlParser from "react-html-parser";
+import getClass from "./../../constants/classes";
+import Figure from "./../Figure";
 
 const SelectController = ({
   input,
   meta: {
     touched,
     error,
-    warning
+    warning,
   },
-  block='controller',
+  block = "controller",
   options,
   onChangeSelect,
   modifier,
@@ -24,30 +24,33 @@ const SelectController = ({
   hintText,
   ...rest
 }) => (
-  <div style={style ? style : {}}
+  <div
+    style={style || {}}
     className={getClass({
       b: block,
       m: modifier,
-      add: `${className}`
-    })}>
+      add: `${className}`,
+    })}
+  >
     {label ?
       <label className={getClass({
         b: block,
-        el: 'label',
+        el: "label",
         m: modifier,
-        add: 'baseChild'
-      })}>
+        add: "baseChild",
+      })}
+      >
         {label}
-      </label> : ''}
+      </label> : ""}
     {iconOptions ?
       <Figure
         block="controllerIcon"
         className="baseChild"
         {...iconOptions}
-      /> : ''
-    }
-    <SelectField {...input}
-      className={getClass({b: 'controller', el: 'input', m: 'select'})}
+      /> : ""}
+    <SelectField
+      {...input}
+      className={getClass({ b: "controller", el: "input", m: "select" })}
       onChange={onChangeSelect(input)}
       hintText={hintText}
       value={input.value}
@@ -59,13 +62,13 @@ const SelectController = ({
           value: option.value,
           primaryText: option.text,
           className: getClass({
-            b: 'controller',
-            el: 'option',
-            m: modifier}
-          )
+            b: "controller",
+            el: "option",
+            m: modifier }
+          ),
         };
 
-        if('showIcon' in option) {
+        if ("showIcon" in option) {
           menuItemOptions.leftIcon = <ActionLabel color={option.color} />;
         }
 
@@ -74,14 +77,16 @@ const SelectController = ({
     </SelectField>
     {touched &&
 		 	((error &&
-		 		<span className={getClass({
+  <span className={getClass({
 		 		  b: block,
-		 		  el: 'error'
-		 		})}>{error}</span>) ||
+		 		  el: "error",
+		 		})}
+  >{error}</span>) ||
 		 		(warning && <span className={getClass({
 		 		  b: block,
-		 		  el: 'error'
-		 		})}>{warning}</span>))}
+		 		  el: "error",
+		 		})}
+		 		>{warning}</span>))}
   </div>
 );
 

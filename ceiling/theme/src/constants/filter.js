@@ -1,60 +1,57 @@
 import React from "react";
 import CatalogItem from "@/components/Catalog/CatalogItem";
-import {slideTo, timeout, getArray, fixUrl} from "./pureFunctions";
 import  CatalogSubsection from "@/components/Catalog/CatalogSubsection";
+import { slideTo, timeout, getArray, fixUrl } from "./pureFunctions";
 
-export const makeSelectOptions = options => (
+export const makeSelectOptions = (options) => (
   options ?
-    options.map(option => ({
+    options.map((option) => ({
       text: option,
-      value: option
+      value: option,
     })) :
     []
 );
 
-export const makeSelectColorOptions = colors => (
+export const makeSelectColorOptions = (colors) => (
   colors ?
-    colors.map(color => ({
+    colors.map((color) => ({
       color: color.color,
-      value: color.name ,
+      value: color.name,
       showIcon: true,
-      text: color.name
+      text: color.name,
     })) :
     []
 );
 export const findUUID = (items, slug) => {
-  const item = items.filter(item => (item.slug === slug));
+  const item = items.filter((item) => (item.slug === slug));
   const areItemsExist = item.length;
   let firstItemUuid = false;
 
-  if (areItemsExist)
-    firstItemUuid = item[0].uuid;
+  if (areItemsExist) firstItemUuid = item[0].uuid;
 
   return firstItemUuid;
 };
 
 export const getProductData = (array, collectionSlug, productSlug) => {
   const data = {};
-  let collection = array.filter(item => (item.slug === collectionSlug));
+  let collection = array.filter((item) => (item.slug === collectionSlug));
 
   if (collection.length) {
     collection = collection[0];
 
     return {
       collectionName: collection.name,
-      id: findUUID(collection.collection_items, productSlug)
+      id: findUUID(collection.collection_items, productSlug),
     };
   }
   return false;
 };
 
 
-
-
 export const catalogSectionCombiner = (
   items,
   url,
-  isSample=false
+  isSample = false
 ) => (
   items.map((item, index) => (
     combineCatalogSimpleItem({
@@ -68,7 +65,7 @@ export const catalogSectionCombiner = (
       url: fixUrl(url),
       modifier: isSample ? "sample" : "",
       isSample,
-      item
+      item,
     })
 
   ))
@@ -78,7 +75,7 @@ function changePage(pageTitle) {
   return () => {
     timeout(() => {
       slideTo({
-        selector: "#main"
+        selector: "#main",
       });
     }, 500);
 
@@ -90,7 +87,7 @@ export const catalogSubsectionsCombiner = (
   items,
   url,
   sectionPropertyName,
-  isSample=false
+  isSample = false
 ) => {
   const subsections = {};
 
@@ -104,7 +101,7 @@ export const catalogSubsectionsCombiner = (
         subsections[subsection] = {
           name: subsection,
           items: [],
-          headerId: slug
+          headerId: slug,
         };
       }
 
@@ -123,16 +120,16 @@ export const catalogSubsectionsCombiner = (
           isSample,
           name,
           slug,
-          item
-        })
+          item,
+        }),
       ];
     });
 
 
   return getArray(subsections).map((subsection, index) =>
-    <CatalogSubsection key={index} {...subsection}>
+    (<CatalogSubsection key={index} {...subsection}>
       {subsection.items}
-    </CatalogSubsection>
+    </CatalogSubsection>)
   );
 };
 
