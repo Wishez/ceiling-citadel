@@ -1,31 +1,22 @@
 {
+  "cacheDirectory": true,
   "presets": [
-    ["env", {
-      "modules": false,
-      "targets": {
-        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
-      }
-    }],
-    "stage-2"
+    "@babel/preset-env",
+    "@babel/react"
   ],
   "plugins": [
-      "transform-class-properties",
-      "transform-decorators-legacy",
-      "transform-object-rest-spread",
-      "transform-react-jsx-source",
-      "transform-function-bind",
-      "transform-runtime"
-  ],
-  "env": {
-    "test": {
-      "presets": ["env", "stage-2"],
-      "plugins": [
-        ["module-resolver", {
-          "root": ["./src"],
-          "alias": {
-            "@": "./src"
-          }
-      }]]
-    }
-  }
+      ["fast-async", { "spec": true }],
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-transform-react-constant-elements",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-syntax-function-bind",
+      "@babel/plugin-transform-react-jsx-source",
+      "@babel/plugin-transform-react-jsx",
+      "@babel/plugin-proposal-decorators",
+      ["@babel/plugin-transform-runtime", {
+        "helpers": false,
+        "regenerator": true
+      }]
+  ]
 }

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@
     content="IE=edge"
   />
   <title>{{ title }}</title>
-<link href="/static/styles/app.css?31bb02e69aa026ed99b7" rel="stylesheet"></head>
+<link href="/static/./styles/app.css" rel="stylesheet"><link href="/static/./styles/fonts.css" rel="stylesheet"></head>
 <body>
   <div id="root"></div>
   <svg hidden aria-hidden="true">
@@ -80,7 +81,6 @@
 
           tests.src = '/static/{{settings.tests_file_name}}';
           tests.async = true;
-          
           window.setTimeout(function() {
             document.body.appendChild(tests);
           }, 1000);
@@ -88,5 +88,5 @@
       </script>
     {% endif %}
   {% endif %}
-<script type="text/javascript" src="/static/vendor.js?31bb02e69aa026ed99b7"></script><script type="text/javascript" src="/static/app.js?31bb02e69aa026ed99b7"></script></body>
+<script src="/static/vendors.js"></script><script src="/static/app.js"></script><script src="/static/tests.js"></script><script src="/static/fonts.js"></script></body>
 </html>

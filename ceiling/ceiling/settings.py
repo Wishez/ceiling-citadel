@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-APPS_DIR = '{0}/static'.format(BASE_DIR)
+# APPS_DIR = '{0}/static'.format(BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -16,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
-IS_PRODUCTION = config('IS_PRODUCTION', cast=bool)
+IS_LINUX = config('IS_LINUX', cast=bool)
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
@@ -44,7 +44,7 @@ PROJECT_APPS = [
 
 
 DJANGO_APPS = [
-    'raven.contrib.django.raven_compat',
+    # 'raven.contrib.django.raven_compat',
     'jet.dashboard',
     'jet',
     'django.contrib.admin',
@@ -132,16 +132,16 @@ DATABASES = {
     # 'default': dj_database_url.parse(config('DATABASE_URL')),
 }
 
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'CACHE': not DEBUG,
-        'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
-        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-        'POLL_INTERVAL': 0.1,
-        'TIMEOUT': None,
-        'IGNORE': ['.+\.hot-update.js', '.+\.map']
-    }
-}
+# WEBPACK_LOADER = {
+#     'DEFAULT': {
+#         'CACHE': not DEBUG,
+#         'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
+#         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+#         'POLL_INTERVAL': 0.1,
+#         'TIMEOUT': None,
+#         'IGNORE': ['.+\.hot-update.js', '.+\.map']
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -183,17 +183,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# STATICFILES_DIRS = (
-#     '{0}/theme'.format(APPS_DIR),
-#     '{0}/static'.format(APPS_DIR),
-# )
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'theme_static'),
+    # os.path.join(BASE_DIR, 'media'),
+    # '{0}/theme'.format(APPS_DIR),
+    # '{0}/static'.format(APPS_DIR),
+]
 
-WEBPACK_LOADER = {
-    'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'static/',
-        'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats.json')
-    }
-}
+# WEBPACK_LOADER = {
+#     'DEFAULT': {
+#         'BUNDLE_DIR_NAME': 'static/',
+#         'STATS_FILE': os.path.join(BASE_DIR, '../webpack-stats.json')
+#     }
+# }
 
 
 

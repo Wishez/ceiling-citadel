@@ -2,7 +2,7 @@
 
 import sys
 from django.conf import settings
-if getattr(settings, 'IS_PRODUCTION', False):
+if getattr(settings, 'IS_LINUX', False):
     reload(sys)
     sys.setdefaultencoding('utf-8')
 

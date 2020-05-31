@@ -3,9 +3,9 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from model_utils.models import TimeStampedModel
 from django.conf import settings
+import sys
 
-if getattr(settings, 'IS_PRODUCTION', False):
-    import sys
+if getattr(settings, 'IS_LINUX', False):
     reload(sys)
     sys.setdefaultencoding('utf-8')
 

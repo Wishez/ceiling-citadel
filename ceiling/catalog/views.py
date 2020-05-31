@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 import requests
 from decouple import config
 
@@ -17,15 +18,23 @@ current_domain = config('CURRENT_DOMAIN')
 def retrieve_catalog(request):
     if request.method == "GET":
 
-        current_site = 'https://%s' % current_domain
-        brands_response = requests.get("%s%s" % (current_site, reverse_lazy('brands_list')))
-        categories_response = requests.get("%s%s" % (current_site, reverse_lazy('categories_list')))
+        current_site = 'http://%s' % current_domain
+        try:
+            brands_response = requests.get("%s%s" % (current_site, reverse_lazy('brands_list')))
+        except Exception:
+            print('Не получилось запросить бренды')
+            return HttpResponse(False)
+        try:
+            categories_response = requests.get("%s%s" % (current_site, reverse_lazy('categories_list')))
+        except Exception:
+            print('Не получилось запросить категории')
+            return HttpResponse(False)
 
         data = {
             "brands": brands_response.json(),
             "categories": categories_response.json()
         }
-        
+
         return JsonResponse(data)
     return HttpResponse(False)
 

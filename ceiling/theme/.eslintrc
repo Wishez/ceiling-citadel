@@ -1,34 +1,108 @@
 {
   "parser": "babel-eslint",
+  "extends": "airbnb",
   "env": {
     "browser": true,
     "node": true
   },
+  "settings": {
+    "react": {
+      "version": "16.2.0"
+    }
+  },
   "rules": {
-     "no-undef": 1,
-     "no-unused-vars": 1,
-     "eqeqeq": [2, "smart"],
-     "no-floating-decimal": 2,
-     "no-multi-spaces": [2, {
-       "exceptions": {
-         "ImportDeclaration": true,
-         "VariableDeclarator": true
-       }
-     }],
-     "no-multi-str": 2,
-     "camelcase": 1,
-     "eol-last": 1,
-     "indent": [2, 2, {
-       "SwitchCase": 1,
-       "VariableDeclarator": 1
-     }],
-     "quotes": [2, "double", "avoid-escape"],
-     "semi": [2, "always"],
-     "space-before-blocks": 2,
-     "space-before-function-paren": [2, "never"],
-     "constructor-super": 2,
-     "arrow-spacing": 2,
-     "no-console": 0,
-     "no-useless-escape": 0
+    "react/jsx-filename-extension": "off",
+    "linebreak-style": "off",
+    "eqeqeq": [2, "smart"],
+    "no-floating-decimal": 2,
+    "camelcase": 1,
+    "no-multi-spaces": [2, {
+      "exceptions": {
+        "ImportDeclaration": true,
+        "VariableDeclarator": true
+      }
+    }],
+    "no-multi-str": 2,
+    "eol-last": 1,
+    "indent": [2, 2, {
+      "SwitchCase": 1,
+      "VariableDeclarator": 1
+    }],
+    "quotes": [2, "double", "avoid-escape"],
+    "semi": [2, "always"],
+    "space-before-blocks": 2,
+    "space-before-function-paren": [2, "never"],
+    "constructor-super": 2,
+    "arrow-spacing": 2,
+    "import/no-commonjs": "error",
+    "react/no-did-update-set-state": "off",
+    "react/no-unused-prop-types": [2, {
+      "skipShapeProps": true
+    }],
+    "jsx-a11y/anchor-has-content": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "no-console": "off",
+    "spaced-comment": "off",
+    "import/no-cycle": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-useless-path-segments": "off",
+    "import/extensions": "off",
+    "react/prop-types": "off",
+    "dot-notation": "off",
+    "no-restricted-imports": ["error", "lodash", "react-widgets", "react-id-swiper", "react-chartjs"],
+    "operator-linebreak": "off",
+    "implicit-arrow-linebreak": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-deprecated": ["error", { "checkAliases": true }],
+    "prefer-destructuring": "off",
+    "object-curly-newline": ["off", {
+      "ObjectExpression": { "minProperties": 0, "multiline": true },
+      "ObjectPattern": { "minProperties": 0, "multiline": true }
+    }],
+    "function-paren-newline": "off",
+    "no-else-return": ["error", { "allowElseIf": true }],
+    "padded-blocks": ["error", "never"],
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxEOF": 1 }],
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/iframe-has-title": "off",
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/media-has-caption": "off",
+    "react/jsx-tag-spacing": "off",
+    "no-restricted-globals": "off",
+    "react/require-default-props": "off",
+    "react/no-array-index-key": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-closing-tag-location": "off",
+    "react/jsx-wrap-multilines": ["error", {
+      "declaration": true,
+      "assignment": true,
+      "return": true
+    }],
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-curly-brace-presence": "off",
+    "react/button-has-type": "off",
+    "import/no-named-default": "off",
+    "react/jsx-max-props-per-line": ["off", { "maximum": 1 }],
+    "react/no-access-state-in-setstate": "off",
+    "react/default-props-match-prop-types": "off",
+    "react/no-unescaped-entities": "off",
+    "react/jsx-props-no-multi-spaces": "off",
+    "react/jsx-indent": ["error", 2, { "indentLogicalExpressions": true }],
+    "no-useless-escape": "error",
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "no-return-assign": ["error", "except-parens"],
+    "lines-between-class-members": "off",
+        "comma-dangle": ["error", {
+          "arrays": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "ignore",
+          "imports": "always-multiline",
+          "objects": "always-multiline"
+        }],
+    "max-len": ["error", 140]
   }
 }

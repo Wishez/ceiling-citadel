@@ -51,14 +51,16 @@ def make_order(request):
                 consumer=consumer
             )
         except Exception:
-            print('Заказ не создался')
+            return HttpResponse('Заказ не создался', status_code=400)
+            # print('Заказ не создался')
 
 
         # List of ordered products.
         try:
             products = data.get('products')
         except Exception:
-            print('Не получилось получить образцы из списка.')
+            return HttpResponse('Не получилось получить образцы из списка.', status_code=400)
+            # print('Не получилось получить образцы из списка.')
 
 
         for product in products:
@@ -72,12 +74,10 @@ def make_order(request):
 
         if isNotTest:
             try:
-                Thread(
-                    target=save_order_and_notify_about,
-                    args=(order,)
-                ).start()
+                Thread(target=save_order_and_notify_about, args=(order,)).start()
             except Exception:
-                print('Не получилось запустить сохранить заказ и сообщить о нём в отдельном потоке.')
+                return HttpResponse('Не получилось запустить сохранить заказ и сообщить о нём в отдельном потоке.', status_code=400)
+                # print('Не получилось запустить сохранить заказ и сообщить о нём в отдельном потоке.')
 
         responseMessage = 'Мы выслали на почту задокументированную версию заказа. В скором времени, мы сяжемся с вами!'
 

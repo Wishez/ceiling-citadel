@@ -12,7 +12,7 @@ base_description = ('Базовое описание', {
         ('description',),
         ('preview',),
         ('is_shown',),
-        ('created',),
+        # ('created',),
     ),
 })
 
