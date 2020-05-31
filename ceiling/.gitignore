@@ -7,3 +7,5 @@ public
 package-lock.json
 dist/
 static
+*.pyc
+theme_static
